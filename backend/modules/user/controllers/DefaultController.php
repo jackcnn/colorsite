@@ -15,4 +15,9 @@ class DefaultController extends Controller
         }
         return $this->renderPartial('index');
     }
+
+    public function actionTest()
+    {
+        return $this->renderPartial('test');
+    }
 }
