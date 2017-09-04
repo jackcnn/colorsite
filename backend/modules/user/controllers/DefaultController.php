@@ -16,6 +16,15 @@ class DefaultController extends Controller
         return $this->renderPartial('index');
     }
 
+    public function actionForms()
+    {
+        $request = ColorHelper::request();
+        if($request->isPost){
+            ColorHelper::dump($request->post());die;
+        }
+        return $this->renderPartial('forms');
+    }
+
     public function actionTest()
     {
         return $this->renderPartial('test');

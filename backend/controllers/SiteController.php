@@ -11,6 +11,6 @@ class SiteController extends BaseController
 {
     public function actionIndex()
     {
-        echo 'admin site controller';
+        return $this->render('index');
     }
 }
