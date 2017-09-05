@@ -13,6 +13,7 @@ class AppAsset extends AssetBundle
     public $baseUrl = '@web';
     public $css = [
         'layui/css/layui.css',
+        'layui/css/layui-blue.css',
     ];
     public $js = [
         'layui/layui.js',

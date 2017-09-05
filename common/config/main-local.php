@@ -3,11 +3,11 @@ return [
     'components' => [
         'db' => [
             'class' => 'yii\db\Connection',
-            'dsn' => 'mysql:host=120.77.181.89;dbname=friends',
+            'dsn' => 'mysql:host=120.77.181.89;dbname=colorsite',
             'username' => 'root',
             'password' => 'lrongZe*+-/214',
             'charset' => 'utf8',
-            'tablePrefix' => 'friends_',
+            'tablePrefix' => 'cs_',
         ],
         'mailer' => [
             'class' => 'yii\swiftmailer\Mailer',
