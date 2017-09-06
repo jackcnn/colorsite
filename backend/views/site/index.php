@@ -65,6 +65,7 @@
             <div class="layui-input-block">
                 <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
                 <button type="reset" class="layui-btn layui-btn-danger">重置</button>
+                <a href="javascript:history.back();" class="layui-btn layui-btn-warm">返回</a>
             </div>
         </div>
     </form>

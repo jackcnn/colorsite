@@ -1,12 +1,14 @@
 <?php
 
 use yii\helpers\Html;
-use backend\widgets\LayuiForm;
+use backend\widgets\LayForm;
 ?>
 
-<div class="user-form">
+<div class="user-form layform-block">
 
-    <?php $form = LayuiForm::begin(); ?>
+    <?php $form = LayForm::begin(['options'=>['enctype'=>'multipart/form-data']]); ?>
+
+    <?= $form->field($model,'created_at')->widget(backend\widgets\Laydate::className(),['label'=>'日期'])?>
 
     <?= $form->field($model, 'updated_at')->lytextInput(['label'=>'更新时间','tips'=>'选择更新时间','placeholder'=>'请填写','lay-verify'=>'email']) ?>
 
@@ -20,14 +22,15 @@ use backend\widgets\LayuiForm;
 
     <?= $form->field($model,'nickname')->lyselectList(['0'=>'lurongze','1'=>'lrz','2'=>'kkk'])?>
 
+    <?= $form->field($model,'token')->lyfile('文件上传','(300px*450px)')?>
 
-    <div class="layui-form-item">
-        <div class="layui-input-block">
-            <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
-            <button type="reset" class="layui-btn layui-btn-danger">重置</button>
-        </div>
-    </div>
+    <?= $form->field($model,'avatar')->lytextArea()?>
 
-    <?php LayuiForm::end(); ?>
+    <?= $form->field($model,'username')->widget(backend\widgets\KindeditorWidget::className())?>
+
+    <?= $form->field($model,'')->lybuttons()?>
+
+    <?php LayForm::end(); ?>
 
 </div>
+

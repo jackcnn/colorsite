@@ -72,7 +72,7 @@ class FileHelper extends BaseFileHelper
     /*
      * 生成一个上传路径
      * */
-    public static function createpath($filename='',$ext='jpg',$dir='common',$type='month')
+    public static function createpath($dir='common',$filename='',$type='month')
     {
         switch ($type){
             case 'year':
@@ -88,12 +88,53 @@ class FileHelper extends BaseFileHelper
             self::createDirectory($saveDir);
         }
         if($filename){
-            $return['path']= $returnDir.'/'.md5(time().uniqid().$filename).'.'.$ext;
-            $return['abs']= $saveDir.'/'.md5(time().uniqid().$filename).'.'.$ext;
+            $tmp = explode(".",$filename);
+            $ext = end($tmp);
+            $final = md5(time().uniqid().$filename);
+            $return['path']= $returnDir.'/'.$final.'.'.$ext;
+            $return['abs']= $saveDir.'/'.$final.'.'.$ext;
         }else{
             $return['path']= $returnDir;
             $return['abs']= $saveDir;
         }
         return $return;
     }
+
+    /*
+     * 文件上传
+     * $model 为字符串的时候直接用那个名字
+     * */
+    public static function upload($model,$attribue='',$size=1)
+    {
+        if($model instanceof \yii\db\ActiveRecord){
+            $name = \yii\helpers\Html::getInputName($model,$attribue);
+            $orignal_value = \yii\helpers\Html::getAttributeValue($model,$attribue);
+        }else{
+            $name = $model;
+            $orignal_value = '';
+        }
+        $file = \yii\web\UploadedFile::getInstanceByName($name);
+
+        if(!$file){
+            return $orignal_value;
+        }
+
+        if($file->size>1024*1024*$size){
+            throw new Exception('上传文件不得大于1M');
+        }
+        $allow_ext=array('jpg', 'jpeg', 'png','gif');
+        if (!in_array($file->getExtension(),$allow_ext)) {
+            throw new Exception('只能上传'.implode(",",$allow_ext).'格式的图片');
+        }else{
+            if (!\Yii::$app->user->getId()) {
+                $dirNo = "common";
+            } else {
+                $dirNo = sprintf("%05d", \Yii::$app->user->getId());
+            }
+            $path = self::createpath($dirNo,$file->getBaseName().'.'.$file->getExtension());
+            $file->saveAs($path['abs']);
+            return $path['path'];
+        }
+    }
+
 }

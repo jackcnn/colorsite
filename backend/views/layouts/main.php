@@ -5,6 +5,7 @@
 
 use backend\assets\AppAsset;
 use yii\helpers\Html;
+use yii\widgets\Breadcrumbs;
 use backend\widgets\NavWidget;
 use backend\widgets\HeaderWidget;
 AppAsset::register($this);
@@ -30,8 +31,15 @@ AppAsset::register($this);
     <?=NavWidget::widget()?>
 
     <div class="layui-body">
+        <?= Breadcrumbs::widget([
+            'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+            'options'=>['class'=>'layui-breadcrumb','lay-separator'=>'/','style'=>'display:block;padding:15px;'],
+            'tag'=>'span',
+            'itemTemplate' => "{link}\n",
+            'activeItemTemplate' => "<a><cite>{link}</cite></a>\n"
+        ]) ?>
         <!-- 内容主体区域 -->
-        <div class="layui-container">
+        <div class="layui-container" style="width: 100%;">
             <?=$content?>
         </div>
     </div>

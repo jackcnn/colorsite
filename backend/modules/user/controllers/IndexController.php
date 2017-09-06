@@ -5,6 +5,7 @@ namespace backend\modules\user\controllers;
 use Yii;
 use common\models\User;
 use common\models\search\UserSearch;
+use yii\helpers\ArrayHelper;
 use yii\helpers\ColorHelper;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
@@ -28,6 +29,24 @@ class IndexController extends Controller
                 ],
             ],
         ];
+    }
+
+    public function actionAdd()
+    {
+        die;
+        $model = new User();
+        $count = $model::find()->count();
+
+        $model->parent_id =0;
+        $model->token = 'tokentokentoken'.$count;
+        $model->is_admin = 0;
+        $model->username = 'username'.$count;
+        $model->password = 'password'.$count;
+        $model->nickname = 'nickname'.$count;
+        $model->avatar = 'avatar'.$count;
+
+        $model->save();
+
     }
 
     /**
@@ -68,6 +87,10 @@ class IndexController extends Controller
 
         if($_POST){
             $model->load(Yii::$app->request->post());
+
+
+            $model->username = \yii\helpers\FileHelper::upload($model,'token');
+
             ColorHelper::dump($model);die;
         }
 
@@ -75,10 +98,15 @@ class IndexController extends Controller
             return $this->redirect(['view', 'id' => $model->id]);
         } else {
             $model->updated_at ='1232@qq.com';
+            $model->created_at = 1504668631;
             $model->password = '123456';
             $model->is_admin =0;
             $model->expire = json_encode(['one','three']);
+            $model->nickname = 1;
+            $model->avatar = 'im avatar';
             $model->is_active = 1;
+            $model->username = '/uploads/common/201709/2bcb8014395d2482f800022e0ce6562e.jpg';
+            $model->token = '/uploads/common/201709/2bcb8014395d2482f800022e0ce6562e.jpg';
             return $this->render('create', [
                 'model' => $model,
             ]);

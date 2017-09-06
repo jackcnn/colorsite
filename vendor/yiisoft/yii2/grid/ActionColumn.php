@@ -59,7 +59,7 @@ class ActionColumn extends Column
      *
      * @see buttons
      */
-    public $template = '{view} {update} {delete}';
+    public $template = '{update} {delete}';
     /**
      * @var array button rendering callbacks. The array keys are the button names (without curly brackets),
      * and the values are the corresponding button rendering callbacks. The callbacks should use the following
@@ -142,11 +142,14 @@ class ActionColumn extends Column
      */
     protected function initDefaultButtons()
     {
-        $this->initDefaultButton('view', 'eye-open');
-        $this->initDefaultButton('update', 'pencil');
-        $this->initDefaultButton('delete', 'trash', [
-            'data-confirm' => Yii::t('yii', 'Are you sure you want to delete this item?'),
-            'data-method' => 'post',
+        $this->initDefaultButton('view', '&#xe705;');
+        $this->initDefaultButton('update', '&#xe642;',[
+            'class'=>'layui-btn layui-btn-small'
+        ]);
+        $this->initDefaultButton('delete', '&#xe640;', [
+            //'data-confirm' => Yii::t('yii', '确定要删除这条信息吗'),
+            //'data-method' => 'post',
+            'class'=>'layui-btn layui-btn-small layui-btn-danger colorsite-delete-confirm'
         ]);
     }
 
@@ -163,13 +166,13 @@ class ActionColumn extends Column
             $this->buttons[$name] = function ($url, $model, $key) use ($name, $iconName, $additionalOptions) {
                 switch ($name) {
                     case 'view':
-                        $title = Yii::t('yii', 'View');
+                        $title = Yii::t('yii', '查看');
                         break;
                     case 'update':
-                        $title = Yii::t('yii', 'Update');
+                        $title = Yii::t('yii', '编辑');
                         break;
                     case 'delete':
-                        $title = Yii::t('yii', 'Delete');
+                        $title = Yii::t('yii', '删除');
                         break;
                     default:
                         $title = ucfirst($name);
@@ -179,7 +182,7 @@ class ActionColumn extends Column
                     'aria-label' => $title,
                     'data-pjax' => '0',
                 ], $additionalOptions, $this->buttonOptions);
-                $icon = Html::tag('span', '', ['class' => "glyphicon glyphicon-$iconName"]);
+                $icon = '<i class="layui-icon">'.$iconName.'</i>'.$title;
                 return Html::a($icon, $url, $options);
             };
         }
