@@ -24,7 +24,7 @@ class BaseController extends Controller
     public function success($msg='',$router='')
     {
         if($msg){
-            \Yii::$app->session->setFlash('AlertMsg',$msg);
+             echo \Yii::$app->session->setFlash('AlertMsg',$msg,false);
         }
         if(!$router){
             $router = self::_request()->absoluteUrl;

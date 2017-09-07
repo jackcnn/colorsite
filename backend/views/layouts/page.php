@@ -25,9 +25,7 @@ AppAsset::register($this);
 
     <div class="layui-layout">
         <div class="layui-body">
-            <?php if($AlertMsg=\Yii::$app->session->getFlash('AlertMsg')){
-                echo $AlertMsg;
-            }?>
+            <h1><?php if($AlertMsg=\Yii::$app->session->getFlash('AlertMsg')){echo $AlertMsg;}?></h1>
             <!-- 内容主体区域 -->
             <?= $content?>
         </div>

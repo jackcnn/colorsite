@@ -32,7 +32,7 @@ class SiteController extends BaseController
         $model = new User();
         if($this->_request()->isPost){
             $post = $this->_post();
-            $this->success('测试一下提示');
+            $this->success('esee');
         }
         return $this->render('register',[
             'model'=>$model
