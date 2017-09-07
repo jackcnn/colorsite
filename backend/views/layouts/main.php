@@ -8,6 +8,7 @@ use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
 use backend\widgets\NavWidget;
 use backend\widgets\HeaderWidget;
+use backend\widgets\FooterWidget;
 AppAsset::register($this);
 ?>
 <?php $this->beginPage() ?>
@@ -43,11 +44,7 @@ AppAsset::register($this);
             <?=$content?>
         </div>
     </div>
-
-    <div class="layui-footer">
-        <!-- 底部固定区域 -->
-        © colorsite.com 陆荣泽
-    </div>
+    <?=FooterWidget::widget()?>
 </div>
 <div class="color-loading">
     <i class="layui-icon layui-anim layui-anim-rotate layui-anim-loop">&#xe63d;</i><br/>

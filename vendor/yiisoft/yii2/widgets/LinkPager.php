@@ -40,7 +40,7 @@ class LinkPager extends Widget
      * @var array HTML attributes for the pager container tag.
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
-    public $options = ['class' => 'pagination'];
+    public $options = ['class' => 'layui-box layui-laypage layui-laypage-default'];
     /**
      * @var array HTML attributes for the link in a pager container tag.
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
@@ -62,19 +62,19 @@ class LinkPager extends Widget
     /**
      * @var string the CSS class for the "previous" page button.
      */
-    public $prevPageCssClass = 'prev';
+    public $prevPageCssClass = 'layui-laypage-prev';
     /**
      * @var string the CSS class for the "next" page button.
      */
-    public $nextPageCssClass = 'next';
+    public $nextPageCssClass = 'layui-laypage-next';
     /**
      * @var string the CSS class for the active (currently selected) page button.
      */
-    public $activePageCssClass = 'active';
+    public $activePageCssClass = 'layui-laypage-curr';
     /**
      * @var string the CSS class for the disabled page buttons.
      */
-    public $disabledPageCssClass = 'disabled';
+    public $disabledPageCssClass = 'layui-disabled';
     /**
      * @var array the options for the disabled tag to be generated inside the disabled list element.
      * In order to customize the html tag, please use the tag key.
@@ -93,24 +93,24 @@ class LinkPager extends Widget
      * @var string|bool the label for the "next" page button. Note that this will NOT be HTML-encoded.
      * If this property is false, the "next" page button will not be displayed.
      */
-    public $nextPageLabel = '&raquo;';
+    public $nextPageLabel = '下一页';
     /**
      * @var string|bool the text label for the previous page button. Note that this will NOT be HTML-encoded.
      * If this property is false, the "previous" page button will not be displayed.
      */
-    public $prevPageLabel = '&laquo;';
+    public $prevPageLabel = '上一页';
     /**
      * @var string|bool the text label for the "first" page button. Note that this will NOT be HTML-encoded.
      * If it's specified as true, page number will be used as label.
      * Default is false that means the "first" page button will not be displayed.
      */
-    public $firstPageLabel = false;
+    public $firstPageLabel = '首页';
     /**
      * @var string|bool the text label for the "last" page button. Note that this will NOT be HTML-encoded.
      * If it's specified as true, page number will be used as label.
      * Default is false that means the "last" page button will not be displayed.
      */
-    public $lastPageLabel = false;
+    public $lastPageLabel = '尾页';
     /**
      * @var bool whether to register link tags in the HTML header for prev, next, first and last page.
      * Defaults to `false` to avoid conflicts when multiple pagers are used on one page.
@@ -212,7 +212,7 @@ class LinkPager extends Widget
             $buttons[] = $this->renderPageButton($lastPageLabel, $pageCount - 1, $this->lastPageCssClass, $currentPage >= $pageCount - 1, false);
         }
 
-        return Html::tag('ul', implode("\n", $buttons), $this->options);
+        return Html::tag('div', implode("\n", $buttons), $this->options);
     }
 
     /**
@@ -230,17 +230,19 @@ class LinkPager extends Widget
         $options = ['class' => empty($class) ? $this->pageCssClass : $class];
         if ($active) {
             Html::addCssClass($options, $this->activePageCssClass);
+            return $html ='<span class="layui-laypage-curr"><em class="layui-laypage-em"></em><em>'.$label.'</em></span>';
         }
         if ($disabled) {
             Html::addCssClass($options, $this->disabledPageCssClass);
-            $tag = ArrayHelper::remove($this->disabledListItemSubTagOptions, 'tag', 'span');
-
-            return Html::tag('li', Html::tag($tag, $label, $this->disabledListItemSubTagOptions), $options);
+            //$tag = ArrayHelper::remove($this->disabledListItemSubTagOptions, 'tag', 'a');
+            //return Html::tag('li', Html::tag($tag, $label, $this->disabledListItemSubTagOptions), $options);
+            return Html::tag('a', $label, $options);
         }
         $linkOptions = $this->linkOptions;
         $linkOptions['data-page'] = $page;
 
-        return Html::tag('li', Html::a($label, $this->pagination->createUrl($page), $linkOptions), $options);
+        //return Html::tag('li', Html::a($label, $this->pagination->createUrl($page), $linkOptions), $options);
+        return Html::a($label, $this->pagination->createUrl($page), $options);
     }
 
     /**

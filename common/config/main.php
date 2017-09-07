@@ -6,4 +6,6 @@ return [
             'class' => 'yii\caching\FileCache',
         ],
     ],
+    'language' =>'zh-CN',//中文提示
+    'timeZone' => 'Asia/Shanghai',
 ];

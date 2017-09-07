@@ -57,14 +57,14 @@ class LayField extends Component
         return $html;
     }
 
-    public function lyradioList($list,$label='')
+    public function lyradioList($list,$label='',$tips='')
     {
         if(!is_array($list)){
             throw new InvalidParamException('need array data');
         }
         $label=$label?$label:$this->attribute;
         $labeltext = Html::activeLabel($this->model,$this->attribute,['class'=>'layui-form-label','label'=>$label]);
-        $html='<div class="layui-form-item">'.$labeltext.'<div class="layui-input-block">';
+        $html='<div class="layui-form-item">'.$labeltext.'<div class="layui-input-inline">';
         foreach($list as $key=>$value){
             $check_value = Html::getAttributeValue($this->model,$this->attribute);
             if("$check_value" === "{$key}"){
@@ -74,14 +74,14 @@ class LayField extends Component
             }
             $html.='<input type="radio" class="'. Html::getInputId($this->model,$this->attribute).'" lay-filter="'.Html::getInputId($this->model,$this->attribute).'" name="'.Html::getInputName($this->model,$this->attribute).'" value="'.$key.'" title="'.$value.'" '.$checked.'>';
         }
-        $html.='</div></div>';
+        $html.='</div><div class="layui-form-mid layui-word-aux">'.$tips.'</div></div>';
         return $html;
     }
 
     /*
      * 使用json_encode 保存选项
      * */
-    public function lycheckboxList($list,$label='')
+    public function lycheckboxList($list,$label='',$tips='')
     {
         if(!is_array($list)){
             throw new InvalidParamException('need array data');
@@ -98,15 +98,15 @@ class LayField extends Component
             }
             $html.='<input type="checkbox" class="'. Html::getInputId($this->model,$this->attribute).'" lay-filter="'.Html::getInputId($this->model,$this->attribute).'" lay-skin="primary" name="'.Html::getInputName($this->model,$this->attribute).'[]" value="'.$key.'" title="'.$value.'" '.$checked.'>';
         }
-        $html.='</div></div>';
+        $html.='</div><div class="layui-form-mid layui-word-aux">'.$tips.'</div></div>';
         return $html;
     }
 
-    public function lyswitch($text='ON|OFF',$label='')
+    public function lyswitch($text='ON|OFF',$label='',$tips='')
     {
         $label=$label?$label:$this->attribute;
         $labeltext = Html::activeLabel($this->model,$this->attribute,['class'=>'layui-form-label','label'=>$label]);
-        $html='<div class="layui-form-item">'.$labeltext.'<div class="layui-input-block">';
+        $html='<div class="layui-form-item">'.$labeltext.'<div class="layui-input-inline">';
         $check_value = Html::getAttributeValue($this->model,$this->attribute);
         if("$check_value" === "1"){
             $checked = "checked" ;
@@ -114,11 +114,11 @@ class LayField extends Component
             $checked = "" ;
         }
         $html.='<input type="checkbox" class="'. Html::getInputId($this->model,$this->attribute).'" lay-filter="'.Html::getInputId($this->model,$this->attribute).'" lay-skin="switch" lay-text="'.$text.'" name="'.Html::getInputName($this->model,$this->attribute).'" value="1" '.$checked.'>';
-        $html.='</div></div>';
+        $html.='</div><div class="layui-form-mid layui-word-aux">'.$tips.'</div></div>';
         return $html;
     }
 
-    public function lyselectList($list,$label='',$placehold='请选择')
+    public function lyselectList($list,$label='',$tips='',$placehold='请选择')
     {
         if(!is_array($list)){
             throw new InvalidParamException('need array data');
@@ -137,7 +137,7 @@ class LayField extends Component
             }
             $html.='<option value="'.$key.'" '.$selected.'>'.$value.'</option>';
         }
-        $html.='</select></div></div>';
+        $html.='</select></div><div class="layui-form-mid layui-word-aux">'.$tips.'</div></div>';
         return $html;
     }
     public function lytextArea($label='',$placeholder='',$tips='')
@@ -151,8 +151,7 @@ class LayField extends Component
         return $html;
     }
 
-    //富文本编辑框
-    public function lyupload()
+    public function lyshow()
     {
 
     }
@@ -170,6 +169,14 @@ class LayField extends Component
         if(in_array('back',$buttons)){
             $html.= '<a href="javascript:history.back();" class="layui-btn layui-btn-warm">返回</a>';
         }
+
+        if(in_array('login',$buttons)){
+            $html.= '<button id="'.$filter.'_submitBtn" class="layui-btn" lay-submit lay-filter="'.$filter.'">登录</button>';
+        }
+        if(in_array('register',$buttons)){
+            $html.= '<a href="'.\yii\helpers\Url::to(['/site/register']).'" class="layui-btn layui-btn-normal">注册</a>';
+        }
+
         $html.= '</div></div>';
         return $html;
     }
@@ -190,6 +197,15 @@ class LayField extends Component
         }
         $tips = $tips?$tips:'';
         $html.='</div><div class="layui-form-mid layui-word-aux">'.$tips.'</div></div>';
+        return $html;
+    }
+
+    public function lylink($text,$link='javascript:;',$label='')
+    {
+        $html ='<div class="layui-form-item"><label class="layui-form-label">'.$label.'</label><div class="layui-input-inline">';
+        $options['style']='float:right;';
+        $html .= Html::a($text,$link,$options);
+        $html.='</div></div>';
         return $html;
     }
 

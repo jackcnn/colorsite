@@ -1,6 +1,7 @@
 <?php
 namespace backend\controllers;
 
+use common\models\User;
 use Yii;
 use backend\controllers\BaseController;
 use yii\helpers\ColorHelper;
@@ -10,12 +11,31 @@ use yii\helpers\ColorHelper;
  */
 class SiteController extends BaseController
 {
-    public $enableCsrfValidation=false;
+    //登录页面
     public function actionIndex()
     {
-        if($_POST){
-            ColorHelper::dump($_POST);die;
+        $this->layout = 'page';
+        if(self::_request()->isPost){
+            $post = self::_post('User');
+            ColorHelper::dump($post);
+            die;
         }
-        return $this->render('index');
+        $model = new User();
+        return $this->render('index',[
+            'model'=>$model
+        ]);
+    }
+    //注册页面
+    public function actionRegister()
+    {
+        $this->layout = 'page';
+        $model = new User();
+        if($this->_request()->isPost){
+            $post = $this->_post();
+            $this->success('测试一下提示');
+        }
+        return $this->render('register',[
+            'model'=>$model
+        ]);
     }
 }

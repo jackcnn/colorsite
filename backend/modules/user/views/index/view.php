@@ -27,6 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
     <?= DetailView::widget([
         'model' => $model,
+        'options'=>['class'=>'layui-table'],
         'attributes' => [
             'id',
             'parent_id',
@@ -40,7 +41,10 @@ $this->params['breadcrumbs'][] = $this->title;
             'access_token',
             'is_active',
             'expire',
-            'created_at',
+            [
+                'attribute'=>'created_at',
+                'format'=>'datetime'
+            ],
             'updated_at',
         ],
     ]) ?>

@@ -1,85 +1,27 @@
 <?php
-/**
- * Date: 2017/9/4 0004
- * Time: 17:29
- */
-
+use backend\widgets\LayForm;
+use \yii\helpers\Html;
+$this->title = 'COLORSITE';
 ?>
+<div class="layui-container" style="width: 45%;">
 
-<div style="padding: 20px;">
-    <form class="layui-form" action="" method="post">
-        <div class="layui-form-item">
-            <label class="layui-form-label">输入框</label>
-            <div class="layui-input-block">
-                <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">密码框</label>
-            <div class="layui-input-inline">
-                <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
-            </div>
-            <div class="layui-form-mid layui-word-aux">辅助文字</div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">选择框</label>
-            <div class="layui-input-block">
-                <select name="city" lay-verify="required">
-                    <option value=""></option>
-                    <option value="0" selected>北京</option>
-                    <option value="1">上海</option>
-                    <option value="2">广州</option>
-                    <option value="3">深圳</option>
-                    <option value="4">杭州</option>
-                </select>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">复选框</label>
-            <div class="layui-input-block">
-                <input type="checkbox" name="like[write]" title="写作" lay-skin="primary">
-                <input type="checkbox" name="like[read]" title="阅读" lay-skin="primary" checked>
-                <input type="checkbox" name="like[dai]" title="发呆" lay-skin="primary">
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">开关</label>
-            <div class="layui-input-block">
-                <input type="checkbox" name="switch" lay-skin="switch" lay-text="ON|OFF" checked>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">单选框</label>
-            <div class="layui-input-block">
-                <input type="radio" name="sex" value="男" title="男">
-                <input type="radio" name="sex" value="女" title="女" checked>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <label class="layui-form-label">文本域</label>
-            <div class="layui-input-block">
-                <textarea name="desc" placeholder="请输入内容" class="layui-textarea"></textarea>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-input-block">
-                <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
-                <button type="reset" class="layui-btn layui-btn-danger">重置</button>
-                <a href="javascript:history.back();" class="layui-btn layui-btn-warm">返回</a>
-            </div>
-        </div>
-    </form>
+    <h1 class="layform-h1" style="text-align: left;padding: 80px 0px;"><span style="color:#20a0ff;font-weight: 500;">COLORSITE</span>管理系统</h1>
+
+    <div class="user-form layform-block">
+
+        <?php $form = LayForm::begin(); ?>
+
+        <?= $form->field($model,'username')->lytextInput(['label'=>'邮　箱','placeholder'=>'请填写注册的邮箱','lay-verify'=>'email'])?>
+
+        <?= $form->field($model, 'password')->lypasswordInput(['label'=>'密　码','placeholder'=>'请填写密码','max-length'=>'5']) ?>
+
+        <?= $form->field($model,'token')->lycheckboxList(['1'=>'7天内自动登录'],'记住我')?>
+
+        <?= $form->field($model,'')->lylink('忘记密码',['/site/register'])?>
+
+        <?= $form->field($model,'')->lybuttons(['login','register'])?>
+
+        <?php LayForm::end(); ?>
+
+    </div>
 </div>
-
-<?php
-$jscontent =<<<JS
-
-layui.use('layer', function(){
-  var layer = layui.layer;
-  layer.alert('酷毙了', {icon: 2});
-}); 
-
-JS;
-
-$this->registerJS($jscontent);
-?>

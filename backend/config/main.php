@@ -47,6 +47,13 @@ return [
         'errorHandler' => [
             'errorAction' => 'site/error',
         ],
+        'formatter' => [
+            'dateFormat' => 'yyyy-MM-dd',
+            'datetimeFormat' =>'yyyy-MM-dd H:i:s',
+            'decimalSeparator' => ',',
+            'thousandSeparator' => ' ',
+            'currencyCode' => 'CH',
+        ],
         'authManager' => [
             'class' => 'yii\rbac\DbManager',
             'itemTable' => '{{%admin_auth_item}}',

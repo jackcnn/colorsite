@@ -104,7 +104,13 @@ class CheckboxColumn extends Column
         if ($this->header !== null || !$this->multiple) {
             return parent::renderHeaderCellContent();
         } else {
-            return Html::checkbox($this->getHeaderCheckBoxName(), false, ['class' => 'select-on-check-all']);
+            //return Html::checkbox($this->getHeaderCheckBoxName(), false, ['class' => 'select-on-check-all']);
+            $html = '<div class="layui-unselect layui-form-checkbox " lay-skin="primary">';
+            $options['style']='display:block;position:absolute;width:18px;height:18px;left:0px;top:0px;z-index:99999;opacity:0;';
+            $options['class']='checkboxcolumn select-on-check-all';
+            $html.= Html::checkbox($this->getHeaderCheckBoxName(), false, $options);
+            $html.='<i class="layui-icon"></i></div>';
+            return $html;
         }
     }
 
@@ -127,7 +133,13 @@ class CheckboxColumn extends Column
             Html::addCssClass($options, $this->cssClass);
         }
 
-        return Html::checkbox($this->name, !empty($options['checked']), $options);
+        //return Html::checkbox($this->name, !empty($options['checked']), $options);
+        $html = '<div class="layui-unselect layui-form-checkbox " lay-skin="primary">';
+        $options['style']='display:block;position:absolute;width:18px;height:18px;left:0px;top:0px;z-index:99999;opacity:0;';
+        $options['class']='checkboxcolumn';
+        $html.= Html::checkbox($this->name, !empty($options['checked']), $options);
+        $html.='<i class="layui-icon"></i></div>';
+        return $html;
     }
 
     /**
@@ -163,6 +175,15 @@ class CheckboxColumn extends Column
             'multiple' => $this->multiple,
             'checkAll' => $this->grid->showHeader ? $this->getHeaderCheckBoxName() : null,
         ]);
-        $this->grid->getView()->registerJs("jQuery('#$id').yiiGridView('setSelectionColumn', $options);");
+
+        $js=<<<JS
+jQuery('.checkboxcolumn').change(function(){
+    jQuery('.checkboxcolumn').each(function(){
+        if(jQuery(this).is(':checked')){jQuery(this).parent().addClass('layui-form-checked')}else{jQuery(this).parent().removeClass('layui-form-checked')}
+    })
+})
+JS;
+
+        $this->grid->getView()->registerJs("jQuery('#$id').yiiGridView('setSelectionColumn', $options);".$js);
     }
 }
