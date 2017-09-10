@@ -7,29 +7,29 @@ namespace backend\controllers;
 
 use Yii;
 use yii\web\Controller;
+use yii\filters\VerbFilter;
 class BaseController extends Controller
 {
-    public function _post($name = null ,$defaultValue = null )
+    public function behaviors()
     {
-        return \Yii::$app->request->post($name ,$defaultValue);
+        return [
+            'access' => [
+                'class' => \yii\filters\AccessControl::className(),
+                'except' => ['login', 'register','active','logout'],//其他控制器不要取这些名字
+                'rules' => [
+                    [
+                        'allow' => true,
+                        'roles' => ['@'],//@表示认证用户
+                    ],
+                ],
+            ],
+            'verbs' => [
+                'class' => VerbFilter::className(),
+                'actions' => [
+                    'delete' => ['POST'],
+                ],
+            ],
+        ];
     }
-    public function _get($name = null ,$defaultValue = null )
-    {
-        return \Yii::$app->request->get($name ,$defaultValue);
-    }
-    public function _request()
-    {
-        return \Yii::$app->request;
-    }
-    public function success($msg='',$router='')
-    {
-        if($msg){
-             echo \Yii::$app->session->setFlash('AlertMsg',$msg,false);
-        }
-        if(!$router){
-            $router = self::_request()->absoluteUrl;
-        }
 
-        $this->redirect($router);
-    }
 }

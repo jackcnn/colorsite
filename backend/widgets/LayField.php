@@ -188,7 +188,7 @@ class LayField extends Component
         $id = Html::getInputId($this->model,$this->attribute);
         $js = 'onchange="document.getElementById(\''.$id.'span\').innerText=this.value"';
         $html='<div class="layui-form-item">'.$label.'<div class="layui-input-inline">';
-        $html.='<div class="layui-btn" style="position: relative;"><i class="layui-icon">&#xe67c;</i><span id="'.$id.'span">请选择文件</span>';
+        $html.='<div class="layui-btn" style="position: relative;"><i class="layui-icon">&#xe67c;</i><span style="display: inline-block;max-width: 200px;" id="'.$id.'span">请选择文件</span>';
         $html.='<input type="file" '.$js.' id="'. $id .'"  name="'.Html::getInputName($this->model,$this->attribute).'" style="position: absolute;display: block;width: 100%;height: 100%;left: 0px;top: 0px;opacity: 0;">';
         $html.='</div>';
         $value=Html::getAttributeValue($this->model,$this->attribute);

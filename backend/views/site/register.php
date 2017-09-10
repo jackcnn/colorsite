@@ -15,11 +15,11 @@ $this->title = 'COLORSITE';
 
         <?= $form->field($model,'username')->lytextInput(['label'=>'邮　　箱','placeholder'=>'用于登录和帐号激活'])?>
 
-        <?= $form->field($model, 'password')->lypasswordInput(['label'=>'密　　码','placeholder'=>'请填写密码']) ?>
+        <?= $form->field($model, 'password')->lypasswordInput(['label'=>'密　　码','placeholder'=>'请填写密码(最少6位字符)']) ?>
 
-        <?= $form->field($model, 'password')->lypasswordInput(['label'=>'确认密码','placeholder'=>'请再次填写密码']) ?>
+        <?= $form->field($model, 'token')->lypasswordInput(['label'=>'确认密码','placeholder'=>'请再次填写密码']) ?>
 
-        <?= $form->field($model,'')->lylink('已有帐号，去登录',['/site/index'])?>
+        <?= $form->field($model,'')->lylink('已有帐号，去登录',['/site/login'])?>
 
         <?= $form->field($model,'')->lybuttons(['submit','reset'])?>
 
@@ -27,3 +27,17 @@ $this->title = 'COLORSITE';
 
     </div>
 </div>
+<?php
+
+$msg = \Yii::$app->session->getFlash('RegisterMsg');
+if($msg){
+$js =<<<JS
+layui.use('layer', function(){
+  var layer = layui.layer;
+  layer.msg('$msg');
+  
+});  
+JS;
+$this->registerJS($js);
+}
+?>

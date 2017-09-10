@@ -20,13 +20,13 @@ return [
                 'class' => 'Swift_SmtpTransport',
                 'host' => 'smtp.qq.com',
                 'username' => '1946755280@qq.com',
-                'password' => 'SA523BER1',
+                'password' => 'rvlsdcplroakhgcf',
                 'port' => '25',
                 'encryption' => 'tls',
             ],
             'messageConfig'=>[
                 'charset'=>'UTF-8',
-                'from'=>['1946755280@qq.com'=>'SUPER_ADMIN']
+                'from'=>['1946755280@qq.com'=>'colorsite']
             ],
         ],
     ],

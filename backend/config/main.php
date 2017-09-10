@@ -22,9 +22,10 @@ return [
             'csrfCookie' => ['httpOnly' => true, 'path' => '/admin'],
         ],
         'user' => [
-            'identityClass' => 'common\models\User',
+            'identityClass' => 'backend\models\UserAccess',
             'enableAutoLogin' => true,
-            'identityCookie' => ['name' => '_backendIdentity', 'path' => '/admin', 'httpOnly' => true,],
+            'identityCookie' => ['name' => '_backendIdentity', 'path' => '/admin', 'httpOnly' => true],
+            'loginUrl'=>['/site/login'],
         ],
         'session' => [
             // this is the name of the session cookie used for login on the backend
