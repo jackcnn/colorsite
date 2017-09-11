@@ -15,6 +15,7 @@ class SiteController extends BaseController
     public function actionIndex()
     {
 
+        return $this->render('index');
     }
     //登录页面
     public function actionLogin()

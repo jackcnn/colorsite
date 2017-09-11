@@ -51,6 +51,31 @@ AppAsset::register($this);
     <span>加载中...</span>
 </div>
 <?php $this->endBody() ?>
+<?php
+$alert = \Yii::$app->session->getFlash('AlertMsg');
+$err = \Yii::$app->session->getFlash('ErrMsg');
+if($alert){
+$alert_js =<<<JS
+layui.use('layer',function(){
+    var layer=layui.layer;
+    layer.msg("$alert");
+})
+JS;
+$this->registerJs($alert_js);
+}
+if($err){
+$err_js =<<<JS
+layui.use('layer',function(){
+    var layer=layui.layer;
+    layer.msg("$err", {icon: 5});
+})
+JS;
+$this->registerJs($err_js);
+}
+
+
+
+?>
 </body>
 </html>
 <?php $this->endPage() ?>

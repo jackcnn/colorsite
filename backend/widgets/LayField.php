@@ -29,8 +29,12 @@ class LayField extends Component
         if(isset($options['lay-verify'])){
             $opt['lay-verify'] = $options['lay-verify'];
         }
-        $labeltext=isset($options['label'])?$options['label']:$this->attribute;
-        $label = Html::activeLabel($this->model,$this->attribute,['class'=>'layui-form-label','label'=>$labeltext]);
+        $loptions['class'] = 'layui-form-label';
+        if(isset($options['label'])){
+            $loptions['label']=$options['label'];
+        }
+        $label = Html::activeLabel($this->model,$this->attribute,$loptions);
+
         $html='<div class="layui-form-item">'.$label.'<div class="layui-input-inline">';
         $options = array_merge($opts, $options);
         $html.=Html::activeTextInput($this->model, $this->attribute, $options);
@@ -47,8 +51,13 @@ class LayField extends Component
         if(isset($options['lay-verify'])){
             $opt['lay-verify'] = $options['lay-verify'];
         }
-        $labeltext=isset($options['label'])?$options['label']:$this->attribute;
-        $label = Html::activeLabel($this->model,$this->attribute,['class'=>'layui-form-label','label'=>$labeltext]);
+
+        $loptions['class'] = 'layui-form-label';
+        if(isset($options['label'])){
+            $loptions['label']=$options['label'];
+        }
+        $label = Html::activeLabel($this->model,$this->attribute,$loptions);
+
         $html='<div class="layui-form-item">'.$label.'<div class="layui-input-inline">';
         $options = array_merge($opts, $options);
         $html.=Html::activePasswordInput($this->model, $this->attribute, $options);
@@ -57,23 +66,30 @@ class LayField extends Component
         return $html;
     }
 
-    public function lyradioList($list,$label='',$tips='')
+    public function lyradioList($list,$options=[])
     {
         if(!is_array($list)){
             throw new InvalidParamException('need array data');
         }
-        $label=$label?$label:$this->attribute;
-        $labeltext = Html::activeLabel($this->model,$this->attribute,['class'=>'layui-form-label','label'=>$label]);
-        $html='<div class="layui-form-item">'.$labeltext.'<div class="layui-input-inline">';
-        foreach($list as $key=>$value){
-            $check_value = Html::getAttributeValue($this->model,$this->attribute);
-            if("$check_value" === "{$key}"){
-                $checked = "checked" ;
-            }else{
-                $checked = "" ;
-            }
-            $html.='<input type="radio" class="'. Html::getInputId($this->model,$this->attribute).'" lay-filter="'.Html::getInputId($this->model,$this->attribute).'" name="'.Html::getInputName($this->model,$this->attribute).'" value="'.$key.'" title="'.$value.'" '.$checked.'>';
+
+        $loptions['class'] = 'layui-form-label';
+        if(isset($options['label'])){
+            $loptions['label']=$options['label'];
         }
+        $label = Html::activeLabel($this->model,$this->attribute,$loptions);
+
+        $html='<div class="layui-form-item">'.$label.'<div class="layui-input-inline">';
+        foreach($list as $key=>$value){
+            $opts = [];
+            $opts['class']=Html::getInputId($this->model,$this->attribute);
+            $opts['lay-filter']=Html::getInputId($this->model,$this->attribute);
+            $opts['value'] = $key;
+            $opts['title'] = $value;
+            $rdoptions = array_merge($opts,$options);
+            $rdoptions['label'] = false;//不要生成label
+            $html.= Html::activeRadio($this->model,$this->attribute,$rdoptions);
+        }
+        $tips = isset($options['tips'])?$options['tips']:'';
         $html.='</div><div class="layui-form-mid layui-word-aux">'.$tips.'</div></div>';
         return $html;
     }
@@ -81,39 +97,54 @@ class LayField extends Component
     /*
      * 使用json_encode 保存选项
      * */
-    public function lycheckboxList($list,$label='',$tips='')
+    public function lycheckboxList($list,$options=[])
     {
         if(!is_array($list)){
             throw new InvalidParamException('need array data');
         }
-        $label=$label?$label:$this->attribute;
-        $labeltext = Html::activeLabel($this->model,$this->attribute,['class'=>'layui-form-label','label'=>$label]);
-        $html='<div class="layui-form-item">'.$labeltext.'<div class="layui-input-block">';
-        foreach($list as $key=>$value){
-            $check_value = Html::getAttributeValue($this->model,$this->attribute);
-            if(strpos($check_value,$key)){
-                $checked = "checked" ;
-            }else{
-                $checked = "" ;
-            }
-            $html.='<input type="checkbox" class="'. Html::getInputId($this->model,$this->attribute).'" lay-filter="'.Html::getInputId($this->model,$this->attribute).'" lay-skin="primary" name="'.Html::getInputName($this->model,$this->attribute).'[]" value="'.$key.'" title="'.$value.'" '.$checked.'>';
+
+        $loptions['class'] = 'layui-form-label';
+        if(isset($options['label'])){
+            $loptions['label']=$options['label'];
         }
+        $label = Html::activeLabel($this->model,$this->attribute,$loptions);
+
+        $html='<div class="layui-form-item">'.$label.'<div class="layui-input-block">';
+        foreach($list as $key=>$value){
+            $opts = [];
+            $opts['class']=Html::getInputId($this->model,$this->attribute);
+            $opts['lay-filter']=Html::getInputId($this->model,$this->attribute);
+            $opts['lay-skin'] ='primary';
+            $opts['value'] = $key;
+            $opts['title'] = $value;
+            $ckoptions = array_merge($opts,$options);
+            $ckoptions['label'] = false;//不要生成label
+            $html.= Html::activeCheckbox($this->model,$this->attribute,$ckoptions);
+        }
+        $tips = isset($options['tips'])?$options['tips']:'';
         $html.='</div><div class="layui-form-mid layui-word-aux">'.$tips.'</div></div>';
         return $html;
     }
 
-    public function lyswitch($text='ON|OFF',$label='',$tips='')
+    public function lyswitch($text='ON|OFF',$options=[])
     {
-        $label=$label?$label:$this->attribute;
-        $labeltext = Html::activeLabel($this->model,$this->attribute,['class'=>'layui-form-label','label'=>$label]);
-        $html='<div class="layui-form-item">'.$labeltext.'<div class="layui-input-inline">';
-        $check_value = Html::getAttributeValue($this->model,$this->attribute);
-        if("$check_value" === "1"){
-            $checked = "checked" ;
-        }else{
-            $checked = "" ;
+
+        $loptions['class'] = 'layui-form-label';
+        if(isset($options['label'])){
+            $loptions['label']=$options['label'];
         }
-        $html.='<input type="checkbox" class="'. Html::getInputId($this->model,$this->attribute).'" lay-filter="'.Html::getInputId($this->model,$this->attribute).'" lay-skin="switch" lay-text="'.$text.'" name="'.Html::getInputName($this->model,$this->attribute).'" value="1" '.$checked.'>';
+        $label = Html::activeLabel($this->model,$this->attribute,$loptions);
+
+        $html='<div class="layui-form-item">'.$label.'<div class="layui-input-inline">';
+        $opts['class'] = Html::getInputId($this->model,$this->attribute);
+        $opts['lay-filter'] = Html::getInputId($this->model,$this->attribute);
+        $opts['lay-skin'] = "switch";
+        $opts['lay-text'] = $text;
+        $opts['value'] = 1;
+        $ckoptions = array_merge($opts,$options);
+        $ckoptions['label'] = false;
+        $html.= Html::activeCheckbox($this->model,$this->attribute,$ckoptions);
+        $tips = isset($options['tips'])?$options['tips']:'';
         $html.='</div><div class="layui-form-mid layui-word-aux">'.$tips.'</div></div>';
         return $html;
     }

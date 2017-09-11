@@ -9,19 +9,6 @@ $this->title = 'COLORSITE';
 
     <div class="user-form layform-block">
 
-        <?php $form = LayForm::begin(); ?>
-
-        <?= $form->field($model,'username')->lytextInput(['label'=>'邮　箱','placeholder'=>'请填写注册的邮箱','lay-verify'=>'email'])?>
-
-        <?= $form->field($model, 'password')->lypasswordInput(['label'=>'密　码','placeholder'=>'请填写密码','max-length'=>'5']) ?>
-
-        <?= $form->field($model,'token')->lycheckboxList(['1'=>'7天内自动登录'],'记住我')?>
-
-        <?= $form->field($model,'')->lylink('忘记密码',['/site/register'])?>
-
-        <?= $form->field($model,'')->lybuttons(['login','register'])?>
-
-        <?php LayForm::end(); ?>
 
     </div>
 </div>
