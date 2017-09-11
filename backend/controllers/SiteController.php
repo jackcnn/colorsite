@@ -14,7 +14,6 @@ class SiteController extends BaseController
 {
     public function actionIndex()
     {
-
         return $this->render('index');
     }
     //登录页面
@@ -81,7 +80,7 @@ class SiteController extends BaseController
                     throw new \Exception('密码长度最少6位');
                 }
                 $model->parent_id=0;
-                $model->token = md5($post['username']);
+                $model->token = ColorHelper::createToken($post['username']);
                 $model->is_admin =0;
                 $model->username = $post['username'];
                 $model->password = \Yii::$app->security->generatePasswordHash($post['password']);
@@ -147,5 +146,16 @@ class SiteController extends BaseController
         }else{
             die('退出登陆失败');
         }
+    }
+
+    /*
+     * 网站基本信息配置
+     * */
+    public function actionSite()
+    {
+
+        return $this->render('site',[
+            //'model'=>$model
+        ]);
     }
 }

@@ -6,7 +6,6 @@
 use yii\helpers\Html;
 use backend\widgets\LayForm;
 $this->title = '帐号基本信息';
-//$this->params['breadcrumbs'][] = ['label' => '用户管理', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-create">
@@ -20,12 +19,6 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $form->field($model,'username')->lytextInput(['label'=>'登录邮箱','disabled'=>true])?>
 
         <?= $form->field($model,'nickname')->lytextInput()?>
-
-        <?= $form->field($model,'is_admin')->lyradioList(['0'=>'不是','1'=>'是'])?>
-
-        <?= $form->field($model,'is_admin')->lycheckboxList(['0'=>'不是','1'=>'是'],['label'=>'馆馆员'])?>
-
-        <?= $form->field($model,'is_admin')->lyswitch('是|否',['label'=>'馆馆员11'])?>
 
         <?= $form->field($model,'avatar')->lyfile('文件上传','(600px*600px)')?>
 

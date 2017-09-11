@@ -23,7 +23,10 @@ class LayField extends Component
      * */
     public function lytextInput($options = [])
     {
-        $opts['class']='layui-input';
+        $opts['class']='layui-input ';
+        if(isset($options['disabled']) && $options['disabled']){
+            $opts['class']='layui-input layui-disabled';
+        }
         $opts['autocomplete']='off';
         $opts['placeholder'] = isset($options['placeholder'])?$options['placeholder']:'';
         if(isset($options['lay-verify'])){
@@ -46,6 +49,9 @@ class LayField extends Component
     public function lypasswordInput($options = [])
     {
         $opts['class']='layui-input';
+        if(isset($options['disabled']) && $options['disabled']){
+            $opts['class']='layui-input layui-disabled';
+        }
         $opts['autocomplete']='off';
         $opts['placeholder'] = isset($options['placeholder'])?$options['placeholder']:'';
         if(isset($options['lay-verify'])){
@@ -71,7 +77,6 @@ class LayField extends Component
         if(!is_array($list)){
             throw new InvalidParamException('need array data');
         }
-
         $loptions['class'] = 'layui-form-label';
         if(isset($options['label'])){
             $loptions['label']=$options['label'];
@@ -128,7 +133,6 @@ class LayField extends Component
 
     public function lyswitch($text='ON|OFF',$options=[])
     {
-
         $loptions['class'] = 'layui-form-label';
         if(isset($options['label'])){
             $loptions['label']=$options['label'];
@@ -149,35 +153,45 @@ class LayField extends Component
         return $html;
     }
 
-    public function lyselectList($list,$label='',$tips='',$placehold='请选择')
+    public function lyselectList($list,$options=[])
     {
         if(!is_array($list)){
             throw new InvalidParamException('need array data');
         }
-        $label=$label?$label:$this->attribute;
-        $labeltext = Html::activeLabel($this->model,$this->attribute,['class'=>'layui-form-label','label'=>$label]);
-        $html='<div class="layui-form-item">'.$labeltext.'<div class="layui-input-inline">';
-        $html.='<select id="'. Html::getInputId($this->model,$this->attribute).'"  name="'.Html::getInputName($this->model,$this->attribute).'" lay-filter="'.Html::getInputId($this->model,$this->attribute).'" lay-verify="required">';
-        $html.='<option value="">'.$placehold.'</option>';
-        foreach($list as $key=>$value){
-            $selected_value = Html::getAttributeValue($this->model,$this->attribute);
-            if("$selected_value" === "{$key}"){
-                $selected = "selected" ;
-            }else{
-                $selected = "" ;
-            }
-            $html.='<option value="'.$key.'" '.$selected.'>'.$value.'</option>';
+        $loptions['class'] = 'layui-form-label';
+        if(isset($options['label'])){
+            $loptions['label']=$options['label'];
         }
-        $html.='</select></div><div class="layui-form-mid layui-word-aux">'.$tips.'</div></div>';
+        $label = Html::activeLabel($this->model,$this->attribute,$loptions);
+        $html='<div class="layui-form-item">'.$label.'<div class="layui-input-inline">';
+        $opts['lay-filter'] = Html::getInputId($this->model,$this->attribute);
+        $opts['lay-verify'] = "required";
+        $dpoptions = array_merge($opts,$options);
+        $dpoptions['label'] = false;
+        $list = array_merge([''=>'请选择'],$list);
+        $html.= Html::activeDropDownList($this->model,$this->attribute,$list,$dpoptions);
+        $tips = isset($options['tips'])?$options['tips']:'';
+        $html.='</div><div class="layui-form-mid layui-word-aux">'.$tips.'</div></div>';
         return $html;
     }
-    public function lytextArea($label='',$placeholder='',$tips='')
+    public function lytextArea($options = [])
     {
-        $labeltext=$label?$label:$this->attribute;
-        $label = Html::activeLabel($this->model,$this->attribute,['class'=>'layui-form-label','label'=>$labeltext]);
+        $loptions['class'] = 'layui-form-label';
+        if(isset($options['label'])){
+            $loptions['label']=$options['label'];
+        }
+        $label = Html::activeLabel($this->model,$this->attribute,$loptions);
         $html='<div class="layui-form-item">'.$label.'<div class="layui-input-inline">';
-        $html.='<textarea id="'. Html::getInputId($this->model,$this->attribute).'"  name="'.Html::getInputName($this->model,$this->attribute).'" placeholder="'.$placeholder.'" class="layui-textarea">'.Html::getAttributeValue($this->model,$this->attribute).'</textarea>';
-        $tips = $tips?$tips:'';
+        //$html.='<textarea id="'. Html::getInputId($this->model,$this->attribute).'"  name="'.Html::getInputName($this->model,$this->attribute).'" placeholder="'.$placeholder.'" class="layui-textarea">'.Html::getAttributeValue($this->model,$this->attribute).'</textarea>';
+        $opts['id'] = Html::getInputId($this->model,$this->attribute);
+        $opts['class'] = 'layui-textarea';
+        if(isset($options['disabled']) && $options['disabled']){
+            $opts['class']='layui-textarea layui-disabled';
+        }
+        $taoptions = array_merge($opts,$options);
+        $taoptions['label'] = false;
+        $html.= Html::activeTextarea($this->model,$this->attribute,$taoptions);
+        $tips = isset($options['tips'])?$options['tips']:'';
         $html.='</div><div class="layui-form-mid layui-word-aux">'.$tips.'</div></div>';
         return $html;
     }
@@ -200,7 +214,6 @@ class LayField extends Component
         if(in_array('back',$buttons)){
             $html.= '<a href="javascript:history.back();" class="layui-btn layui-btn-warm">返回</a>';
         }
-
         if(in_array('login',$buttons)){
             $html.= '<button id="'.$filter.'_submitBtn" class="layui-btn" lay-submit lay-filter="'.$filter.'">登录</button>';
         }

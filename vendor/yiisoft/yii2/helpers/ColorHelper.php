@@ -40,8 +40,8 @@ class ColorHelper
      * */
     public static function createToken($data)
     {
-        $token = $data.\Yii::$app->security->generateRandomString();
-        return md5(md5($token).\Yii::$app->security->generateRandomString());
+        $token = $data.'ColorSiteSolts';
+        return strtoupper(md5(md5($token).'C1o2l3o4r5S6i7t8e9S10o11l12t13s14'));
     }
     /*
      * request
@@ -50,7 +50,6 @@ class ColorHelper
     {
         return \Yii::$app->request;
     }
-
 
     /*
      * 微信oauth2授权登录
