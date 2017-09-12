@@ -103,8 +103,9 @@ class FileHelper extends BaseFileHelper
     /*
      * 文件上传
      * $model 为字符串的时候直接用那个名字
+     * $files 文件上传
      * */
-    public static function upload($model,$attribue='',$size=1)
+    public static function upload($model,$attribue='',$size=1,$files = false )
     {
         if($model instanceof \yii\db\ActiveRecord){
             $name = \yii\helpers\Html::getInputName($model,$attribue);
@@ -118,13 +119,18 @@ class FileHelper extends BaseFileHelper
         if(!$file){
             return $orignal_value;
         }
-
         if($file->size>1024*1024*$size){
             throw new Exception('上传文件不得大于1M');
         }
-        $allow_ext=array('jpg', 'jpeg', 'png','gif');
+        $allow_ext=['jpg', 'jpeg', 'png','gif'];
+        if($files){
+            $allow_ext = ["png","jpg","jpeg","gif","bmp","flv","swf","mkv","avi",
+                "rm","rmvb","mpeg","mpg","ogg","ogv","mov","wmv","mp4","webm","mp3",
+                "wav","mid","rar","zip","tar","gz","7z","bz2","cab","iso","doc",
+                "docx","xls","xlsx","ppt","pptx","pdf","txt","md","xml"];
+        }
         if (!in_array($file->getExtension(),$allow_ext)) {
-            throw new Exception('只能上传'.implode(",",$allow_ext).'格式的图片');
+            throw new Exception('只能上传'.implode(",",$allow_ext).'格式的文件或图片');
         }else{
             if (!\Yii::$app->user->getId()) {
                 $dirNo = "common";
