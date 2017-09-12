@@ -108,7 +108,7 @@ class DataColumn extends Column
      * render the HTML attributes for the generated filter input fields.
      * @see \yii\helpers\Html::renderTagAttributes() for details on how attributes are being rendered.
      */
-    public $filterInputOptions = ['class' => 'form-control', 'id' => null];
+    public $filterInputOptions = ['class' => 'form-control layui-input', 'id' => null];
 
 
     /**

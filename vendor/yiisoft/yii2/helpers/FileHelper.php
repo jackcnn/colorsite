@@ -99,13 +99,45 @@ class FileHelper extends BaseFileHelper
         }
         return $return;
     }
+    /*
+     * 生成一个网站根目录外的目录
+     * */
+    public static function create_safepath($dir='common',$filename='',$type='month')
+    {
+        switch ($type){
+            case 'year':
+                $sdir=date('Y');break;
+            case 'month':
+                $sdir=date('Ym');break;
+            case 'day':
+                $sdir=date('Ymd');break;
+        }
+        $saveDir = \Yii::getAlias('@common') .'/uploads/'. $dir .'/'. $sdir;
+        $returnDir = '/uploads/'. $dir .'/'. $sdir;
+        if(!is_dir($saveDir)){
+            self::createDirectory($saveDir);
+        }
+        if($filename){
+            $tmp = explode(".",$filename);
+            $ext = end($tmp);
+            $final = md5(time().uniqid().$filename);
+            $return['path']= $returnDir.'/'.$final.'.'.$ext;
+            $return['abs']= $saveDir.'/'.$final.'.'.$ext;
+        }else{
+            $return['path']= $returnDir;
+            $return['abs']= $saveDir;
+        }
+        return $return;
+    }
+
 
     /*
      * 文件上传
      * $model 为字符串的时候直接用那个名字
      * $files 文件上传
+     * $safe 是否上传到非网站根目录
      * */
-    public static function upload($model,$attribue='',$size=1,$files = false )
+    public static function upload($model,$attribue='',$size=1,$files = false , $safe = false)
     {
         if($model instanceof \yii\db\ActiveRecord){
             $name = \yii\helpers\Html::getInputName($model,$attribue);

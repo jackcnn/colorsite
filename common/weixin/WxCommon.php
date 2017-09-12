@@ -8,7 +8,6 @@
  */
 namespace common\weixin;
 
-use common\models\table\Web;
 use yii\helpers\CurlHelper;
 
 class WxCommon {

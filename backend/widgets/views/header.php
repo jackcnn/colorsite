@@ -13,6 +13,7 @@ use yii\helpers\Url;
     <ul class="layui-nav layui-layout-left">
         <li class="layui-nav-item"><a href="<?= Url::to(['/site/index'])?>">控制台</a></li>
         <li class="layui-nav-item"><a href="<?= Url::to(['/site/config'])?>">网站配置</a></li>
+        <li class="layui-nav-item"><a href="<?= Url::to(['/thirdconfig/index'])?>">第三方配置</a></li>
     </ul>
     <ul class="layui-nav layui-layout-right">
         <li class="layui-nav-item">
