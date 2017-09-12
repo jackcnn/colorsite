@@ -43,6 +43,37 @@ class ColorHelper
         $token = $data.'ColorSiteSolts';
         return strtoupper(md5(md5($token).'C1o2l3o4r5S6i7t8e9S10o11l12t13s14'));
     }
+
+    /*
+     * 根据ID 生成字符串
+     * */
+    public static function id2token($id)
+    {
+        $helper= new \yii\helpers\Id2TokenHelper();
+        return $helper->encode($id);
+    }
+    public static function token2id($token)
+    {
+        $helper= new \yii\helpers\Id2TokenHelper();
+        return $helper->decode($token);
+    }
+    public static function log($behavior,$info=[])
+    {
+        $model = new \common\models\BehaviorLog();
+        $model->userid = \Yii::$app->user->identity->getId()?\Yii::$app->user->identity->getId():0;
+        $model->ip = \Yii::$app->request->getUserIP();
+        $model->behavior = $behavior;
+        $model->info = json_encode($info);
+        $model->save();
+    }
+    public static function alert($msg)
+    {
+        \Yii::$app->session->setFlash('AlertMsg',$msg);
+    }
+    public static function err($msg)
+    {
+        \Yii::$app->session->setFlash('ErrMsg',$msg);
+    }
     /*
      * request
      * */

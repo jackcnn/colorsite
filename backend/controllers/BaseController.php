@@ -31,5 +31,8 @@ class BaseController extends Controller
             ],
         ];
     }
-
+    public static function identity()
+    {
+        return \Yii::$app->user->identity;
+    }
 }

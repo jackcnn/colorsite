@@ -12,7 +12,7 @@ use yii\helpers\Url;
     <!-- 头部区域（可配合layui已有的水平导航） -->
     <ul class="layui-nav layui-layout-left">
         <li class="layui-nav-item"><a href="<?= Url::to(['/site/index'])?>">控制台</a></li>
-<!--        <li class="layui-nav-item"><a href="">用户管理</a></li>-->
+        <li class="layui-nav-item"><a href="<?= Url::to(['/site/config'])?>">网站配置</a></li>
     </ul>
     <ul class="layui-nav layui-layout-right">
         <li class="layui-nav-item">

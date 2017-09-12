@@ -6,6 +6,7 @@ use Yii;
 use backend\controllers\BaseController;
 use yii\db\Exception;
 use yii\helpers\ColorHelper;
+use yii\helpers\FileHelper;
 
 /**
  * Site controller
@@ -14,6 +15,13 @@ class SiteController extends BaseController
 {
     public function actionIndex()
     {
+
+        $token=ColorHelper::id2token('1');
+
+        $id = ColorHelper::token2id($token);
+
+       // echo $token.'----'.$id;
+
         return $this->render('index');
     }
     //登录页面
@@ -34,6 +42,11 @@ class SiteController extends BaseController
                 if(!\Yii::$app->security->validatePassword($post['password'],$user->password)){
                     throw new \Exception('密码错误！');
                 }
+                //更新token
+                if(!$user->token || ColorHelper::token2id($user->token)!=$user->id){
+                    $user->token = ColorHelper::id2token($user->id);
+                    $user->save();
+                }
                 $identity = \backend\models\UserAccess::findIdentity($user->id);
                 if(isset($post['token']) && current($post['token'])){
                     if($user->parent_id<1){
@@ -46,7 +59,7 @@ class SiteController extends BaseController
                 }
                 if(\Yii::$app->user->login($identity,$cookie_time)){
                     \Yii::info('登录成功'.$user->id.'-ip'.\Yii::$app->request->userIP,__METHOD__);
-                    //用户登录,cookie7天有效,子帐号则为5个小时
+                    ColorHelper::log('登录');
                     return $this->redirect(['/site/index']);
                 }else{
                     throw new \Exception('登录失败！');
@@ -151,11 +164,28 @@ class SiteController extends BaseController
     /*
      * 网站基本信息配置
      * */
-    public function actionSite()
+    public function actionConfig()
     {
-
-        return $this->render('site',[
-            //'model'=>$model
+        $site_model = new \common\models\Site();
+        $model = $site_model::findOne(['userid'=>self::identity()->getId(),'token'=>self::identity()->token]);
+        if(!$model){
+            $site_model->userid = self::identity()->getId();
+            $site_model->token = self::identity()->token;
+            $site_model->save();
+            $model = $site_model::findOne(['userid'=>self::identity()->getId(),'token'=>self::identity()->token]);
+        }
+        $request = \Yii::$app->request;
+        if($request->isPost){
+            $model->load($request->post());
+            $model->logo = FileHelper::upload($model,'logo');
+            if($model->validate() && $model->save()){
+                ColorHelper::alert('保存成功！');
+            }else{
+                ColorHelper::err(current($model->getFirstErrors()));
+            }
+        }
+        return $this->render('config',[
+            'model'=>$model
         ]);
     }
 }

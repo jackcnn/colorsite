@@ -72,9 +72,6 @@ layui.use('layer',function(){
 JS;
 $this->registerJs($err_js);
 }
-
-
-
 ?>
 </body>
 </html>

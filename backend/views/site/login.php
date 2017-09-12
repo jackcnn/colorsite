@@ -14,7 +14,7 @@ $this->title = 'COLORSITE';
 
         <?= $form->field($model, 'password')->lypasswordInput(['label'=>'密　码','placeholder'=>'请填写密码','max-length'=>'5']) ?>
 
-        <?= $form->field($model,'token')->lycheckboxList(['1'=>'一段时间内自动登录'],'记住我')?>
+        <?= $form->field($model,'token')->lycheckboxList(['1'=>'一段时间内自动登录'],['label'=>'记住我'])?>
 
         <?= $form->field($model,'')->lylink('忘记密码',['/site/register'])?>
 
