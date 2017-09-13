@@ -4,6 +4,8 @@
  * Time: 14:23
  */
 use yii\helpers\Url;
+//echo \Yii::$app->controller->module->id;
+$router = \Yii::$app->controller->id.'/'.\Yii::$app->controller->action->id;
 ?>
 <div class="layui-header">
     <div class="layui-logo">
@@ -11,9 +13,9 @@ use yii\helpers\Url;
     </div>
     <!-- 头部区域（可配合layui已有的水平导航） -->
     <ul class="layui-nav layui-layout-left">
-        <li class="layui-nav-item"><a href="<?= Url::to(['/site/index'])?>">控制台</a></li>
-        <li class="layui-nav-item"><a href="<?= Url::to(['/site/config'])?>">网站配置</a></li>
-        <li class="layui-nav-item"><a href="<?= Url::to(['/thirdconfig/index'])?>">第三方配置</a></li>
+        <li class="layui-nav-item"><a target="colorsit-iframe" href="<?= Url::to(['/site/home'])?>">控制台</a></li>
+        <li class="layui-nav-item"><a target="colorsit-iframe" href="<?= Url::to(['/site/config'])?>">网站配置</a></li>
+        <li class="layui-nav-item"><a target="colorsit-iframe" href="<?= Url::to(['/thirdcfg/index'])?>">第三方配置</a></li>
     </ul>
     <ul class="layui-nav layui-layout-right">
         <li class="layui-nav-item">
@@ -22,8 +24,8 @@ use yii\helpers\Url;
                 <?= \Yii::$app->user->getIdentity()->nickname?>
             </a>
             <dl class="layui-nav-child">
-                <dd><a href="<?=Url::to(['/user/index/index'])?>">基本资料</a></dd>
-                <dd><a href="<?=Url::to(['/user/index/role'])?>">权限设置</a></dd>
+                <dd><a target="colorsit-iframe" href="<?=Url::to(['/user/index/index'])?>">基本资料</a></dd>
+                <dd><a target="colorsit-iframe" href="<?=Url::to(['/user/index/role'])?>">权限设置</a></dd>
             </dl>
         </li>
         <li class="layui-nav-item"><a href="<?= Url::to(['/site/logout'])?>">退出登录</a></li>

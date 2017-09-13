@@ -112,8 +112,8 @@ class FileHelper extends BaseFileHelper
             case 'day':
                 $sdir=date('Ymd');break;
         }
-        $saveDir = \Yii::getAlias('@common') .'/uploads/'. $dir .'/'. $sdir;
-        $returnDir = '/uploads/'. $dir .'/'. $sdir;
+        $saveDir = \Yii::getAlias('@common') .'/cuploads/'. $dir .'/'. $sdir;
+        $returnDir = '/cuploads/'. $dir .'/'. $sdir;
         if(!is_dir($saveDir)){
             self::createDirectory($saveDir);
         }
@@ -150,6 +150,13 @@ class FileHelper extends BaseFileHelper
 
         if(!$file){
             return $orignal_value;
+        }else{//有上传文件，要把原来的删除了
+            if($safe){
+                $remove = \Yii::getAlias('@common') . $orignal_value;
+            }else{
+                $remove = \Yii::getAlias('@site') . $orignal_value;
+            }
+            @unlink($remove);
         }
         if($file->size>1024*1024*$size){
             throw new Exception('上传文件不得大于1M');
@@ -159,17 +166,21 @@ class FileHelper extends BaseFileHelper
             $allow_ext = ["png","jpg","jpeg","gif","bmp","flv","swf","mkv","avi",
                 "rm","rmvb","mpeg","mpg","ogg","ogv","mov","wmv","mp4","webm","mp3",
                 "wav","mid","rar","zip","tar","gz","7z","bz2","cab","iso","doc",
-                "docx","xls","xlsx","ppt","pptx","pdf","txt","md","xml"];
+                "docx","xls","xlsx","ppt","pptx","pdf","txt","md","xml","pem"];
         }
         if (!in_array($file->getExtension(),$allow_ext)) {
-            throw new Exception('只能上传'.implode(",",$allow_ext).'格式的文件或图片');
+            throw new \Exception('只能上传'.implode(",",$allow_ext).'格式的文件或图片');
         }else{
             if (!\Yii::$app->user->getId()) {
                 $dirNo = "common";
             } else {
                 $dirNo = sprintf("%05d", \Yii::$app->user->getId());
             }
-            $path = self::createpath($dirNo,$file->getBaseName().'.'.$file->getExtension());
+            if($safe){
+                $path = self::create_safepath($dirNo,$file->getBaseName().'.'.$file->getExtension());
+            }else{
+                $path = self::createpath($dirNo,$file->getBaseName().'.'.$file->getExtension());
+            }
             $file->saveAs($path['abs']);
             return $path['path'];
         }

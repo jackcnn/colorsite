@@ -32,9 +32,8 @@
 .layui-nav .layui-nav-item a {
     color: #48576a;
 }
-.layui-nav .layui-nav-more {
-    border-color: #48576a transparent transparent;
-    border-top-color: rgba(72,87,106,.7);
+.layui-layout-admin .layui-footer {
+    background-color: #eef1f6!important;
 }
 .layui-nav-itemed .layui-nav-child {
     background-color: #e4e8f1!important;
@@ -156,4 +155,10 @@
 }
 .summary{
     text-align: right;
+}
+.layui-form-label {
+    width: 115px;
+}
+.layui-input-block {
+    margin-left: 145px;
 }

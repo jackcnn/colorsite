@@ -20,14 +20,18 @@ class IndexController extends Controller
             $model->load($request->post());
             $model->avatar = FileHelper::upload($model,'avatar');
             if($model->validate() && $model->save()){
-                \Yii::$app->session->setFlash('AlertMsg','用户信息保存成功');
-                return $this->redirect(['/site/index']);
+                ColorHelper::alert('用户信息保存成功');
+                return $this->redirect(['/site/home']);
             }else{
-                \Yii::$app->session->setFlash('ErrMsg','用户信息保存失败'.current($model->getFirstErrors()));
+                ColorHelper::err('用户信息保存失败'.current($model->getFirstErrors()));
             }
         }
         return $this->render('index',[
             'model'=>$model
         ]);
+    }
+    public function actionPay()
+    {
+        return $this->render('pay');
     }
 }

@@ -25,28 +25,26 @@ AppAsset::register($this);
 <body>
 <?php $this->beginBody() ?>
 
-<div class="layui-layout">
+<div class="layui-layout layui-layout-admin">
 
-    <div class="layui-body" style="left: 0px;">
-        <div style="float: right;display: block;padding: 15px;">
-            <a class="layui-btn layui-btn-mini" href="javascript:history.back(-1);" title="返回" aria-label="返回"><i class="layui-icon">&#xe65c;</i>返回</a>
-            <a class="layui-btn layui-btn-mini" href="javascript:location.reload();" title="刷新" aria-label="刷新"><i class="layui-icon">&#x1002;</i>刷新</a>
-            <a class="layui-btn layui-btn-mini" target="_blank" href="<?=\Yii::$app->request->absoluteUrl?>" title="新标签打开" aria-label="新标签打开" data-pjax="0"><i class="layui-icon">&#xe641;</i>新标签打开</a>
-        </div>
+    <?=HeaderWidget::widget()?>
+
+    <?=NavWidget::widget()?>
+
+    <div class="layui-body">
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
             'options'=>['class'=>'layui-breadcrumb','lay-separator'=>'/','style'=>'display:block;padding:15px;'],
             'tag'=>'span',
-            'homeLink'=>['label'=>'首页','url'=>['/site/home']],
             'itemTemplate' => "{link}\n",
             'activeItemTemplate' => "<a><cite>{link}</cite></a>\n"
         ]) ?>
-
         <!-- 内容主体区域 -->
         <div class="layui-container" style="width: 100%;">
             <?=$content?>
         </div>
     </div>
+    <?=FooterWidget::widget()?>
 </div>
 <div class="color-loading">
     <i class="layui-icon layui-anim layui-anim-rotate layui-anim-loop">&#xe63d;</i><br/>
@@ -57,22 +55,22 @@ AppAsset::register($this);
 $alert = \Yii::$app->session->getFlash('AlertMsg');
 $err = \Yii::$app->session->getFlash('ErrMsg');
 if($alert){
-$alert_js =<<<JS
+    $alert_js =<<<JS
 layui.use('layer',function(){
     var layer=layui.layer;
     layer.msg("$alert",{offset:'t'});
 })
 JS;
-$this->registerJs($alert_js);
+    $this->registerJs($alert_js);
 }
 if($err){
-$err_js =<<<JS
+    $err_js =<<<JS
 layui.use('layer',function(){
     var layer=layui.layer;
     layer.msg("$err", {icon: 5,offset:'t'});
 })
 JS;
-$this->registerJs($err_js);
+    $this->registerJs($err_js);
 }
 ?>
 </body>

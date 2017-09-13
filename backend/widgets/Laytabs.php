@@ -8,9 +8,9 @@ namespace backend\widgets;
 
 use yii\base\Widget;
 
-class LayTable extends Widget
+class LayTabs extends Widget
 {
-    public $data=[
+    public $list=[
         ['用户管理',['/user/index/create','id'=>1]],
         ['权限分配',['/user/index/index','id'=>2]],
         ['商品管理',['site/index','id'=>3]]
@@ -23,16 +23,16 @@ class LayTable extends Widget
     public function run()
     {
         if(!$this->active){
-            $active = \Yii::$app->controller->id.'/'.\Yii::$app->controller->action->id;
+            $active = '/'.\Yii::$app->controller->id.'/'.\Yii::$app->controller->action->id;
             $moduel = \Yii::$app->controller->module->id;
             if($moduel != 'app-backend'){
-                $active = '/'.$moduel.'/'.$active;
+                $active = '/'.$moduel.$active;
             }
         }else{
             $active = $this->active;
         }
-        return $this->render('laytable',[
-            'data'=>$this->data,
+        return $this->render('laytabs',[
+            'list'=>$this->list,
             'active'=>$active
         ]);
     }

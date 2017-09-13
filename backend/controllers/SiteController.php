@@ -13,16 +13,16 @@ use yii\helpers\FileHelper;
  */
 class SiteController extends BaseController
 {
+    //后台iframe框架页
     public function actionIndex()
     {
-
-        $token=ColorHelper::id2token('1');
-
-        $id = ColorHelper::token2id($token);
-
-       // echo $token.'----'.$id;
-
+        $this->layout = 'site';
         return $this->render('index');
+    }
+    //后台首页--展示一些信息
+    public function actionHome()
+    {
+        return $this->render('home');
     }
     //登录页面
     public function actionLogin()

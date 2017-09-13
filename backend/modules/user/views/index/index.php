@@ -18,7 +18,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?= $form->field($model,'username')->lytextInput(['label'=>'登录邮箱','disabled'=>true])?>
 
-        <?= $form->field($model,'nickname')->lytextInput()?>
+        <?= $form->field($model,'nickname')->lytextInput(['lay-verify'=>'required'])?>
 
         <?= $form->field($model,'avatar')->lyfile('文件上传','(600px*600px)')?>
 

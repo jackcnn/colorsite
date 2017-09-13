@@ -46,6 +46,30 @@ class LayField extends Component
         return $html;
     }
 
+    public function lyhidden($options = [])
+    {
+        $opts['class']='layui-input ';
+        if(isset($options['disabled']) && $options['disabled']){
+            $opts['class']='layui-input layui-disabled';
+        }
+        $opts['autocomplete']='off';
+        $opts['placeholder'] = isset($options['placeholder'])?$options['placeholder']:'';
+        if(isset($options['lay-verify'])){
+            $opt['lay-verify'] = $options['lay-verify'];
+        }
+        $loptions['class'] = 'layui-form-label';
+        if(isset($options['label'])){
+            $loptions['label']=$options['label'];
+        }
+        $label = Html::activeLabel($this->model,$this->attribute,$loptions);
+        $html='<div style="display:none;" class="layui-form-item">'.$label.'<div class="layui-input-inline">';
+        $options = array_merge($opts, $options);
+        $html.=Html::activeHiddenInput($this->model, $this->attribute, $options);
+        $tips = isset($options['tips'])?$options['tips']:'';
+        $html.='</div><div class="layui-form-mid layui-word-aux">'.$tips.'</div></div>';
+        return $html;
+    }
+
     public function lypasswordInput($options = [])
     {
         $opts['class']='layui-input';
@@ -132,7 +156,7 @@ class LayField extends Component
         return $html;
     }
 
-    public function lyswitch($text='ON|OFF',$options=[])
+    public function lyswitch($options=[],$text='ON|OFF')
     {
         $loptions['class'] = 'layui-form-label';
         if(isset($options['label'])){
@@ -226,10 +250,14 @@ class LayField extends Component
         return $html;
     }
 
-    public function lyfile($label='',$tips)
+    public function lyfile($label='',$tips='',$file = false)
     {
-        $labeltext=$label?$label:$this->attribute;
-        $label = Html::activeLabel($this->model,$this->attribute,['class'=>'layui-form-label','label'=>$labeltext]);
+        $loptions['class'] = 'layui-form-label';
+        if($label){
+            $loptions['label']=$label;
+        }
+        $label = Html::activeLabel($this->model,$this->attribute,$loptions);
+
         $id = Html::getInputId($this->model,$this->attribute);
         $js = 'onchange="document.getElementById(\''.$id.'span\').innerText=this.value"';
         $html='<div class="layui-form-item">'.$label.'<div class="layui-input-inline">';
@@ -238,9 +266,12 @@ class LayField extends Component
         $html.='</div>';
         $value=Html::getAttributeValue($this->model,$this->attribute);
         if($value){//这里需要配合admin/vendor/layui/layuse.js里的弹框
-            $html.='<div class="layui-btn display-images" data-src="'.$value.'"><i class="layui-icon">&#xe64a;</i><span>预览</span></div>';
+            if($file){
+                $tips = "($value)";
+            }else{//图片上传的显示预览按钮
+                $html.='<div class="layui-btn display-images" data-src="'.$value.'"><i class="layui-icon">&#xe64a;</i><span>预览</span></div>';
+            }
         }
-        $tips = $tips?$tips:'';
         $html.='</div><div class="layui-form-mid layui-word-aux">'.$tips.'</div></div>';
         return $html;
     }
