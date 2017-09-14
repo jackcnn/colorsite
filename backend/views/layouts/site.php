@@ -33,7 +33,14 @@ AppAsset::register($this);
 </div>
 <?php $this->endBody() ?>
 </body>
+<script>
+jQuery(function(){
+jQuery(".layui-logo").click(function () {
+    jQuery(".layui-side").toggle();
+    jQuery(".layui-footer").toggleClass("colorsite-body-left-0");
+    jQuery(".layui-body").toggleClass("colorsite-body-left-0");
+})
+})
+</script>
 </html>
 <?php $this->endPage() ?>
-
-

@@ -27,7 +27,7 @@ AppAsset::register($this);
 
 <div class="layui-layout">
 
-    <div class="layui-body colorsite-body">
+    <div class="layui-body colorsite-body-left-0">
         <div style="float: right;display: block;padding: 15px;">
             <a class="layui-btn layui-btn-mini" href="javascript:history.back(-1);" title="返回" aria-label="返回"><i class="layui-icon">&#xe65c;</i>返回</a>
             <a class="layui-btn layui-btn-mini" href="javascript:location.reload();" title="刷新" aria-label="刷新"><i class="layui-icon">&#x1002;</i>刷新</a>
