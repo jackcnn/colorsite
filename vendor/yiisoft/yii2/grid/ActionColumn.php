@@ -153,7 +153,7 @@ class ActionColumn extends Column
             //'data-method' => 'post',
             'class'=>'layui-btn layui-btn-mini layui-btn-danger colorsite-delete-confirm',
         ]);
-        $this->initDefaultButton('gallery', '&#xe642;',[
+        $this->initDefaultButton('gallery', '&#xe60d;',[
             'class'=>'layui-btn layui-btn-mini'
         ]);
     }

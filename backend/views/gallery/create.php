@@ -2,8 +2,6 @@
 
 use yii\helpers\Html;
 
-
-
 $this->title = '新建图集';
 $this->params['breadcrumbs'][] = ['label' => '图集列表', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;

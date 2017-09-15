@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use backend\widgets\LayForm;
 ?>
 
-<div class="gallery-form">
+<div class="gallery-form layform-block">
 
     <?php $form = LayForm::begin(); ?>
 

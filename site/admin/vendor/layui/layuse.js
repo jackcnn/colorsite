@@ -22,11 +22,7 @@ layui.use('layer', function(){
         e.preventDefault();
         var href = jQuery(this).attr('href');
         layer.confirm('你确定要删除这条记录吗？', {icon: 3, title:'提示'}, function(index){
-            //jQuery.post(href);//使用post防止点击链接直接删除了
-            //layer.close(index);
-
-            virtul_post(href);
-
+            virtul_post(href);//使用post防止点击链接直接删除了
             return;
         });
     })

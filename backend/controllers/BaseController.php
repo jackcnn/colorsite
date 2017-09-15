@@ -12,6 +12,7 @@ class BaseController extends Controller
 {
     public function behaviors()
     {
+        //github-token:1842a92e1eed7f5487d491cc44a2fe0b64f0e381
         return [
             'access' => [
                 'class' => \yii\filters\AccessControl::className(),

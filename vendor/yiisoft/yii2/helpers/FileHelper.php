@@ -6,6 +6,7 @@
  */
 
 namespace yii\helpers;
+use yii\imagine\Image;
 
 /**
  * File system helper
@@ -136,8 +137,10 @@ class FileHelper extends BaseFileHelper
      * $model 为字符串的时候直接用那个名字
      * $files 文件上传
      * $safe 是否上传到非网站根目录
+     * $box 大小的宽*高
+     * $detail返回更详细的信息
      * */
-    public static function upload($model,$attribue='',$size=1,$files = false , $safe = false)
+    public static function upload($model,$attribue='',$box=[0,0],$detail=false,$size=1,$files = false , $safe = false)
     {
         if($model instanceof \yii\db\ActiveRecord){
             $name = \yii\helpers\Html::getInputName($model,$attribue);
@@ -159,7 +162,7 @@ class FileHelper extends BaseFileHelper
             @unlink($remove);
         }
         if($file->size>1024*1024*$size){
-            throw new Exception('上传文件不得大于1M');
+            throw new \Exception('上传文件不得大于1M');
         }
         $allow_ext=['jpg', 'jpeg', 'png','gif'];
         if($files){
@@ -182,7 +185,21 @@ class FileHelper extends BaseFileHelper
                 $path = self::createpath($dirNo,$file->getBaseName().'.'.$file->getExtension());
             }
             $file->saveAs($path['abs']);
-            return $path['path'];
+            $size = $file->size;
+            //生成缩略图
+            if($box[0]>0 && $box[1]>0){
+                Image::thumbnail($path['abs'],$box[0],$box[1])->save($path['abs']);
+                $size=filesize($path['abs']);
+            }
+            if($detail){
+                $res['path'] = $path['path'];
+                $res['size'] = $size;
+                $res['name'] = $file->getBaseName();
+                return $res;
+            }else{
+                return $path['path'];
+            }
+
         }
     }
 

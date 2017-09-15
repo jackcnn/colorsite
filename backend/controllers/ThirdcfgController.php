@@ -31,8 +31,8 @@ class ThirdcfgController extends BaseController
             $model->load($request->post());
             $model->ownerid = $this->ownerid;
             $model->token = $this->token;
-            $model->apiclient_cert = FileHelper::upload($model,'apiclient_cert',1,true,true);
-            $model->apiclient_key = FileHelper::upload($model,'apiclient_key',1,true,true);
+            $model->apiclient_cert = FileHelper::upload($model,'apiclient_cert',[0,0],false,1,true,true);
+            $model->apiclient_key = FileHelper::upload($model,'apiclient_key',[0,0],false,1,true,true);
             if($model->validate() && $model->save()){
                 ColorHelper::alert('微信设置保存成功！');
                 return $this->redirect(['index']);

@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\models\Images;
 use Yii;
 use common\models\Gallery;
 use common\models\search\GallerySearch;
@@ -65,17 +66,66 @@ class GalleryController extends BaseController
                 ColorHelper::err(current($model->getFirstErrors()));
             }
         }
-        $model->loadDefaultValues();
-        $model->time = time();
         return $this->render('update', [
             'model' => $model,
         ]);
     }
 
+    public function actionGallery($id)
+    {
+        $model = $this->findModel($id);
+        $list = Images::find()->where(['markid'=>$id,'table'=>'gallery'])->orderBy('sort asc,id desc')->asArray()->all();
+        return $this->render('gallery',[
+            'model'=>$model,
+            'list' =>$list
+        ]);
+    }
+
+    public function actionDeleteImage($id)
+    {
+        $model = Images::findOne(['id'=>$id]);
+        FileHelper::unlink($model->path);
+        $model->delete();
+        return $this->asJson(['success'=>true]);
+    }
+    public function actionImageName($id,$name)
+    {
+        $model = Images::findOne(['id'=>$id]);
+        $model->name = urldecode($name);
+        $model->save();
+        return $this->asJson(['success'=>true]);
+    }
+
+    public function actionUpload($gallery_id,$width=0,$height=0)
+    {
+        $path = FileHelper::upload('file','',[0,0],true);
+        $model = new Images();
+        $model->name = $path['name'];
+        $model->path = $path['path'];
+        $model->table = 'gallery';
+        $model->markid = $gallery_id;
+        $model->token = $this->token;
+        $model->sort = 0;
+        if($model->validate() && $model->save()){
+            $path['id'] = $model->id;
+            $data['code']=0;
+            $data['msg']='上传成功';
+            $data['data']=$path;
+        }else{
+            $data['code'] = -1;
+            $data['msg'] = current($model->getFirstErrors());
+            $data['data'] = [];
+            FileHelper::unlink($path['path']);
+        }
+        return $this->asJson($data);
+    }
+
+
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $model = $this->findModel($id);
+        FileHelper::unlink($model->logo);
+        $model->delete();
         return $this->redirect(['index']);
     }
 
