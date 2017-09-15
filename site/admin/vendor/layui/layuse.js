@@ -22,8 +22,11 @@ layui.use('layer', function(){
         e.preventDefault();
         var href = jQuery(this).attr('href');
         layer.confirm('你确定要删除这条记录吗？', {icon: 3, title:'提示'}, function(index){
-            jQuery.post(href);//使用post防止点击链接直接删除了
-            layer.close(index);
+            //jQuery.post(href);//使用post防止点击链接直接删除了
+            //layer.close(index);
+
+            virtul_post(href);
+
             return;
         });
     })
@@ -37,6 +40,31 @@ layui.use('layer', function(){
             content: href //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
         });
     })
+
+    /*
+    * 模拟表单post提交
+    * */
+    function virtul_post(URL, PARAMS) {
+        var temp = document.createElement("form");
+        temp.action = URL;
+        temp.method = "post";
+        temp.style.display = "none";
+        for (var x in PARAMS) {
+            var opt = document.createElement("textarea");
+            opt.name = x;
+            opt.value = PARAMS[x];
+            // alert(opt.name)
+            temp.appendChild(opt);
+        }
+        var token = document.createElement("textarea");
+        token.name = jQuery("meta[name=csrf-param]").attr("content");
+        token.value = jQuery("meta[name=csrf-token]").attr("content");
+        temp.appendChild(token);
+        document.body.appendChild(temp);
+        temp.submit();
+        return temp;
+    }
+
 });
 
 

@@ -10,11 +10,14 @@ use yii\base\Widget;
 
 class LayTabs extends Widget
 {
-    public $list=[
+    /*
+     *$list= [
         ['用户管理',['/user/index/create','id'=>1]],
         ['权限分配',['/user/index/index','id'=>2]],
-        ['商品管理',['site/index','id'=>3]]
-    ];
+        ['商品管理',['/site/index','id'=>3]]
+    ]
+     * */
+    public $list=[];
     public $active;
     public function init()
     {
@@ -22,6 +25,10 @@ class LayTabs extends Widget
     }
     public function run()
     {
+        if(!count($this->list)){
+            return '';
+        }
+
         if(!$this->active){
             $active = '/'.\Yii::$app->controller->id.'/'.\Yii::$app->controller->action->id;
             $moduel = \Yii::$app->controller->module->id;

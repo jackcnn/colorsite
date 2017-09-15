@@ -12,7 +12,6 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="user-index">
     <h1 class="layform-h1"><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
     <p>
         <?= Html::a('新建用户', ['create'], ['class' => 'layui-btn']) ?>
         <?= Html::a('点击','javascript:;', ['id'=>'getKeys','class' => 'layui-btn']) ?>

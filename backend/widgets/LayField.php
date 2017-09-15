@@ -221,10 +221,6 @@ class LayField extends Component
         return $html;
     }
 
-    public function lyshow()
-    {
-
-    }
 
     //$filter 事件选择器 form.on('submit(form)')
     public function lybuttons($buttons=['submit','reset','back'],$filter='form')

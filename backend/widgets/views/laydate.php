@@ -13,6 +13,8 @@ switch($options['type']){
         $value = date('H:i:s',$value);break;
     case 'datetime':
         $value = date('Y-m-d H:i:s',$value);break;
+    default:
+        $value = date('Y-m-d',$value);break;
 }
 
 $opts['elem']='#'.$id;

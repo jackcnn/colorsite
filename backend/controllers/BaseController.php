@@ -29,10 +29,12 @@ class BaseController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            'color' => [
+                'class' => \backend\behaviors\ColorBehavior::className(),//初始化了一些东西
+            ],
         ];
     }
-    public static function identity()
-    {
-        return \Yii::$app->user->identity;
-    }
+
+
+
 }

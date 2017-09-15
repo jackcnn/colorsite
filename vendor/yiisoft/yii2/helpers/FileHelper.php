@@ -186,4 +186,14 @@ class FileHelper extends BaseFileHelper
         }
     }
 
+    public static function unlink($link,$safe=false)
+    {
+        if($safe){
+            $remove = \Yii::getAlias('@common') . $link;
+        }else{
+            $remove = \Yii::getAlias('@site') . $link;
+        }
+        @unlink($remove);
+    }
+
 }

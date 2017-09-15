@@ -22,6 +22,9 @@ class SiteController extends BaseController
     //后台首页--展示一些信息
     public function actionHome()
     {
+        echo $this->token.'<br/>';
+        echo $this->ownerid;die;
+
         return $this->render('home');
     }
     //登录页面
@@ -43,7 +46,7 @@ class SiteController extends BaseController
                     throw new \Exception('密码错误！');
                 }
                 //更新token
-                if(!$user->token || ColorHelper::token2id($user->token)!=$user->id){
+                if(!$user->token){
                     $user->token = ColorHelper::id2token($user->id);
                     $user->save();
                 }
@@ -167,12 +170,12 @@ class SiteController extends BaseController
     public function actionConfig()
     {
         $site_model = new \common\models\Site();
-        $model = $site_model::findOne(['userid'=>self::identity()->getId(),'token'=>self::identity()->token]);
+        $model = $site_model::findOne(['ownerid'=>$this->ownerid,'token'=>$this->token]);
         if(!$model){
-            $site_model->userid = self::identity()->getId();
-            $site_model->token = self::identity()->token;
+            $site_model->ownerid = $this->ownerid;
+            $site_model->token = $this->token;
             $site_model->save();
-            $model = $site_model::findOne(['userid'=>self::identity()->getId(),'token'=>self::identity()->token]);
+            $model = $site_model::findOne(['ownerid'=>$this->ownerid,'token'=>$this->token]);
         }
         $request = \Yii::$app->request;
         if($request->isPost){

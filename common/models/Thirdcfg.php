@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "{{%thirdcfg}}".
  *
  * @property integer $id
- * @property integer $userid
+ * @property integer $ownerid
  * @property string $token
  * @property string $type
  * @property string $appid
@@ -39,7 +39,7 @@ class Thirdcfg extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['userid', 'isuse', 'created_at', 'updated_at'], 'integer'],
+            [['ownerid', 'isuse', 'created_at', 'updated_at'], 'integer'],
             [['token'], 'required'],
             [['token', 'type', 'appid', 'mch_number'], 'string', 'max' => 100],
             [['appsecret', 'mch_key', 'apiclient_cert', 'apiclient_key', 'api_token', 'aeskey'], 'string', 'max' => 255],
@@ -53,7 +53,7 @@ class Thirdcfg extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'userid' => 'user表id',
+            'ownerid' => '所属user表一级id',
             'token' => 'user表token',
             'type' => '配置所属，weixin,alipay等',
             'appid' => 'Appid',

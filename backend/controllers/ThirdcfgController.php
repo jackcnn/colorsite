@@ -22,15 +22,15 @@ class ThirdcfgController extends BaseController
 
     public function actionWeixin()
     {
-        $model = Thirdcfg::findOne(['type'=>'weixin','userid'=>\Yii::$app->user->id]);
+        $model = Thirdcfg::findOne(['type'=>'weixin','ownerid'=>$this->ownerid]);
         if(!$model){
             $model = new Thirdcfg();
         }
         $request = \Yii::$app->request;
         if($request->isPost){
             $model->load($request->post());
-            $model->userid = \Yii::$app->user->identity->id;
-            $model->token = \Yii::$app->user->identity->token;
+            $model->ownerid = $this->ownerid;
+            $model->token = $this->token;
             $model->apiclient_cert = FileHelper::upload($model,'apiclient_cert',1,true,true);
             $model->apiclient_key = FileHelper::upload($model,'apiclient_key',1,true,true);
             if($model->validate() && $model->save()){
@@ -40,13 +40,8 @@ class ThirdcfgController extends BaseController
                 ColorHelper::err(current($model->getFirstErrors()));
             }
         }
-
-
-
         return $this->render('weixin',[
             'model'=>$model
         ]);
     }
-
-
 }

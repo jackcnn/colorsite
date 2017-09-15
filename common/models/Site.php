@@ -8,7 +8,7 @@ use Yii;
  * This is the model class for table "{{%site}}".
  *
  * @property integer $id
- * @property integer $userid
+ * @property integer $ownerid
  * @property string $token
  * @property string $name
  * @property string $logo
@@ -34,7 +34,7 @@ class Site extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['userid', 'created_at', 'updated_at'], 'integer'],
+            [['ownerid', 'created_at', 'updated_at'], 'integer'],
             [['token'], 'required'],
             [['keywords', 'description', 'smtp'], 'string'],
             [['token', 'name'], 'string', 'max' => 100],
@@ -49,7 +49,7 @@ class Site extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'userid' => '所属user表id',
+            'ownerid' => '所属user表一级id',
             'token' => '所属user表token',
             'name' => 'site名称',
             'logo' => 'site logo',

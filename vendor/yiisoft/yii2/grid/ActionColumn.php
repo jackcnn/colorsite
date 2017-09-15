@@ -59,7 +59,7 @@ class ActionColumn extends Column
      *
      * @see buttons
      */
-    public $template = '{view}{update} {delete}';
+    public $template = '{update} {delete}';
     /**
      * @var array button rendering callbacks. The array keys are the button names (without curly brackets),
      * and the values are the corresponding button rendering callbacks. The callbacks should use the following
@@ -149,9 +149,12 @@ class ActionColumn extends Column
             'class'=>'layui-btn layui-btn-mini'
         ]);
         $this->initDefaultButton('delete', '&#xe640;', [
-            'data-confirm' => Yii::t('yii', '确定要删除这条信息吗'),
-            'data-method' => 'post',
-            'class'=>'layui-btn layui-btn-mini layui-btn-danger colorsite-delete-confirm'
+            //'data-confirm' => Yii::t('yii', '确定要删除这条信息吗'),
+            //'data-method' => 'post',
+            'class'=>'layui-btn layui-btn-mini layui-btn-danger colorsite-delete-confirm',
+        ]);
+        $this->initDefaultButton('gallery', '&#xe642;',[
+            'class'=>'layui-btn layui-btn-mini'
         ]);
     }
 
@@ -175,6 +178,9 @@ class ActionColumn extends Column
                         break;
                     case 'delete':
                         $title = Yii::t('yii', '删除');
+                        break;
+                    case 'gallery':
+                        $title = Yii::t('yii', '图片管理');
                         break;
                     default:
                         $title = ucfirst($name);

@@ -41,7 +41,10 @@ AppAsset::register($this);
             'itemTemplate' => "{link}\n",
             'activeItemTemplate' => "<a><cite>{link}</cite></a>\n"
         ]) ?>
-
+        <?= backend\widgets\LayTabs::widget([
+                'list'=>isset($this->params['tabs']['list'])?$this->params['tabs']['list'] : [],
+                'active'=>isset($this->params['tabs']['active'])?$this->params['tabs']['active'] : '',
+        ])?>
         <!-- 内容主体区域 -->
         <div class="layui-container" style="width: 100%;">
             <?=$content?>
