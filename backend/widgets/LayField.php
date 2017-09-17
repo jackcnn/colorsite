@@ -193,7 +193,8 @@ class LayField extends Component
         $opts['lay-verify'] = "required";
         $dpoptions = array_merge($opts,$options);
         $dpoptions['label'] = false;
-        $list = array_merge([''=>'请选择'],$list);
+        //$list = array_merge([''=>'请选择'],$list);
+        $list = ArrayHelper::merge([''=>'请选择'],$list);
         $html.= Html::activeDropDownList($this->model,$this->attribute,$list,$dpoptions);
         $tips = isset($options['tips'])?$options['tips']:'';
         $html.='</div><div class="layui-form-mid layui-word-aux">'.$tips.'</div></div>';

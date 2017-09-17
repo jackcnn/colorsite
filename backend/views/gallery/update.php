@@ -12,6 +12,7 @@ $this->params['breadcrumbs'][] = '更新图集';
 
     <?= $this->render('_form', [
         'model' => $model,
+        'list'=>$list
     ]) ?>
 
 </div>

@@ -19,17 +19,11 @@ $this->params['tabs']['list']=backend\models\ShareData::tabslist('gallery');
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
         'columns' => [
-
             'title',
-            'time',
-            // 'source',
-            // 'author',
-            // 'cateid',
-            // 'sort',
-            // 'logo',
-            // 'content:ntext',
-            // 'isopen',
-
+             'source',
+             'author',
+             'category.name',
+             'logo',
             ['class' => 'yii\grid\ActionColumn','template'=>'{update}{gallery}{delete}'],
         ],
     ]); ?>

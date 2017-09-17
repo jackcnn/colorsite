@@ -56,6 +56,7 @@ layui.use(['upload','layer'], function(){
   //文件上传 执行实例
   var uploadInst = upload.render({
     elem: '#upload-images' //绑定元素
+    ,multiple:true
     ,url: '{$url}' //上传接口
     ,done: function(res){
       //上传完毕回调

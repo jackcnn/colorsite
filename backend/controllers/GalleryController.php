@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use common\models\Category;
 use common\models\Images;
 use Yii;
 use common\models\Gallery;
@@ -28,6 +29,11 @@ class GalleryController extends BaseController
     {
         $model = new Gallery();
         $request = \Yii::$app->request;
+        $category_list = Category::find()->where(['table'=>'gallery','token'=>$this->token])->asArray()->all();
+        $list=[];
+        foreach($category_list as $key=>$value){
+            $list[$value['id']]=$value['name'];
+        }
         if($request->isPost){
             $model->load($request->post());
             $model->logo = FileHelper::upload($model,'logo');
@@ -35,23 +41,32 @@ class GalleryController extends BaseController
             $model->token = $this->token;
             $model->time = (string)strtotime($request->post('Gallery')['time']);
             if($model->validate() && $model->save()){
-                ColorHelper::alert('新增成功！');
-                return $this->redirect(['index']);
+                ColorHelper::alert('新增成功,可以继续添加！');
+                \Yii::$app->session->setFlash('gallery_category',$model->cateid);
+                return $this->redirect(['create']);
             }else{
                 ColorHelper::err(current($model->getFirstErrors()));
             }
         }
         $model->loadDefaultValues();
         $model->time = time();
+        if($cateid=\Yii::$app->session->getFlash('gallery_category')){
+            $model->cateid = $cateid;
+        }
         return $this->render('create', [
             'model' => $model,
+            'list'=>$list
         ]);
     }
 
     public function actionUpdate($id)
     {
         $model = $this->findModel($id);
-
+        $category_list = Category::find()->where(['table'=>'gallery','token'=>$this->token])->asArray()->all();
+        $list=[];
+        foreach($category_list as $key=>$value){
+            $list[$value['id']]=$value['name'];
+        }
         $request = \Yii::$app->request;
         if($request->isPost){
             $model->load($request->post());
@@ -68,6 +83,7 @@ class GalleryController extends BaseController
         }
         return $this->render('update', [
             'model' => $model,
+            'list'=>$list
         ]);
     }
 

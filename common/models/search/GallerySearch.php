@@ -45,6 +45,8 @@ class GallerySearch extends Gallery
 
         // add conditions that should always apply here
 
+        $query->joinWith(['category']);
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);

@@ -7,6 +7,6 @@ class SiteController extends BaseController
 {
     public function actionIndex()
     {
-        echo 1231231232;
+        return $this->render('index');
     }
 }

@@ -57,10 +57,10 @@ class Gallery extends \yii\db\ActiveRecord
             'ownerid' => 'Ownerid',
             'token' => 'Token',
             'title' => '标题',
-            'time' => 'Time',
-            'source' => 'Source',
-            'author' => 'Author',
-            'cateid' => '分类id',
+            'time' => '更新时间',
+            'source' => '来源',
+            'author' => '作者',
+            'cateid' => '分类',
             'sort' => '排序',
             'logo' => '封面图',
             'content' => '内容',
@@ -77,5 +77,10 @@ class Gallery extends \yii\db\ActiveRecord
     public static function find()
     {
         return new \common\models\query\GalleryQuery(get_called_class());
+    }
+
+    public function getCategory()
+    {
+        return $this->hasOne(Category::className(),['id'=>'cateid']);
     }
 }

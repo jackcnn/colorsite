@@ -10,13 +10,13 @@ use backend\widgets\LayForm;
 
     <?= $form->field($model, 'title')->lytextInput() ?>
 
-    <?= $form->field($model, 'time')->widget(\backend\widgets\Laydate::className()) ?>
+    <?= $form->field($model, 'time')->widget(\backend\widgets\Laydate::className(),['label'=>'更新日期']) ?>
 
-    <?= $form->field($model, 'source')->lytextInput() ?>
+    <?= $form->field($model, 'source')->lytextInput(['label'=>'来源']) ?>
 
-    <?= $form->field($model, 'author')->lytextInput() ?>
+    <?= $form->field($model, 'author')->lytextInput(['label'=>'作者']) ?>
 
-    <?= $form->field($model, 'cateid')->lytextInput() ?>
+    <?= $form->field($model, 'cateid')->lyselectList($list,['label'=>'分类']) ?>
 
     <?= $form->field($model, 'sort')->lytextInput() ?>
 
