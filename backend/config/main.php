@@ -56,7 +56,7 @@ return [
             ],
         ],
         'errorHandler' => [
-            'errorAction' => 'site/login',
+            'errorAction' => 'site/error',
         ],
         'formatter' => [
             'dateFormat' => 'yyyy-MM-dd',

@@ -22,7 +22,11 @@ $this->params['tabs']['list']=backend\models\ShareData::tabslist('gallery');
             'title',
              'source',
              'author',
-             'category.name',
+             [
+                 'attribute'=>'cateid',
+                 'value'=>'category.name',
+                 'filter'=>['0'=>'no','1'=>'yes']
+             ],
              'logo',
             ['class' => 'yii\grid\ActionColumn','template'=>'{update}{gallery}{delete}'],
         ],

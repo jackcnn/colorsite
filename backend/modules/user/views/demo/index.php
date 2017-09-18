@@ -27,6 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'token',
             [
                 'attribute'=>'is_admin',
+                'value'=>'is_admin',
                 'filter'=>['0'=>'no','1'=>'yes']
             ],
             'username',
