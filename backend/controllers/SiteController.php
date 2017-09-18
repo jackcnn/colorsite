@@ -1,7 +1,9 @@
 <?php
 namespace backend\controllers;
 
+use backend\models\UserAccess;
 use common\models\User;
+use Faker\Provider\Color;
 use Yii;
 use backend\controllers\BaseController;
 use yii\db\Exception;
@@ -17,13 +19,14 @@ class SiteController extends BaseController
     public function actionIndex()
     {
         $this->layout = 'site';
+        if (class_exists('\yii\debug\Module')) {
+            Yii::$app->view->off(\yii\web\View::EVENT_END_BODY, [\yii\debug\Module::getInstance(), 'renderToolbar']);
+        }
         return $this->render('index');
     }
     //后台首页--展示一些信息
     public function actionHome()
     {
-        echo $this->token.'<br/>';
-        echo $this->ownerid;die;
 
         return $this->render('home');
     }
@@ -31,18 +34,18 @@ class SiteController extends BaseController
     public function actionLogin()
     {
         $this->layout = 'page';
-        $model = new User();
+
         if(\Yii::$app->request->isPost){
             $post = \Yii::$app->request->post('User');
             try{
-                $user=$model::findOne(['username'=>$post['username']]);
+                $user=UserAccess::findOne(['username'=>$post['username']]);
                 if(!$user){
                     throw new \Exception('邮箱不存在！');
                 }
                 if($user->is_active<1){
                     throw new \Exception('账号未激活！');
                 }
-                if(!\Yii::$app->security->validatePassword($post['password'],$user->password)){
+                if(!\Yii::$app->getSecurity()->validatePassword($post['password'],$user->password)){
                     throw new \Exception('密码错误！');
                 }
                 //更新token
@@ -50,7 +53,7 @@ class SiteController extends BaseController
                     $user->token = ColorHelper::id2token($user->id);
                     $user->save();
                 }
-                $identity = \backend\models\UserAccess::findIdentity($user->id);
+                $identity = UserAccess::findIdentity($user->id);
                 if(isset($post['token']) && current($post['token'])){
                     if($user->parent_id<1){
                         $cookie_time=3600*24*7;
@@ -69,9 +72,13 @@ class SiteController extends BaseController
                 }
             }catch (\Exception $e){
                 \Yii::$app->session->setFlash("RegisterMsg",$e->getMessage());
+                $model = new User();
                 $model->username = $post['username'];
             }
+        }else{
+            $model = new User();
         }
+
         return $this->render('login',[
             'model'=>$model
         ]);
@@ -158,7 +165,7 @@ class SiteController extends BaseController
     public function actionLogout()
     {
         if(\Yii::$app->user->logout()){
-            return $this->redirect(['/site/index']);
+            return $this->redirect(['/site/login']);
         }else{
             die('退出登陆失败');
         }

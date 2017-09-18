@@ -19,20 +19,27 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-backend',
-            'csrfCookie' => ['httpOnly' => true, 'path' => '/admin'],
+            'csrfCookie' => [
+                'httpOnly' => true,
+                'path' => '/admin'
+            ],
         ],
         'user' => [
             'identityClass' => 'backend\models\UserAccess',
             'enableAutoLogin' => true,
-            'identityCookie' => ['name' => '_backendIdentity', 'path' => '/admin', 'httpOnly' => true],
+            'identityCookie' => [
+                'name' => '_backendIdentity',
+                'path' => '/admin',
+                'httpOnly' => true
+            ],
             'loginUrl'=>['/site/login'],
         ],
         'session' => [
             // this is the name of the session cookie used for login on the backend
             'name' => 'advanced-backend',
-//            'cookieParams' => [
-//                'path' => '/admin',
-//            ],
+            'cookieParams' => [
+                'path' => '/admin',
+            ],
         ],
         'log' => [
             'traceLevel' => YII_DEBUG ? 3 : 0,
@@ -49,7 +56,7 @@ return [
             ],
         ],
         'errorHandler' => [
-            'errorAction' => 'site/error',
+            'errorAction' => 'site/login',
         ],
         'formatter' => [
             'dateFormat' => 'yyyy-MM-dd',

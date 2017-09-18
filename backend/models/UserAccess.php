@@ -63,5 +63,4 @@ class UserAccess extends \common\models\User implements IdentityInterface
     }
 
 
-
 }

@@ -39,7 +39,7 @@ class User extends \yii\db\ActiveRecord
     {
         return [
             [['parent_id', 'is_admin', 'is_active', 'expire', 'created_at', 'updated_at'], 'integer'],
-            [['token', 'username', 'password'], 'required'],
+            //[['token', 'username', 'password'], 'required'],
             [['token', 'username', 'password', 'nickname', 'avatar', 'auth_key', 'access_token'], 'string', 'max' => 100],
             [['token'], 'unique'],
         ];

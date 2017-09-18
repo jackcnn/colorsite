@@ -146,9 +146,9 @@ class LayField extends Component
             $opts['lay-skin'] ='primary';
             $opts['value'] = $key;
             $opts['title'] = $value;
-            $ckoptions = array_merge($opts,$options);
+            $ckoptions = ArrayHelper::merge($opts,$options);
             $ckoptions['label'] = false;//不要生成label
-            $ckoptions['name'] = Html::getInputName($this->model,$this->attribute)."[]";
+            $ckoptions['name'] = Html::getInputName($this->model,$this->attribute)."[".$key."]";
             $html.= Html::activeCheckbox($this->model,$this->attribute,$ckoptions);
         }
         $tips = isset($options['tips'])?$options['tips']:'';
