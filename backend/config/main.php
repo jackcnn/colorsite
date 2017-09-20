@@ -15,6 +15,12 @@ return [
         'user' => [
             'class' => 'backend\modules\user\UserModule',
         ],
+        'gallery' => [
+            'class' => 'backend\modules\gallery\GalleryModule',
+        ],
+        'restaurant' => [
+            'class' => 'backend\modules\restaurant\RestaurantModule',
+        ],
     ],
     'components' => [
         'request' => [

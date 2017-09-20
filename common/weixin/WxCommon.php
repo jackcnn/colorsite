@@ -9,53 +9,43 @@
 namespace common\weixin;
 
 use yii\helpers\CurlHelper;
+use common\models\Thirdcfg;
+use yii\web\HttpException;
 
 class WxCommon {
 
     const wx_access_token='https://api.weixin.qq.com/cgi-bin/token';
 
-    public static function accessToken($wid=1,$getinfo=false){
-
-        $access_token=\Yii::$app->cache->get('wx_access_token_'.$wid);
-
-        if(!$access_token){
-            $model=Web::findOne($wid);
-
+    public static function getconfig($owid,$token='')
+    {
+        return Thirdcfg::find()->where(['ownerid'=>$owid,'type'=>'weixin'])->asArray()->one();
+    }
+    /*
+     * 所有的accessToken都必须使用这个函数获取
+     * */
+    public static function accessToken($owid=1)
+    {
+        $cache = \Yii::$app->cache;
+        $accessToken = $cache->get("wxAccessToken".$owid);
+        if(!$accessToken){
+            $config = self::getconfig($owid);
             $parame['grant_type']='client_credential';
-
-            if($model->wx_use){
-                $parame['appid']=$model->wx_appid;
-                $parame['secret']=$model->wx_appsecret;
+            if($config['isuse']>0){
+                $parame['appid']=$config['appid'];
+                $parame['secret']=$config['appsecret'];
             }else{
-                $newmodel=Web::findOne(ADMIN_WID);
-
-                $parame['appid']=$newmodel->wx_appid;
-                $parame['secret']=$newmodel->wx_appsecret;
+                $new_config=self::getconfig(ADMIN_OWID);
+                $parame['appid']=$new_config['appid'];
+                $parame['secret']=$new_config['appsecret'];
             }
             $return=CurlHelper::callWebServer(self::wx_access_token,$parame);
-
-            \Yii::$app->cache->set('wx_access_token_'.$wid,$return['access_token'],intval($return['expires_in']-200));
-            \Yii::$app->cache->set('wx_appid_'.$wid,$parame['appid']);
-            \Yii::$app->cache->set('wx_appsecret_'.$wid,$parame['secret']);
-            //return $return['access_token'];
-            $access_token=$return['access_token'];
-            $appid= $parame['appid'];
-            $appsecret =$parame['secret'];
-
-        }else{
-
-            if($getinfo){
-                $appid= \Yii::$app->cache->get('wx_appid_'.$wid);
-                $appsecret =\Yii::$app->cache->get('wx_appsecret_'.$wid);
+            if($return['access_token'] && $return['expires_in']){
+                $cache->set('wxAccessToken'.$owid,$return['access_token'],intval($return['expires_in']-200));
             }else{
-                $appid= '';
-                $appsecret ='';
+                throw new HttpException('access token 获取失败！');
             }
         }
-        $appinfo['access_token']=$access_token;
-        $appinfo['appid']=$appid;
-        $appinfo['appid']=$appid;
-        return $getinfo?$appinfo:$access_token;
+        return $accessToken;
     }
 
     public static function createSign($data,$mch_key){

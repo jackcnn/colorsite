@@ -19,7 +19,7 @@ class ShareData
                 ['label'=>'订单管理','router'=>['/goods/orders']]
             ]],
             ['label'=>'功能','list'=>[
-                ['label'=>'图集打赏','router'=>['/gallery/index']],
+                ['label'=>'图集打赏','router'=>['/gallery/index/index']],
                 ['label'=>'大转盘','router'=>['/user/index/pay']]
             ]],
             ['label'=>'用户资料','router'=>['/user/index/index']]
@@ -32,9 +32,9 @@ class ShareData
     public static function tabslist($key)
     {
         $data['gallery']=[
-            ['图集列表',['/gallery/index']],
-            ['图集分类',['/gallery-cate/index']],
-            ['打赏记录',['/gallery/orders']]
+            ['图集列表',['/gallery/index/index']],
+            ['图集分类',['/gallery/category/index']],
+            ['打赏记录',['/gallery/orders/index']]
         ];
         return $data[$key];
     }

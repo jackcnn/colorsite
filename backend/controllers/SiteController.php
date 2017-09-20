@@ -19,7 +19,7 @@ class SiteController extends BaseController
     public function actionIndex()
     {
         $this->layout = 'site';
-        if (class_exists('\yii\debug\Module')) {
+        if (class_exists('\yii\debug\Module')) {//不显示debugToolbar
             Yii::$app->view->off(\yii\web\View::EVENT_END_BODY, [\yii\debug\Module::getInstance(), 'renderToolbar']);
         }
         return $this->render('index');
@@ -27,7 +27,6 @@ class SiteController extends BaseController
     //后台首页--展示一些信息
     public function actionHome()
     {
-
         return $this->render('home');
     }
     //登录页面
@@ -90,7 +89,6 @@ class SiteController extends BaseController
         $model = new User();
         if(\Yii::$app->request->isPost){
             $post = \Yii::$app->request->post('User');
-
             try{
                 $count=$model::find()->where(['username'=>$post['username']])->count();
                 if($count>0){

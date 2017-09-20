@@ -74,15 +74,13 @@ class DecryptHelper extends WxCommon
         return $return;
     }
 
+    /*
+     * 退款回调通知解密-- 还没有做好的
+     * */
     public static function refund_notify_decrypt($encryptedData,$aesKey)
     {
         $encryptedData = trim($encryptedData);
         $aesKey = trim($aesKey);
-
-        UHelper::dump([
-            'data'=>$encryptedData,
-            'key'=>$aesKey
-        ]);
 
         $return['success'] = true;
         try{
