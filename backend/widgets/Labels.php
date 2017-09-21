@@ -13,6 +13,9 @@ class Labels extends Widget
     public $model;
     public $attribute;
     public $options=[];
+    public $defaults=[
+        '不要葱','不要香菜','少油','不辣','辣','加辣'
+    ];//可供选择的标签
     public $label='';
     public $tips ='';
 
@@ -25,9 +28,10 @@ class Labels extends Widget
         return $this->render('labels',[
             'model'=>$this->model,
             'attribute'=>$this->attribute,
-            'options'=>array_merge($this->options,['type'=>'date']),
+            'options'=>$this->options,
             'label'=>$this->label?$this->label:$this->attribute,
-            'tips'=>$this->tips
+            'tips'=>$this->tips,
+            'defaults'=>$this->defaults
         ]);
     }
 }

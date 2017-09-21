@@ -4,35 +4,33 @@
  * Time: 10:47
  */
 use yii\helpers\Html;
+backend\assets\TagEditorAsset::register($this);
 $id = Html::getInputId($model,$attribute);
 $value = Html::getAttributeValue($model,$attribute);
-switch($options['type']){
-    case 'date':
-        $value = date('Y-m-d',$value);break;
-    case 'time':
-        $value = date('H:i:s',$value);break;
-    case 'datetime':
-        $value = date('Y-m-d H:i:s',$value);break;
-    default:
-        $value = date('Y-m-d',$value);break;
-}
-
-$opts['elem']='#'.$id;
-$config = json_encode(array_merge($opts,$options));
-
+$tags = explode(',',$value);
+$tagsStr = "'".implode("','",$tags)."'";
 ?>
 <div class="layui-form-item">
     <?= Html::activeLabel($model,$attribute,['class'=>'layui-form-label','label'=>$label]) ?>
     <div class="layui-input-inline">
-        <input type="text" value="<?= $value?>" name="<?= Html::getInputName($model,$attribute)?>" id="<?= $id?>" lay-verify="date" placeholder="" autocomplete="off" class="layui-input">
+        <input type="text" value="<?= $value?>" name="<?= Html::getInputName($model,$attribute)?>" id="<?= $id?>"  class="layui-input">
     </div>
     <div class="layui-form-mid layui-word-aux"><?=$tips?></div>
 </div>
+<div class="layui-form-item">
+    <?= Html::activeLabel($model,$attribute,['class'=>'layui-form-label','label'=>'(常用标签)']) ?>
+    <div class="layui-input-inline">
+        <?php foreach($defaults as $k=>$v){?>
+            <span onclick="jQuery('#<?=$id?>').tagEditor('addTag', '<?=$v?>');" class="layui-btn layui-btn-small" style="margin: 5px 5px 5px 0px;"><?=$v?></span>
+        <?php }?>
+    </div>
+    <div class="layui-form-mid layui-word-aux">点击添加标签，最多10个，也可写入按ENTER键添加</div>
+</div>
 <?php
 $js = <<<JS
-layui.use('laydate', function(){
-    var laydate = layui.laydate;
-    laydate.render({$config});
+jQuery("#{$id}").tagEditor({
+    initialTags: [{$tagsStr}],
+    maxTags:10
 });
 JS;
 $this->registerJS($js);
