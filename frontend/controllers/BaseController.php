@@ -9,8 +9,14 @@ use Yii;
 use yii\web\Controller;
 class BaseController extends Controller
 {
-    public function actionIndex()
+    public function behaviors()
     {
-        echo 1231231232;
+        return [
+            'color' => [
+                'class' => \frontend\behaviors\ColorBehavior::className(),//初始化了一些东西
+            ],
+        ];
     }
+
+
 }

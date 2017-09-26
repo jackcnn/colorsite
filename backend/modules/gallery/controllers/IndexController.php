@@ -103,7 +103,7 @@ class IndexController extends BaseController
 
     public function actionUpload($gallery_id,$width=0,$height=0)
     {
-        $path = FileHelper::upload('file','',[0,0],true);
+        $path = FileHelper::upload('file','',[$width,$height],true);
         $model = new Images();
         $model->name = $path['name'];
         $model->path = $path['path'];
