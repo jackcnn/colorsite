@@ -16,6 +16,7 @@ wx.config({
     signature: "{$data['signature']}",
     jsApiList: [
         'onMenuShareTimeline',
+        'onMenuShareAppMessage',
         'chooseWXPay',
     ]
 });
