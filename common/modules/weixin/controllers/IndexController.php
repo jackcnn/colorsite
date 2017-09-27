@@ -28,7 +28,7 @@ class IndexController extends Controller
          * */
         if($request->get('signature') && $request->get('timestamp') && $request->get('nonce') && $request->get('echostr')){
 
-            if(WeixinHelper::checkSignature($request->get('wid'))){
+            if(WeixinHelper::checkSignature($request->get('owid'))){
                 die($request->get('echostr'));
             }else{
                 die(false);
