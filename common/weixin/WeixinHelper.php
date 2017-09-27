@@ -240,7 +240,7 @@ class WeixinHelper extends WxCommon
         $signature = $request->get('signature');
         $timestamp = $request->get('timestamp');
         $nonce = $request->get('nonce');
-        $token = $model->api_token;
+        $token = $model['api_token'];
         $tmpArr = array($token, $timestamp, $nonce);
         sort($tmpArr, SORT_STRING);
         $tmpStr = implode( $tmpArr );
