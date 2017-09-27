@@ -26,7 +26,7 @@ AppAsset::register($this);
 <div class="layui-layout layui-layout-admin">
     <?=HeaderWidget::widget()?>
     <?=NavWidget::widget()?>
-    <div class="layui-body">
+    <div class="layui-body" style="overflow:hidden;">
         <iframe  src="<?=\yii\helpers\Url::to(['/site/home'])?>" id="colorsit-iframe" name="colorsit-iframe" width="100%" height="100%" frameborder="0"></iframe>
     </div>
     <?=FooterWidget::widget()?>

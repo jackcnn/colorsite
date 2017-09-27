@@ -4,17 +4,15 @@
  * Time: 19:44
  */
 
-\yii\helpers\ColorHelper::dump($this->params);
-
-
 ?>
 <style>
 .card-container{
     display: block;
     background-color: #FFFFFF;
-    width:94%;
-    margin:5px 3% 35px 3%;
+    width:45%;
+    margin:5px 2.5% 35px 2.5%;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,.12),0 0 6px 0 rgba(0,0,0,.04);
+    float: left;
 }
 .card-box{
     width:100%;
@@ -50,18 +48,4 @@ body{
 
 
 <?= yii\widgets\LinkPager::widget(['pagination'=>$pagination])?>
-
-
-<?php
-
-$js=<<<JS
-
-$(".weui-btn").click(function() {
-  $.alert(1);
-})
-
-JS;
-
-$this->registerJS($js);
-
-?>
+<?= frontend\widgets\Jweixin::widget(['token'=>$this->params['token']])?>

@@ -16,7 +16,7 @@ class ShareData
             ['label'=>'商城模块','list'=>[
                 ['label'=>'优惠买单','router'=>['/preferentialpay/index']],
                 ['label'=>'商品管理','router'=>['/goods/list']],
-                ['label'=>'订单管理','router'=>['/goods/orders']]
+                ['label'=>'订单管理','router'=>['/goods/orders']],
             ]],
             ['label'=>'功能','list'=>[
                 ['label'=>'图集打赏','router'=>['/gallery/index/index']],
