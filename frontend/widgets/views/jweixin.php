@@ -9,7 +9,7 @@ $this->registerJsFile("https://res.wx.qq.com/open/js/jweixin-1.2.0.js");
 $js = <<<JS
 
 wx.config({
-    debug: false,
+    debug: true,
     appId: "{$data['appId']}",
     timestamp: "{$data['timestamp']}",
     nonceStr: "{$data['nonceStr']}",
@@ -19,6 +19,19 @@ wx.config({
         'chooseWXPay',
     ]
 });
+
+wx.onMenuShareTimeline({
+    title: '自定义分享',
+    link: location.href,
+    imgUrl: 'https://326108993.com/uploads/00039/201709/57bddbc0f4987815c5ad93d4c3ed722b.jpg',
+    success: function () { 
+       
+    },
+    cancel: function () { 
+        
+    }
+});
+
 
 JS;
 
