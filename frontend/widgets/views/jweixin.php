@@ -20,7 +20,6 @@ wx.config({
     ]
 });
 
-
-
-
 JS;
+
+$this->registerJS($js);
