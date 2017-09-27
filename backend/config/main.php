@@ -21,6 +21,9 @@ return [
         'restaurant' => [
             'class' => 'backend\modules\restaurant\RestaurantModule',
         ],
+        'joke' => [
+            'class' => 'backend\modules\joke\JokeModule',
+        ],
     ],
     'components' => [
         'request' => [

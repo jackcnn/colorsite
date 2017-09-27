@@ -18,12 +18,12 @@ class ColorBehavior extends Behavior
     {
         return [Controller::EVENT_BEFORE_ACTION => 'beforeAction'];
     }
+
     public function beforeAction($event)
     {
-        $token = \Yii::$app->request->get("cstoken");
+        $token = \Yii::$app->request->get("token");
         \Yii::$app->view->params['token'] = $token;
         return true;
     }
-
 
 }

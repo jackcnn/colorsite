@@ -5,6 +5,7 @@
  */
 namespace frontend\controllers;
 
+use common\models\Images;
 use frontend\controllers\BaseController;
 use yii\data\Pagination;
 
@@ -27,6 +28,7 @@ class GalleryController extends BaseController
 
         $gallerys = $query->offset($pagination->offset)
             ->limit($pagination->limit)
+            ->orderBy("sort,id DESC")
             ->asArray()->all();
 
         return $this->render('index',[
@@ -37,10 +39,24 @@ class GalleryController extends BaseController
 
     public function actionDetail($token,$id)
     {
-        $data = Gallery::findOne(['id'=>$id,'token'=>$token]);
+        $data['now'] = Gallery::findOne(['id'=>$id,'token'=>$token]);
 
+        $data['next'] = Gallery::find()->where(['token'=>$token])
+            ->andWhere(['>','id',intval($id)])
+            ->orderBy("sort,id DESC")->one();
 
-        return $this->render('detail',['data'=>$data]);
+        $data['prev'] = Gallery::find()->where(['token'=>$token])
+            ->andWhere(['<','id',intval($id)])
+            ->orderBy("sort,id DESC")->one();
+
+        $list = Images::find()->where(['token'=>$token,'markid'=>$id,'table'=>'gallery'])
+            ->orderBy("sort,id DESC")
+            ->asArray()->all();
+
+        return $this->render('detail',[
+            'data'=>$data,
+            'list'=>$list
+        ]);
 
     }
 

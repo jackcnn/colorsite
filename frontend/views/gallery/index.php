@@ -1,10 +1,12 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Administrator
  * Date: 2017/9/16 0016
  * Time: 19:44
  */
+
+\yii\helpers\ColorHelper::dump($this->params);
+
+
 ?>
 <style>
 .card-container{
@@ -39,7 +41,9 @@ body{
     <div class="card-container">
         <div class="card-box">
             <div class="card-title"><?=$value['title']?></div>
-            <a href="<?=\yii\helpers\Url::to(['gallery/detail','id'=>$value['id'],'token'=>$this->params['token']])?>"><img class="card-img" src="<?=$value['logo']?>" /></a>
+            <a href="<?=\yii\helpers\Url::to(['gallery/detail','id'=>$value['id'],'token'=>$this->params['token']])?>">
+                <img class="card-img" src="<?=$value['logo']?>" />
+            </a>
         </div>
     </div>
 <?php }?>
