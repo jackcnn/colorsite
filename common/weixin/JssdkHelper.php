@@ -61,8 +61,8 @@ class JssdkHelper extends WxCommon
     private static function getJsApiTicket($owid)
     {
         $cache=\Yii::$app->cache;
-        //$api_ticket=$cache->get('wx_js_api_ticket_'.$owid)
-        if(0){
+
+        if($api_ticket=$cache->get('wx_js_api_ticket_'.$owid)){
 
             return $api_ticket;
 
@@ -71,11 +71,13 @@ class JssdkHelper extends WxCommon
 
             $ticket = CurlHelper::callWebServer(self::wx_get_jsapi_ticket.$accessToken);
 
-            ColorHelper::dump($ticket);die;
+            if(isset($ticket['ticket'])){
+                $cache->set('wx_js_api_ticket_'.$owid,$ticket['ticket'],7000);
+                return $ticket['ticket'];
+            }else{
+                return '';
+            }
 
-            $cache->set('wx_js_api_ticket_'.$owid,$ticket['ticket'],7000);
-
-            return $ticket['ticket'];
         }
     }
 
