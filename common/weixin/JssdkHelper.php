@@ -61,8 +61,8 @@ class JssdkHelper extends WxCommon
     private static function getJsApiTicket($owid)
     {
         $cache=\Yii::$app->cache;
-
-        if($api_ticket=$cache->get('wx_js_api_ticket_'.$owid)){
+        //$api_ticket=$cache->get('wx_js_api_ticket_'.$owid)
+        if(0){
 
             return $api_ticket;
 
