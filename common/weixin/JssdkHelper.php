@@ -7,6 +7,7 @@
 namespace common\weixin;
 
 use common\weixin\WxCommon;
+use yii\helpers\ColorHelper;
 use yii\helpers\CurlHelper;
 
 class JssdkHelper extends WxCommon
@@ -69,6 +70,8 @@ class JssdkHelper extends WxCommon
             $accessToken= self::accessToken($owid);
 
             $ticket = CurlHelper::callWebServer(self::wx_get_jsapi_ticket.$accessToken);
+
+            ColorHelper::dump($ticket);die;
 
             $cache->set('wx_js_api_ticket_'.$owid,$ticket['ticket'],7000);
 
