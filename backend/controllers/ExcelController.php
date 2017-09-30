@@ -12,19 +12,32 @@ class ExcelController extends BaseController
     public function actionExcel()
     {
         $db = new \yii\db\Connection([
-            'dsn' => 'mysql:host=localhost;dbname=apivblcc',
-            'username' => 'root',
-            'password' => 'root',
+            'dsn' => 'mysql:host=118.190.74.225;dbname=smgweiyixiao_live',
+            'username' => 'smghoutai_live',
+            'password' => 'LJYFGHysBOuw',
             'charset' => 'utf8',
+            'tablePrefix' => 'pigcms_',
         ]);
 
-        $data=$db->createCommand("SELECT `openid`,`name`,`tel`,`ctime` FROM doc_hlbm WHERE `name`<>'' and `openid`<>'' and `tel`<>'' ORDER BY `id` DESC")
-            ->queryAll();
+        $meta_data = (new \yii\db\Query())
+            ->from("{{%preferentialpay_orders}}")
+            ->where(['>','pay_time',0])
+            ->orderBy("create_time DESC")
+            ->select("token,ordersn,openid,pay_amount,wxname")
+            ->all($db);
 
-        $title=['openid字符串','姓名','电话','参与时间'];
+        $data = [];
+        foreach($meta_data as $key=>$value){
+            $data[$key]['token'] = $value['token'];
+            $data[$key]['ordersn'] = $value['ordersn'];
+            $data[$key]['openid'] = $value['openid'];
+            $data[$key]['pay_amount'] = ($value['pay_amount']/100)."元";
+            $data[$key]['wxname'] = urldecode($value['wxname']);
+        }
 
+        $title=['token','ordersn','openid','pay_amount','wxname'];
         UHelper::phpexcelSetCache($title,$data,'phpexceltest');
-        echo "<script>window.open('".\yii\helpers\Url::to(['/index/downloadexcel','cacheName'=>'phpexceltest'])."')</script>";
+        UHelper::downloadExcel('phpexceltest');
     }
 
 

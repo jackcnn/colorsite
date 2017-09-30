@@ -47,6 +47,8 @@ class GallerySearch extends Gallery
 
         $query->joinWith(['category']);
 
+        $query->orderBy("created_at DESC");
+
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
         ]);

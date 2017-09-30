@@ -16,14 +16,14 @@ class WxCommon {
 
     const wx_access_token='https://api.weixin.qq.com/cgi-bin/token';
 
-    public static function getconfig($owid,$token='')
+    public static function getconfig($owid)
     {
         return Thirdcfg::find()->where(['ownerid'=>$owid,'type'=>'weixin'])->asArray()->one();
     }
     /*
      * 所有的accessToken都必须使用这个函数获取
      * */
-    public static function accessToken($owid=1)
+    public static function accessToken($owid=ADMIN_OWID)
     {
         $cache = \Yii::$app->cache;
         $accessToken = $cache->get("wxAccessToken".$owid);
@@ -44,11 +44,13 @@ class WxCommon {
             }else{
                 throw new HttpException('access token 获取失败！');
             }
+            $accessToken = $return['access_token'];
         }
         return $accessToken;
     }
 
-    public static function createSign($data,$mch_key){
+    public static function createSign($data,$mch_key)
+    {
         //签名步骤一：按字典序排序参数
         ksort($data);
 
