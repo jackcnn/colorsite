@@ -118,10 +118,9 @@ class SiteController extends BaseController
                     $mail->setTo($model->username);
                     $mail->setSubject("colorsite注册邮箱认证");
                     $mail->setHtmlBody($sendcontent);
-                    $dd=$mail->send();
-                    var_dump($dd);
+                    $mail->send();
                     \Yii::$app->session->setFlash("RegisterMsg","我们已发送认证邮件到您的邮箱，请及时查看");
-                    //return $this->redirect(['site/login']);
+                    return $this->redirect(['site/login']);
                 }else{
                     \Yii::$app->session->setFlash("RegisterMsg",current($model->getFirstErrors()));
                 }
