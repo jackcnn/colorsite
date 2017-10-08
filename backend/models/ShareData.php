@@ -13,10 +13,10 @@ class ShareData
     public static function navlist()
     {
         $list = [
-            ['label'=>'商城模块','list'=>[
-                ['label'=>'优惠买单','router'=>['/preferentialpay/index']],
-                ['label'=>'商品管理','router'=>['/goods/list']],
-                ['label'=>'订单管理','router'=>['/goods/orders']],
+            ['label'=>'点餐系统','list'=>[
+                ['label'=>'订单管理','router'=>['/restaurant/order/index']],
+                ['label'=>'菜品管理','router'=>['/restaurant/dishes/index']],
+                ['label'=>'店铺管理','router'=>['/restaurant/stores']],
             ]],
             ['label'=>'功能','list'=>[
                 ['label'=>'图集打赏','router'=>['/gallery/index/index']],
@@ -36,6 +36,16 @@ class ShareData
             ['图集分类',['/gallery/category/index']],
             ['打赏记录',['/gallery/orders/index']]
         ];
+
+        $data['restaurant']=[
+            //['订单列表',['/restaurant/index/index']],
+            ['菜品列表',['/restaurant/dishes/index']],
+            ['菜品分类',['/restaurant/category/index']],
+            ['规格管理',['/restaurant/dishspec/index']],
+        ];
+
+
+
         return $data[$key];
     }
 }

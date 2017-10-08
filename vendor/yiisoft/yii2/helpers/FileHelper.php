@@ -150,8 +150,8 @@ class FileHelper extends BaseFileHelper
             $orignal_value = '';
         }
         $file = \yii\web\UploadedFile::getInstanceByName($name);
-
         if(!$file){
+
             return $orignal_value;
         }else{//有上传文件，要把原来的删除了
             if($safe){
@@ -184,6 +184,7 @@ class FileHelper extends BaseFileHelper
             }else{
                 $path = self::createpath($dirNo,$file->getBaseName().'.'.$file->getExtension());
             }
+
             $file->saveAs($path['abs']);
             $size = $file->size;
             //生成缩略图

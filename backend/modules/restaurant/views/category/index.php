@@ -2,17 +2,17 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
-$this->title = '图集分类';
+$this->title = '菜品分类';
 
-$this->params['breadcrumbs'][] = ['label'=>'图集打赏','url'=>['/gallery/index']];
+$this->params['breadcrumbs'][] = ['label'=>'菜品管理','url'=>['/restaurant/index']];
 $this->params['breadcrumbs'][] = $this->title;
-$this->params['tabs']['list']=backend\models\ShareData::tabslist('gallery');
+$this->params['tabs']['list']=backend\models\ShareData::tabslist('restaurant');
 ?>
 <div class="category-index">
 
     <h1 class="layform-h1"><?= Html::encode($this->title) ?></h1>
     <p>
-        <?= Html::a('新增分类', ['/gallery/category/create'],['class' => 'layui-btn']) ?>
+        <?= Html::a('新增分类', ['/restaurant/category/create'],['class' => 'layui-btn']) ?>
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,

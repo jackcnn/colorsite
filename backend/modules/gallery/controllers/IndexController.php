@@ -17,6 +17,7 @@ class IndexController extends BaseController
     {
         $searchModel = new GallerySearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
         return $this->render('index', [
             'searchModel' => $searchModel,
             'dataProvider' => $dataProvider,

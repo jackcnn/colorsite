@@ -18,13 +18,13 @@ $tagsStr = "'".implode("','",$tags)."'";
     <div class="layui-form-mid layui-word-aux"><?=$tips?></div>
 </div>
 <div class="layui-form-item">
-    <?= Html::activeLabel($model,$attribute,['class'=>'layui-form-label','label'=>'(常用标签)']) ?>
+    <?= Html::activeLabel($model,$attribute,['class'=>'layui-form-label','label'=>'(常用)']) ?>
     <div class="layui-input-inline">
         <?php foreach($defaults as $k=>$v){?>
             <span onclick="jQuery('#<?=$id?>').tagEditor('addTag', '<?=$v?>');" class="layui-btn layui-btn-small" style="margin: 5px 5px 5px 0px;"><?=$v?></span>
         <?php }?>
     </div>
-    <div class="layui-form-mid layui-word-aux">点击添加标签，最多10个，也可写入按ENTER键添加</div>
+    <div class="layui-form-mid layui-word-aux">点击添加，最多10个，也可写入按ENTER键添加</div>
 </div>
 <?php
 $js = <<<JS

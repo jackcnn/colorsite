@@ -1,6 +1,6 @@
 <?php
 
-namespace backend\modules\gallery\controllers;
+namespace backend\modules\restaurant\controllers;
 
 use Yii;
 use common\models\Category;
@@ -17,8 +17,9 @@ class CategoryController extends BaseController
     {
         $searchModel = new CategorySearch();
         $params = Yii::$app->request->queryParams;
-        $params['CategorySearch']['table'] = 'gallery';
+        $params['CategorySearch']['table'] = 'restaurant';
         $params['CategorySearch']['ownerid'] = $this->ownerid;
+
         $dataProvider = $searchModel->search($params);
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -36,7 +37,7 @@ class CategoryController extends BaseController
             $model->slogo = FileHelper::upload($model,'slogo');
             $model->ownerid = $this->ownerid;
             $model->token = $this->token;
-            $model->table = 'gallery';
+            $model->table = 'restaurant';
             if($model->validate() && $model->save()){
                 ColorHelper::alert('新增分类成功！');
                 return $this->redirect(['index']);
@@ -60,7 +61,7 @@ class CategoryController extends BaseController
             $model->load($request->post());
             $model->logo = FileHelper::upload($model,'logo');
             $model->slogo = FileHelper::upload($model,'slogo');
-            $model->table = 'gallery';
+            $model->table = 'restaurant';
             if($model->validate() && $model->save()){
                 ColorHelper::alert('修改分类'.$model->name.'成功！');
                 return $this->redirect(['index']);

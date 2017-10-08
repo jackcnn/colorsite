@@ -1,12 +1,10 @@
-<div class="restaurant-default-index">
-    <h1><?= $this->context->action->uniqueId ?></h1>
-    <p>
-        This is the view content for action "<?= $this->context->action->id ?>".
-        The action belongs to the controller "<?= get_class($this->context) ?>"
-        in the "<?= $this->context->module->id ?>" module.
-    </p>
-    <p>
-        You may customize this page by editing the following file:<br>
-        <code><?= __FILE__ ?></code>
-    </p>
-</div>
+<?php
+
+use yii\helpers\Html;
+use yii\grid\GridView;
+$this->title = '订单列表';
+
+$this->params['breadcrumbs'][] = ['label'=>'点餐系统','url'=>['/restaurant/index']];
+$this->params['breadcrumbs'][] = $this->title;
+$this->params['tabs']['list']=backend\models\ShareData::tabslist('restaurant');
+?>
