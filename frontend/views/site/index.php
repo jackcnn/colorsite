@@ -10,6 +10,7 @@
     <meta charset="utf-8">
     <title>sell</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
+    <script src="/assets/jquery.js"></script>
     <link rel="stylesheet" type="text/css" href="/assets/reset.css">
     <link href="/assets/css.css" rel="stylesheet">
 </head>
@@ -31,7 +32,7 @@
                 <div class="menu">
                     <ul class="menu_box">
                         <?php foreach($category as $key=>$value){?>
-                            <li class="menu_item">
+                            <li class="menu_item" data-id="<?=$value['id']?>">
                                 <span class="text"><?=$value['name']?></span>
                             </li>
                         <?php }?>
@@ -45,7 +46,7 @@
                     <ul class="foods_box">
                         <?php foreach($category as $key=>$value){?>
 
-                            <li class="foods_category">
+                            <li class="foods_category category_h1_<?=$value['id']?>" data-key="<?=$key?>">
                                 <h1><?=$value['name']?></h1>
                                 <ul>
                                     <?php foreach($value['dishes'] as $k=>$v){?>
@@ -97,4 +98,31 @@
 
 </div>
 </body>
+<script>
+$(function () {
+
+    var list = new Array();
+
+    $(".foods_category").each(function () {
+        list.push($(this).offset().top)
+    })
+    var tt=0;
+    console.log(list[tt]);
+
+
+    $(".menu_item").click(function () {
+        var self = $(this);
+        if(!self.hasClass("menu_item_selected")){
+            $(".menu_item").removeClass("menu_item_selected");
+            self.addClass("menu_item_selected");
+
+            var index = $(".category_h1_"+self.data("id")).data("key");
+
+
+            $(".foods").animate({scrollTop: parseInt(list[index])-217 }, {duration: 500,easing: "swing"});
+        }
+
+    })
+})
+</script>
 </html>
