@@ -38,25 +38,32 @@
     background: #f3f5f7;
     height:100%;
     overflow-x: hidden;
-    overflow-y:hidden;
+    overflow-y:scroll;
+    margin-left:5px;
+}
+.menu_box{
+    display: flex;
+    width:80px;
+    height: 100%;
+    overflow: hidden;
+    margin-left:-5px;
 }
 
-
-.container>.menu>.menu_wrapper>.menu_item{
+.menu>.menu_wrapper>.menu_item{
     display: table;
     height: 54px;
     width: 56px;
     padding: 0 12px;
     line-height: 14px;
 }
-.container>.menu>.menu_wrapper>.menu_item>.text{
+.menu>.menu_wrapper>.menu_item>.text{
     display: table-cell;
     width: 56px;
     vertical-align: middle;
     position: relative;
     font-size: 12px;
 }
-.container>.menu>.menu_wrapper>.menu_item>.text:after {
+.menu>.menu_wrapper>.menu_item>.text:after {
     display: block;
     position: absolute;
     left: 0;
