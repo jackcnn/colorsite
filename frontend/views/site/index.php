@@ -33,7 +33,7 @@
                 <?php for($i=0;$i<30;$i++){?>
                     <div class="menu_item">
 
-                        <span class="text">热卖单品</span>
+                        <span class="text">热卖单品热卖单品</span>
 
                     </div>
                 <?php }?>
