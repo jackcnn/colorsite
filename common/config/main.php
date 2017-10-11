@@ -10,6 +10,13 @@ return [
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
+        'formatter' => [
+            'dateFormat' => 'yyyy-MM-dd',
+            'datetimeFormat' =>'yyyy-MM-dd H:i:s',
+            'decimalSeparator' => ',',
+            'thousandSeparator' => ' ',
+            'currencyCode' => 'CNY',
+        ],
     ],
     'language' =>'zh-CN',//中文提示
     'timeZone' => 'Asia/Shanghai',

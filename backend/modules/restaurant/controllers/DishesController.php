@@ -22,7 +22,6 @@ class DishesController extends BaseController
         $params = Yii::$app->request->queryParams;
         $params['CategorySearch']['ownerid'] = $this->ownerid;
 
-
         $dataProvider = $searchModel->search($params);
 
         return $this->render('index', [

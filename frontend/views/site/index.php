@@ -43,40 +43,47 @@
                 <div class="foods">
 
                     <ul class="foods_box">
+                        <?php foreach($category as $key=>$value){?>
 
-                        <li class="foods_category">
-                            <h1>主食</h1>
-                            <ul>
-                                <li class="foods_item">
-                                    <div class="icon">
-                                        <img width="57" height="57" src="http://fuss10.elemecdn.com/d/2d/b1eb45b305635d9dd04ddf157165fjpeg.jpeg?imageView2/1/w/114/h/114">
-                                    </div>
-                                    <div class="content">
-                                        <h2>娃娃菜炖豆腐</h2>
-                                        <p class="description">新鲜娃娃菜加新鲜豆腐</p>
-                                        <div class="sell-info">
-                                            <span class="sellCount">月售43份</span>
-                                            <span class="rating">好评率92%</span>
-                                        </div>
-                                        <div class="price">
-                                            <span class="newPrice"><span class="unit">￥</span>17</span>
-                                            <span class="oldPrice">￥20</span></div>
-                                        <div class="cartcontrol-wrapper">
-                                            <div class="cartcontrol">
-                                                <div class="cart-decrease">
-                                                    <span class="icon-remove_circle_outline inner"></span>
-                                                </div>
-                                                <div class="cart-count">
-                                                    1
-                                                </div>
-                                                <div class="cart-add"><i class="icon-add_circle"></i></div>
+                            <li class="foods_category">
+                                <h1><?=$value['name']?></h1>
+                                <ul>
+                                    <?php foreach($value['dishes'] as $k=>$v){?>
+
+                                        <li class="foods_item">
+                                            <div class="icon">
+                                                <img width="57" height="57" src="<?=$v['cover']?>">
                                             </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </li>
+                                            <div class="content">
+                                                <h2><?=$v['name']?></h2>
+                                                <p class="description"><?=$v['desc']?></p>
+                                                <div class="sell-info">
+                                                    <span class="sellCount">月售<?=$v['month_sales']?>份</span>
+                                                    <span class="rating">好评率99%</span>
+                                                </div>
+                                                <div class="price">
+                                                    <span class="newPrice"><span class="unit">￥</span><?=$v['price']/100?></span>
+                                                    <span class="oldPrice" <?php if($v['oprice']<1){?>style="display: none;"<?php }?>>￥<?=$v['oprice']/100?></span></div>
+                                                <div class="cartcontrol-wrapper">
+                                                    <div class="cartcontrol">
+                                                        <div class="cart-decrease">
+                                                            <span class="icon-remove_circle_outline inner"></span>
+                                                        </div>
+                                                        <div class="cart-count">
+                                                            1
+                                                        </div>
+                                                        <div class="cart-add"><i class="icon-add_circle"></i></div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
 
+                                    <?php }?>
+                                </ul>
+                            </li>
+
+
+                        <?php }?>
                     </ul>
 
                 </div>
