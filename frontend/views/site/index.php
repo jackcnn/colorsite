@@ -29,15 +29,16 @@
     <div>
         <div class="container">
             <div class="menu">
+                <ul class="menu_wrapper" style="transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1); transition-duration: 0ms; transform: translate(0px, 0px) translateZ(0px);">
+                    <?php for($i=0;$i<30;$i++){?>
+                        <li class="menu_item">
 
-                <?php for($i=0;$i<30;$i++){?>
-                    <div class="menu_item">
+                            <span class="text">热卖单品热卖单品</span>
 
-                        <span class="text">热卖单品热卖单品</span>
+                        </li>
+                    <?php }?>
 
-                    </div>
-                <?php }?>
-
+                </ul>
 
             </div>
 
