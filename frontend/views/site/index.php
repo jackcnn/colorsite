@@ -13,6 +13,11 @@
     <script src="/assets/jquery.js"></script>
     <link rel="stylesheet" type="text/css" href="/assets/reset.css">
     <link href="/assets/css.css" rel="stylesheet">
+    <script>
+        document.querySelector('body').addEventListener('touchmove', function(e) {
+            e.preventDefault();
+        })
+    </script>
 </head>
 <body>
 <div>
