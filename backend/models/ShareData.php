@@ -16,7 +16,7 @@ class ShareData
             ['label'=>'点餐系统','list'=>[
                 ['label'=>'订单管理','router'=>['/restaurant/order/index']],
                 ['label'=>'菜品管理','router'=>['/restaurant/dishes/index']],
-                ['label'=>'店铺管理','router'=>['/restaurant/stores']],
+                ['label'=>'门店管理','router'=>['/restaurant/stores/index']],
             ]],
             ['label'=>'功能','list'=>[
                 ['label'=>'图集打赏','router'=>['/gallery/index/index']],
@@ -44,8 +44,17 @@ class ShareData
             ['规格管理',['/restaurant/dishspec/index']],
         ];
 
-
-
         return $data[$key];
+    }
+
+    //店员权限
+    public static function clerkrights()
+    {
+        $data = [
+            'ordering'=>'点餐',
+            'setpay'=>'设置订单付款',
+        ];
+
+        return $data;
     }
 }

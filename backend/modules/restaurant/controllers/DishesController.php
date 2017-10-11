@@ -45,6 +45,7 @@ class DishesController extends BaseController
             $model->ownerid = $this->ownerid;
             $model->token = $this->token;
             $model->price = intval($post['price']*100);
+            $model->oprice = intval($post['oprice']*100);
             if($post['multi'] > 0){
                 $spec_name = $request->post("spec_name");
                 $spec_price = $request->post("spec_price");
@@ -87,6 +88,7 @@ class DishesController extends BaseController
             $model->load($request->post());
             $model->cover = FileHelper::upload($model,'cover');
             $model->price = intval($post['price']*100);
+            $model->oprice = intval($post['oprice']*100);
             if($post['multi'] > 0){
                 $spec_name = $request->post("spec_name");
                 $spec_price = $request->post("spec_price");
@@ -111,6 +113,7 @@ class DishesController extends BaseController
             }
         }
         $model->price = $model->price/100;
+        $model->oprice = $model->oprice/100;
         return $this->render('update', [
             'model' => $model,
             'category'=>$this->category(),
@@ -121,8 +124,10 @@ class DishesController extends BaseController
 
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
-
+        $model = $this->findModel($id);
+        FileHelper::unlink($model->cover);
+        $model->delete();
+        ColorHelper::alert('删除成功！');
         return $this->redirect(['index']);
     }
 

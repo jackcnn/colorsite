@@ -4,7 +4,7 @@ use yii\helpers\Html;
 use yii\grid\GridView;
 $this->title = '菜品规格';
 
-$this->params['breadcrumbs'][] = ['label'=>'菜品管理','url'=>['/restaurant/index']];
+$this->params['breadcrumbs'][] = ['label'=>'菜品管理','url'=>['/restaurant/dishes/index']];
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['tabs']['list']=backend\models\ShareData::tabslist('restaurant');
 ?>

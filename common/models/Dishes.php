@@ -14,6 +14,7 @@ use Yii;
  * @property string $name
  * @property string $desc
  * @property integer $price
+ * @property integer $oprice
  * @property integer $stock
  * @property integer $multi
  * @property string $spec
@@ -23,6 +24,7 @@ use Yii;
  * @property integer $sort
  * @property string $unit
  * @property string $labes
+ * @property integer $month_sales
  * @property integer $created_at
  * @property integer $updated_at
  */
@@ -42,7 +44,7 @@ class Dishes extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ownerid', 'cateid', 'price', 'stock', 'multi', 'recommend', 'onsale', 'sort', 'created_at', 'updated_at'], 'integer'],
+            [['ownerid', 'cateid', 'price', 'oprice', 'stock', 'multi', 'recommend', 'onsale', 'sort', 'month_sales', 'created_at', 'updated_at'], 'integer'],
             [['spec'], 'string'],
             [['token'], 'string', 'max' => 50],
             [['name'], 'string', 'max' => 100],
@@ -66,6 +68,7 @@ class Dishes extends \yii\db\ActiveRecord
             'name' => '名称',
             'desc' => '描述',
             'price' => '价格，以分为单位',
+            'oprice' => '原价',
             'stock' => '每日库存',
             'multi' => '是否多规格',
             'spec' => '多规格数据',
@@ -75,6 +78,7 @@ class Dishes extends \yii\db\ActiveRecord
             'sort' => '排序',
             'unit' => '计量单位',
             'labes' => '标签',
+            'month_sales' => '月销量',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

@@ -22,6 +22,10 @@ $speclist = json_decode($model->spec,1);
 
     <?= $form->field($model, 'price')->lytextInput(['label'=>'价格(元)']) ?>
 
+    <?= $form->field($model, 'oprice')->lytextInput(['label'=>'原价(元)','tips'=>'(0则不显示原价)']) ?>
+
+    <?= $form->field($model, 'month_sales')->lytextInput(['label'=>'月销量','tips'=>'(显示的月销量会以此为基础添加)']) ?>
+
     <?= $form->field($model, 'stock')->lytextInput() ?>
 
     <?= $form->field($model, 'multi')->lyselectList($spec['data'],['lay-verify' => "",'tips'=>'(开启多规格后，单独填写的价格和每日库存将失效)']) ?>

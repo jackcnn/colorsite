@@ -9,6 +9,22 @@ class SiteController extends BaseController
 {
     public function actionIndex()
     {
-        echo __FILE__;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        return $this->renderPartial("index");
     }
 }

@@ -21,4 +21,50 @@ namespace yii\helpers;
  */
 class Html extends BaseHtml
 {
+
+    //LayField的checkboxlist
+    public static function activeLyCheckbox($model, $attribute, $options = [])
+    {
+        return static::activeLyBooleanInput('checkbox', $model, $attribute, $options);
+    }
+
+    protected static function activeLyBooleanInput($type, $model, $attribute, $options = [])
+    {
+        $name = isset($options['name']) ? $options['name'] : static::getInputName($model, $attribute);
+        $value = static::getAttributeValue($model, $attribute);
+
+        if (!array_key_exists('value', $options)) {
+            $options['value'] = '1';
+        }
+        if (!array_key_exists('uncheck', $options)) {
+            $options['uncheck'] = '0';
+        } elseif ($options['uncheck'] === false) {
+            unset($options['uncheck']);
+        }
+        if (!array_key_exists('label', $options)) {
+            $options['label'] = static::encode($model->getAttributeLabel(static::getAttributeName($attribute)));
+        } elseif ($options['label'] === false) {
+            unset($options['label']);
+        }
+
+        //$checked = "$value" === "{$options['value']}";
+
+        $arr = json_decode($value,1);
+        if(!is_array($arr)){
+            $arr = [];
+        }
+        $checked = in_array($options['value'],$arr);
+
+
+
+
+        if (!array_key_exists('id', $options)) {
+            $options['id'] = static::getInputId($model, $attribute);
+        }
+
+        return static::$type($name, $checked, $options);
+    }
+
+
+
 }

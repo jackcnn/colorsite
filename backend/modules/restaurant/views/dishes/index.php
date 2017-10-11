@@ -8,7 +8,7 @@ use yii\grid\GridView;
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
 $this->title = '菜品列表';
-$this->params['breadcrumbs'][] = ['label'=>'菜品管理','url'=>['/restaurant/index']];
+$this->params['breadcrumbs'][] = ['label'=>'菜品管理','url'=>['/restaurant/dishes/index']];
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['tabs']['list']=backend\models\ShareData::tabslist('restaurant');
 ?>

@@ -149,7 +149,7 @@ class LayField extends Component
             $ckoptions = ArrayHelper::merge($opts,$options);
             $ckoptions['label'] = false;//不要生成label
             $ckoptions['name'] = Html::getInputName($this->model,$this->attribute)."[".$key."]";
-            $html.= Html::activeCheckbox($this->model,$this->attribute,$ckoptions);
+            $html.= Html::activeLyCheckbox($this->model,$this->attribute,$ckoptions);
         }
         $tips = isset($options['tips'])?$options['tips']:'';
         $html.='</div><div class="layui-form-mid layui-word-aux">'.$tips.'</div></div>';

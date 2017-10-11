@@ -101,7 +101,7 @@ class SiteController extends BaseController
                     throw new \Exception('密码长度最少6位');
                 }
                 $model->parent_id=0;
-                $model->token = ColorHelper::createToken($post['username']);
+                $model->token = "";
                 $model->is_admin =0;
                 $model->username = $post['username'];
                 $model->password = \Yii::$app->security->generatePasswordHash($post['password']);
