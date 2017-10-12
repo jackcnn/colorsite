@@ -95,7 +95,7 @@
     height: 100%;
     flex: 1;
     margin-top: 2px;
-    overflow: hidden;
+    /*overflow: hidden;*/
 }
 .foods{
     -webkit-box-flex: 0;
