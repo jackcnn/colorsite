@@ -184,7 +184,7 @@
 .cartcontrol .cart-add, .cartcontrol .cart-count {
     display: inline-block;
     vertical-align: top;
-    line-height: 35px;
+    line-height: 24px;
 }
 .cartcontrol .cart-decrease {
     display: inline-block;
@@ -192,7 +192,7 @@
     transition: all .4s linear;
 }
 .cartcontrol .cart-add {
-    font-size: 30px;
+    font-size: 24px;
     color: #00a0dc;
     padding: 6px;
 }
@@ -208,8 +208,8 @@
     -moz-osx-font-smoothing: grayscale;
 }
 .cartcontrol .cart-decrease .inner {
-    line-height: 30px;
-    font-size: 30px;
+    line-height: 24px;
+    font-size: 24px;
     color: #00a0dc;
     transition: all .4s linear;
 }
@@ -221,7 +221,7 @@
 }
 .cartcontrol .cart-count {
 
-    font-size: 14px;
+    font-size: 10px;
     color: #93999f;
     text-align: center;
     padding: 6px 0;
