@@ -104,14 +104,14 @@
                                 ￥0
                             </div>
                             <div class="desc">
-                                订单描述
+                                已点列表
                             </div>
                         </div>
-                        <div class="content-right">去结算</div>
+                        <div id="submit" class="content-right">提交</div>
                     </div>
 
                     <div class="shopcart-list" style="display: none;">
-                        <div class="list-header"><h1 class="title">已点菜肴</h1> <span class="empty">清空</span></div>
+                        <div class="list-header"><h1 class="title">已点列表</h1> <span class="empty">清空</span></div>
                         <div class="list-content">
                             <ul>
                                 <?php foreach($dishes as $key=>$value){?>
@@ -147,9 +147,9 @@
 </body>
 <script>
     $(function () {
-        var list = new Array();
+        var scroll_list = new Array();
         $(".foods_category").each(function () {
-            list.push($(this).offset().top)
+            scroll_list.push($(this).offset().top)
         })
         $(".menu_item").click(function () {
             var self = $(this);
@@ -157,7 +157,7 @@
                 $(".menu_item").removeClass("menu_item_selected");
                 self.addClass("menu_item_selected");
                 var index = $(".category_h1_"+self.data("id")).data("key");
-                $(".foods").animate({scrollTop: parseInt(list[index]) }, {duration: 300,easing: "swing"});
+                $(".foods").animate({scrollTop: parseInt(scroll_list[index]) }, {duration: 300,easing: "swing"});
             }
         })
 
@@ -271,6 +271,30 @@
             get_result()
         })
 
+        $("#submit").click(function () {
+            var self = $(this);
+            if(!self.hasClass("enough")){
+                return false;
+            }
+
+            var list = new Array();
+
+            $(".foods_category .cart-count").each(function(){
+                var count = parseInt($(this).html());
+                if(count > 0){
+                    var id = $(this).data("id");
+                    list[id] = count;
+                }
+            })
+
+
+            console.log(list);
+
+
+        })
+
+
+
         function get_result()
         {
             var count = 0;
@@ -279,6 +303,12 @@
                 count = parseInt($(this).html()) + count ;
                 total = parseInt($(this).data("price")*parseInt($(this).html()))+total;
             })
+
+            if(count > 0){
+                $("#submit").addClass("enough");
+            }else{
+                $("#submit").removeClass("enough");
+            }
 
             $(".shopCart .badge").html(count);
             $(".shopCart .content-left .price").html("￥"+total/100);
