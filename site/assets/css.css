@@ -214,10 +214,10 @@
     transition: all .4s linear;
 }
 .icon-add_circle:before {
-    content: "\e623";
+    content: "\e60a";
 }
 .icon-remove_circle_outline:before {
-    content: "\e600";
+    content: "\e612";
 }
 .cartcontrol .cart-count {
 
