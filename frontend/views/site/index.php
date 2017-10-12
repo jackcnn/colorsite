@@ -8,7 +8,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>sell</title>
+    <title><?=$store['name']?></title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
     <script src="/assets/jquery.js"></script>
     <link rel="stylesheet" type="text/css" href="/assets/reset.css">
