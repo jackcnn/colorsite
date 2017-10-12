@@ -16,6 +16,7 @@ class ColorBehavior extends Behavior
 {
 
     private $ownerid;
+    private $token;
 
     public function events()
     {
@@ -26,6 +27,7 @@ class ColorBehavior extends Behavior
     {
         $token = \Yii::$app->request->get("token");
         $this->ownerid = ColorHelper::token2id($token);
+        $this->token = $token;
         \Yii::$app->view->params['token'] = $token;
         return true;
     }
@@ -34,5 +36,9 @@ class ColorBehavior extends Behavior
     public function getOwnerid()
     {
         return $this->ownerid;
+    }
+    public function getToken()
+    {
+        return $this->token;
     }
 }

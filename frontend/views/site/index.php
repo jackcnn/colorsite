@@ -107,7 +107,7 @@
                                 已点列表
                             </div>
                         </div>
-                        <div id="submit" class="content-right">提交</div>
+                        <div id="submit" data-total="0" class="content-right">提交</div>
                     </div>
 
                     <div class="shopcart-list" style="display: none;">
@@ -283,12 +283,32 @@
                 var count = parseInt($(this).html());
                 if(count > 0){
                     var id = $(this).data("id");
-                    list[id] = count;
+                    list.push(id+"-"+count);
                 }
             })
 
 
-            console.log(list);
+            $.ajax({
+                url: "<?=\yii\helpers\Url::toRoute(['site/saveorder','token'=>$this->params['token'],'store_id'=>$store['id']])?>",
+                type:"post",
+                data:{
+                    'list':list,
+                    'amount':$("#submit").data("total")
+                },
+                dataType:"json",
+                beforeSend:function(){
+                },
+                complete:function(){
+                },
+                error:function (XMLHttpRequest, textStatus, errorThrown){
+                    alert("网络错误,请重试...");
+                },
+                success: function(data){
+                    if(data.location){
+                        return location.href=data.location;
+                    }
+                }
+            });
 
 
         })
@@ -312,6 +332,7 @@
 
             $(".shopCart .badge").html(count);
             $(".shopCart .content-left .price").html("￥"+total/100);
+            $("#submit").data("total",total);
 
         }
 
