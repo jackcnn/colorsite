@@ -70,7 +70,7 @@
                                                         <div class="cart-decrease" style="display: none;">
                                                             <span class="icon-remove_circle_outline inner"></span>
                                                         </div>
-                                                        <div class="cart-count" id="foodID_<?=$v['id']?>" data-price = "<?=$v['price']?>" style="display: none;">0</div>
+                                                        <div class="cart-count" id="foodID_<?=$v['id']?>" data-id="<?=$v['id']?>" data-price = "<?=$v['price']?>" style="display: none;">0</div>
                                                         <div class="cart-add"><i class="icon-add_circle"></i></div>
                                                     </div>
                                                 </div>
@@ -111,20 +111,21 @@
                     </div>
 
                     <div class="shopcart-list" style="display: none;">
-                        <div class="list-header"><h1 class="title">购物车</h1> <span class="empty">清空</span></div>
+                        <div class="list-header"><h1 class="title">已点菜肴</h1> <span class="empty">清空</span></div>
                         <div class="list-content">
                             <ul>
                                 <?php foreach($dishes as $key=>$value){?>
 
-                                    <li class="food"><span class="name"><?=$value['name']?></span>
-                                        <div class="price"><span>￥10</span></div>
+                                    <li class="food" id="cartlist_fid_<?=$value['id']?>">
+                                        <span class="name"><?=$value['name']?></span>
+                                        <div class="price"><span>￥0</span></div>
                                         <div class="cartcontrol-wrapper">
                                             <div class="cartcontrol">
-                                                <div class="cart-decrease"><span class="icon-remove_circle_outline inner"></span></div>
+                                                <div class="cart-decrease" data-price="<?=$value['price']?>" data-fid="<?=$value['id']?>"><span class="icon-remove_circle_outline inner"></span></div>
                                                 <div class="cart-count">
                                                     0
                                                 </div>
-                                                <div class="cart-add"><i class="icon-add_circle"></i></div>
+                                                <div class="cart-add" data-price="<?=$value['price']?>" data-fid="<?=$value['id']?>"><i class="icon-add_circle"></i></div>
                                             </div>
                                         </div>
                                     </li>
@@ -161,7 +162,8 @@
         })
 
         //购物车相关
-        $(".cart-add").click(function () {
+
+        $(".foods_category .cart-add").click(function () {//菜品点击增加
             var self = $(this);
             var target = self.parent().find(".cart-count");
             var res = parseInt(target.html())+1;
@@ -174,7 +176,7 @@
             get_result();
         })
 
-        $(".cart-decrease").click(function () {
+        $(".foods_category .cart-decrease").click(function () {//菜品点击减少
             var self = $(this);
             var target = self.parent().find(".cart-count");
             var res = parseInt(target.html())-1;
@@ -188,18 +190,86 @@
 
         })
 
-
-
-
         $(".content-left").click(function () {
+            $(".shopcart-list .food").hide();
+
+            $(".foods_category .cart-count").each(function(){
+                var self = $(this);
+                var count = parseInt(self.html());
+                var id = parseInt(self.data("id"));
+                var price = parseInt(self.data("price"));
+                var obj = $("#cartlist_fid_"+id);
+                if(count > 0){
+                    obj.show();
+                    obj.find(".cart-count").html(count);
+                    obj.find(".price span").html("￥"+parseInt(count*price)/100);
+                }
+            })
+
             $(".shopcart-list").slideToggle();
             $(".backdrop").toggle();
         })
 
 
+        $(".shopcart-list .cart-add").click(function () {//点餐清单里面点击的
+            var self = $(this);
+            var target = self.parent().find(".cart-count");
+            var res = parseInt(target.html())+1;
+            target.html(res);
+
+            var fid = self.data("fid");
+            var object = $("#foodID_"+fid);
+            object.html(res);
+
+            self.parent().parent().parent().find(".price span").html("￥"+parseInt(self.data("price")*res)/100);
+
+            if(res > 0){
+                self.parent().find(".cart-decrease").show();
+                target.show();
+
+                object.parent().find(".cart-decrease").show();
+                object.parent().find(".cart-count").show();
+            }
+            get_result();
+        })
+
+        $(".shopcart-list .cart-decrease").click(function () {//菜品点击减少
+            var self = $(this);
+            var target = self.parent().find(".cart-count");
+            var res = parseInt(target.html())-1;
+            target.html(res);
+
+            var fid = self.data("fid");
+            var object = $("#foodID_"+fid);
+            object.html(res);
+
+            self.parent().parent().parent().find(".price span").html("￥"+parseInt(self.data("price")*res)/100);
+
+            if(res < 1){
+                self.hide();
+                target.hide();
+                self.parent().parent().parent().fadeOut();
+                object.parent().find(".cart-decrease").hide();
+                object.parent().find(".cart-count").hide();
+
+            }
+
+            get_result();
+
+        })
 
 
+        $(".list-header .empty").click(function () {//清空菜单
 
+            $(".foods_category .cart-count").each(function(){
+                var self = $(this);
+                self.html(0);
+                self.parent().find(".cart-decrease").hide();
+
+            })
+            $(".shopcart-list .food").hide();
+            get_result()
+        })
 
         function get_result()
         {
@@ -211,13 +281,9 @@
             })
 
             $(".shopCart .badge").html(count);
-            $(".shopCart .price").html("￥"+total/100);
+            $(".shopCart .content-left .price").html("￥"+total/100);
 
         }
-
-
-
-
 
 
     })
