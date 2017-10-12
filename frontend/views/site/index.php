@@ -151,7 +151,7 @@
                 $(".menu_item").removeClass("menu_item_selected");
                 self.addClass("menu_item_selected");
                 var index = $(".category_h1_"+self.data("id")).data("key");
-                $(".foods").animate({scrollTop: parseInt(list[index])-217 }, {duration: 300,easing: "swing"});
+                $(".foods").animate({scrollTop: parseInt(list[index]) }, {duration: 300,easing: "swing"});
             }
         })
 
