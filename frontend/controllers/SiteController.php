@@ -115,7 +115,7 @@ class SiteController extends BaseController
         return $this->renderPartial("preorder",[
             'dishes'=>$dishes,
             'total'=>$total,
-            'store'=>$store
+            'store'=>$store,
         ]);
 
 

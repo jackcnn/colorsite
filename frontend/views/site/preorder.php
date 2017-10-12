@@ -25,28 +25,20 @@
 <body>
 <div>
     <div class="container">
-
         <div class="lister-container">
             <div class="lister">
                 <div class="header"><?=$store->name?></div>
-
                 <ul class="content">
                     <?php foreach($dishes as $key=>$value){?>
-
                         <li class="lister-item">
                             <div class="name"><?=$value['name']?></div>
-                            <div class="count">×<?=$value['order_count']/100?></div>
-                            <div class="total">￥<?=$value['order_single_amount']?></div>
+                            <div class="count">×<?=$value['order_count']?></div>
+                            <div class="total">￥<?=$value['order_single_amount']/100?></div>
                         </li>
-
-
                     <?php }?>
                 </ul>
-
             </div>
         </div>
-
-
     </div>
 
 
@@ -55,7 +47,7 @@
             <div class="content">
                 <div class="content-left">
                     <div class="price active">
-                        ￥0
+                        ￥<?=$total/100?>
                     </div>
                     <div class="desc">
                         已点列表

@@ -26,6 +26,7 @@
     border: 1px solid #eaeefb;
     transition: .2s;
     box-shadow: 0 0 8px 0 rgba(232,237,250,.6),0 2px 4px 0 rgba(232,237,250,.5);
+    background-color: #FFFFFF;
 }
 .lister .header{
     display: block;
@@ -104,6 +105,7 @@
     border-right: 1px solid hsla(0,0%,100%,.1);
     width: 60%;
     color: #FFFFFF;
+    padding-left:20px;
 }
 .shopCart .content .content-left .desc {
     position: relative;
