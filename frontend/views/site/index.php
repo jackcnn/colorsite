@@ -60,7 +60,7 @@
                                                 <p class="description"><?=$v['desc']?></p>
                                                 <div class="sell-info">
                                                     <span class="sellCount">月售<?=$v['month_sales']?>份</span>
-                                                    <span class="rating">好评率99%</span>
+                                                    <span class="rating" style="display: none;">好评率99%</span>
                                                 </div>
                                                 <div class="price">
                                                     <span class="newPrice"><span class="unit">￥</span><?=$v['price']/100?></span>
@@ -70,7 +70,7 @@
                                                         <div class="cart-decrease" style="display: none;">
                                                             <span class="icon-remove_circle_outline inner"></span>
                                                         </div>
-                                                        <div class="cart-count" data-price = "<?=$v['price']?>" style="display: none;">0</div>
+                                                        <div class="cart-count" id="foodID_<?=$v['id']?>" data-price = "<?=$v['price']?>" style="display: none;">0</div>
                                                         <div class="cart-add"><i class="icon-add_circle"></i></div>
                                                     </div>
                                                 </div>
@@ -113,27 +113,32 @@
                     <div class="shopcart-list" style="display: none;">
                         <div class="list-header"><h1 class="title">购物车</h1> <span class="empty">清空</span></div>
                         <div class="list-content">
-                            <ul style="transition-timing-function: cubic-bezier(0.165, 0.84, 0.44, 1); transition-duration: 0ms; transform: translate(0px, 0px) translateZ(0px);">
-                                <li class="food"><span class="name">皮蛋瘦肉粥</span>
-                                    <div class="price"><span data-v-3bb4d644="">￥10</span></div>
-                                    <div class="cartcontrol-wrapper">
-                                        <div class="cartcontrol">
-                                            <div class="cart-decrease"><span class="icon-remove_circle_outline inner"></span></div>
-                                            <div class="cart-count">
-                                                0
+                            <ul>
+                                <?php foreach($dishes as $key=>$value){?>
+
+                                    <li class="food"><span class="name"><?=$value['name']?></span>
+                                        <div class="price"><span>￥10</span></div>
+                                        <div class="cartcontrol-wrapper">
+                                            <div class="cartcontrol">
+                                                <div class="cart-decrease"><span class="icon-remove_circle_outline inner"></span></div>
+                                                <div class="cart-count">
+                                                    0
+                                                </div>
+                                                <div class="cart-add"><i class="icon-add_circle"></i></div>
                                             </div>
-                                            <div class="cart-add"><i class="icon-add_circle"></i></div>
                                         </div>
-                                    </div>
-                                </li>
+                                    </li>
+
+
+                                <?php }?>
+
                             </ul>
                         </div>
                     </div>
                 </div>
+                <div class="backdrop"></div>
             </div>
-
         </div>
-
 
     </div>
 
@@ -183,13 +188,25 @@
 
         })
 
+
+
+
+        $(".content-left").click(function () {
+            $(".shopcart-list").slideToggle();
+            $(".backdrop").toggle();
+        })
+
+
+
+
+
+
         function get_result()
         {
             var count = 0;
             var total = 0;
             $(".foods_category .cart-count").each(function () {
                 count = parseInt($(this).html()) + count ;
-
                 total = parseInt($(this).data("price")*parseInt($(this).html()))+total;
             })
 

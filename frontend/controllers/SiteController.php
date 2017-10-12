@@ -21,6 +21,8 @@ class SiteController extends BaseController
 
         $dishes = Dishes::find()->where(['ownerid'=>$this->ownerid])->asArray()->orderBy("sort,id")->all();
 
+        $alldishes = $dishes;
+
         foreach($category as $key=>$value){
 
             foreach($dishes as $k=>$v){
@@ -36,11 +38,10 @@ class SiteController extends BaseController
 
         }
 
-//        ColorHelper::dump($category);
-
         return $this->renderPartial("index",[
             'category'=>$category,
-            'store'=>$store
+            'store'=>$store,
+            'dishes'=>$alldishes
         ]);
     }
 
