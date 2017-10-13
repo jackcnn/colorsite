@@ -89,7 +89,6 @@
 
             </div>
 
-
             <div>
                 <div class="shopCart">
                     <div class="content">
@@ -104,7 +103,7 @@
                                 ￥0
                             </div>
                             <div class="desc">
-                                已点列表
+                                <?=\Yii::$app->user->identity->wxname?>已点列表
                             </div>
                         </div>
                         <div id="submit" data-total="0" class="content-right">提交</div>
@@ -289,11 +288,12 @@
 
 
             $.ajax({
-                url: "<?=\yii\helpers\Url::toRoute(['site/saveorder','token'=>$this->params['token'],'store_id'=>$store['id']])?>",
+                url: "<?=\yii\helpers\Url::toRoute(['site/cookiesorder','token'=>$this->params['token'],'store_id'=>$store['id']])?>",
                 type:"post",
                 data:{
                     'list':list,
-                    'amount':$("#submit").data("total")
+                    'amount':$("#submit").data("total"),
+                    'sn':'<?=\Yii::$app->request->get("sn")?>'
                 },
                 dataType:"json",
                 beforeSend:function(){

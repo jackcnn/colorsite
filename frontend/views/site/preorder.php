@@ -1,14 +1,5 @@
 <?php
 /**
- * Created by PhpStorm.
- * User: Administrator
- * Date: 2017/10/12 0012
- * Time: 17:00
- */
-?>
-<?php
-/**
- * Date: 2017/10/11 0011
  * Time: 11:09
  */
 
@@ -26,28 +17,41 @@
 <div>
     <div class="container">
         <div class="lister-container">
-            <div class="lister">
-                <div class="header"><?=$store->name?></div>
-                <ul class="content">
-                    <?php foreach($dishes as $key=>$value){?>
-                        <li class="lister-item">
-                            <div class="name"><?=$value['name']?></div>
-                            <div class="count">×<?=$value['order_count']?></div>
-                            <div class="total">￥<?=$value['order_single_amount']/100?></div>
-                            <div class="desc">
-                                <?php foreach($value['labels'] as $k=>$v){?>
-                                    <span data-id="<?=$value['id']?>" class="labels"><?=$v?></span>
-                                <?php }?>
-                            </div>
-                        </li>
-                    <?php }?>
-                </ul>
-            </div>
-            <div class="lister">
-                <div class="mark-container">
-                    <textarea class="mark" name="mark" placeholder="请输入备注内容（可不填，最多150字）"></textarea>
+
+            <form id="form" method="post" action="<?=\yii\helpers\Url::to(['site/saveorder','store_id'=>$store->id,'token'=>$this->params['token'],'sn'=>\Yii::$app->request->get("sn")])?>">
+
+                <div class="lister">
+                    <div class="header"><?=$store->name?></div>
+                    <ul class="content">
+                        <?php foreach($dishes as $key=>$value){?>
+                            <li class="lister-item">
+                                <div class="name"><?=$value['name']?></div>
+                                <div class="count">×<?=$value['order_count']?></div>
+                                <div class="total">￥<?=$value['order_single_amount']/100?></div>
+                                <div class="desc">
+                                    <?php foreach($value['labels'] as $k=>$v){?>
+                                        <span data-id="<?=$value['id']?>" class="labels"><?=$v?></span>
+                                    <?php }?>
+                                </div>
+                                <div class="action remove">
+                                    <span>删除</span>
+                                </div>
+                                <input type="hidden" name="count[<?=$key?>]" value="<?=$value['order_count']?>" />
+                                <input type="hidden" name="ids[<?=$key?>]" value="<?=$value['id']?>" />
+                                <input type="hidden" class="labels_input" name="labels[<?=$key?>]" value=""  />
+                            </li>
+                        <?php }?>
+                    </ul>
                 </div>
-            </div>
+                <div class="lister">
+                    <div class="mark-container">
+                        <textarea class="mark" name="mark" placeholder="请输入备注内容（可不填，最多150字）"></textarea>
+                    </div>
+                </div>
+                <div class="lister">
+                    <a class="re_pick" href="<?=\yii\helpers\Url::to(['site/index','store_id'=>$store['id'],'token'=>$this->params['token'],'sn'=>\Yii::$app->request->get("sn")])?>">重新选菜</a>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -60,10 +64,10 @@
                         ￥<?=$total/100?>
                     </div>
                     <div class="desc">
-                        点击刷新菜单
+                        添加备注后提交
                     </div>
                 </div>
-                <div id="submit" data-total="0" class="content-right enough">确认下单</div>
+                <div id="submit" data-total="0" class="content-right enough">我已订好</div>
             </div>
         </div>
         <div class="backdrop"></div>
@@ -72,8 +76,33 @@
 </body>
 <script>
 $(function () {
+    //点击labels变色和想要的input值改变
     $(".labels").click(function () {
-        $(this).toggleClass("active");
+        var self = $(this);
+        self.toggleClass("active");
+        var str = "";
+        self.parent().find(".labels").each(function () {
+            if($(this).hasClass("active")){
+                if(!str){
+                    str = $(this).html();
+                }else{
+                    str = str + "," + $(this).html();
+                }
+            }
+        })
+        self.parent().parent().find(".labels_input").val(str);
+    })
+
+    $(".remove").click(function () {
+        if(confirm('确认删除吗？')){
+            $(this).parent().remove();
+        }
+    })
+
+    $("#submit").click(function () {
+        if(confirm('确认提交吗？')){
+            $("#form").submit();
+        }
     })
 })    
 </script>

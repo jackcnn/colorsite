@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 
 use common\models\Category;
+use common\models\Dishcart;
 use common\models\Dishes;
 use common\models\Dishorder;
 use common\models\Gallery;
@@ -16,10 +17,15 @@ class SiteController extends BaseController
 {
     public $enableCsrfValidation = false;
 
+    public $openid = "SA523BER";
+
     public function actionIndex()
     {
 
-        $store = Stores::find()->where(['ownerid'=>$this->ownerid,'id'=>\Yii::$app->request->get("stid")])->asArray()->one();
+        ColorHelper::wxlogin($this->ownerid);
+
+
+        $store = Stores::find()->where(['ownerid'=>$this->ownerid,'id'=>\Yii::$app->request->get("store_id")])->asArray()->one();
 
         $category = Category::find()->where(['ownerid'=>$this->ownerid,'table'=>'restaurant'])->asArray()->orderBy("sort,id")->all();
 
@@ -49,46 +55,40 @@ class SiteController extends BaseController
         ]);
     }
 
-    public function actionSaveorder($store_id)
+    //本地cookies 存储一下
+    public function actionCookiesorder($store_id)
     {
-
-        $model = new Dishorder();
-
-        $model->store_id = $store_id;
-        $model->ownerid = $this->ownerid;
-        $model->status = 0;
-        //$model->amount = intval(\Yii::$app->request->post("amount"));
-        $model->ordersn = ColorHelper::orderSN($store_id);
-        $model->openid = "kdjsldk";
-
         $list = \Yii::$app->request->post("list");
+        $sn = \Yii::$app->request->post("sn");
         $dish_list = [];
         foreach($list as $key=>$value){
             $data = explode("-",$value);
             $dish_list[$data[0]] = $data[1];
         }
 
-        $model->list = json_encode($dish_list);
+        $data = json_encode($dish_list);
 
-        if($model->validate() && $model->save()){
-            $res['location']=Url::to(['site/preorder','store_id'=>$store_id,'token'=>$this->token,'orderid'=>$model->id,'ordersn'=>$model->ordersn]);
-        }
+        $cookies = \Yii::$app->response->cookies;
+
+        $cookies->add(new \yii\web\Cookie([
+            'name' => 'dish'.$store_id.'cart'.$sn,
+            'value' => $data,
+        ]));
+
+        $res['location']=Url::to(['site/preorder','store_id'=>$store_id,'token'=>$this->token,'sn'=>$sn]);
 
         return $this->asJson($res);
-
-
     }
 
-
-    //开始的订单
-    public function actionPreorder($store_id,$orderid,$ordersn)
+    public function actionPreorder($store_id,$sn)
     {
-
         $store = Stores::find()->where(['id'=>$store_id,'ownerid'=>$this->ownerid])->one();
-
-        $order = Dishorder::find()->where(['id'=>$orderid,'ordersn'=>$ordersn])->one();
-
-        $list = json_decode($order['list'],1);
+        $cookies = Yii::$app->request->cookies;
+        $list = $cookies->getValue('dish'.$store_id.'cart'.$sn);
+        $list = json_decode($list,1);
+        if(!$list){
+            $list = [];
+        }
         $ids = [];
         $count_list = [];
         foreach($list as $key=>$value){
@@ -98,7 +98,6 @@ class SiteController extends BaseController
 
         $dishes = Dishes::find()->where(['ownerid'=>$this->ownerid])
             ->andWhere(['in','id',$ids])->asArray()->all();
-
         $total = 0 ;
         foreach($dishes as $key=>$value){
             $dishes[$key]['order_count'] = $count_list[$value['id']];
@@ -114,18 +113,108 @@ class SiteController extends BaseController
             $total = $total + $dishes[$key]['order_single_amount'];
 
         }
-
-        $order->amount = $total;
-        $order->save();
-
         return $this->renderPartial("preorder",[
             'dishes'=>$dishes,
             'total'=>$total,
             'store'=>$store,
         ]);
+    }
 
+    public function actionSaveorder($store_id,$sn)
+    {
+        $request = \Yii::$app->request;
+        if($request->isPost){
+            $post = $request->post();
+            $ids = $post['ids'];
+            $count = $post['count'];
+            $labels = $post['labels'];
+            $data = [];
+            foreach($ids as $key=>$value){
+                $data[$key]['id'] = $value;
+                $data[$key]['count'] = $count[$key];
+                $data[$key]['labels'] = $labels[$key];
+            }
+
+            $model = Dishcart::find()->where([
+                'store_id'=>$store_id,
+                'sn'=>$sn,
+                'openid'=>$this->openid,
+                'type'=>0 //第一次点餐
+            ])->one();
+
+            if(!$model){
+                $model = new Dishcart();
+            }
+
+            $model->store_id = $store_id;
+            $model->ownerid = $this->ownerid;
+            $model->openid = $this->openid;
+            $model->name = 'lrz';
+            $model->sn = $sn;
+            $model->list = json_encode($data);
+            $model->mark = $post['mark'];
+
+            if($model->validate() && $model->save()){
+                return $this->redirect(['site/resorder','store_id'=>$store_id,'sn'=>$sn,'token'=>$this->token]);
+            }
+
+        }
 
     }
+
+    //所有人的点餐列表
+    public function actionResorder($store_id,$sn)
+    {
+        $store = Stores::find()->where(['id'=>$store_id,'ownerid'=>$this->ownerid])->one();
+        $carts = Dishcart::find()->where(['store_id'=>$store_id,'sn'=>$sn,'ownerid'=>$this->ownerid])->orderBy("id asc")->asArray()->all();
+
+        $dish_ids = [];
+        foreach($carts as $key=>$value){
+            $list = json_decode($value['list'],1);
+
+            foreach($list as $k=>$v){
+                $dish_ids[]=$v['id'];
+                $carts[$key]['dish_ids'][]=$v['id'];
+            }
+
+        }
+        $dishes = Dishes::find()->where(['ownerid'=>$this->ownerid])
+            ->andWhere(['in','id',$dish_ids])->asArray()->all();
+        $new_dishes = [];
+        foreach($dishes as $key=>$value){
+            $new_dishes[$value['id']]=$value;
+        }
+        unset($dishes);
+
+        $total = 0;
+
+        foreach($carts as $key=>$value){
+            $list = json_decode($value['list'],1);
+
+            $cart_dishes = [];
+
+            foreach($list as $k=>$v){
+                $cart_dishes[$v['id']] = $new_dishes[$v['id']];
+                $cart_dishes[$v['id']]['order_count'] = $v['count'];
+                $cart_dishes[$v['id']]['order_labels'] = $v['labels'];
+                $cart_dishes[$v['id']]['order_single_amount'] = intval($v['count']*$new_dishes[$v['id']]['price']);
+
+                $total = $total + intval($v['count']*$new_dishes[$v['id']]['price']);
+
+            }
+
+            $carts[$key]['dishes'] = $cart_dishes;
+
+        }
+
+        return $this->renderPartial("resorder",[
+            'carts'=>$carts,
+            'total'=>$total,
+            'store'=>$store,
+        ]);
+
+    }
+
 
     public function actionSell()
     {
