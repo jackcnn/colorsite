@@ -138,7 +138,7 @@ class SiteController extends BaseController
                 $model = Dishcart::find()->where([
                     'store_id'=>$store_id,
                     'sn'=>$sn,
-                    'openid'=>$this->openid,
+                    'openid'=>\Yii::$app->user->identity->openid,
                     'type'=>0 //第一次点餐
                 ])->one();
 
@@ -161,9 +161,12 @@ class SiteController extends BaseController
                 $model = Dishcart::find()->where([
                     'store_id'=>$store_id,
                     'sn'=>$sn,
-                    'openid'=>$this->openid,
+                    'openid'=>\Yii::$app->user->identity->openid,
                     'type'=>0
-                ])->one()->delete();
+                ])->one();
+                if($model){
+                    $model->delete();
+                }
 
             }
         }
