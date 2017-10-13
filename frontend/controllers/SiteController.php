@@ -123,11 +123,11 @@ class SiteController extends BaseController
         $request = \Yii::$app->request;
         if($request->isPost){
             $post = $request->post();
-            $ids = $post['ids'];
-            $count = $post['count'];
-            $labels = $post['labels'];
+            $ids = isset($post['ids'])?$post['ids']:[];
+            $count = isset($post['count'])?$post['count']:[];
+            $labels = isset($post['labels'])?$post['labels']:[];
 
-            if(is_array($ids) && count($ids)){
+            if(count($ids)){
                 $data = [];
                 foreach($ids as $key=>$value){
                     $data[$key]['id'] = $value;

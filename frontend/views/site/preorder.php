@@ -97,6 +97,12 @@ $(function () {
         if(confirm('确认删除吗？')){
             $(this).parent().remove();
         }
+
+        if($(".remove").length < 1){
+            $("#submit").html('我不订了');
+        }
+
+
     })
 
     $("#submit").click(function () {
