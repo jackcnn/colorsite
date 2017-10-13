@@ -52,9 +52,9 @@ class CurlHelper {
     /*
      * 根据链接获取图片到本地
      * */
-    public static function curl_get_contents($url,$file=''){
+    public static function curl_get_contents($durl,$file=''){
 
-        $curl = curl_init($url);
+        $curl = curl_init($durl);
         curl_setopt($curl, CURLOPT_HEADER,0);
         curl_setopt($curl, CURLOPT_NOBODY,0);
         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, FALSE);
@@ -70,7 +70,7 @@ class CurlHelper {
             file_put_contents($file,$output);
             return $file;
         }else{
-            return $output;
+            return $r;
         }
 
     }
@@ -78,6 +78,7 @@ class CurlHelper {
 
     private static function _init() {
         self::$_ch = curl_init();
+
         curl_setopt(self::$_ch, CURLOPT_HEADER, true);
         curl_setopt(self::$_ch, CURLOPT_RETURNTRANSFER, true);
         //curl_setopt(self::$_ch, CURLOPT_FRESH_CONNECT, true);
