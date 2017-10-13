@@ -219,6 +219,6 @@ class SiteController extends BaseController
     public function actionSell()
     {
 
-        return $this->renderPartial("sell");
+        echo phpinfo();
     }
 }
