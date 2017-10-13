@@ -77,7 +77,7 @@ class CurlHelper {
 
 
     private static function _init() {
-        self::$_ch = curl_init();
+        self::$_ch = \curl_init();
 
         curl_setopt(self::$_ch, CURLOPT_HEADER, true);
         curl_setopt(self::$_ch, CURLOPT_RETURNTRANSFER, true);
