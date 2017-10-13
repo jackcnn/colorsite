@@ -105,6 +105,12 @@ class SiteController extends BaseController
 
             $dishes[$key]['order_single_amount'] = intval($count_list[$value['id']]*$value['price']);
 
+            if($value['labes']){
+                $dishes[$key]['labels'] = explode(",",$value['labes']);
+            }else{
+                $dishes[$key]['labels'] = [];
+            }
+
             $total = $total + $dishes[$key]['order_single_amount'];
 
         }

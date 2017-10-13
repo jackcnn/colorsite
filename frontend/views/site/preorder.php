@@ -34,9 +34,19 @@
                             <div class="name"><?=$value['name']?></div>
                             <div class="count">×<?=$value['order_count']?></div>
                             <div class="total">￥<?=$value['order_single_amount']/100?></div>
+                            <div class="desc">
+                                <?php foreach($value['labels'] as $k=>$v){?>
+                                    <span class="labels"><?=$v?></span>
+                                <?php }?>
+                            </div>
                         </li>
                     <?php }?>
                 </ul>
+            </div>
+            <div class="lister">
+                <div class="mark-container">
+                    <textarea class="mark" name="mark" placeholder="请输入备注内容（可不填）"></textarea>
+                </div>
             </div>
         </div>
     </div>
@@ -58,9 +68,6 @@
         </div>
         <div class="backdrop"></div>
     </div>
-
-
-
 
 
 </div>
