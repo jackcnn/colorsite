@@ -21,9 +21,7 @@ class SiteController extends BaseController
 
     public function actionIndex()
     {
-
         ColorHelper::wxlogin($this->ownerid);
-
 
         $store = Stores::find()->where(['ownerid'=>$this->ownerid,'id'=>\Yii::$app->request->get("store_id")])->asArray()->one();
 

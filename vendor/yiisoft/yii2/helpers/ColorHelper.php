@@ -89,7 +89,6 @@ class ColorHelper
      * */
     public static function wxlogin($ownerid,$router="index",$relogin=false){
 
-//        $model=\common\models\table\Web::find($wid)->one();
 
         $model = \common\models\Thirdcfg::find()->where(['ownerid'=>$ownerid,'type'=>'weixin'])->one();
 
