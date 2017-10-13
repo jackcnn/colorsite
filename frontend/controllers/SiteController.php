@@ -146,8 +146,8 @@ class SiteController extends BaseController
 
             $model->store_id = $store_id;
             $model->ownerid = $this->ownerid;
-            $model->openid = $this->openid;
-            $model->name = 'lrz';
+            $model->openid = \Yii::$app->user->identity->openid;
+            $model->name = \Yii::$app->user->identity->wxname;
             $model->sn = $sn;
             $model->list = json_encode($data);
             $model->mark = $post['mark'];
