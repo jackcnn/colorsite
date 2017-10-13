@@ -103,7 +103,7 @@
                                 ￥0
                             </div>
                             <div class="desc">
-                                <?=\Yii::$app->user->identity->wxname?>已点列表
+                                已点列表
                             </div>
                         </div>
                         <div id="submit" data-total="0" class="content-right">提交</div>
