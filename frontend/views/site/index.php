@@ -103,14 +103,14 @@
                                 ￥0
                             </div>
                             <div class="desc">
-                                已点列表<?=\Yii::$app->user->identity->wxname?>
+                                已点列表
                             </div>
                         </div>
                         <div id="submit" data-total="0" class="content-right">提交</div>
                     </div>
 
                     <div class="shopcart-list" style="display: none;">
-                        <div class="list-header"><h1 class="title">已点列表</h1> <span class="empty">清空</span></div>
+                        <div class="list-header"><h1 class="title"><?=\Yii::$app->user->identity->wxname?></h1> <span class="empty">清空</span></div>
                         <div class="list-content">
                             <ul>
                                 <?php foreach($dishes as $key=>$value){?>
