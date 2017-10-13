@@ -138,8 +138,16 @@
     display: block;
     width: 94%;
     margin: 5px 3%;
-    height:200px;
+    height:135px;
     border: none;
     resize: none;
     background-color: #f3f5f7;
+    font-size: 14px;
+    line-height: 18px;
+    padding:10px;
+    color: #93999f;
+}
+.desc .labels.active{
+    border:1px solid #00a0dc;
+    color: #00a0dc;
 }

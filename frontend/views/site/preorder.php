@@ -36,7 +36,7 @@
                             <div class="total">￥<?=$value['order_single_amount']/100?></div>
                             <div class="desc">
                                 <?php foreach($value['labels'] as $k=>$v){?>
-                                    <span class="labels"><?=$v?></span>
+                                    <span data-id="<?=$value['id']?>" class="labels"><?=$v?></span>
                                 <?php }?>
                             </div>
                         </li>
@@ -45,7 +45,7 @@
             </div>
             <div class="lister">
                 <div class="mark-container">
-                    <textarea class="mark" name="mark" placeholder="请输入备注内容（可不填）"></textarea>
+                    <textarea class="mark" name="mark" placeholder="请输入备注内容（可不填，最多150字）"></textarea>
                 </div>
             </div>
         </div>
@@ -60,18 +60,23 @@
                         ￥<?=$total/100?>
                     </div>
                     <div class="desc">
-                        已点列表
+                        点击刷新菜单
                     </div>
                 </div>
-                <div id="submit" data-total="0" class="content-right enough">去支付</div>
+                <div id="submit" data-total="0" class="content-right enough">确认下单</div>
             </div>
         </div>
         <div class="backdrop"></div>
     </div>
-
-
 </div>
 </body>
+<script>
+$(function () {
+    $(".labels").click(function () {
+        $(this).toggleClass("active");
+    })
+})    
+</script>
 </html>
 
 
