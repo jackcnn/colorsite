@@ -126,36 +126,46 @@ class SiteController extends BaseController
             $ids = $post['ids'];
             $count = $post['count'];
             $labels = $post['labels'];
-            $data = [];
-            foreach($ids as $key=>$value){
-                $data[$key]['id'] = $value;
-                $data[$key]['count'] = $count[$key];
-                $data[$key]['labels'] = $labels[$key];
+
+            if(is_array($ids) && count($ids)){
+                $data = [];
+                foreach($ids as $key=>$value){
+                    $data[$key]['id'] = $value;
+                    $data[$key]['count'] = $count[$key];
+                    $data[$key]['labels'] = $labels[$key];
+                }
+
+                $model = Dishcart::find()->where([
+                    'store_id'=>$store_id,
+                    'sn'=>$sn,
+                    'openid'=>$this->openid,
+                    'type'=>0 //第一次点餐
+                ])->one();
+
+                if(!$model){
+                    $model = new Dishcart();
+                }
+
+                $model->store_id = $store_id;
+                $model->ownerid = $this->ownerid;
+                $model->openid = \Yii::$app->user->identity->openid;
+                $model->name = \Yii::$app->user->identity->wxname;
+                $model->sn = $sn;
+                $model->list = json_encode($data);
+                $model->mark = $post['mark'];
+
+                if($model->validate() && $model->save()){
+                    return $this->redirect(['site/resorder','store_id'=>$store_id,'sn'=>$sn,'token'=>$this->token]);
+                }
+            }else{
+                $model = Dishcart::find()->where([
+                    'store_id'=>$store_id,
+                    'sn'=>$sn,
+                    'openid'=>$this->openid,
+                    'type'=>0
+                ])->one()->delete();
+
             }
-
-            $model = Dishcart::find()->where([
-                'store_id'=>$store_id,
-                'sn'=>$sn,
-                'openid'=>$this->openid,
-                'type'=>0 //第一次点餐
-            ])->one();
-
-            if(!$model){
-                $model = new Dishcart();
-            }
-
-            $model->store_id = $store_id;
-            $model->ownerid = $this->ownerid;
-            $model->openid = \Yii::$app->user->identity->openid;
-            $model->name = \Yii::$app->user->identity->wxname;
-            $model->sn = $sn;
-            $model->list = json_encode($data);
-            $model->mark = $post['mark'];
-
-            if($model->validate() && $model->save()){
-                return $this->redirect(['site/resorder','store_id'=>$store_id,'sn'=>$sn,'token'=>$this->token]);
-            }
-
         }
 
     }
