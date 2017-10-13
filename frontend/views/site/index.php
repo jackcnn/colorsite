@@ -110,7 +110,7 @@
                     </div>
 
                     <div class="shopcart-list" style="display: none;">
-                        <div class="list-header"><h1 class="title"><?=\Yii::$app->user->identity->wxname?></h1> <span class="empty">清空</span></div>
+                        <div class="list-header"><h1 class="title"><?php if(!\Yii::$app->user->isGuest){echo \Yii::$app->user->identity->wxname;}?></h1> <span class="empty">清空</span></div>
                         <div class="list-content">
                             <ul>
                                 <?php foreach($dishes as $key=>$value){?>
