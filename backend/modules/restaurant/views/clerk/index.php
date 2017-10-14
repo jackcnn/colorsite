@@ -28,9 +28,9 @@ $this->params['breadcrumbs'][] = $this->title;
              'desc',
              'phone',
              [
-                 'attribute'=>'rights',
-                 'format'=>'raw',
-                 'value'=>function($model){
+                'attribute'=>'rights',
+                'format'=>'raw',
+                'value'=>function($model){
                     $arr = json_decode($model->rights,1);
                     if(is_array($arr)){
                         $data = backend\models\ShareData::clerkrights();
@@ -43,9 +43,12 @@ $this->params['breadcrumbs'][] = $this->title;
                         return $res;
 
                     }
-                 }
-             ],
-             'openid',
+                }
+            ],
+            [
+                'attribute'=>'wxname',
+                'labels'=>'绑定微信号'
+            ],
             ['class' => 'yii\grid\ActionColumn'],
             [
                 'attribute'=>'',
