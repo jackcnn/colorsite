@@ -294,7 +294,6 @@ class SiteController extends BaseController
 
         }
 
-        ColorHelper::dump($clerk);
 
         return $this->renderPartial("bindclerk",[
             'store'=>$store,
