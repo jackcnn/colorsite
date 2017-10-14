@@ -47,7 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute'=>'wxname',
-                'labels'=>'绑定微信号'
+                'label'=>'绑定微信号'
             ],
             ['class' => 'yii\grid\ActionColumn'],
             [
