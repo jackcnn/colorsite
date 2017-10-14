@@ -278,7 +278,6 @@ class SiteController extends BaseController
 
         if($check){
             $show = "hadbind";
-            $msg = "";
             $hadname = $check->name;
         }else{
             $hadname = "";
@@ -305,7 +304,6 @@ class SiteController extends BaseController
             'store'=>$store,
             'clerk'=>$clerk,
             'show'=>$show,
-            'msg'=>$msg,
             'hadname'=>$hadname
         ]);
     }
