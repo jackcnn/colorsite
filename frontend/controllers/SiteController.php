@@ -274,8 +274,14 @@ class SiteController extends BaseController
 
         $check = Clerk::find()->where(['store_id'=>$store_id,'openid'=>\Yii::$app->user->identity->openid])->one();
 
+        $show = "bind";
+
         if($check){
-            return $this->redirect(['site/bindclerk','store_id'=>$store_id,'clerk_id'=>$clerk_id,'token'=>$this->token,'error'=>'had']);
+            $show = "hadbind";
+            $msg = "";
+            $hadname = $check->name;
+        }else{
+            $hadname = "";
         }
 
         $request = \Yii::$app->request;
@@ -287,9 +293,9 @@ class SiteController extends BaseController
             $clerk->avatar = \Yii::$app->user->identity->wxpic;
 
             if($clerk->validate() && $clerk->save()){
-                return $this->redirect(['site/bindclerk','store_id'=>$store_id,'clerk_id'=>$clerk_id,'token'=>$this->token,'success'=>1]);
+                $show = "success";
             }else{
-                return $this->redirect(['site/bindclerk','store_id'=>$store_id,'clerk_id'=>$clerk_id,'token'=>$this->token,'error'=>'fail']);
+                $show = "fail";
             }
 
         }
@@ -298,6 +304,9 @@ class SiteController extends BaseController
         return $this->renderPartial("bindclerk",[
             'store'=>$store,
             'clerk'=>$clerk,
+            'show'=>$show,
+            'msg'=>$msg,
+            'hadname'=>$hadname
         ]);
     }
 
