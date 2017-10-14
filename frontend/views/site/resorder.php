@@ -9,8 +9,9 @@
     <meta charset="utf-8">
     <title><?=$store['name']?></title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
-    <script src="/assets/jquery.js"></script>
     <link rel="stylesheet" type="text/css" href="/assets/reset.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
     <link href="/assets/preorder.css" rel="stylesheet">
 </head>
 <body>
@@ -21,7 +22,6 @@
                 <div class="header"><?=$store->name?></div>
             </div>
             <?php foreach($carts as $key=>$value){?>
-
                 <div class="lister">
                     <div class="header"><?=$value['name']?></div>
                     <ul class="content">
@@ -45,9 +45,12 @@
                         <?php }?>
                     </ul>
                 </div>
-
-
             <?php }?>
+
+<!--            <div class="lister">-->
+<!--                <a class="re_pick" style="background: #20A0FF" href="--><?//=\yii\helpers\Url::to(['site/index','store_id'=>$store['id'],'token'=>$this->params['token'],'type'=>'add_dish','sn'=>\Yii::$app->request->get("sn")])?><!--">加菜</a>-->
+<!--            </div>-->
+
         </div>
     </div>
 
@@ -69,6 +72,8 @@
     </div>
 </div>
 </body>
+<script src="/assets/jquery.js"></script>
+<script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
 </html>
 
 

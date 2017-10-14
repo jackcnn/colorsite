@@ -10,8 +10,10 @@
     <meta charset="utf-8">
     <title><?=$store['name']?></title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
-    <script src="/assets/jquery.js"></script>
     <link rel="stylesheet" type="text/css" href="/assets/reset.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
+
     <link href="/assets/css.css" rel="stylesheet">
 </head>
 <body>
@@ -146,6 +148,8 @@
 
 </div>
 </body>
+<script src="/assets/jquery.js"></script>
+<script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
 <script>
     $(function () {
         var scroll_list = new Array();
@@ -275,6 +279,7 @@
         })
 
         $("#submit").click(function () {
+
             var self = $(this);
             if(!self.hasClass("enough")){
                 return false;
@@ -297,7 +302,7 @@
                 data:{
                     'list':list,
                     'amount':$("#submit").data("total"),
-                    'sn':'<?=\Yii::$app->request->get("sn")?>'
+                    'sn':'<?=\Yii::$app->request->get("sn")?>',
                 },
                 dataType:"json",
                 beforeSend:function(){

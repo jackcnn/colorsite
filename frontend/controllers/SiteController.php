@@ -257,7 +257,6 @@ class SiteController extends BaseController
 
         $cookies->remove('dish'.$store_id.'cart'.$sn);
 
-
         return $this->redirect(['site/index','store_id'=>$store_id,'token'=>$this->token,'sn'=>$sn]);
 
 

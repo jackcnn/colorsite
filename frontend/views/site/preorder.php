@@ -9,8 +9,9 @@
     <meta charset="utf-8">
     <title><?=$store['name']?></title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
-    <script src="/assets/jquery.js"></script>
     <link rel="stylesheet" type="text/css" href="/assets/reset.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
     <link href="/assets/preorder.css" rel="stylesheet">
 </head>
 <body>
@@ -49,7 +50,8 @@
                     </div>
                 </div>
                 <div class="lister">
-                    <a class="re_pick" href="<?=\yii\helpers\Url::to(['site/resetorder','store_id'=>$store['id'],'token'=>$this->params['token'],'sn'=>\Yii::$app->request->get("sn")])?>">我不订了</a>
+                    <a id="cancle" class="re_pick" href="<?=\yii\helpers\Url::to(['site/resetorder','store_id'=>$store['id'],'token'=>$this->params['token'],'sn'=>\Yii::$app->request->get("sn")])?>">我不订了</a>
+                    <a class="re_pick" style="background: #20A0FF" href="<?=\yii\helpers\Url::to(['site/index','store_id'=>$store['id'],'token'=>$this->params['token'],'sn'=>\Yii::$app->request->get("sn")])?>">我还要点餐</a>
                 </div>
             </form>
         </div>
@@ -74,6 +76,8 @@
     </div>
 </div>
 </body>
+<script src="/assets/jquery.js"></script>
+<script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
 <script>
 $(function () {
     //点击labels变色和想要的input值改变
@@ -94,21 +98,31 @@ $(function () {
     })
 
     $(".remove").click(function () {
-        if(confirm('确认删除吗？')){
+
+        $.confirm("确认删除吗？", function() {
             $(this).parent().remove();
-        }
+        });
 
         if($(".remove").length < 1){
             $("#submit").html('我不订了');
         }
 
+    })
+
+    $("#cancle").click(function (e) {
+        e.preventDefault();
+        var self = $(this);
+        $.confirm("将清空您菜单，确认吗？",function () {
+            return location.href = self.attr("href");
+        })
 
     })
 
+
     $("#submit").click(function () {
-        if(confirm('确认提交吗？')){
+        $.confirm("确认提交吗？", function() {
             $("#form").submit();
-        }
+        });
     })
 })    
 </script>
