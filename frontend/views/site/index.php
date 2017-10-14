@@ -67,10 +67,12 @@
                                                     <span class="oldPrice" <?php if($v['oprice']<1){?>style="display: none;"<?php }?>>￥<?=$v['oprice']/100?></span></div>
                                                 <div class="cartcontrol-wrapper">
                                                     <div class="cartcontrol">
-                                                        <div class="cart-decrease" style="display: none;">
+                                                        <div class="cart-decrease" <?php if($v['hascount']<1){?>style="display: none;"<?php }?>>
                                                             <span class="icon-remove_circle_outline inner"></span>
                                                         </div>
-                                                        <div class="cart-count" id="foodID_<?=$v['id']?>" data-id="<?=$v['id']?>" data-price = "<?=$v['price']?>" style="display: none;">0</div>
+                                                        <div class="cart-count" id="foodID_<?=$v['id']?>" data-id="<?=$v['id']?>" data-price = "<?=$v['price']?>" <?php if($v['hascount']<1){?>style="display: none;"<?php }?>>
+                                                            <?=$v['hascount']?>
+                                                        </div>
                                                         <div class="cart-add"><i class="icon-add_circle"></i></div>
                                                     </div>
                                                 </div>
@@ -159,6 +161,8 @@
                 $(".foods").animate({scrollTop: parseInt(scroll_list[index]) }, {duration: 300,easing: "swing"});
             }
         })
+
+        get_result();
 
         //购物车相关
 

@@ -49,7 +49,7 @@
                     </div>
                 </div>
                 <div class="lister">
-                    <a class="re_pick" href="<?=\yii\helpers\Url::to(['site/index','store_id'=>$store['id'],'token'=>$this->params['token'],'sn'=>\Yii::$app->request->get("sn")])?>">重新选菜</a>
+                    <a class="re_pick" href="<?=\yii\helpers\Url::to(['site/resetorder','store_id'=>$store['id'],'token'=>$this->params['token'],'sn'=>\Yii::$app->request->get("sn")])?>">我不订了</a>
                 </div>
             </form>
         </div>

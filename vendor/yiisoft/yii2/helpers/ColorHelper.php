@@ -98,7 +98,7 @@ class ColorHelper
         /*
          * 本地测试的时候直接登录，不要微信授权了
          * */
-        if(0){
+        if(1){
             $identity=\frontend\models\MemberAccess::findIdentity(1);
             \Yii::$app->user->login($identity,3600*24*7);
             return;

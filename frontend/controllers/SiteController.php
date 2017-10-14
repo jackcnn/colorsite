@@ -19,11 +19,11 @@ class SiteController extends BaseController
 
     public $openid = "SA523BER";
 
-    public function actionIndex()
+    public function actionIndex($store_id,$sn)
     {
         ColorHelper::wxlogin($this->ownerid);
 
-        $store = Stores::find()->where(['ownerid'=>$this->ownerid,'id'=>\Yii::$app->request->get("store_id")])->asArray()->one();
+        $store = Stores::find()->where(['ownerid'=>$this->ownerid,'id'=>$store_id])->asArray()->one();
 
         $category = Category::find()->where(['ownerid'=>$this->ownerid,'table'=>'restaurant'])->asArray()->orderBy("sort,id")->all();
 
@@ -31,9 +31,25 @@ class SiteController extends BaseController
 
         $alldishes = $dishes;
 
+
+        //点餐的缓存
+        $cookies = \Yii::$app->request->cookies;
+        $list = $cookies->getValue('dish'.$store_id.'cart'.$sn);
+        $list = json_decode($list,1);
+        if(!$list){
+            $list = [];
+        }
+
         foreach($category as $key=>$value){
 
             foreach($dishes as $k=>$v){
+
+
+                if(isset($list[$v['id']]) && $list[$v['id']]>0){
+                    $v['hascount'] = $list[$v['id']];
+                }else{
+                    $v['hascount'] = 0 ;
+                }
 
                 if($v['cateid'] == $value['id']){
 
@@ -42,6 +58,8 @@ class SiteController extends BaseController
                     unset($dishes[$k]);
                 }
 
+
+
             }
 
         }
@@ -49,7 +67,7 @@ class SiteController extends BaseController
         return $this->renderPartial("index",[
             'category'=>$category,
             'store'=>$store,
-            'dishes'=>$alldishes
+            'dishes'=>$alldishes,
         ]);
     }
 
@@ -81,7 +99,7 @@ class SiteController extends BaseController
     public function actionPreorder($store_id,$sn)
     {
         $store = Stores::find()->where(['id'=>$store_id,'ownerid'=>$this->ownerid])->one();
-        $cookies = Yii::$app->request->cookies;
+        $cookies = \Yii::$app->request->cookies;
         $list = $cookies->getValue('dish'.$store_id.'cart'.$sn);
         $list = json_decode($list,1);
         if(!$list){
@@ -223,6 +241,25 @@ class SiteController extends BaseController
             'total'=>$total,
             'store'=>$store,
         ]);
+
+    }
+
+    public function actionResetorder($store_id,$sn)
+    {
+
+        $model = Dishcart::find()->where(['store_id'=>$store_id,'sn'=>$sn,'openid'=>\Yii::$app->user->identity->openid,'type'=>0])->one();
+
+        if($model !== null){
+            $model->delete();
+        }
+
+        $cookies = \Yii::$app->response->cookies;
+
+        $cookies->remove('dish'.$store_id.'cart'.$sn);
+
+
+        return $this->redirect(['site/index','store_id'=>$store_id,'token'=>$this->token,'sn'=>$sn]);
+
 
     }
 
