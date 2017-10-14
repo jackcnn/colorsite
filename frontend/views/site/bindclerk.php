@@ -20,10 +20,20 @@
         .weui-btn_primary{
             background-color: #00a0dc;
         }
+        .weui-btn_primary:not(.weui-btn_disabled):active {
+            color: hsla(0,0%,100%,.6);
+            background-color: #00a0dc;
+        }
     </style>
 </head>
 <body>
 <div>
+
+    <div class="weui-msg__opr-area">
+        <p class="weui-btn-area">
+            <a href="javascript:;" id="submit" class="weui-btn weui-btn_primary">确认绑定</a>
+        </p>
+    </div>
 
 
     <?php switch($show){
