@@ -2,6 +2,7 @@
 namespace frontend\controllers;
 
 use common\models\Category;
+use common\models\Clerk;
 use common\models\Dishcart;
 use common\models\Dishes;
 use common\models\Dishorder;
@@ -260,6 +261,35 @@ class SiteController extends BaseController
         return $this->redirect(['site/index','store_id'=>$store_id,'token'=>$this->token,'sn'=>$sn]);
 
 
+    }
+
+    //绑定店员https://colorsite.com/site/bindclerk.html?store_id=2&clerk_id=2&token=bRGqRLRqA
+    public function actionBindclerk($store_id,$clerk_id)
+    {
+        ColorHelper::wxlogin($this->ownerid);
+
+        $store = Stores::find($store_id)->one();
+
+        $clerk = Clerk::find($clerk_id)->one();
+
+        $request = \Yii::$app->request;
+
+        if($request->isPost){
+
+
+            $clerk->openid = \Yii::$app->user->identity->openid;
+            $clerk->wxname = \Yii::$app->user->identity->wxname;
+            $clerk->avatar = \Yii::$app->user->identity->wxpic;
+
+            if($clerk->validate() && $clerk->save()){
+                return $this->redirect(['site/bindclerk','store_id'=>$store_id,'clerk_id'=>$clerk_id,'token'=>$this->token,'success'=>1]);
+            }
+
+        }
+        return $this->renderPartial("bindclerk",[
+            'store'=>$store,
+            'clerk'=>$clerk
+        ]);
     }
 
 

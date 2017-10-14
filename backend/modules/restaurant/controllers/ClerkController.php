@@ -86,10 +86,10 @@ class ClerkController extends BaseController
         ]);
     }
 
-    public function actionBind($id)
+    public function actionBind($id,$store_id)
     {
 
-        return $this->render('bind',['id'=>$id]);
+        return $this->render('bind',['id'=>$id,'store_id'=>$store_id,'token'=>$this->token]);
 
     }
 

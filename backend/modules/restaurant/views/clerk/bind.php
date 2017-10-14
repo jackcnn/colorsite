@@ -33,9 +33,12 @@
 
 
 <?php
+
+$str = \yii\helpers\Url::to(['/site/bindclerk.html','store_id'=>$store_id,'clerk_id'=>$id,'token'=>$token],'https');
+$str = str_replace("/admin","",$str);
 $js = <<<JS
 
-    var str = "http://www.baidu.com";
+    var str = "{$str}";
 
     $('#code').qrcode({
 			width: 300,
