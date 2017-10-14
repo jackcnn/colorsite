@@ -268,9 +268,9 @@ class SiteController extends BaseController
     {
         ColorHelper::wxlogin($this->ownerid);
 
-        $store = Stores::find($store_id)->one();
+        $store = Stores::findOne($store_id);
 
-        $clerk = Clerk::find($clerk_id)->one();
+        $clerk = Clerk::findOne($clerk_id);
 
         $check = Clerk::find()->where(['store_id'=>$store_id,'openid'=>\Yii::$app->user->identity->openid])->one();
 
@@ -293,6 +293,9 @@ class SiteController extends BaseController
             }
 
         }
+
+        ColorHelper::dump($clerk);
+
         return $this->renderPartial("bindclerk",[
             'store'=>$store,
             'clerk'=>$clerk,
