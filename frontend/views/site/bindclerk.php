@@ -27,26 +27,16 @@
 
 
 
-    <?php if(\Yii::$app->request->get("success")){?>
+    <?php if(\Yii::$app->request->get("error")){?>
 
-        <div>
-            <div class="weui-msg">
-                <div class="weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></div>
-                <div class="weui-msg__text-area">
-                    <h2 class="weui-msg__title">绑定成功</h2>
-                </div>
-            </div>
-        </div>
 
-    <?php }else{?>
-
-        <?php if($clerk->openid){?>
+        <?php if(\Yii::$app->request->get("error") == 'had'){?>
 
             <div>
                 <div class="weui-msg">
                     <div class="weui-msg__icon-area"><i class="weui-icon-error weui-icon_msg"></i></div>
                     <div class="weui-msg__text-area">
-                        <h2 class="weui-msg__title">该店员记录已经被绑定了</h2>
+                        <h2 class="weui-msg__title">该微信已绑定过店员了</h2>
                     </div>
                 </div>
             </div>
@@ -55,22 +45,66 @@
 
             <div>
                 <div class="weui-msg">
+                    <div class="weui-msg__icon-area"><i class="weui-icon-error weui-icon_msg"></i></div>
                     <div class="weui-msg__text-area">
-                        <h2 class="weui-msg__title">绑定微信号</h2>
-                        <p class="weui-msg__desc">绑定微信号为"<?=$store->name?>"店的"<?=$clerk->name?>"店员</p>
+                        <h2 class="weui-msg__title">绑定失败</h2>
                     </div>
-                    <form id="form" action="" method="post">
-                        <div class="weui-msg__opr-area">
-                            <p class="weui-btn-area">
-                                <a href="javascript:;" id="submit" class="weui-btn weui-btn_primary">确认绑定</a>
-                            </p>
-                        </div>
-
-                    </form>
-
                 </div>
             </div>
 
+        <?php }?>
+
+
+
+
+    <?php }else{?>
+
+        <?php if(\Yii::$app->request->get("success")){?>
+
+            <div>
+                <div class="weui-msg">
+                    <div class="weui-msg__icon-area"><i class="weui-icon-success weui-icon_msg"></i></div>
+                    <div class="weui-msg__text-area">
+                        <h2 class="weui-msg__title">绑定成功</h2>
+                    </div>
+                </div>
+            </div>
+
+        <?php }else{?>
+
+            <?php if($clerk->openid){?>
+
+                <div>
+                    <div class="weui-msg">
+                        <div class="weui-msg__icon-area"><i class="weui-icon-error weui-icon_msg"></i></div>
+                        <div class="weui-msg__text-area">
+                            <h2 class="weui-msg__title">该店员记录已经被绑定了</h2>
+                        </div>
+                    </div>
+                </div>
+
+            <?php }else{?>
+
+                <div>
+                    <div class="weui-msg">
+                        <div class="weui-msg__text-area">
+                            <h2 class="weui-msg__title">绑定微信号</h2>
+                            <p class="weui-msg__desc">绑定微信号为"<?=$store->name?>"店的"<?=$clerk->name?>"店员</p>
+                        </div>
+                        <form id="form" action="" method="post">
+                            <div class="weui-msg__opr-area">
+                                <p class="weui-btn-area">
+                                    <a href="javascript:;" id="submit" class="weui-btn weui-btn_primary">确认绑定</a>
+                                </p>
+                            </div>
+
+                        </form>
+
+                    </div>
+                </div>
+
+
+            <?php }?>
 
         <?php }?>
 
