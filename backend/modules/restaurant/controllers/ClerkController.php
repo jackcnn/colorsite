@@ -95,7 +95,7 @@ class ClerkController extends BaseController
 
 
     public function actionUnbind($id,$store_id){
-        $model = Clerk::find($id)->one();
+        $model = Clerk::findOne($id);
 
         if($model){
             $model->openid = null;
