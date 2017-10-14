@@ -29,13 +29,6 @@
 <body>
 <div>
 
-    <div class="weui-msg__opr-area">
-        <p class="weui-btn-area">
-            <a href="javascript:;" id="submit" class="weui-btn weui-btn_primary">确认绑定</a>
-        </p>
-    </div>
-
-
     <?php switch($show){
         case "bind":
             ?>
