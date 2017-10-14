@@ -53,7 +53,12 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute'=>'',
                 'value'=>function($model){
-                    return Html::a('微信绑定', 'javascript:;', ['class' => 'layui-btn layui-btn-mini bind','data-href'=>\yii\helpers\Url::to(['/restaurant/clerk/bind','id'=>$model->id,'store_id'=>$model->id])]);
+                    $html = Html::a('微信绑定', 'javascript:;', ['class' => 'layui-btn layui-btn-mini bind','data-href'=>\yii\helpers\Url::to(['/restaurant/clerk/bind','id'=>$model->id,'store_id'=>\Yii::$app->request->get("store_id")])]);
+
+                    $html .= Html::a('解除绑定', ['/restaurant/clerk/unbind','id'=>$model->id,'store_id'=>\Yii::$app->request->get("store_id")], ['class' => 'layui-btn layui-btn-mini layui-btn-danger unbind']);
+
+                    return $html;
+
                 },
                 'format'=>'raw'
             ]
@@ -77,6 +82,14 @@ layui.use('layer',function(){
           content: link
         }); 
         
+    })
+    
+    jQuery(".unbind").click(function (e) {
+        e.preventDefault();
+        var href = jQuery(this).attr('href');
+        layer.confirm('你确定要解除绑定吗？', {icon: 3, title:'提示'}, function(index){
+            return location.href=href;
+        });
     })
     
 })

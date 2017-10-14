@@ -93,6 +93,22 @@ class ClerkController extends BaseController
 
     }
 
+
+    public function actionUnbind($id,$store_id){
+        $model = Clerk::find($id)->one();
+
+        if($model){
+            $model->openid = null;
+            $model->wxname = null;
+            $model->avatar = null;
+
+            $model->save();
+
+        }
+        return $this->redirect(['clerk/index','store_id'=>$store_id]);
+
+    }
+
     public function actionDelete($id)
     {
         $this->findModel($id)->delete();
