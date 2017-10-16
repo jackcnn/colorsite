@@ -122,8 +122,6 @@ class ColorHelper
 
                 $oauth_info=\common\weixin\Wxoauth2Helper::getTokenAndOpenid($code,$model->appid,$model->appsecret);
 
-                ColorHelper::dump($oauth_info);die;
-
                 if(isset($oauth_info['access_token'])){
                     $user_info=\common\weixin\Wxoauth2Helper::getUserInfo($oauth_info['access_token'],$oauth_info['openid']);
                 }else{//重新拿code
