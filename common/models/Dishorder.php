@@ -11,12 +11,17 @@ use Yii;
  * @property integer $ownerid
  * @property integer $store_id
  * @property string $ordersn
+ * @property string $sn
  * @property integer $status
  * @property integer $amount
  * @property integer $paytime
  * @property string $list
+ * @property string $payinfo
  * @property string $openid
+ * @property string $openid_list
+ * @property string $payopenid
  * @property string $paytype
+ * @property integer $table_num
  * @property integer $created_at
  * @property integer $updated_at
  */
@@ -36,10 +41,10 @@ class Dishorder extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ownerid', 'store_id', 'status', 'amount', 'paytime', 'created_at', 'updated_at'], 'integer'],
-            [['list'], 'string'],
-            [['ordersn', 'paytype'], 'string', 'max' => 30],
-            [['openid'], 'string', 'max' => 100],
+            [['ownerid', 'store_id', 'status', 'amount', 'paytime', 'table_num', 'created_at', 'updated_at'], 'integer'],
+            [['list', 'payinfo', 'openid_list'], 'string'],
+            [['ordersn', 'sn', 'paytype'], 'string', 'max' => 30],
+            [['openid', 'payopenid'], 'string', 'max' => 100],
         ];
     }
 
@@ -53,12 +58,17 @@ class Dishorder extends \yii\db\ActiveRecord
             'ownerid' => 'Ownerid',
             'store_id' => 'Store ID',
             'ordersn' => '订单编号',
-            'status' => '订单状态，0点单，1确认下单，2可付款，3已付款',
-            'amount' => 'Amount',
+            'sn' => 'Sn',
+            'status' => '订单状态，0确认下单，1可付款，2已付款',
+            'amount' => '订单总额',
             'paytime' => 'Paytime',
             'list' => 'List',
-            'openid' => 'Openid',
+            'payinfo' => 'Payinfo',
+            'openid' => '店员openid',
+            'openid_list' => '客户openid',
+            'payopenid' => '付款openid',
             'paytype' => 'Paytype',
+            'table_num' => '桌号',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

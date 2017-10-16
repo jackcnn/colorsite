@@ -18,11 +18,53 @@ class SiteController extends BaseController
 {
     public $enableCsrfValidation = false;
 
-    public $openid = "SA523BER";
 
     public function actionIndex($store_id,$sn)
     {
         ColorHelper::wxlogin($this->ownerid);
+
+        //判断是否是店员
+        $clerk = Clerk::find()->where(['store_id'=>$store_id,'openid'=>\Yii::$app->user->identity->openid])->one();
+        if($clerk != null){
+            //跳转到店员页面
+
+            $order = Dishorder::find()->where(['store_id'=>$store_id,'ordersn'=>$sn])->one();
+
+            if($order){ //店员下单了
+                switch(intval($order->status)){
+                    case 0://刚刚下单，客户只可以查看或者加菜
+                        return $this->redirect(['order/clerk','store_id'=>$store_id,'token'=>$this->token,'orderid'=>$order->id,'ordersn'=>$order->ordersn]);
+                        break;
+                    case 1://可以付款了
+                        return $this->redirect(['order/clerk','store_id'=>$store_id,'token'=>$this->token,'orderid'=>$order->id,'ordersn'=>$order->ordersn]);
+                        break;
+                    case 2://订单已经支付
+                        return $this->redirect(['order/clerk','store_id'=>$store_id,'token'=>$this->token,'orderid'=>$order->id,'ordersn'=>$order->ordersn]);
+                        break;
+                }
+            }else{
+                return $this->redirect(['clerk/index','store_id'=>$store_id,'sn'=>$sn,'token'=>$this->token]);
+            }
+
+
+        }else{
+            $order = Dishorder::find()->where(['store_id'=>$store_id,'ordersn'=>$sn])->one();
+
+            if($order){ //店员下单了
+                switch(intval($order->status)){
+                    case 0://刚刚下单，客户只可以查看或者加菜
+                        return $this->redirect(['order/index','store_id'=>$store_id,'token'=>$this->token,'orderid'=>$order->id,'ordersn'=>$order->ordersn]);
+                        break;
+                    case 1://可以付款了
+                        return $this->redirect(['order/index','store_id'=>$store_id,'token'=>$this->token,'orderid'=>$order->id,'ordersn'=>$order->ordersn]);
+                        break;
+                    case 2://订单已经支付
+                        return $this->redirect(['order/index','store_id'=>$store_id,'token'=>$this->token,'orderid'=>$order->id,'ordersn'=>$order->ordersn]);
+                        break;
+                }
+            }
+        }
+
 
         $store = Stores::find()->where(['ownerid'=>$this->ownerid,'id'=>$store_id])->asArray()->one();
 
@@ -58,11 +100,7 @@ class SiteController extends BaseController
 
                     unset($dishes[$k]);
                 }
-
-
-
             }
-
         }
 
         return $this->renderPartial("index",[

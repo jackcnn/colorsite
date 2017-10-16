@@ -32,7 +32,7 @@ class ColorHelper
      * */
     public static function orderSN($id)
     {
-        return date('YmdHis',time()).sprintf("%05d",$id ).substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 4);
+        return date('ymdHis',time()).sprintf("%05d",$id ).substr(implode(NULL, array_map('ord', str_split(substr(uniqid(), 7, 13), 1))), 0, 4);
     }
     /*
      * 根据字符生成token,不可逆转
@@ -99,7 +99,7 @@ class ColorHelper
          * 本地测试的时候直接登录，不要微信授权了
          * */
         if(1){
-            $identity=\frontend\models\MemberAccess::findIdentity(1);
+            $identity=\frontend\models\MemberAccess::findIdentity(\Yii::$app->request->get("uid",1));
             \Yii::$app->user->login($identity,3600*24*7);
             return;
         }

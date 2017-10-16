@@ -39,7 +39,7 @@ class WxCommon {
                 $parame['secret']=$new_config['appsecret'];
             }
             $return=CurlHelper::callWebServer(self::wx_access_token,$parame);
-            if($return['access_token'] && $return['expires_in']){
+            if(isset($return['access_token']) && isset($return['expires_in'])){
                 $cache->set('wxAccessToken'.$owid,$return['access_token'],intval($return['expires_in']-200));
             }else{
                 throw new HttpException('access token 获取失败！');

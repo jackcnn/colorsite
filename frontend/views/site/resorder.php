@@ -47,10 +47,6 @@
                 </div>
             <?php }?>
 
-<!--            <div class="lister">-->
-<!--                <a class="re_pick" style="background: #20A0FF" href="--><?//=\yii\helpers\Url::to(['site/index','store_id'=>$store['id'],'token'=>$this->params['token'],'type'=>'add_dish','sn'=>\Yii::$app->request->get("sn")])?><!--">加菜</a>-->
-<!--            </div>-->
-
         </div>
     </div>
 
