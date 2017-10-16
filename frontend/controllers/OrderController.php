@@ -113,6 +113,8 @@ class OrderController extends BaseController
             }
         }
 
+        ColorHelper::dump($request->method);die;
+
     }
 
     /*
