@@ -23,7 +23,7 @@ class SiteController extends BaseController
     {
         //40kAXlY5so5DSLzia9zgBUcZ1Kymqp0t
 
-        ColorHelper::wxlogin($this->ownerid);
+        ColorHelper::wxlogin($this->ownerid,"index",true);
 
         //判断是否是店员
         $clerk = Clerk::find()->where(['store_id'=>$store_id,'openid'=>\Yii::$app->user->identity->openid])->one();
