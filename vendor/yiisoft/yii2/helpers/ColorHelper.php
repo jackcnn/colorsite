@@ -111,7 +111,6 @@ class ColorHelper
 
         if($relogin||$user->isGuest){
 
-
             $code=$request->get('code');
             $state=$request->get('state');
             if(!isset($code) && !isset($state)) {//微信页面授权--!isset($code) && !isset($state)
@@ -129,6 +128,9 @@ class ColorHelper
                     return \Yii::$app->getResponse()->redirect($url)->send();
                 }
 
+                ColorHelper::dump($user_info);
+
+
                 //可以拿到微信信息了
                 $member=\frontend\models\MemberAccess::find()->where(['openid'=>$user_info['openid']])->one();
                 if(!$member){
@@ -144,11 +146,11 @@ class ColorHelper
                 $member->wxpic=$user_info['headimgurl'];
                 $member->wxinfo = json_encode($user_info);
 
-                if($member->save()){
+                if($member->validate() && $member->save()){
                     $identity=\frontend\models\MemberAccess::findIdentity($member->id);
                     \Yii::$app->user->login($identity,3600*24*7);
                 }else{
-                    exit('登陆失败，请重试');
+                    exit('登陆失败，请重试'.current($member->getFirstErrors()));
                 }
             }
 
