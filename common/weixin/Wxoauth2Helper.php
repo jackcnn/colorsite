@@ -32,7 +32,7 @@ class Wxoauth2Helper
 
         $aa=\Yii::$app->response->redirect($url)->send();
 
-        var_dump($aa);die;
+        die;
 
     }
 
