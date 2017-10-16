@@ -106,7 +106,16 @@ class ColorHelper
 
         $relogin = true;
 
+
+        ColorHelper::dump($relogin);
+        ColorHelper::dump($model);
+
+
         if($relogin||$user->isGuest){
+
+            echo 1312;
+
+
             $code=$request->get('code');
             $state=$request->get('state');
             if(!isset($code) && !isset($state)) {//微信页面授权--!isset($code) && !isset($state)
@@ -150,6 +159,8 @@ class ColorHelper
         }else{
             $identity=\Yii::$app->user->identity;
         }
+
+        die;
     }
 
 }
