@@ -90,7 +90,6 @@ class ColorHelper
     public static function wxlogin($ownerid,$router="index",$relogin=false){
 
 
-        die(2222);
 
         $model = \common\models\Thirdcfg::find()->where(['ownerid'=>$ownerid,'type'=>'weixin'])->one();
 
@@ -111,6 +110,8 @@ class ColorHelper
 
         ColorHelper::dump($relogin);
         ColorHelper::dump($model);
+
+        die;
 
 
         if($relogin||$user->isGuest){
