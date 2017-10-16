@@ -128,7 +128,7 @@ class ColorHelper
                     return \Yii::$app->getResponse()->redirect($url)->send();
                 }
 
-                ColorHelper::dump($user_info);
+                ColorHelper::dump($user_info);die;
 
 
                 //可以拿到微信信息了
