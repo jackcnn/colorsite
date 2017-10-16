@@ -5,6 +5,9 @@ return [
         'weixin' => [
             'class' => 'common\modules\weixin\WeixinModule',
         ],
+        'payments' => [
+            'class' => 'common\modules\payments\PaymentsModules',
+        ],
     ],
     'components' => [
         'cache' => [

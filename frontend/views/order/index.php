@@ -102,11 +102,57 @@ $(function () {
                 text: "微信支付(￥<?=$order['amount']/100?>)",
                 onClick: function() {
                     //do something
+                    $.ajax({
+                        url: "<?=\yii\helpers\Url::toRoute(['order/unifiedorder','token'=>$this->params['token'],'store_id'=>$store['id']])?>",
+                        type:"post",
+                        data:{
+                            'orderid':<?=intval($order['id'])?>,
+                        },
+                        dataType:"json",
+                        beforeSend:function(){
+                        },
+                        complete:function(){
+                        },
+                        error:function (XMLHttpRequest, textStatus, errorThrown){
+                            alert("网络错误,请重试...");
+                        },
+                        success: function(data){
+                            if(data.success){
+
+                                var params = data.jsapiparams;
+
+                                WeixinJSBridge.invoke(
+                                    'getBrandWCPayRequest', {
+                                        "appId":params.appId,     //公众号名称，由商户传入
+                                        "timeStamp":params.timeStamp,         //时间戳，自1970年以来的秒数
+                                        "nonceStr":params.nonceStr, //随机串
+                                        "package":params.package,
+                                        "signType":"MD5",         //微信签名方式：
+                                        "paySign":params.paySign //微信签名
+                                    },
+                                    function(res){
+                                        if(res.err_msg == "get_brand_wcpay_request:ok" ) {
+                                            $.alert('支付成功！');
+                                        }     // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回    ok，但并不保证它绝对可靠。
+                                    }
+                                );
+
+
+                            }
+                        }
+                    });
+
                 }
             },
             ]
         });
     })
+
+
+
+
+
+
 })
 </script>
 </html>

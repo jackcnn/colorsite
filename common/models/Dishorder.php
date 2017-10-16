@@ -22,6 +22,7 @@ use Yii;
  * @property string $payopenid
  * @property string $paytype
  * @property integer $table_num
+ * @property string $transaction_id
  * @property integer $created_at
  * @property integer $updated_at
  */
@@ -45,6 +46,7 @@ class Dishorder extends \yii\db\ActiveRecord
             [['list', 'payinfo', 'openid_list'], 'string'],
             [['ordersn', 'sn', 'paytype'], 'string', 'max' => 30],
             [['openid', 'payopenid'], 'string', 'max' => 100],
+            [['transaction_id'], 'string', 'max' => 50],
         ];
     }
 
@@ -69,6 +71,7 @@ class Dishorder extends \yii\db\ActiveRecord
             'payopenid' => '付款openid',
             'paytype' => 'Paytype',
             'table_num' => '桌号',
+            'transaction_id' => 'Transaction ID',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];

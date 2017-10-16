@@ -21,6 +21,8 @@ class SiteController extends BaseController
 
     public function actionIndex($store_id,$sn)
     {
+        //40kAXlY5so5DSLzia9zgBUcZ1Kymqp0t
+
         ColorHelper::wxlogin($this->ownerid);
 
         //判断是否是店员

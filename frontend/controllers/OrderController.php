@@ -16,6 +16,7 @@ use common\models\Dishorder;
 use common\models\Gallery;
 use common\models\Stores;
 use common\weixin\JssdkHelper;
+use common\weixin\WxPayHelper;
 use Yii;
 use frontend\controllers\BaseController;
 use yii\data\Pagination;
@@ -40,10 +41,6 @@ class OrderController extends BaseController
         unset($dishes['mark']);
 
         $order['dishes'] = $dishes;
-
-        //wxjssdk
-        $signPackage = JssdkHelper::getSignPackage($this->ownerid);
-
 
         return $this->renderPartial("index",[
             'store'=>$store,
@@ -108,7 +105,61 @@ class OrderController extends BaseController
             }
         }
 
+    }
 
+    /*
+     * 统一下单
+     * */
+    public function actionUnifiedorder()
+    {
+        $return['success']=true;
+        $request=\Yii::$app->request;
+        try{
+            $user= \Yii::$app->user;
+            $identity=$user->identity;
+            if($user->isGuest){
+                throw new \Exception('请先登录');
+            }
+            if(!$request->isPost){
+                throw new \Exception('非法请求');
+            }
+            $store_id = $request->get("store_id");
+            $orderid = $request->post("orderid");
+
+            $store = Stores::findOne($store_id);
+            $orderModel = Dishorder::find()->where(['store_id'=>$store_id,'id'=>$orderid])->one();
+
+            if($orderModel){
+
+                $return['orderid']=$orderModel->id;
+                $return['ordersn']=$orderModel->ordersn;
+
+                $wxconfig= WxPayHelper::getconfig($this->ownerid);
+
+                //微信下单
+                $input = new \common\weixin\lib\data\WxPayUnifiedOrder();
+                $input->SetBody($store->name."结账付款");
+                $input->SetAttach("记录orderid:".$orderid);
+                $input->SetOut_trade_no($orderModel->ordersn);
+                $input->SetTotal_fee(1);
+                $input->SetTime_start(date("YmdHis",time()));
+                $input->SetTime_expire(date("YmdHis", time() + 6000));
+                $input->SetGoods_tag("order_tag");
+                $input->SetNotify_url(Url::to(['/payments/wxnotify/dish'],true));
+                $input->SetTrade_type("JSAPI");
+                $input->SetAppid($wxconfig['appid']);
+                $input->SetMch_id($wxconfig['mch_number']);
+                $input->SetOpenid($identity->openid);
+                $orderRes = WxPayHelper::unifiedOrder($input , $wxconfig['mch_key']);
+                $return['jsapiparams'] = WxPayHelper::GetJsApiParameters($orderRes , $wxconfig['mch_key']);
+            }else{
+                throw new \Exception('订单不存在！');
+            }
+        }catch (\Exception $e){
+            $return['success']=false;
+            $return['msg']=$e->getMessage();
+        }
+        return $this->asJson($return);
 
     }
 
