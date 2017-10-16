@@ -138,6 +138,16 @@ class OrderController extends BaseController
 
             if($orderModel){
 
+                switch(intval($orderModel->status)){
+                    case 0:
+                        throw new \Exception('订单不在支付状态');
+                        break;
+                    case 2:
+                        throw new \Exception('订单已支付');
+                        break;
+                }
+
+
                 $return['orderid']=$orderModel->id;
                 $return['ordersn']=$orderModel->ordersn;
 
