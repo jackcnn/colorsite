@@ -87,7 +87,7 @@ class OrderController extends BaseController
     public function actionChangest($store_id,$orderid,$ordersn)
     {
 
-        ColorHelper::wxlogin($this->ownerid);
+        //ColorHelper::wxlogin($this->ownerid);
 
         $request = \Yii::$app->request;
 
@@ -108,7 +108,8 @@ class OrderController extends BaseController
             if($order->validate() && $order->save()){
                 return $this->redirect(['order/clerk','store_id'=>$store_id,'token'=>$this->token,'orderid'=>$orderid,'ordersn'=>$ordersn]);
             }else{
-                die(current($order->getFirstErrors()));
+                ColorHelper::dump(current($order->getFirstErrors()));
+                die();
             }
         }
 
