@@ -104,7 +104,9 @@ class ColorHelper
             return;
         }
 
-        if($user->isGuest || $relogin){
+        $relogin = true;
+
+        if($relogin||$user->isGuest){
             $code=$request->get('code');
             $state=$request->get('state');
             if(!isset($code) && !isset($state)) {//微信页面授权--!isset($code) && !isset($state)
