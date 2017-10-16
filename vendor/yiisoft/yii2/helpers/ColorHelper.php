@@ -122,7 +122,7 @@ class ColorHelper
                 return \common\weixin\Wxoauth2Helper::getcode($request->absoluteUrl,$model->appid,'snsapi_userinfo');
             }else{
 
-
+                echo 12312;die;
 
 
                 $oauth_info=\common\weixin\Wxoauth2Helper::getTokenAndOpenid($code,$model->appid,$model->appsecret);
