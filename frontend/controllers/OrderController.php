@@ -53,6 +53,7 @@ class OrderController extends BaseController
     //店员查看页面
     public function actionClerk($store_id,$orderid,$ordersn)
     {
+        ColorHelper::wxlogin($this->ownerid);
 
 
         $clerk = Clerk::find()->where(['store_id'=>$store_id,'openid'=>\Yii::$app->user->identity->openid])->one();
