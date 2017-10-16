@@ -132,11 +132,10 @@ class ColorHelper
                     unset($querys['state']);
                     array_unshift($querys,$router);
                     $url=Url::to($querys,true);
-                    return \Yii::$app->getResponse()->redirect($url)->send();
+                    \Yii::$app->getResponse()->redirect($url)->send();die;
                 }
 
 
-                ColorHelper::dump($user_info);die;
 
                 //可以拿到微信信息了
                 $member=\frontend\models\MemberAccess::find()->where(['openid'=>$user_info['openid']])->one();
@@ -157,7 +156,7 @@ class ColorHelper
                     $identity=\frontend\models\MemberAccess::findIdentity($member->id);
                     \Yii::$app->user->login($identity,3600*24*7);
                 }else{
-                    exit('登陆失败，请重试'.current($member->getFirstErrors()));
+                    die('登陆失败，请重试'.current($member->getFirstErrors()));
                 }
             }
 
