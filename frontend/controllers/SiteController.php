@@ -349,9 +349,22 @@ class SiteController extends BaseController
     }
 
 
-    public function actionSell()
+    public function actionCode($store_id)
     {
 
-        echo phpinfo();
+        $sn = ColorHelper::orderSN($store_id);
+
+        $url = Url::to(['site/index','store_id'=>$store_id,'token'=>$this->token,'sn'=>$sn],true);
+
+        $store = Stores::find()->where(['id'=>$store_id])->asArray()->one();
+
+        return $this->renderPartial("code",[
+            'url'=>$url,
+            'store'=>$store
+        ]);
+
+
+
+
     }
 }
