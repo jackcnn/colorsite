@@ -108,17 +108,8 @@ class ColorHelper
         $relogin = true;
 
 
-        ColorHelper::dump($relogin);
-        ColorHelper::dump($model);
-
-
-
 
         if($relogin||$user->isGuest){
-
-            echo 1312;
-
-            die;
 
 
             $code=$request->get('code');
