@@ -50,7 +50,6 @@ class OrderController extends BaseController
             'store'=>$store,
             'order'=>$order,
             'marks'=>$marks,
-            'signPackage'=>$signPackage
         ]);
     }
 
