@@ -90,6 +90,8 @@ class ColorHelper
     public static function wxlogin($ownerid,$router="index",$relogin=false){
 
 
+        die(2222);
+
         $model = \common\models\Thirdcfg::find()->where(['ownerid'=>$ownerid,'type'=>'weixin'])->one();
 
         $user=\Yii::$app->user;
@@ -160,7 +162,7 @@ class ColorHelper
             $identity=\Yii::$app->user->identity;
         }
 
-        die;
+
     }
 
 }
