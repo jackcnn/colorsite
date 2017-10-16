@@ -122,7 +122,7 @@ class ColorHelper
 
                 $oauth_info=\common\weixin\Wxoauth2Helper::getTokenAndOpenid($code,$model->appid,$model->appsecret);
 
-                ColorHelper::dump($oauth_info);die;
+
 
                 if(isset($oauth_info['access_token'])){
                     $user_info=\common\weixin\Wxoauth2Helper::getUserInfo($oauth_info['access_token'],$oauth_info['openid']);
@@ -134,6 +134,9 @@ class ColorHelper
                     $url=Url::to($querys,true);
                     return \Yii::$app->getResponse()->redirect($url)->send();
                 }
+
+
+                ColorHelper::dump($user_info);die;
 
                 //可以拿到微信信息了
                 $member=\frontend\models\MemberAccess::find()->where(['openid'=>$user_info['openid']])->one();
