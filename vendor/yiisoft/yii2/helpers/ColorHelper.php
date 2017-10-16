@@ -115,11 +115,18 @@ class ColorHelper
             $state=$request->get('state');
 
 
-            echo 12312;die;
+
 
             if(!isset($code) && !isset($state)) {//微信页面授权--!isset($code) && !isset($state)
+
+                echo 22222;die;
+
                 return \common\weixin\Wxoauth2Helper::getcode($request->absoluteUrl,$model->appid,'snsapi_userinfo');
             }else{
+
+
+                echo 12312;die;
+
                 $oauth_info=\common\weixin\Wxoauth2Helper::getTokenAndOpenid($code,$model->appid,$model->appsecret);
                 if(isset($oauth_info['access_token'])){
                     $user_info=\common\weixin\Wxoauth2Helper::getUserInfo($oauth_info['access_token'],$oauth_info['openid']);
