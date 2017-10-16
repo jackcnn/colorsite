@@ -30,8 +30,6 @@ class Wxoauth2Helper
         //构造请求微信接口的URL
         $url = self::wx_oauth2_getcode.'?appid='.$appid.'&redirect_uri='.$redirect_uri.'&response_type='.$response_type.'&scope='.$scope.'&state='.$state.'#wechat_redirect';
 
-        echo $url;die;
-
         return \Yii::$app->getResponse()->redirect($url)->send();
     }
 
