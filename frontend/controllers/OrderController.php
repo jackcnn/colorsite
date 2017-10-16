@@ -31,6 +31,10 @@ class OrderController extends BaseController
     //客户查看页面
     public function actionIndex($store_id,$orderid,$ordersn)
     {
+
+        ColorHelper::wxlogin($this->ownerid);
+
+
         $store = Stores::findOne($store_id);
         $order = Dishorder::find()->where(['store_id'=>$store_id,'id'=>$orderid])->asArray()->one();
 
@@ -83,6 +87,9 @@ class OrderController extends BaseController
     //店员修改为可以付款状态
     public function actionChangest($store_id,$orderid,$ordersn)
     {
+
+        ColorHelper::wxlogin($this->ownerid);
+
         $request = \Yii::$app->request;
 
         if($request->isPost){
