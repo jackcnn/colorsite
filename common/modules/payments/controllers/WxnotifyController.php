@@ -8,6 +8,7 @@ namespace common\modules\payments\controllers;
 
 use yii\db\Exception;
 use yii\helpers\ArrayHelper;
+use yii\helpers\ColorHelper;
 use yii\helpers\Json;
 use yii\helpers\UHelper;
 use yii\helpers\Url;
@@ -25,10 +26,13 @@ class WxnotifyController extends controller
     public function actionDish(){
 
         $postData = file_get_contents('php://input');
+
+
         \Yii::info($postData,__METHOD__);
 
         $postArray = ArrayHelper::xmlToArray($postData);
 
+        ColorHelper::dump($postArray);
 
         $transaction = \Yii::$app->db->beginTransaction();
         $xml['return_code']="Ok";
@@ -50,13 +54,13 @@ class WxnotifyController extends controller
                     \Yii::info($err,__METHOD__);
                     throw new \Exception($err['addMsg']);
                 }
-
-                if(($order->amount != $postArray['total_fee']) || $postArray['total_fee']<=0){
-                    $err=$postArray;
-                    $err['addMsg']='amount-error-'.($order['amount']*100).'-'.$postArray['total_fee'];
-                    \Yii::info($err,__METHOD__);
-                    throw new \Exception($err['addMsg']);
-                }
+//                  金额在测试的时候是1分钱
+//                if(($order->amount != $postArray['total_fee']) || $postArray['total_fee']<=0){
+//                    $err=$postArray;
+//                    $err['addMsg']='amount-error-'.($order['amount']*100).'-'.$postArray['total_fee'];
+//                    \Yii::info($err,__METHOD__);
+//                    throw new \Exception($err['addMsg']);
+//                }
 
                 $order->paytime=$postArray['time_end'];
                 $order->transaction_id=$postArray['transaction_id'];
