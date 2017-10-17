@@ -105,10 +105,6 @@ class ColorHelper
             return;
         }
 
-        $relogin = true;
-
-
-
         if($relogin||$user->isGuest){
 
             $code=$request->get('code');
