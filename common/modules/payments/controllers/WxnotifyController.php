@@ -43,7 +43,7 @@ class WxnotifyController extends controller
                 }
 
                 $wxconfig = WxPayHelper::getconfig($order->ownerid);
-                $checkSign=WxPayHelper::createSign($postArray,$wxconfig['mck_key']);
+                $checkSign=WxPayHelper::createSign($postArray,$wxconfig['mch_key']);
                 if($checkSign != $postArray['sign']){//验证签名
                     $err=$postArray;
                     $err['addMsg']='sign-error-'.$checkSign;
