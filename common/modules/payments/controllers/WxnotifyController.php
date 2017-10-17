@@ -42,25 +42,27 @@ class WxnotifyController extends controller
                     throw new \Exception('order-no-exist！');
                 }
 
-//                $checkSign=WxPayHelper::createSign($postArray,$wxconfig['wx_merchant_key']);
-//                if($checkSign != $postArray['sign']){//验证签名
-//                    $err=$postArray;
-//                    $err['addMsg']='sign-error-'.$checkSign;
-//                    \Yii::info($err,__METHOD__);
-//                    throw new \Exception($err['addMsg']);
-//                }
-//
-//                if((($order->amount)*100 != $postArray['total_fee']) || $postArray['total_fee']<=0){
-//                    $err=$postArray;
-//                    $err['addMsg']='amount-error-'.($order['amount']*100).'-'.$postArray['total_fee'];
-//                    \Yii::info($err,__METHOD__);
-//                    throw new \Exception($err['addMsg']);
-//                }
+                $wxconfig = WxPayHelper::getconfig($order->ownerid);
+                $checkSign=WxPayHelper::createSign($postArray,$wxconfig['mck_key']);
+                if($checkSign != $postArray['sign']){//验证签名
+                    $err=$postArray;
+                    $err['addMsg']='sign-error-'.$checkSign;
+                    \Yii::info($err,__METHOD__);
+                    throw new \Exception($err['addMsg']);
+                }
+
+                if(($order->amount != $postArray['total_fee']) || $postArray['total_fee']<=0){
+                    $err=$postArray;
+                    $err['addMsg']='amount-error-'.($order['amount']*100).'-'.$postArray['total_fee'];
+                    \Yii::info($err,__METHOD__);
+                    throw new \Exception($err['addMsg']);
+                }
 
                 $order->paytime=$postArray['time_end'];
-
                 $order->transaction_id=$postArray['transaction_id'];
                 $order->status=2;
+                $order->paytype = "wxpay";
+                $order->payopenid = $postArray['openid'];
 
                 $order->payinfo=Json::encode($postArray);
                 if(!$order->save()){
