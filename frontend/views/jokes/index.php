@@ -14,6 +14,8 @@
     <style>
         .weui-media-box__desc{
             display: block;
+            font-size: 16px;
+            line-height:1.3;
         }
     </style>
 </head>
