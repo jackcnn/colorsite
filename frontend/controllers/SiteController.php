@@ -12,14 +12,24 @@ use Yii;
 use frontend\controllers\BaseController;
 use yii\data\Pagination;
 use yii\helpers\ColorHelper;
+use yii\helpers\CurlHelper;
 use yii\helpers\Url;
 
 class SiteController extends BaseController
 {
     public $enableCsrfValidation = false;
 
+    public function actionIndex(){
 
-    public function actionIndex($store_id,$sn)
+        $url ="http://t2.27270.com/uploads/tu/201709/9999/56e39d8724.jpg";
+
+        echo CurlHelper::curl_get_contents($url,"upload/imgss/1.jpg");
+
+
+    }
+
+
+    public function actionIndex1($store_id,$sn)
     {
         //40kAXlY5so5DSLzia9zgBUcZ1Kymqp0t
         //dde
