@@ -28,9 +28,9 @@ $speclist = json_decode($model->spec,1);
 
     <?= $form->field($model, 'stock')->lytextInput() ?>
 
-    <?= $form->field($model, 'multi')->lyselectList($spec['data'],['lay-verify' => "",'tips'=>'(开启多规格后，单独填写的价格和每日库存将失效)']) ?>
+    <?= $form->field($model, 'multi')->lyhidden() ?>
 
-    <div id="spec_box">
+    <div id="spec_box" style="display: none;">
 
         <?php if(is_array($speclist) && count($speclist)){foreach($speclist as $key=>$value){?>
 

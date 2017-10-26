@@ -38,7 +38,7 @@ class ShareData
             //['订单列表',['/restaurant/index/index']],
             ['菜品列表',['/restaurant/dishes/index']],
             ['菜品分类',['/restaurant/category/index']],
-            ['规格管理',['/restaurant/dishspec/index']],
+            //['规格管理',['/restaurant/dishspec/index']],
         ];
 
         return $data[$key];
