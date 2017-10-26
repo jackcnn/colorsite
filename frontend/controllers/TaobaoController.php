@@ -24,6 +24,8 @@ class TaobaoController extends BaseController
     public function actionIndex()
     {
 
+        echo '{"data":"OK"}';die;
+
         return $this->renderPartial("index");
     }
 
