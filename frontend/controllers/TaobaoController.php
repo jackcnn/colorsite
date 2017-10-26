@@ -39,8 +39,6 @@ class TaobaoController extends BaseController
 
         return $this->asJson($data);
 
-
-
     }
 
 
