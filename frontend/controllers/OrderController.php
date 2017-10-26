@@ -221,7 +221,7 @@ class OrderController extends BaseController
                 }
 
 
-                $orderModel->status =1;
+                $orderModel->status =2;
                 $orderModel->paytime = time();
                 $orderModel->paytype = "cash";
                 $orderModel->payopenid = $identity->openid;
