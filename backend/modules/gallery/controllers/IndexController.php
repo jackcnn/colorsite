@@ -104,7 +104,7 @@ class IndexController extends BaseController
 
     public function actionUpload($gallery_id,$width=0,$height=0)
     {
-        $path = FileHelper::upload('file','',[$width,$height],true);
+        $path = FileHelper::upload('file','',[$width,$height],true,10);
         $model = new Images();
         $model->name = $path['name'];
         $model->path = $path['path'];
@@ -153,4 +153,19 @@ class IndexController extends BaseController
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
+    public function actionTaobao($id)
+    {
+
+        $model = $this->findModel($id);
+
+        $list = Images::find()->where(['markid'=>$id,'table'=>'gallery'])->asArray()->all();
+
+
+        return $this->render("taobao",[
+            'model'=>$model,
+            'list'=>$list
+        ]);
+    }
+
 }

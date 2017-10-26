@@ -100,7 +100,7 @@ class ColorHelper
          * 本地测试的时候直接登录，不要微信授权了
          * */
         if(0){
-            $identity=\frontend\models\MemberAccess::findIdentity(\Yii::$app->request->get("uid",1));
+            $identity=\frontend\models\MemberAccess::findIdentity(2);
             \Yii::$app->user->login($identity,3600*24*7);
             return;
         }
@@ -117,8 +117,6 @@ class ColorHelper
             }else{
 
                 $oauth_info=\common\weixin\Wxoauth2Helper::getTokenAndOpenid($code,$model->appid,$model->appsecret);
-
-
 
                 if(isset($oauth_info['access_token'])){
                     $user_info=\common\weixin\Wxoauth2Helper::getUserInfo($oauth_info['access_token'],$oauth_info['openid']);

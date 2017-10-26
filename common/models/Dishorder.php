@@ -85,4 +85,13 @@ class Dishorder extends \yii\db\ActiveRecord
     {
         return new \common\models\query\DishorderQuery(get_called_class());
     }
+
+    public function getStore()
+    {
+        return $this->hasOne(Stores::className(),['id'=>'store_id']);
+    }
+    public function getPayname()
+    {
+        return $this->hasOne(Member::className(),['openid'=>'payopenid']);
+    }
 }

@@ -14,7 +14,7 @@ class ShareData
     {
         $list = [
             ['label'=>'点餐系统','list'=>[
-                ['label'=>'订单管理','router'=>['/restaurant/order/index']],
+                ['label'=>'订单管理','router'=>['/restaurant/dishorder/index']],
                 ['label'=>'菜品管理','router'=>['/restaurant/dishes/index']],
                 ['label'=>'门店管理','router'=>['/restaurant/stores/index']],
             ]],

@@ -35,6 +35,13 @@ $this->params['tabs']['list']=backend\models\ShareData::tabslist('gallery');
                  'value'=>'category.name',
                  'filter'=>$catelist
              ],
+            [
+                'attribute'=>'',
+                'value'=>function($model){
+                    return Html::a("上新图",['/gallery/index/taobao','id'=>$model->id],['class'=>'layui-btn layui-btn-mini','target'=>'_blank']);
+                },
+                'format'=>'Raw'
+            ],
             ['class' => 'yii\grid\ActionColumn','template'=>'{update}{gallery}{delete}'],
         ],
     ]); ?>

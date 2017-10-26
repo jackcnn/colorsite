@@ -24,6 +24,9 @@ return [
         'joke' => [
             'class' => 'backend\modules\joke\JokeModule',
         ],
+        'taobao' => [
+            'class' => 'backend\modules\taobao\TaobaoMoudel',
+        ],
     ],
     'components' => [
         'request' => [

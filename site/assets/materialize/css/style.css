@@ -1,0 +1,83 @@
+/* Custom Stylesheet */
+/**
+ * Use this file to override Materialize files so you can update
+ * the core Materialize files in the future
+ *
+ * Made By MaterializeCSS.com
+ */
+body{
+    background-color: aliceblue;
+}
+.bg-white{
+    background: #FFFFFF;
+}
+.icon-block {
+  padding: 0 15px;
+}
+.icon-block .material-icons {
+	font-size: inherit;
+}
+.carousel .indicators {
+    text-align: right;
+    background-color: rgba(0,0,0,.4);
+}
+.carousel .indicators .indicator-item {
+    height: 20px;
+    width: 20px;
+    margin:4px 4px;
+    text-align: right;
+}
+
+nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i {
+    height: 45px;
+    line-height: 45px;
+}
+.bg-white h5{
+    font-size: 1.14rem;
+    font-weight: bold;
+}
+.header-right-list li,.header-right-list a{
+    display: block;
+    height:30px;
+    line-height:30px;
+    overflow: hidden;
+    color: #666;
+}
+.header-right-list a:hover{
+    text-decoration: underline;
+    color: #FA4B6E;
+}
+.header-right-list{
+    height: 350px;
+    overflow: hidden;
+}
+.card-link {
+    color: #666;
+}
+.card .card-image img {
+    height:300px;
+}
+.card .card-content {
+    padding: 10px;
+}
+.card .card-content span{
+    display: block;
+    height:24px;
+    overflow: hidden;
+}
+.card{
+    box-shadow: none;
+}
+.card:hover{
+    -webkit-box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),0 1px 5px 0 rgba(0,0,0,0.12),0 3px 1px -2px rgba(0,0,0,0.2);
+    box-shadow: 0 2px 2px 0 rgba(0,0,0,0.14),0 1px 5px 0 rgba(0,0,0,0.12),0 3px 1px -2px rgba(0,0,0,0.2);
+}
+.block-title{
+    font-size:1.14rem;
+    font-weight: bold;
+    margin: 0px;
+    text-indent: 1rem;
+    border-left:3px solid #0C0C0C;
+}
+
+
