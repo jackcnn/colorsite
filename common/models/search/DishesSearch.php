@@ -63,7 +63,7 @@ class DishesSearch extends Dishes
         // grid filtering conditions
         $query->andFilterWhere([
             'id' => $this->id,
-            'ownerid' => $this->ownerid,
+            '{{%dishes}}.ownerid' => $this->ownerid,
             'cateid' => $this->cateid,
             'price' => $this->price,
             'stock' => $this->stock,

@@ -19,7 +19,9 @@ class DishorderController extends BaseController
     public function actionIndex()
     {
         $searchModel = new DishorderSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+        $params = Yii::$app->request->queryParams;
+        $params['DishorderSearch']['ownerid'] = $this->ownerid;
+        $dataProvider = $searchModel->search($params);
 
         return $this->render('index', [
             'searchModel' => $searchModel,

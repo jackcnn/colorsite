@@ -13,8 +13,8 @@ $router = \Yii::$app->controller->id.'/'.\Yii::$app->controller->action->id;
     </div>
     <!-- 头部区域（可配合layui已有的水平导航） -->
     <ul class="layui-nav layui-layout-left">
-        <li class="layui-nav-item"><a target="colorsit-iframe" href="<?= Url::to(['/site/home'])?>">控制台</a></li>
-        <li class="layui-nav-item"><a target="colorsit-iframe" href="<?= Url::to(['/site/config'])?>">网站配置</a></li>
+        <li style="display: none;" class="layui-nav-item"><a target="colorsit-iframe" href="<?= Url::to(['/site/home'])?>">控制台</a></li>
+        <li style="display: none;" class="layui-nav-item"><a target="colorsit-iframe" href="<?= Url::to(['/site/config'])?>">网站配置</a></li>
         <li class="layui-nav-item"><a target="colorsit-iframe" href="<?= Url::to(['/thirdcfg/index'])?>">第三方配置</a></li>
     </ul>
     <ul class="layui-nav layui-layout-right">
@@ -25,7 +25,7 @@ $router = \Yii::$app->controller->id.'/'.\Yii::$app->controller->action->id;
             </a>
             <dl class="layui-nav-child">
                 <dd><a target="colorsit-iframe" href="<?=Url::to(['/user/index/index'])?>">基本资料</a></dd>
-                <dd><a target="colorsit-iframe" href="<?=Url::to(['/user/index/role'])?>">权限设置</a></dd>
+                <dd style="display: none;"><a target="colorsit-iframe" href="<?=Url::to(['/user/index/role'])?>">权限设置</a></dd>
             </dl>
         </li>
         <li class="layui-nav-item"><a href="<?= Url::to(['/site/logout'])?>">退出登录</a></li>

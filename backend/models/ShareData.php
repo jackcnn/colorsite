@@ -18,10 +18,7 @@ class ShareData
                 ['label'=>'菜品管理','router'=>['/restaurant/dishes/index']],
                 ['label'=>'门店管理','router'=>['/restaurant/stores/index']],
             ]],
-            ['label'=>'功能','list'=>[
-                ['label'=>'图集打赏','router'=>['/gallery/index/index']],
-                ['label'=>'大转盘','router'=>['/user/index/pay']]
-            ]],
+
             ['label'=>'用户资料','router'=>['/user/index/index']]
         ];
         return $list;
