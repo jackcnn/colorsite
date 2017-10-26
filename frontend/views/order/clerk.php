@@ -98,6 +98,45 @@
                 return $("#form").submit();
             })
         })
+
+        $("#submit1").click(function () {//设置为已现金付款
+
+            $.actions({
+                actions: [
+                    {
+                        text: "设置为已现金付款",
+                        onClick: function() {
+                            //do something
+                            $.ajax({
+                                url: "<?=\yii\helpers\Url::toRoute(['order/cashpay','token'=>$this->params['token'],'store_id'=>$store['id']])?>",
+                                type:"post",
+                                data:{
+                                    'orderid':<?=intval($order['id'])?>,
+                                },
+                                dataType:"json",
+                                beforeSend:function(){
+                                },
+                                complete:function(){
+                                },
+                                error:function (XMLHttpRequest, textStatus, errorThrown){
+                                    alert("网络错误,请重试...");
+                                },
+                                success: function(data){
+                                    if(data.success){
+                                        return location.reload();
+
+                                    }
+                                }
+                            });
+
+                        }
+                    },
+                ]
+            });
+
+
+        })
+
     })
 </script>
 </html>

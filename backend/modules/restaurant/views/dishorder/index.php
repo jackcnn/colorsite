@@ -59,6 +59,8 @@ $this->params['breadcrumbs'][] = $this->title;
                      switch($model->paytype){
                          case 'wxpay':
                              return "微信支付";break;
+                         case 'cash':
+                             return "现金支付";break;
                      }
                  }
              ],

@@ -61,7 +61,7 @@
                         呼叫服务员下单
                     </div>
                 </div>
-                <div id="submit" data-total="0" class="content-right enough">确认付款</div>
+                <div id="submit" data-total="0" class="content-right">呼叫下单</div>
             </div>
         </div>
         <div class="backdrop"></div>

@@ -44,7 +44,7 @@
                         <?php }?>
                     </ul>
                 </div>
-                <div class="lister">
+                <div class="lister" style="display: none;">
                     <div class="mark-container">
                         <textarea class="mark" name="mark" placeholder="请输入备注内容（可不填，最多150字）"></textarea>
                     </div>

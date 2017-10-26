@@ -183,6 +183,68 @@ class OrderController extends BaseController
 
     }
 
+    public function actionCashpay()
+    {
+        $return['success']=true;
+        $request=\Yii::$app->request;
+        try{
+            $user= \Yii::$app->user;
+            $identity=$user->identity;
+            if($user->isGuest){
+                throw new \Exception('请先登录');
+            }
+            if(!$request->isPost){
+                throw new \Exception('非法请求');
+            }
+            $store_id = $request->get("store_id");
+            $orderid = $request->post("orderid");
+
+            $store = Stores::findOne($store_id);
+            $orderModel = Dishorder::find()->where(['store_id'=>$store_id,'id'=>$orderid])->one();
+
+            $clerk = Clerk::find()->where(['store_id'=>$store_id,'openid'=>$identity->openid])->count();
+
+            if(!$clerk){
+                throw new \Exception('非绑定店员，没有权限');
+            }
+
+
+            if($orderModel){
+
+                switch(intval($orderModel->status)){
+                    case 0:
+                        throw new \Exception('订单不在支付状态');
+                        break;
+                    case 2:
+                        throw new \Exception('订单已支付');
+                        break;
+                }
+
+
+                $orderModel->status =1;
+                $orderModel->paytime = time();
+                $orderModel->paytype = "cash";
+                $orderModel->payopenid = $identity->openid;
+
+                if($orderModel->validate()&&$orderModel->save()){
+                    $return['msg']='修改订单成功';
+                }else{
+                    throw new \Exception(current($orderModel->getFirstErrors()));
+                }
+
+            }else{
+                throw new \Exception('订单不存在！');
+            }
+        }catch (\Exception $e){
+            $return['success']=false;
+            $return['msg']=$e->getMessage();
+        }
+        return $this->asJson($return);
+
+
+
+    }
+
 
 
 }
