@@ -16,10 +16,13 @@ class IndexController extends BaseController
 
     public function actionIndex()
     {
-
         return $this->render("index");
     }
 
+    public function actionYilianyun()
+    {
+        echo '{"data":"OK"}';
+    }
 
 
 
