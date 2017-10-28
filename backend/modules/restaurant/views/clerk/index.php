@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'format'=>'raw',
                 'value'=>function($model){
                     $arr = json_decode($model->rights,1);
-                    if(is_array($arr)){
+                    if(is_array($arr) && count($arr)){
                         $data = backend\models\ShareData::clerkrights();
                         $res = "";
                         foreach($arr as $key=>$value){

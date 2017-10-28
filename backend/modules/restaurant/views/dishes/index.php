@@ -11,6 +11,7 @@ $this->title = '菜品列表';
 $this->params['breadcrumbs'][] = ['label'=>'菜品管理','url'=>['/restaurant/dishes/index']];
 $this->params['breadcrumbs'][] = $this->title;
 $this->params['tabs']['list']=backend\models\ShareData::tabslist('restaurant');
+
 ?>
 <div class="dishes-index">
 
@@ -68,7 +69,6 @@ $this->params['tabs']['list']=backend\models\ShareData::tabslist('restaurant');
                 'value'=>'category.name',
                 'filter'=>$category
             ],
-
 
             ['class' => 'yii\grid\ActionColumn'],
         ],

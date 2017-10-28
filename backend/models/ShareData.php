@@ -17,6 +17,7 @@ class ShareData
                 ['label'=>'订单管理','router'=>['/restaurant/dishorder/index']],
                 ['label'=>'菜品管理','router'=>['/restaurant/dishes/index']],
                 ['label'=>'门店管理','router'=>['/restaurant/stores/index']],
+                ['label'=>'打印机管理','router'=>['/restaurant/printer/index']],
             ]],
 
             ['label'=>'用户资料','router'=>['/user/index/index']]
@@ -48,6 +49,7 @@ class ShareData
     public static function clerkrights()
     {
         $data = [
+            'printcode'=>'打印点餐码',
             'ordering'=>'点餐',
             'setpay'=>'设置订单付款',
         ];

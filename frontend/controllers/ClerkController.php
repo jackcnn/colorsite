@@ -14,6 +14,7 @@ use common\models\Dishes;
 use common\models\Dishorder;
 use common\models\Dishorderopenid;
 use common\models\Gallery;
+use common\models\Printer;
 use common\models\Stores;
 use Yii;
 use frontend\controllers\BaseController;
@@ -139,6 +140,103 @@ class ClerkController extends BaseController
             }
 
         }
+    }
+
+    public function actionPrintCode()
+    {
+
+        ColorHelper::wxlogin($this->ownerid);
+
+        $clerk = Clerk::find()->where(['openid'=>\Yii::$app->user->identity->openid])->one();
+        $right = false;
+        if(!$clerk){
+            $right = false;
+        }else{
+            $store = Stores::findOne($clerk->store_id);
+
+            $actions = json_decode($clerk->rights,1);
+
+            if(in_array("printcode",$actions)){
+                $right = true;
+            }else{
+                $right = false;
+            }
+        }
+
+        return $this->renderPartial("print-code",[
+            'store'=>$store,
+            'clerk'=>$clerk,
+            'right'=>$right
+        ]);
+
+    }
+
+    public function actionPrinting()
+    {
+        $return['success']=true;
+        $request=\Yii::$app->request;
+        try{
+            $user= \Yii::$app->user;
+            $identity=$user->identity;
+            if($user->isGuest){
+                throw new \Exception('请先登录');
+            }
+            if(!$request->isPost){
+                throw new \Exception('非法请求');
+            }
+
+            $clerk = Clerk::find()->where(['openid'=>\Yii::$app->user->identity->openid])->one();
+            $right = false;
+            if(!$clerk){
+                $right = false;
+            }else{
+                $store = Stores::findOne($clerk->store_id);
+                $actions = json_decode($clerk->rights,1);
+                if(in_array("printcode",$actions)){
+                    $right = true;
+                }else{
+                    $right = false;
+                }
+            }
+            if(!$right){
+                throw new \Exception('无权限');
+            }
+
+            //把所有打印机
+            $printers = Printer::find()->where(['store_id'=>$clerk->store_id,'isuse'=>1])->asArray()->all();
+
+            //$str = "https://326108993.com/site/index.html?store_id=1&token=bRGqRLRqA&sn=".ColorHelper::orderSN(2);
+            $str = Url::to(['/site/index','store_id'=>$store->id,'token'=>ColorHelper::id2token($clerk->ownerid),'sn'=>ColorHelper::orderSN($store->id)]);
+            $content = "";
+            $content .= "<FS><center>微信扫码点餐</center></FS>";
+            $content .= str_repeat('-',32);
+            $content .= "1.和好友一起扫码共同点餐\r\n";
+            $content .= "2.大家都点好后提交即可呼叫服务员确认下单\r\n";
+            $content .= "3.用餐结束呼叫服务员买单\r\n";
+            $content .= "4.服务员确认买单\r\n";
+            $content .= "5.重新扫码即可微信支付订单，最后完成\r\n";
+            $content .= "门店：".$store->name."\r\n";
+            $content .= "<center><QR>".$str."</QR></center>";
+
+
+            foreach($printers as $key=>$value){
+                $actions = json_decode($value['actions'],1);
+                if(in_array("qrcode",$actions)){//选为打印的，开始打印
+                    $machineCode = $value['machine_code'];                      //授权的终端号
+                    $res = \common\vendor\yilianyun\YilianyunHelper::printer($content,$machineCode);
+                    if($res == 'success'){
+                        $return['msg'] = "打印成功！";
+                    }else{
+                        throw new \Exception('打印失败！'.$res);
+                    }
+                }
+            }
+        }catch (\Exception $e){
+            $return['success']=false;
+            $return['msg']=$e->getMessage();
+        }
+        return $this->asJson($return);
+
     }
 
     public function actionMsg()
