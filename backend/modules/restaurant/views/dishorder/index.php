@@ -44,7 +44,9 @@ $this->params['breadcrumbs'][] = $this->title;
              ],
              [
                  'attribute'=>'paytime',
-                 'format'=>'datetime',
+                 'value'=>function($model){
+                    return date("Y-m-d H:i:s",$model->paytime);
+                 },
                  'label'=>'付款时间'
              ],
              [
@@ -68,7 +70,9 @@ $this->params['breadcrumbs'][] = $this->title;
              [
                  'attribute'=>'created_at',
                  'label'=>'下单时间',
-                 'format'=>'datetime'
+                 'value'=>function($model){
+                     return date("Y-m-d H:i:s",$model->created_at);
+                 },
              ],
             [
                 'class' => 'yii\grid\ActionColumn',
