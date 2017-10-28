@@ -132,6 +132,7 @@ class ClerkController extends BaseController
                 }
 
                 //这里要打印小票
+                $this->print_dishes($dishes,$postData['tableNo'],$amount/100,$store_id);
 
                 return $this->redirect(['clerk/msg','type'=>'success','msg'=>urlencode('下单成功！小票已打印，编号'.$order->id)]);
 
@@ -142,6 +143,47 @@ class ClerkController extends BaseController
         }
     }
 
+    //打印菜单
+    public function print_dishes($dishes,$table,$total,$store_id)
+    {
+
+        $content = '';                          //打印内容
+        $content .= '<FS><center>'.$table.'号桌</center></FS>';
+        $content .= str_repeat('-',32);
+        $content .= '<table>';
+        $content .= '<tr><td>菜品</td><td>数量</td><td>价格</td></tr>';
+        foreach($dishes as $key=>$value){
+            if(isset($value['name'])){
+                $price = intval($value['price']*$value['count'])/100;
+                $content .= '<tr><td>'.$value['name'].'</td><td>'.$value['count'].'</td><td>'.$price.'元</td></tr>';
+            }
+            if(strlen($value['labels'])> 1){
+                $content .= '<tr><td>'.$value['labels'].'</td><td></td><td></td></tr>';
+            }
+        }
+        $content .= '</table>';
+        $content .= str_repeat('-',32)."\n";
+        $content .= '<FS>总金额: '.$total.'元</FS>';
+
+        //把所有打印机
+        $printers = Printer::find()->where(['store_id'=>$store_id,'isuse'=>1])->asArray()->all();
+
+        foreach($printers as $key=>$value){
+            $actions = json_decode($value['actions'],1);
+            if(in_array("dishes",$actions)){//选为打印的，开始打印
+                $machineCode = $value['machine_code'];                      //授权的终端号
+                $res = \common\vendor\yilianyun\YilianyunHelper::printer($content,$machineCode);
+                if($res == 'success'){
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+        }
+
+    }
+
+    //打印二维码
     public function actionPrintCode()
     {
 

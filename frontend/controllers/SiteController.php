@@ -25,13 +25,51 @@ class SiteController extends BaseController
     public function actionIndex($store_id,$sn)
     {
 
+        $str = '{"1810":{"id":"10","name":"\u9762","count":"3","labels":"","price":"1500"},"1812":{"id":"12","name":"\u7c73\u996d2","count":"3","labels":"","price":"500"},"mark":{"18":""}}';
+
+        $str = json_decode($str,1);
+
+//        $content = '';                          //打印内容
+//        $content .= '<FS><center>8号桌</center></FS>';
+//        $content .= str_repeat('-',32);
+//        $content .= '<FS><table>';
+//        $content .= '<tr><td>商品</td><td>数量</td><td>价格</td></tr>';
+//        $content .= '<tr><td>土豆回锅肉</td><td>x1</td><td>￥20</td></tr>';
+//        $content .= '<tr><td>干煸四季豆</td><td>x1</td><td>￥12</td></tr>';
+//        $content .= '<tr><td>苦瓜炒蛋</td><td>x1</td><td>￥15</td></tr>';
+//        $content .= '</table></FS>';
+//        $content .= str_repeat('-',32)."\n";
+//        $content .= '<FS>金额: 47元</FS>';
+
+        $content = '';                          //打印内容
+        $content .= '<FS><center>9号桌</center></FS>';
+        $content .= str_repeat('-',32);
+        $content .= '<table>';
+        $content .= '<tr><td>商品</td><td>数量</td><td>价格</td></tr>';
+        foreach($str as $key=>$value){
+            if(isset($value['name'])){
+                $price = intval($value['price']*$value['count'])/100;
+                $content .= '<tr><td>'.$value['name'].'</td><td>'.$value['count'].'</td><td>'.$price.'元</td></tr>';
+            }
+            if(strlen($value['labels'])> 1){
+                $content .= '<tr><td>'.$value['labels'].'</td><td></td><td></td></tr>';
+            }
+        }
+        $content .= '</table>';
+        $content .= str_repeat('-',32)."\n";
+        $content .= '<FS>金额: 47元</FS>';
+
+
+        ColorHelper::dump($str);die;
+
+
+
+
+
         ColorHelper::wxlogin($this->ownerid,"index",true);
 
         //判断是否是店员
         $clerk = Clerk::find()->where(['store_id'=>$store_id,'openid'=>\Yii::$app->user->identity->openid])->one();
-
-
-
 
         if($clerk != null){
             //跳转到店员页面
