@@ -32,7 +32,8 @@
     <div class="container">
         <div class="lister-container">
             <div class="lister">
-                <div class="header">点单详细(订单编号：<?=$order['id']?>,<?=$order['table_num']?>号桌)</div>
+                <div class="header">点单详细</div>
+                <div class="header">(订单编号：<?=$order['id']?>,桌号：<?=$order['table_num']?>号)</div>
                 <ul class="content">
                     <?php foreach($order['dishes'] as $key=>$value){?>
                         <li class="lister-item">
