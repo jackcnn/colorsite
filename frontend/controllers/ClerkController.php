@@ -132,7 +132,7 @@ class ClerkController extends BaseController
                 }
 
                 //这里要打印小票
-                $this->print_dishes($dishes,$postData['tableNo'],$amount/100,$store_id,$model->id);
+                $this->print_dishes($dishes,$order,$this->token);
 
                 return $this->redirect(['clerk/msg','type'=>'success','msg'=>urlencode('下单成功！小票已打印，编号'.$order->id)]);
 
@@ -144,11 +144,11 @@ class ClerkController extends BaseController
     }
 
     //打印菜单
-    public function print_dishes($dishes,$table,$total,$store_id,$no)
+    public function print_dishes($dishes,$order,$token)
     {
 
         $content = '';                          //打印内容
-        $content .= '<FS><center>'.$table.'号桌</center></FS>';
+        $content .= '<FS><center>'.$order->table_num.'号桌</center></FS>';
         $content .= str_repeat('-',32);
         $content .= '<table>';
         $content .= '<tr><td>菜品</td><td>数量</td><td>价格</td></tr>';
@@ -158,16 +158,21 @@ class ClerkController extends BaseController
                 $content .= '<tr><td>'.$value['name'].'</td><td>'.$value['count'].'</td><td>'.$price.'元</td></tr>';
             }
             if(isset($value['labels']) && strlen($value['labels'])> 1){
-                $content .= '<tr><td>('.$value['labels'].')</td><td></td><td></td></tr>';
+                $content .= '<tr><td></td><td></td><td>('.$value['labels'].')</td></tr>';
             }
         }
         $content .= '</table>';
         $content .= str_repeat('-',32)."\n";
-        $content .= '<FS>总金额: '.$total.'元</FS>';
-        $content .= '订单编号：'.$no;
+        $content .= "<FS>总金额: ".$order->amount/100."元</FS>\r\n";
+        $content .= "<right>订单编号：".$order->id."</right>\r\n\r\n";
+
+        $qrcode = Url::to(['/site/index','token'=>$token,'store_id'=>$order->store_id,'sn'=>$order->ordersn],true);
+
+        $content .= "<center><QR>".$qrcode."</QR></center>";
+
 
         //把所有打印机
-        $printers = Printer::find()->where(['store_id'=>$store_id,'isuse'=>1])->asArray()->all();
+        $printers = Printer::find()->where(['store_id'=>$order->store_id,'isuse'=>1])->asArray()->all();
 
         foreach($printers as $key=>$value){
             $actions = json_decode($value['actions'],1);
