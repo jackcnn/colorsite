@@ -25,13 +25,12 @@ class SiteController extends BaseController
     public function actionIndex($store_id,$sn)
     {
 
-        ColorHelper::wxlogin($this->ownerid);
+        ColorHelper::wxlogin($this->ownerid,"index",true);
 
         //判断是否是店员
         $clerk = Clerk::find()->where(['store_id'=>$store_id,'openid'=>\Yii::$app->user->identity->openid])->one();
 
-        ColorHelper::dump($clerk);
-        ColorHelper::dump(\Yii::$app->user->identity);die;
+
 
 
         if($clerk != null){
