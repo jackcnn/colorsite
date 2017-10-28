@@ -157,7 +157,7 @@ class ClerkController extends BaseController
                 $price = intval($value['price']*$value['count'])/100;
                 $content .= '<tr><td>'.$value['name'].'</td><td>'.$value['count'].'</td><td>'.$price.'元</td></tr>';
             }
-            if(strlen($value['labels'])> 1){
+            if(isset($value['labels']) && strlen($value['labels'])> 1){
                 $content .= '<tr><td>'.$value['labels'].'</td><td></td><td></td></tr>';
             }
         }
