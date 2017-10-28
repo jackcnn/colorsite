@@ -132,7 +132,7 @@ class ClerkController extends BaseController
                 }
 
                 //这里要打印小票
-                $this->print_dishes($dishes,$postData['tableNo'],$amount/100,$store_id);
+                $this->print_dishes($dishes,$postData['tableNo'],$amount/100,$store_id,$model->id);
 
                 return $this->redirect(['clerk/msg','type'=>'success','msg'=>urlencode('下单成功！小票已打印，编号'.$order->id)]);
 
@@ -144,7 +144,7 @@ class ClerkController extends BaseController
     }
 
     //打印菜单
-    public function print_dishes($dishes,$table,$total,$store_id)
+    public function print_dishes($dishes,$table,$total,$store_id,$no)
     {
 
         $content = '';                          //打印内容
@@ -158,12 +158,13 @@ class ClerkController extends BaseController
                 $content .= '<tr><td>'.$value['name'].'</td><td>'.$value['count'].'</td><td>'.$price.'元</td></tr>';
             }
             if(isset($value['labels']) && strlen($value['labels'])> 1){
-                $content .= '<tr><td>'.$value['labels'].'</td><td></td><td></td></tr>';
+                $content .= '<tr><td>('.$value['labels'].')</td><td></td><td></td></tr>';
             }
         }
         $content .= '</table>';
         $content .= str_repeat('-',32)."\n";
         $content .= '<FS>总金额: '.$total.'元</FS>';
+        $content .= '订单编号：'.$no;
 
         //把所有打印机
         $printers = Printer::find()->where(['store_id'=>$store_id,'isuse'=>1])->asArray()->all();
