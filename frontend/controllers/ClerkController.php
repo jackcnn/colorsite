@@ -206,7 +206,7 @@ class ClerkController extends BaseController
             $printers = Printer::find()->where(['store_id'=>$clerk->store_id,'isuse'=>1])->asArray()->all();
 
             //$str = "https://326108993.com/site/index.html?store_id=1&token=bRGqRLRqA&sn=".ColorHelper::orderSN(2);
-            $str = Url::to(['/site/index','store_id'=>$store->id,'token'=>ColorHelper::id2token($clerk->ownerid),'sn'=>ColorHelper::orderSN($store->id)]);
+            $str = Url::to(['/site/index','store_id'=>$store->id,'token'=>ColorHelper::id2token($clerk->ownerid),'sn'=>ColorHelper::orderSN($store->id)],true);
             $content = "";
             $content .= "<FS><center>微信扫码点餐</center></FS>";
             $content .= str_repeat('-',32);
