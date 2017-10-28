@@ -225,7 +225,7 @@ class ClerkController extends BaseController
                     $machineCode = $value['machine_code'];                      //授权的终端号
                     $res = \common\vendor\yilianyun\YilianyunHelper::printer($content,$machineCode);
                     if($res == 'success'){
-                        $return['msg'] = "打印成功！";
+                        $return['msg'] = "打印成功！".$str;
                     }else{
                         throw new \Exception('打印失败！'.$res);
                     }
