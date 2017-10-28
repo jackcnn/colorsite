@@ -70,6 +70,15 @@
 </body>
 <script src="/assets/jquery.js"></script>
 <script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
+<script>
+$(function(){
+    $("#submit").click(function(){
+
+        $.alert('点餐完成后呼叫服务员确认下单！');
+
+    })
+})
+</script>
 </html>
 
 
