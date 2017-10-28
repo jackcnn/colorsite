@@ -163,7 +163,7 @@ class ClerkController extends BaseController
         }
         $content .= '</table>';
         $content .= str_repeat('-',32)."\n";
-        $content .= "<FS>总金额: ".$order->amount/100."元</FS>\r\n";
+        $content .= "<FS>总金额: ".($order->amount/100)."元</FS>\r\n";
         $content .= "<right>订单编号：".$order->id."</right>\r\n\r\n";
 
         $qrcode = Url::to(['/site/index','token'=>$token,'store_id'=>$order->store_id,'sn'=>$order->ordersn],true);
