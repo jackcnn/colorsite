@@ -62,7 +62,7 @@ class WxnotifyController extends controller
 //                    throw new \Exception($err['addMsg']);
 //                }
 
-                $order->paytime=$postArray['time_end'];
+                $order->paytime=time();
                 $order->transaction_id=$postArray['transaction_id'];
                 $order->status=2;
                 $order->paytype = "wxpay";
