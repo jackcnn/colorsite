@@ -18,15 +18,19 @@ return [
             'useFileTransport' => false,
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
-                'host' => 'smtp.qq.com',
-                'username' => '1946755280@qq.com',
-                'password' => 'rvlsdcplroakhgcf',
-                'port' => '25',
+//                'host' => 'smtp.qq.com',
+//                'username' => '1946755280@qq.com',
+//                'password' => 'rvlsdcplroakhgcf',
+//                'port' => '25',
+                'host' => 'smtpdm.aliyun.com',
+                'username' => 'admin@email.326108993.com',
+                'password' => 'SA523BERxia',
+                'port' => '80',
                 'encryption' => 'tls',
             ],
             'messageConfig'=>[
                 'charset'=>'UTF-8',
-                'from'=>['1946755280@qq.com'=>'colorsite']
+                'from'=>['admin@email.326108993.com'=>'colorsite']
             ],
         ],
     ],

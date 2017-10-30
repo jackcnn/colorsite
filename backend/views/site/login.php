@@ -18,7 +18,7 @@ $this->title = 'COLORSITE';
 
         <?= $form->field($model,'')->lylink('忘记密码',['/site/register'])?>
 
-        <?= $form->field($model,'')->lybuttons(['login'])?>
+        <?= $form->field($model,'')->lybuttons(['login','register'])?>
 
         <?php LayForm::end(); ?>
 
