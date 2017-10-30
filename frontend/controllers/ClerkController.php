@@ -99,7 +99,7 @@ class ClerkController extends BaseController
             }
 
             if($amount != $postData['amount']){
-                return $this->redirect(['clerk/msg','type'=>'error','msg'=>urlencode("订单金额错误？请重试")]);
+                return $this->redirect(['clerk/msg','token'=>$this->token,'type'=>'error','msg'=>urlencode("订单金额错误？请重试")]);
             }
 
 
@@ -134,10 +134,10 @@ class ClerkController extends BaseController
                 //这里要打印小票
                 $this->print_dishes($dishes,$order,$this->token);
 
-                return $this->redirect(['clerk/msg','type'=>'success','msg'=>urlencode('下单成功！小票已打印，编号'.$order->id)]);
+                return $this->redirect(['clerk/msg','token'=>$this->token,'type'=>'success','msg'=>urlencode('下单成功！小票已打印，编号'.$order->id)]);
 
             }else{
-                return $this->redirect(['clerk/msg','type'=>'error','msg'=>urlencode(current($order->getFirstErrors()))]);
+                return $this->redirect(['clerk/msg','token'=>$this->token,'type'=>'error','msg'=>urlencode(current($order->getFirstErrors()))]);
             }
 
         }
