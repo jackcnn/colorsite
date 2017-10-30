@@ -75,7 +75,7 @@
 
             $.confirm("确认打印吗？",function(){
                 $.ajax({
-                    url: "<?=\yii\helpers\Url::toRoute(['clerk/printing'])?>",
+                    url: "<?=\yii\helpers\Url::toRoute(['clerk/printing','token'=>$this->params['token']])?>",
                     type:"post",
                     data:{
 
