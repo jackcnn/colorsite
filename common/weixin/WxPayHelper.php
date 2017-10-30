@@ -96,7 +96,7 @@ class WxPayHelper extends WxCommon
         $startTimeStamp = self::getMillisecond();//请求开始时间
         $response = self::postXmlCurl($xml, $url, false, $timeOut);
         $result = WxPayResults::Init($response,$mch_key);
-        self::reportCostTime($url, $startTimeStamp, $result);//上报请求花费时间
+        self::reportCostTime($url, $startTimeStamp, $result,$mch_key);//上报请求花费时间
 
         return $result;
     }
@@ -157,7 +157,7 @@ class WxPayHelper extends WxCommon
         $startTimeStamp = self::getMillisecond();//请求开始时间
         $response = self::postXmlCurl($xml, $url, false, $timeOut);
         $result = WxPayResults::Init($response,$mch_key);
-        self::reportCostTime($url, $startTimeStamp, $result);//上报请求花费时间
+        self::reportCostTime($url, $startTimeStamp, $result,$mch_key);//上报请求花费时间
 
         return $result;
     }
@@ -193,7 +193,7 @@ class WxPayHelper extends WxCommon
         $startTimeStamp = self::getMillisecond();//请求开始时间
         $response = self::postXmlCurl($xml, $url, false, $timeOut);
         $result = WxPayResults::Init($response,$mch_key);
-        self::reportCostTime($url, $startTimeStamp, $result);//上报请求花费时间
+        self::reportCostTime($url, $startTimeStamp, $result,$mch_key);//上报请求花费时间
 
         return $result;
     }
@@ -246,7 +246,7 @@ class WxPayHelper extends WxCommon
         \Yii::info($response,__METHOD__);
 
         $result = WxPayResults::Init($response,$mch_key);
-        //self::reportCostTime($url, $startTimeStamp, $result);//上报请求花费时间
+        //self::reportCostTime($url, $startTimeStamp, $result,$mch_key);//上报请求花费时间
 
         return $result;
     }
@@ -291,7 +291,7 @@ class WxPayHelper extends WxCommon
         $startTimeStamp = self::getMillisecond();//请求开始时间
         $response = self::postXmlCurl($xml, $url, false, $timeOut);
         $result = WxPayResults::Init($response,$mch_key);
-        self::reportCostTime($url, $startTimeStamp, $result);//上报请求花费时间
+        self::reportCostTime($url, $startTimeStamp, $result,$mch_key);//上报请求花费时间
 
         return $result;
     }
@@ -371,7 +371,7 @@ class WxPayHelper extends WxCommon
         $startTimeStamp = self::getMillisecond();//请求开始时间
         $response = self::postXmlCurl($xml, $url, false, $timeOut);
         $result = WxPayResults::Init($response,$mch_key);
-        self::reportCostTime($url, $startTimeStamp, $result);//上报请求花费时间
+        self::reportCostTime($url, $startTimeStamp, $result,$mch_key);//上报请求花费时间
 
         return $result;
     }
@@ -407,7 +407,7 @@ class WxPayHelper extends WxCommon
         $startTimeStamp = self::getMillisecond();//请求开始时间
         $response = self::postXmlCurl($xml, $url, true, $timeOut);
         $result = WxPayResults::Init($response,$mch_key);
-        self::reportCostTime($url, $startTimeStamp, $result);//上报请求花费时间
+        self::reportCostTime($url, $startTimeStamp, $result,$mch_key);//上报请求花费时间
 
         return $result;
     }
@@ -520,7 +520,7 @@ class WxPayHelper extends WxCommon
         $startTimeStamp = self::getMillisecond();//请求开始时间
         $response = self::postXmlCurl($xml, $url, false, $timeOut);
         $result = WxPayResults::Init($response,$mch_key);
-        self::reportCostTime($url, $startTimeStamp, $result);//上报请求花费时间
+        self::reportCostTime($url, $startTimeStamp, $result,$mch_key);//上报请求花费时间
 
         return $result;
     }
@@ -580,7 +580,7 @@ class WxPayHelper extends WxCommon
      * @param int $startTimeStamp
      * @param array $data
      */
-    private static function reportCostTime($url, $startTimeStamp, $data)
+    private static function reportCostTime($url, $startTimeStamp, $data,$mch_key)
     {
         //如果不需要上报数据
         if(WxPayConfigHelper::REPORT_LEVENL == 0){
@@ -631,7 +631,7 @@ class WxPayHelper extends WxCommon
         }
 
         try{
-            self::report($objInput);
+            self::report($objInput,$mch_key);
         } catch (WxPayException $e){
             //不做任何处理
         }
