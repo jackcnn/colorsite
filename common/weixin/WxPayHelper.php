@@ -108,7 +108,7 @@ class WxPayHelper extends WxCommon
             || !array_key_exists("prepay_id", $UnifiedOrderResult)
             || $UnifiedOrderResult['prepay_id'] == "")
         {
-            throw new WxPayException("参数错误");
+            throw new WxPayException("参数错误111");
         }
         $jsapi = new WxPayJsApiPay();
         $jsapi->SetAppid($UnifiedOrderResult["appid"]);
