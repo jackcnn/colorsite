@@ -171,7 +171,7 @@ class OrderController extends BaseController
                 $input->SetMch_id($wxconfig['mch_number']);
                 $input->SetOpenid($identity->openid);
                 $orderRes = WxPayHelper::unifiedOrder($input , $wxconfig['mch_key']);
-                return $this->asJson($orderRes);
+                //return $this->asJson($orderRes);
                 $return['jsapiparams'] = WxPayHelper::GetJsApiParameters($orderRes , $wxconfig['mch_key']);
             }else{
                 throw new \Exception('订单不存在！');
