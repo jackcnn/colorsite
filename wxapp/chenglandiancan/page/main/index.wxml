@@ -1,0 +1,13 @@
+<view class="container">
+
+    <view class="group">
+            <icon type="search" size="60" color="#20a0ff"/>
+    </view>
+
+    <view class="group">
+
+        <view bindtap="scan" class="scan">扫码点餐</view>
+
+    </view>
+
+</view>

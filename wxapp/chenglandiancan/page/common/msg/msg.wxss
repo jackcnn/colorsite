@@ -1,0 +1,14 @@
+.group{
+    text-align: center;
+    padding:100rpx 150rpx 0rpx 150rpx;
+}
+.msg{
+    font-size:50rpx;
+    font-weight: bold;
+}
+.success{
+    color: #13CE66;
+}
+.error{
+    color: #FF4949;
+}

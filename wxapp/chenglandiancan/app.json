@@ -1,0 +1,39 @@
+{
+  "pages": [
+    "page/main/index",
+    "page/user/index",
+    "page/common/msg/msg",
+    "page/main/pages/merchant/merchant",
+    "page/main/pages/dishlist/dishlist"
+  ],
+  "window": {
+    "navigationBarTextStyle": "withe",
+    "navigationBarTitleText": "橙蓝点餐",
+    "navigationBarBackgroundColor": "#20A0FF",
+    "backgroundColor": "#20A0FF"
+  },
+  "tabBar": {
+    "color": "#7A7E83",
+    "selectedColor": "#3cc51f",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [{
+      "pagePath": "page/main/index",
+      "iconPath": "image/icon_component.png",
+      "selectedIconPath": "image/icon_component_HL.png",
+      "text": "首页"
+    }, {
+      "pagePath": "page/user/index",
+      "iconPath": "image/icon_API.png",
+      "selectedIconPath": "image/icon_API_HL.png",
+      "text": "我的"
+    }]
+  },
+  "networkTimeout": {
+    "request": 10000,
+    "connectSocket": 10000,
+    "uploadFile": 10000,
+    "downloadFile": 10000
+  },
+  "debug": false
+}

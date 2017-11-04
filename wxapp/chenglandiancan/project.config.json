@@ -1,0 +1,47 @@
+{
+	"description": "项目配置文件。",
+	"setting": {
+		"urlCheck": false,
+		"es6": true,
+		"postcss": true,
+		"minified": true,
+		"newFeature": true
+	},
+	"compileType": "miniprogram",
+	"libVersion": "1.6.0",
+	"appid": "wxe22a8310f6aadeff",
+	"projectname": "%E6%A9%99%E8%93%9D%E7%82%B9%E9%A4%90",
+	"condition": {
+		"search": {
+			"current": -1,
+			"list": []
+		},
+		"conversation": {
+			"current": -1,
+			"list": []
+		},
+		"miniprogram": {
+			"current": 0,
+			"list": [
+				{
+					"id": 0,
+					"name": "菜单页",
+					"pathName": "page/main/pages/merchant/merchant",
+					"query": "sid=1&tid=33"
+				},
+				{
+					"id": -1,
+					"name": "已点菜单",
+					"pathName": "page/main/pages/dishlist/dishlist",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "消息页",
+					"pathName": "page/common/msg/msg",
+					"query": ""
+				}
+			]
+		}
+	}
+}

@@ -26,9 +26,15 @@ class ColorBehavior extends Behavior
     public function beforeAction($event)
     {
         $token = \Yii::$app->request->get("token");
-        $this->ownerid = ColorHelper::token2id($token);
-        $this->token = $token;
-        \Yii::$app->view->params['token'] = $token;
+        if($token){
+            $this->ownerid = ColorHelper::token2id($token);
+            $this->token = $token;
+            \Yii::$app->view->params['token'] = $token;
+        }else{
+            $this->ownerid = 0;
+            $this->token = 'chenglan';
+            \Yii::$app->view->params['token'] = $this->token;
+        }
         return true;
     }
 

@@ -1,0 +1,40 @@
+.search{
+    background:#20A0FF;
+    padding: 15rpx 45rpx;
+    position:fixed;
+    top:0px;
+    width:100%;
+    box-sizing: border-box;
+}
+.weui-input{
+    background:#ffffff;
+    padding:10rpx;
+    text-align:center;
+}
+.list-container{
+    margin-top: 120rpx;
+}
+.list{
+    background:#ffffff;
+    padding:15rpx;
+    overflow:hidden;
+    margin-top:25rpx;
+}
+
+.logo{
+    width:250rpx;
+    height:250rpx;
+}
+.message{
+    width:430rpx;
+    float:right;
+}
+.name{
+    font-weight:blod;
+}
+.address,.desc{
+    color:#666;
+    font-size:25rpx;
+    border-top:1rpx solid #F9FAFC;
+    padding:15rpx 0rpx;
+}

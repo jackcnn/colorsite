@@ -1,0 +1,15 @@
+.group{
+    display: block;
+    width: 100%;
+    padding-top:100rpx;
+    text-align: center;
+}
+.scan{
+    display: inline-block;
+    text-align: center;
+    font-size:35rpx;
+    padding:20rpx 150rpx;
+    margin:0rpx auto;
+    background: #20A0FF;
+    color: #FFFFFF;
+}

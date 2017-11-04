@@ -17,7 +17,7 @@ class ColorHelper
      * */
     public static function dump($data,$print=true)
     {
-        header("Content-type: text/html; charset=utf-8");
+       // header("Content-type: text/html; charset=utf-8");
         echo '<pre>';
             if($print){
                 print_r($data);
@@ -99,8 +99,8 @@ class ColorHelper
         /*
          * 本地测试的时候直接登录，不要微信授权了
          * */
-        if(0){
-            $identity=\frontend\models\MemberAccess::findIdentity(1);
+        if(1){
+            $identity=\frontend\models\MemberAccess::findIdentity(2);
             \Yii::$app->user->login($identity,3600*24*7);
             return;
         }

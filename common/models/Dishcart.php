@@ -18,6 +18,8 @@ use Yii;
  * @property integer $type
  * @property integer $created_at
  * @property integer $updated_at
+ * @property integer $tid
+ * @property integer $isdone
  */
 class Dishcart extends \yii\db\ActiveRecord
 {
@@ -35,7 +37,7 @@ class Dishcart extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ownerid', 'store_id', 'type', 'created_at', 'updated_at'], 'integer'],
+            [['ownerid', 'store_id', 'type', 'created_at', 'updated_at', 'tid', 'isdone'], 'integer'],
             [['list', 'mark'], 'string'],
             [['openid', 'sn'], 'string', 'max' => 100],
             [['name'], 'string', 'max' => 150],
@@ -59,6 +61,8 @@ class Dishcart extends \yii\db\ActiveRecord
             'type' => '0为点餐，1为加菜',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+            'tid' => '桌子编号',
+            'isdone' => '是否已结束',
         ];
     }
 

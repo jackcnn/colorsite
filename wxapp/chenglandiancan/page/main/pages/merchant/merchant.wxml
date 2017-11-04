@@ -1,0 +1,72 @@
+<view class="container">
+    <view class="mch-title">
+            <view>选择商品</view>
+    </view>
+
+    <view class="list-container">
+
+        <scroll-view scroll-y class="category-container">
+            <view wx:for="{{category}}" wx:key="{{this}}" data-cid="{{item.id}}" data-index="{{index}}" bindtap="tapcategory" class="category {{curNav == index ? 'active' : ''}}">{{item.name}}</view>
+        </scroll-view>
+
+        <scroll-view scroll-y scroll-into-view="{{dishescateview}}" scroll-with-animation="{{true}}" bindscroll="onScroll" class="dishes-container">
+            <view wx:for="{{category}}" wx:key="{{this}}" wx:for-item="cateitem" wx:for-index="cateindex" data-cid="{{cateitem.id}}" id="cate{{cateindex}}" class="dishes">
+                <view class="dish-catename">{{cateitem.name}}</view>
+                <view wx:for="{{cateitem.dishes}}" wx:key="{{item.id}}" class="dish">
+                    <image src="{{item.cover}}" mode="widthFix" class="dish-logo"></image>
+                    <view class="dish-detail">
+                        <view class="dish-name">{{item.name}}</view>
+                        <view class="dish-desc">{{item.desc}}</view>
+                        <view class="dish-price">
+                            <view wx:if="{{item.oprice>0}}" class="dish-oprice"><view class="rmb">￥</view>{{item.oprice/100}}</view>
+                            <view class="dish-nprice"><view class="rmb">￥</view>{{item.price/100}}</view>
+                        </view>
+                        <view class="dish-count">
+                            <view bindtap="decrease" data-cindex="{{cateindex}}" data-dindex="{{index}}" class="decrease">-</view>
+                            <view class="num">{{item.hascount}}</view>
+                            <view bindtap="increase" data-cindex="{{cateindex}}" data-dindex="{{index}}"  class="increase">+</view>
+                        </view>
+                    </view>
+                </view>
+
+            </view>
+
+        </scroll-view>
+    </view>
+
+    <view class="cart-container">
+        <view class="cart-index">
+            <view class="cart-logo">
+                <view class="cart-cirle">
+                    <image src="https://326108993.com/uploads/00001/201710/ecbcbc8ccc9253a0a8cb774fdb5989e2.jpg"></image>
+                    <view class="badge">{{total_count}}</view>
+                </view>
+            </view>
+            <view bindtap="toggleCart" class="cart-total">￥{{total_price}}</view>
+            <view bindtap="submit" class="cart-submit">确认点单</view>
+        </view>
+    </view>
+
+    <view  bindtap="toggleCart" class="cart-list-bg {{togglecart?'':'slide'}}">
+        <view class="cart-list">
+            <view class="cart-list-title">购物车<view bindtap="clearcart" class="clear-cart">清空</view></view>
+            <scroll-view scroll-y class="cart-list-content">
+                <block wx:for="{{category}}" wx:key="{{this}}" wx:for-item="cateitem" wx:for-index="cateindex" data-cid="{{cateitem.id}}">
+
+                    <view wx:for="{{cateitem.dishes}}" wx:key="{{item.id}}" hidden="{{!item.hascount}}" class="cart-list-content-list">
+                        <view class="cart-list-name">{{item.name}}</view>
+                        <view class="cart-list-total">￥{{item.price*item.hascount/100}}</view>
+                        <view class="cart-list-count">
+                            <view class="decrease" catchtap="decrease" data-cindex="{{cateindex}}" data-dindex="{{index}}" >-</view>
+                            <view class="num">{{item.hascount}}</view>
+                            <view class="increase" catchtap="increase" data-cindex="{{cateindex}}" data-dindex="{{index}}" >+</view>
+                        </view>
+                    </view>
+
+                </block>
+
+            </scroll-view>
+        </view>
+    </view>
+
+</view>

@@ -100,6 +100,19 @@ class SiteController extends BaseController
                 }
 
                 if($v['cateid'] == $value['id']){
+                    if($v['labes']){
+                        $labels = explode(",",$v['labes']);
+                        $res = [];
+                        foreach($labels as $lk=>$lv){
+                            $res[$lk]['name'] = $lv;
+                            $res[$lk]['sel'] = 0;
+                        }
+
+                        $v['label_list'] = $res;
+                    }else{
+                        $v['label_list'] = [];
+                    }
+
 
                     $category[$key]['dishes'][] = $v;
 
@@ -107,6 +120,10 @@ class SiteController extends BaseController
                 }
             }
         }
+
+        ColorHelper::dump(json_encode($category));
+        ColorHelper::dump($category);
+        die;
 
         return $this->renderPartial("index",[
             'category'=>$category,
