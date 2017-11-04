@@ -18,11 +18,30 @@ use Yii;
 use frontend\controllers\BaseController;
 use yii\data\Pagination;
 use yii\helpers\ColorHelper;
+use yii\helpers\CurlHelper;
 use yii\helpers\Url;
 
 class IndexController extends BaseController
 {
     public $enableCsrfValidation = false;
+
+    public $appid = "wx0dd0829415ec47da";
+    public $appsecret = "d28911cd2ad0a767bb76e7ab237f3656";
+
+    //登陆
+    public function actionLogin($code)
+    {
+
+        $url="https://api.weixin.qq.com/sns/jscode2session?appid=".$this->appid."&secret=".$this->appsecret."&js_code=".$code."&grant_type=authorization_code";
+
+        $res = CurlHelper::callWebServer($url);
+
+        return $this->asJson($res);
+
+
+    }
+
+
     //门店列表，暂时不弄
     public function actionIndex($sid,$tid)
     {
