@@ -161,7 +161,7 @@ class IndexController extends BaseController
         $postData = \Yii::$app->request->post();
 
         $content = '';                          //打印内容
-        $content .= '<FS><center>'.$postData['tid'].'号</center></FS>';
+        $content .= '<FS><center>'.$tid.'号</center></FS>';
         $content .= str_repeat('-',32);
         $content .= '<table>';
         $content .= '<tr><td>菜品</td><td>数量</td><td>价格</td></tr>';
