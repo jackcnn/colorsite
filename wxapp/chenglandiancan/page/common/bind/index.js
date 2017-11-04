@@ -8,7 +8,13 @@ Page({
         params:{},
     },
     onLoad:function (params) {
+
+        //page/common/bind/index?sid=1&clerkid=3
+
         var self = this ;
+        self.setData({
+            params:params
+        });
         wx.request({
             url: bindclerk,
             data:{
@@ -24,12 +30,10 @@ Page({
                         var userInfo = res.userInfo;
                         var nickName = userInfo.nickName;
                         var avatarUrl = userInfo.avatarUrl;
-
                         self.setData({
                             store_name:store.name,
                             nickName:nickName,
                             avatarUrl:avatarUrl,
-                            params:params
                         });
                     }
                 });
@@ -41,22 +45,37 @@ Page({
     bindclerk:function () {
 
         var self = this;
-        console.log(self.data.nickName)
+        wx.showLoading({title: '加载中.'});
         wx.request({
             url: bindclerk,
             data:{
-                sid:params.sid,
-                clerkid:params.clerkid,
+                sid:self.data.params.sid,
+                clerkid:self.data.params.clerkid,
                 nickName:self.data.nickName,
                 avatarUrl:self.data.avatarUrl,
                 openid:app.globalData.openid
             },
             success: function(res) {
-                console.log(res)
                 if(res.data.success){
-
+                    wx.setStorage({
+                        key:'alert-flash',
+                        data:{type:'success',msg:'绑定成功！'},
+                        success:function () {
+                            wx.reLaunch({
+                                url: "/page/common/msg/msg"
+                            });
+                        }
+                    });
                 }else{
-
+                    wx.setStorage({
+                        key:'alert-flash',
+                        data:{type:'error',msg:'绑定失败！'},
+                        success:function () {
+                            wx.reLaunch({
+                                url: "/page/common/msg/msg"
+                            });
+                        }
+                    });
                 }
             }
         });

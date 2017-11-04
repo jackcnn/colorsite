@@ -21,7 +21,7 @@ Page({
                         if(v.hascount >0){
                             total = parseInt(v.hascount*v.price) + total;
                         }
-                    })
+                    });
                 })
 
                 self.setData({

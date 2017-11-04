@@ -50,13 +50,9 @@ class IndexController extends BaseController
         $category = Category::find()->where(['table'=>'restaurant'])->asArray()->orderBy("sort,id")->all();
 
         $dishes = Dishes::find()->where(['ownerid'=>$store['ownerid']])->asArray()->orderBy("sort,id")->all();
-
         $alldishes = $dishes;
-
         foreach($category as $key=>$value){
-
             foreach($dishes as $k=>$v){
-
                 if($v['cateid'] == $value['id']){
                     if($v['labes']){
                         $labels = explode(",",$v['labes']);
@@ -130,6 +126,33 @@ class IndexController extends BaseController
         return $this->asJson(['store'=>$store,'clerk'=>$clerk]);
 
     }
+
+    public function actionShowCart($sid,$tid)
+    {
+
+        $store = Stores::find()->where(['id'=>$sid])->asArray()->one();
+
+        $cart = Dishcart::find()->where(["store_id"=>$sid,"tid"=>$tid,"isdone"=>0])->asArray()->orderBy("type asc")->all();
+
+        $cartlist = [];
+        foreach($cart as $key=>$value){
+            $list = json_decode($value['list'],1);
+            foreach ($list as $k=>$v){
+                $cartlist[]["id"]= $v['id'];
+                $cartlist[]["hascount"] = $v['count'];
+                $cartlist[]["type"] = $value['type'];
+                $cartlist[]["labels"] = $v['lable'];
+                $cartlist[]["name"] = $v['name'];
+                $cartlist[]["price"] = $v['price'];
+            }
+        }
+
+        return $this->asJson($cartlist);
+
+
+
+    }
+
 
     public function checkIsCart($sid,$tid)
     {
