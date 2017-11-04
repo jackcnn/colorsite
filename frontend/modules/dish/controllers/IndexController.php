@@ -208,7 +208,7 @@ class IndexController extends BaseController
         //$printers = Printer::find()->where(['store_id'=>$store_id,'isuse'=>1])->asArray()->all();
         $printers = Printer::find()->where(['store_id'=>$store_id,'isuse'=>1])->createCommand()->getRawSql();
 
-        ColorHelper::dump($printers);
+        ColorHelper::dump($printers);die;
 
         foreach($printers as $key=>$value){
             $actions = json_decode($value['actions'],1);
