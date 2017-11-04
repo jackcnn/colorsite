@@ -135,15 +135,17 @@ class IndexController extends BaseController
         $cart = Dishcart::find()->where(["store_id"=>$sid,"tid"=>$tid,"isdone"=>0])->asArray()->orderBy("type asc")->all();
 
         $cartlist = [];
+        $i=0;
         foreach($cart as $key=>$value){
             $list = json_decode($value['list'],1);
             foreach ($list as $k=>$v){
-                $cartlist[]["id"]= $v['id'];
-                $cartlist[]["hascount"] = $v['count'];
-                $cartlist[]["type"] = $value['type'];
-                $cartlist[]["labels"] = $v['lable'];
-                $cartlist[]["name"] = $v['name'];
-                $cartlist[]["price"] = $v['price'];
+                $cartlist[$i]["id"]= $v['id'];
+                $cartlist[$i]["hascount"] = $v['count'];
+                $cartlist[$i]["type"] = $value['type'];
+                $cartlist[$i]["labels"] = $v['lable']?substr($v['lable'],1):'';
+                $cartlist[$i]["name"] = $v['name'];
+                $cartlist[$i]["price"] = $v['price'];
+                $i++;
             }
         }
 
