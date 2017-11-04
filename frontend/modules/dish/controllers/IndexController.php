@@ -120,8 +120,8 @@ class IndexController extends BaseController
             "tid"=>$tid,
             "type"=>0,
             "isdone"=>0,
-            "created_at"=>["gt",time()-3600*4]
-        ])->orderBy("id DESC")->createCommand()->getRawSql();
+
+        ])->andWhere(["created_at","gt",time()-3600*4])->orderBy("id DESC")->createCommand()->getRawSql();
 
         return $model;
 
