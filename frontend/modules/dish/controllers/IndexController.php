@@ -206,7 +206,7 @@ class IndexController extends BaseController
     public function printer_content($store_id,$content){
         //把所有打印机
         //$printers = Printer::find()->where(['store_id'=>$store_id,'isuse'=>1])->asArray()->all();
-        $printers = Printer::find()->where(['store_id'=>$store_id,'isuse'=>1])->asArray()->all();
+        $printers = Printer::find()->where(['store_id'=>$store_id,'isuse'=>1])->createCommand()->getRawSql();
 
         ColorHelper::dump($printers);
 
