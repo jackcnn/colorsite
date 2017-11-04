@@ -180,7 +180,7 @@ class IndexController extends BaseController
         $content .= str_repeat('-',32)."\n";
         $content .= "<FS>总金额: ".($postData['total']+$postData['inputValue'])."元</FS>\r\n";
 
-        $this->printer_content($content,$sid);
+        $this->printer_content($sid,$content);
 
     }
 
@@ -206,9 +206,8 @@ class IndexController extends BaseController
     public function printer_content($store_id,$content){
         //把所有打印机
         //$printers = Printer::find()->where(['store_id'=>$store_id,'isuse'=>1])->asArray()->all();
-        $printers = Printer::find()->where(['store_id'=>$store_id,'isuse'=>1])->createCommand()->getRawSql();
+        $printers = Printer::find()->where(['store_id'=>$store_id,'isuse'=>1])->asArray()->all();
 
-        ColorHelper::dump($printers);die;
 
         foreach($printers as $key=>$value){
             $actions = json_decode($value['actions'],1);
