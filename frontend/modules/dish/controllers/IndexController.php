@@ -136,6 +136,7 @@ class IndexController extends BaseController
 
         $cartlist = [];
         $i=0;
+        $total = 0;
         foreach($cart as $key=>$value){
             $list = json_decode($value['list'],1);
             foreach ($list as $k=>$v){
@@ -145,11 +146,12 @@ class IndexController extends BaseController
                 $cartlist[$i]["labels"] = $v['lable']?substr($v['lable'],1):'';
                 $cartlist[$i]["name"] = $v['name'];
                 $cartlist[$i]["price"] = $v['price'];
+                $total = $total + $v['price']*$v['count'];
                 $i++;
             }
         }
 
-        return $this->asJson($cartlist);
+        return $this->asJson(['cartlist'=>$cartlist,'total'=>$total]);
 
 
 

@@ -27,8 +27,8 @@
 
     <view class="cart-container">
         <view class="cart-index">
-            <view class="cart-total">￥{{total_price}}</view>
-            <view bindtap="submit" class="cart-submit">呼叫下单</view>
+            <view class="cart-total">￥{{total}}</view>
+            <view bindtap="submit" class="cart-submit">打印订单</view>
         </view>
     </view>
 

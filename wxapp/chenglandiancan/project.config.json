@@ -21,7 +21,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 3,
+			"current": 4,
 			"list": [
 				{
 					"id": 0,
@@ -46,6 +46,12 @@
 					"name": "绑定店员",
 					"pathName": "page/common/bind/index",
 					"query": "sid=1&clerkid=3"
+				},
+				{
+					"id": 4,
+					"name": "已点菜单",
+					"pathName": "page/main/pages/clerk/index",
+					"query": "sid=1&tid=33"
 				}
 			]
 		}

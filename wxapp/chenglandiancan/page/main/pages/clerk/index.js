@@ -4,12 +4,12 @@ const show_cart = require('../../../../config').show_cart;
 Page({
     data:{
         cartlist: [],
+        total:0,
         params:{},
     },
     onLoad:function(params)
     {
         var self = this;
-
         wx.request({
             url: show_cart,
             data: {
@@ -18,10 +18,12 @@ Page({
                 openid:app.globalData.openid
             },
             success: function(res) {
-                console.log(res)
+                self.setData({
+                    'cartlist':res.data.cartlist,
+                    'total':res.data.total/100
+                });
             }
         });
-
     },
     onReady:function(){
         var self = this;
