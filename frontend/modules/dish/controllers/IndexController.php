@@ -59,7 +59,7 @@ class IndexController extends BaseController
 
                     $v['hascount'] = 0;
 
-                    $v['cover'] = "http://".\Yii::$app->request->hostName.$v['cover'];
+                    $v['cover'] = \Yii::$app->request->hostInfo.$v['cover'];
 
                     $category[$key]['dishes'][] = $v;
 
