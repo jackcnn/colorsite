@@ -20,5 +20,6 @@ class DishMoudle extends \yii\base\Module
         parent::init();
 
         // custom initialization code goes here
+
     }
 }

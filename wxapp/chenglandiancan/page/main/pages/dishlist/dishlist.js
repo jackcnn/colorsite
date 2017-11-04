@@ -90,11 +90,12 @@ Page({
                     url: submit_cart+"?sid="+self.data.params.sid+"&tid="+self.data.params.tid,
                     data: {
                         res_list:res_list,
-                        openid:"oooo"
+                        openid:app.globalData.openid
                     },
                     method:"post",
 
                     success: function(res) {
+                        console.log(app.globalData)
                         if(res.data.success){
                             wx.setStorage({
                                 key:'alert-flash',
@@ -106,6 +107,7 @@ Page({
                                 }
                             });
                         }else{
+                            wx.setStorageSync('cart-list', {});
                             wx.setStorage({
                                 key:'alert-flash',
                                 data:{type:'error',msg:'提交失败'},

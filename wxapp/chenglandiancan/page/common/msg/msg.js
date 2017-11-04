@@ -4,7 +4,7 @@ Page({
     data:{
         msg:'提示信息',
         type:'success',
-        color:'#13CE66',
+        color:'#20a0ff',
     },
     onLoad:function()
     {
@@ -15,7 +15,7 @@ Page({
                 var data = res.data;
                 if(data){
                     if(data.type =="success"){
-                        var color="#13CE66";
+                        var color="#20a0ff";
                     }else{
                         var color="#FF4949";
                     }

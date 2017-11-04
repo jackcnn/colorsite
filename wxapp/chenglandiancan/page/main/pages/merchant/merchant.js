@@ -26,6 +26,14 @@ Page({
                 var store = res.data.store;
                 var category = res.data.category;
 
+                if(res.data.isCart){
+                    wx.reLaunch({
+                        url: "/page/user/index"
+                    });
+                    return;
+                }
+
+
                 wx.setNavigationBarTitle({
                     title: store.name
                 });

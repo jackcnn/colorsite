@@ -31,14 +31,9 @@ class IndexController extends BaseController
     //登陆
     public function actionLogin($code)
     {
-
         $url="https://api.weixin.qq.com/sns/jscode2session?appid=".$this->appid."&secret=".$this->appsecret."&js_code=".$code."&grant_type=authorization_code";
-
         $res = CurlHelper::callWebServer($url);
-
         return $this->asJson($res);
-
-
     }
 
 
@@ -50,6 +45,8 @@ class IndexController extends BaseController
     //扫码进入点餐列表
     public function actionGetdishes($sid,$tid)
     {
+
+
         $store = Stores::find()->where(['id'=>$sid])->asArray()->one();
 
         $category = Category::find()->where(['table'=>'restaurant'])->asArray()->orderBy("sort,id")->all();
@@ -87,7 +84,9 @@ class IndexController extends BaseController
             }
         }
 
-        return $this->asJson(['store'=>$store,'category'=>$category]);
+        $isCart = $this->checkIsCart($sid,$tid);
+
+        return $this->asJson(['store'=>$store,'category'=>$category,'isCart'=>$isCart]);
 
     }
 
@@ -103,7 +102,7 @@ class IndexController extends BaseController
         $model->store_id = $sid;
         $model->openid = $postData['openid'];
         $model->list = json_encode($postData['res_list']);
-        $model->type = 1;
+        $model->type = 0;
         $model->tid = $tid;
         if($model->validate() && $model->save()){
             $return = ['success'=>true,'msg'=>'提交成功！'];
@@ -111,6 +110,25 @@ class IndexController extends BaseController
             $return = ['success'=>false,'msg'=>'提交失败！'];
         }
         return $this->asJson($return);
+    }
+
+    public function checkIsCart($sid,$tid)
+    {
+        //当时点菜记录
+        $model = Dishcart::find()->where([
+            "store_id"=>$sid,
+            "tid"=>$tid,
+            "type"=>0,
+            "isdone"=>0,
+            "created_at"=>["gt",time()-3600*4]
+        ])->orderBy("id DESC")->one();
+
+        if($model){
+            return true;
+        }else{
+            return false;
+        }
+
     }
 
 
