@@ -45,8 +45,6 @@ class IndexController extends BaseController
     //扫码进入点餐列表
     public function actionGetdishes($sid,$tid)
     {
-
-
         $store = Stores::find()->where(['id'=>$sid])->asArray()->one();
 
         $category = Category::find()->where(['table'=>'restaurant'])->asArray()->orderBy("sort,id")->all();
@@ -112,6 +110,16 @@ class IndexController extends BaseController
         return $this->asJson($return);
     }
 
+    public function actionBindClerk($sid,$clerkid)
+    {
+        $store = Stores::findOne($sid);
+
+        $clerk = Clerk::findOne($clerkid);
+
+        return $this->asJson(['store'=>$store,'clerk'=>$clerk]);
+
+    }
+
     public function checkIsCart($sid,$tid)
     {
         //当时点菜记录
@@ -120,10 +128,7 @@ class IndexController extends BaseController
             "tid"=>$tid,
             "type"=>0,
             "isdone"=>0,
-
-        ])->andWhere([">","created_at",time()-3600*4])->orderBy("id DESC")->createCommand()->getRawSql();
-
-        return $model;
+        ])->andWhere([">","created_at",time()-3600*4])->orderBy("id DESC")->one();
 
         if($model){
             return true;
@@ -132,9 +137,5 @@ class IndexController extends BaseController
         }
 
     }
-
-
-
-
 
 }

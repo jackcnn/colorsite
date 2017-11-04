@@ -19,6 +19,9 @@ var config = {
     // 提交购物车
     submit_cart: `${host}/dish/index/submit-cart.html`,
 
+    //绑定页面
+    bindclerk: `${host}/dish/index/bind-clerk.html`,
+
 
 };
 

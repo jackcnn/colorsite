@@ -1,0 +1,8 @@
+<view class="index">
+  <view class="index-hd">
+    <view class="index-desc">确定要绑定为"{{store_name}}"的店员吗</view>
+
+    <view bindtap="bindclerk" class="index-button">确定绑定</view>
+  </view>
+  
+</view>

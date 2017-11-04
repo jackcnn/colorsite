@@ -1,5 +1,6 @@
 {
   "pages": [
+    "page/common/bind/index",
     "page/main/index",
     "page/user/index",
     "page/common/msg/msg",

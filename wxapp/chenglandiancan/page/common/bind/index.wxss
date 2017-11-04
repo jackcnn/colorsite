@@ -1,0 +1,20 @@
+
+.index{
+    background: #FFFFFF;
+    text-align: center;
+    height: 100%;
+}
+.index-desc{
+    font-size:60rpx;
+    color: #20A0FF;
+    padding:100rpx;
+    font-weight:bold;
+}
+
+.index-button{
+    display: inline-block;
+    font-size: 35rpx;
+    background: #20A0FF;
+    color: #ffffff;
+    padding:15rpx 50rpx;
+}
