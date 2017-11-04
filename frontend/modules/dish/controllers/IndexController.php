@@ -121,7 +121,9 @@ class IndexController extends BaseController
             "type"=>0,
             "isdone"=>0,
             "created_at"=>["gt",time()-3600*4]
-        ])->orderBy("id DESC")->one();
+        ])->orderBy("id DESC")->createCommand()->getRawSql();
+
+        return $model;
 
         if($model){
             return true;
