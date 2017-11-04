@@ -110,11 +110,22 @@ class IndexController extends BaseController
         return $this->asJson($return);
     }
 
-    public function actionBindClerk($sid,$clerkid)
+    public function actionBindClerk($sid,$clerkid,$openid='',$nickName='',$avatarUrl='')
     {
         $store = Stores::findOne($sid);
 
         $clerk = Clerk::findOne($clerkid);
+
+        if(strlen($openid)>1){
+            $clerk->openid = $openid;
+            $clerk->wxname = $nickName;
+            $clerk->avatar = $avatarUrl;
+            if($clerk->validate() && $clerk->save()){
+                return $this->asJson(['success'=>true]);
+            }else{
+                return $this->asJson(['success'=>false]);
+            }
+        }
 
         return $this->asJson(['store'=>$store,'clerk'=>$clerk]);
 
