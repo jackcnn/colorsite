@@ -180,7 +180,7 @@ class IndexController extends BaseController
         $content .= str_repeat('-',32)."\n";
         $content .= "<FS>总金额: ".($postData['total']+$postData['inputValue'])."元</FS>\r\n";
 
-        $this->printer_content($content,$sid);
+        ColorHelper::dump($this->printer_content($content,$sid));
 
     }
 
@@ -213,6 +213,7 @@ class IndexController extends BaseController
             if(in_array("dishes",$actions)){//选为打印的，开始打印
                 $machineCode = $value['machine_code'];                      //授权的终端号
                 $res = \common\vendor\yilianyun\YilianyunHelper::printer($content,$machineCode);
+                return $res;
                 if($res == 'success'){
                     return true;
                 }else{
