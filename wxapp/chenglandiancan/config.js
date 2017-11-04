@@ -22,6 +22,9 @@ var config = {
     //电源查看页面
     show_cart: `${host}/dish/index/show-cart.html`,
 
+    //打印订单
+    print_cart: `${host}/dish/index/print_cart.html`,
+
     //绑定页面
     bindclerk: `${host}/dish/index/bind-clerk.html`,
 

@@ -153,7 +153,33 @@ class IndexController extends BaseController
 
         return $this->asJson(['cartlist'=>$cartlist,'total'=>$total]);
 
+    }
 
+    public function actionPrintCart($sid,$tid)
+    {
+
+        $postData = \Yii::$app->request->post();
+
+        $content = '';                          //打印内容
+        $content .= '<FS><center>'.$postData['tid'].'号</center></FS>';
+        $content .= str_repeat('-',32);
+        $content .= '<table>';
+        $content .= '<tr><td>菜品</td><td>数量</td><td>价格</td></tr>';
+        foreach($postData['cartlist'] as $key=>$value){
+            if(isset($value['name'])){
+                $price = intval($value['price']*$value['hascount'])/100;
+                $content .= '<tr><td>'.$value['name'].'</td><td>'.$value['hascount'].'</td><td>'.$price.'元</td></tr>';
+            }
+            if(isset($value['labels']) && strlen($value['labels'])> 1){
+                $content .= '<tr><td></td><td></td><td>('.$value['labels'].')</td></tr>';
+            }
+        }
+        $content .= '<tr><td>茶位费</td><td></td><td>'.$postData['inputValue'].'</td></tr>';
+        $content .= '</table>';
+        $content .= str_repeat('-',32)."\n";
+        $content .= "<FS>总金额: ".($postData['total']+$postData['inputValue'])."元</FS>\r\n";
+
+        $this->printer_content($content);
 
     }
 
@@ -172,6 +198,70 @@ class IndexController extends BaseController
             return true;
         }else{
             return false;
+        }
+
+    }
+
+    public function printer_content($store_id,$content){
+        //把所有打印机
+        $printers = Printer::find()->where(['store_id'=>$store_id,'isuse'=>1])->asArray()->all();
+
+        foreach($printers as $key=>$value){
+            $actions = json_decode($value['actions'],1);
+            if(in_array("dishes",$actions)){//选为打印的，开始打印
+                $machineCode = $value['machine_code'];                      //授权的终端号
+                $res = \common\vendor\yilianyun\YilianyunHelper::printer($content,$machineCode);
+                if($res == 'success'){
+                    return true;
+                }else{
+                    return false;
+                }
+            }
+        }
+    }
+
+    //打印菜单
+    public function print_dishes($dishes,$order,$token)
+    {
+
+        $content = '';                          //打印内容
+        $content .= '<FS><center>'.$order->table_num.'号</center></FS>';
+        $content .= str_repeat('-',32);
+        $content .= '<table>';
+        $content .= '<tr><td>菜品</td><td>数量</td><td>价格</td></tr>';
+        foreach($dishes as $key=>$value){
+            if(isset($value['name'])){
+                $price = intval($value['price']*$value['count'])/100;
+                $content .= '<tr><td>'.$value['name'].'</td><td>'.$value['count'].'</td><td>'.$price.'元</td></tr>';
+            }
+            if(isset($value['labels']) && strlen($value['labels'])> 1){
+                $content .= '<tr><td></td><td></td><td>('.$value['labels'].')</td></tr>';
+            }
+        }
+        $content .= '</table>';
+        $content .= str_repeat('-',32)."\n";
+        $content .= "<FS>总金额: ".($order->amount/100)."元</FS>\r\n";
+        $content .= "订单编号：".$order->id."\r\n\r\n";
+
+        $qrcode = Url::to(['/site/index','token'=>$token,'store_id'=>$order->store_id,'sn'=>$order->ordersn],true);
+
+        $content .= "<center><QR>".$qrcode."</QR></center>";
+
+
+        //把所有打印机
+        $printers = Printer::find()->where(['store_id'=>$order->store_id,'isuse'=>1])->asArray()->all();
+
+        foreach($printers as $key=>$value){
+            $actions = json_decode($value['actions'],1);
+            if(in_array("dishes",$actions)){//选为打印的，开始打印
+                $machineCode = $value['machine_code'];                      //授权的终端号
+                $res = \common\vendor\yilianyun\YilianyunHelper::printer($content,$machineCode);
+                if($res == 'success'){
+                    return true;
+                }else{
+                    return false;
+                }
+            }
         }
 
     }

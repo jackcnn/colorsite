@@ -21,6 +21,17 @@
                     </view>
                 </view>
 
+            <view class="dish">
+                <view class="dish-detail">
+                    <view class="dish-price">
+                        <view class="dish-name input-name">请输入茶位费:</view>
+                        <view class="dish-count input-ss"><view class="rmb">￥</view></view>
+                        <view class="dish-nprice"><input bindinput="bindKeyInput" bindfocus="bindInputfocus"  value="{{inputValue}}" type="digit" class="input" /></view>
+                    </view>
+
+                </view>
+            </view>
+
 
         </scroll-view>
     </view>
