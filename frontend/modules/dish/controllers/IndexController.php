@@ -121,7 +121,7 @@ class IndexController extends BaseController
             "type"=>0,
             "isdone"=>0,
 
-        ])->andWhere(["created_at","gt",time()-3600*4])->orderBy("id DESC")->createCommand()->getRawSql();
+        ])->andWhere([">","created_at",time()-3600*4])->orderBy("id DESC")->createCommand()->getRawSql();
 
         return $model;
 
