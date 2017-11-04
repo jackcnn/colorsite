@@ -179,7 +179,7 @@ class IndexController extends BaseController
         $content .= str_repeat('-',32)."\n";
         $content .= "<FS>总金额: ".($postData['total']+$postData['inputValue'])."元</FS>\r\n";
 
-        $this->printer_content($content);
+        $this->printer_content($content,$sid);
 
     }
 
