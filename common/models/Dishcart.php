@@ -20,6 +20,7 @@ use Yii;
  * @property integer $updated_at
  * @property integer $tid
  * @property integer $isdone
+ * @property integer $st
  */
 class Dishcart extends \yii\db\ActiveRecord
 {
@@ -37,7 +38,7 @@ class Dishcart extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ownerid', 'store_id', 'type', 'created_at', 'updated_at', 'tid', 'isdone'], 'integer'],
+            [['ownerid', 'store_id', 'type', 'created_at', 'updated_at', 'tid', 'isdone', 'st'], 'integer'],
             [['list', 'mark'], 'string'],
             [['openid', 'sn'], 'string', 'max' => 100],
             [['name'], 'string', 'max' => 150],
@@ -63,15 +64,16 @@ class Dishcart extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
             'tid' => '桌子编号',
             'isdone' => '是否已结束',
+            'st' => '是否可付款了',
         ];
     }
 
     /**
      * @inheritdoc
-     * @return \common\models\query\DishcartQuery the active query used by this AR class.
+     * @return DishcartQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new \common\models\query\DishcartQuery(get_called_class());
+        return new DishcartQuery(get_called_class());
     }
 }

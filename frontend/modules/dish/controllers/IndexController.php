@@ -98,6 +98,7 @@ class IndexController extends BaseController
         $model->openid = $postData['openid'];
         $model->list = json_encode($postData['res_list']);
         $model->type = 0;
+        $model->st = 0;
         $model->tid = $tid;
         if($model->validate() && $model->save()){
             $return = ['success'=>true,'msg'=>'提交成功！'];
@@ -131,11 +132,8 @@ class IndexController extends BaseController
     //店员点餐页面
     public function actionShowCart($sid,$tid)
     {
-
         $store = Stores::find()->where(['id'=>$sid])->asArray()->one();
-
         $cart = Dishcart::find()->where(["store_id"=>$sid,"tid"=>$tid,"isdone"=>0])->asArray()->orderBy("type asc")->all();
-
         $cartlist = [];
         $i=0;
         $total = 0;
@@ -196,7 +194,17 @@ class IndexController extends BaseController
 
         $total = \Yii::$app->request->post("total");
 
-        $model = Dishcart::find()->where(["store_id"=>$sid,"tid"=>$tid,"isdone"=>0])->asArray()->orderBy("id desc")->one();
+        $model = Dishcart::find()->where(["store_id"=>$sid,"tid"=>$tid,"isdone"=>0])->orderBy("id desc")->one();
+
+        if(!$model){
+            $model = new Dishcart();
+            $store = Stores::findOne($sid);
+            $model->ownerid = $store->ownerid;
+            $model->store_id = $sid;
+            $model->type = 0;
+            $model->st = 0;
+            $model->tid = $tid;
+        }
 
         $model->list = json_encode($res_list);
 
@@ -211,11 +219,11 @@ class IndexController extends BaseController
             $content .= '<tr><td>菜品</td><td>数量</td><td>价格</td></tr>';
             foreach($res_list as $key=>$value){
                 if(isset($value['name'])){
-                    $price = intval($value['price']*$value['hascount'])/100;
-                    $content .= '<tr><td>'.$value['name'].'</td><td>'.$value['hascount'].'</td><td>'.$price.'元</td></tr>';
+                    $price = intval($value['price']*$value['count'])/100;
+                    $content .= '<tr><td>'.$value['name'].'</td><td>'.$value['count'].'</td><td>'.$price.'元</td></tr>';
                 }
-                if(isset($value['labels']) && strlen($value['labels'])> 1){
-                    $content .= '<tr><td></td><td></td><td>('.$value['labels'].')</td></tr>';
+                if(isset($value['lable']) && strlen($value['lable'])> 1){
+                    $content .= '<tr><td></td><td></td><td>('.$value['lable'].')</td></tr>';
                 }
             }
             $content .= '</table>';
@@ -234,8 +242,52 @@ class IndexController extends BaseController
 
     }
 
+    //店员提交订单页面
+    public function actionCreateOrder($sid,$tid)
+    {
+        $openid = \Yii::$app->request->post("openid");
+        $truepay = \Yii::$app->request->post("truepay");
+        $type = \Yii::$app->request->post("type");
+        $res_list = \Yii::$app->request->post("res_list");
+
+        $store = Stores::findOne($sid);
+
+        $model = new Dishorder();
+
+        $model->ownerid = $store->ownerid;
+        $model->store_id = $sid;
+        $model->ordersn = ColorHelper::orderSN($sid.$tid);
+        $model->sn = $model->ordersn;
+        $model->amount = intval($truepay*100);
+        $model->list = json_encode($res_list);
+        $model->openid = $openid;
+        $model->table_num = $tid;
+        $model->paytype = $type;
+
+        if($type == "weixin"){
+            $model->status = 1;//可付款
+        }else{
+            $model->status = 2;//其他方式，已付款
+            $model->paytime = time();
+            $model->payopenid = $openid;
+            $model->payinfo = json_encode(['msg'=>'其他方式付款的']);
+        }
+        if($model->validate() && $model->save()){
+
+            //把菜品购物车设置过期
+            \Yii::$app->db->createCommand()->update('{{%dishcart}}', ['isdone' => 1], ['store_id'=>$sid,'tid'=>$tid])->execute();
 
 
+            $return = ['success'=>true,'msg'=>'提交成功！','orderid'=>$model->id,'ordersn'=>$model->ordersn];
+        }else{
+            $return = ['success'=>false,'msg'=>'提交失败！'];
+        }
+        return $this->asJson($return);
+
+    }
+
+
+    //定位页面
     public function actionRouter($sid,$tid)
     {
         $openid = \Yii::$app->request->post("openid");

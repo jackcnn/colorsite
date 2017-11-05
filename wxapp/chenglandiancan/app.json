@@ -5,6 +5,7 @@
     "page/user/index",
     "page/common/msg/index",
     "page/main/pages/clerk/index",
+    "page/main/pages/checkout/index",
     "page/main/pages/customer/index",
     "page/main/pages/dishlist/index"
   ],

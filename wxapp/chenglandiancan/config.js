@@ -5,7 +5,8 @@
 // 此处主机域名是腾讯云解决方案分配的域名
 // 小程序后台服务解决方案：https://www.qcloud.com/solution/la
 
-var host = "https://326108993.com";
+// var host = "https://326108993.com";
+    var host = "http://colorsite.com";
 var config = {
 
     host,
@@ -32,6 +33,9 @@ var config = {
     router: `${host}/dish/index/router.html`,
     //店员提交打印页面
     clerk_submit_cart: `${host}/dish/index/clerk-subcart.html`,
+    //提交订单页面
+    createorder: `${host}/dish/index/create-order.html`,
+
 
 
 };

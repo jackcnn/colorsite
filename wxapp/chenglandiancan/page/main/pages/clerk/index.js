@@ -137,16 +137,32 @@ Page({
 
         var self = this;
         var category = self.data.category;
+        var params = self.data.params;
 
         wx.showActionSheet({
-            itemList: ['打印菜单','设置可微信付款','设置现金付款'],
+            itemList: ['打印菜单','设置结账','重置餐牌'],
             success: function(res) {
-                if(res){
-
-                    self.print_list(category,self.data.params);
-
-
+                var tapIndex = parseInt(res.tapIndex);
+                if(tapIndex == 0){
+                    self.print_list(category,params);
                 }
+
+                if(tapIndex == 1 ){//确认设置微信付款吗.设置现金付款--跳转到设置页面
+                    wx.navigateTo({
+                        url: "/page/main/pages/checkout/index?sid="+params.sid+"&tid="+params.tid
+                    })
+                    return;
+                }
+
+                if(tapIndex == 2){
+                    wx.showActionSheet({
+                        itemList:['确认重置餐牌吗？'],
+                        success:function () {
+
+                        }
+                    })
+                }
+
 
             },
             fail: function(res) {
