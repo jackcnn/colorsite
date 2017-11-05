@@ -43,7 +43,7 @@ class IndexController extends BaseController
     {
         echo 1231;die;
     }
-    //扫码进入点餐列表
+    //扫码进入点餐列表--顾客版
     public function actionGetdishes($sid,$tid)
     {
         $store = Stores::find()->where(['id'=>$sid])->asArray()->one();
@@ -138,22 +138,72 @@ class IndexController extends BaseController
         $cartlist = [];
         $i=0;
         $total = 0;
+        $total_count=0;
         foreach($cart as $key=>$value){
             $list = json_decode($value['list'],1);
             foreach ($list as $k=>$v){
-                $cartlist[$i]["id"]= $v['id'];
-                $cartlist[$i]["hascount"] = $v['count'];
-                $cartlist[$i]["type"] = $value['type'];
-                $cartlist[$i]["labels"] = $v['lable']?substr($v['lable'],1):'';
-                $cartlist[$i]["name"] = $v['name'];
-                $cartlist[$i]["price"] = $v['price'];
+                $cartlist[$v['id']]["id"]= $v['id'];
+                $cartlist[$v['id']]["hascount"] = $v['count'];
+                $cartlist[$v['id']]["type"] = $value['type'];
+                $cartlist[$v['id']]["labels"] = $v['lable']?substr($v['lable'],1):'';
+                $cartlist[$v['id']]["name"] = $v['name'];
+                $cartlist[$v['id']]["price"] = $v['price'];
                 $total = $total + $v['price']*$v['count'];
+                $total_count = $total_count + $v['count'];
                 $i++;
             }
         }
 
-        return $this->asJson(['cartlist'=>$cartlist,'total'=>$total]);
 
+        $store = Stores::find()->where(['id'=>$sid])->asArray()->one();
+
+        $category = Category::find()->where(['table'=>'restaurant'])->asArray()->orderBy("sort,id")->all();
+
+        $dishes = Dishes::find()->where(['ownerid'=>$store['ownerid']])->asArray()->orderBy("sort,id")->all();
+        $alldishes = $dishes;
+        foreach($category as $key=>$value){
+            foreach($dishes as $k=>$v){
+                if($v['cateid'] == $value['id']){
+
+
+                    $cartinfo=$cartlist[$v['id']];
+
+
+                    $v['get_labels'] = $cartinfo['labels'];
+
+
+                    $v['hascount'] = $cartinfo['hascount'];
+
+                    $v['cover'] = \Yii::$app->request->hostInfo.$v['cover'];
+
+                    $category[$key]['dishes'][] = $v;
+
+                    unset($dishes[$k]);
+                }
+            }
+        }
+
+        return $this->asJson(['category'=>$category,'total'=>$total,'total_count'=>$total_count,'store'=>$store]);
+
+    }
+
+    public function actionRouter($sid,$tid)
+    {
+        $openid = \Yii::$app->request->post("openid");
+
+        $clerk = Clerk::find()->where(['openid'=>$openid,'store_id'=>$sid])->count();
+
+        if($clerk){//如果是店员，则进入帮助点餐页面
+
+            $role = "clerk";
+
+        }else{//顾客，进入自助点餐页面
+
+            $role = "customer";
+
+        }
+
+        return $this->asJson(['role'=>$role]);
     }
 
     public function actionPrintCart($sid,$tid)

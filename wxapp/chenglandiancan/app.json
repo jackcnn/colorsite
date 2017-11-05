@@ -3,10 +3,10 @@
     "page/common/bind/index",
     "page/main/index",
     "page/user/index",
-    "page/common/msg/msg",
+    "page/common/msg/index",
     "page/main/pages/clerk/index",
-    "page/main/pages/merchant/merchant",
-    "page/main/pages/dishlist/dishlist"
+    "page/main/pages/customer/index",
+    "page/main/pages/dishlist/index"
   ],
   "window": {
     "navigationBarTextStyle": "withe",

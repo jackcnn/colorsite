@@ -97,12 +97,13 @@ Page({
                     success: function(res) {
                         console.log(app.globalData)
                         if(res.data.success){
+                            wx.removeStorageSync("cart-list");
                             wx.setStorage({
                                 key:'alert-flash',
                                 data:{type:'success',msg:'提交成功！服务员马上过来确认'},
                                 success:function () {
                                     wx.reLaunch({
-                                        url: "/page/common/msg/msg"
+                                        url: "/page/common/msg/index"
                                     });
                                 }
                             });
@@ -113,7 +114,7 @@ Page({
                                 data:{type:'error',msg:'提交失败'},
                                 success:function () {
                                     wx.reLaunch({
-                                        url: "/page/common/msg/msg"
+                                        url: "/page/common/msg/index"
                                     });
                                 }
                             });

@@ -28,6 +28,9 @@ var config = {
     //绑定页面
     bindclerk: `${host}/dish/index/bind-clerk.html`,
 
+    //判断跳转
+    router: `${host}/dish/index/router.html`,
+
 
 };
 

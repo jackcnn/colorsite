@@ -72,16 +72,16 @@ Page({
     onReady:function(){
         var self = this;
         var hlist = [];
-        self.data.category.forEach(function(cate,i){
-            var query = wx.createSelectorQuery()
-            query.select('#cate'+i).boundingClientRect()
-            query.exec(function(res){
-                hlist.push(res[0].top);
-                self.setData({
-                    hlist:hlist
-                })
-            })
-        })
+        // self.data.category.forEach(function(cate,i){
+        //     var query = wx.createSelectorQuery()
+        //     query.select('#cate'+i).boundingClientRect()
+        //     query.exec(function(res){
+        //         hlist.push(res[0].top);
+        //         self.setData({
+        //             hlist:hlist
+        //         })
+        //     })
+        // })
 
     },
     increase:function(e){
@@ -199,7 +199,7 @@ Page({
                     data:arr,
                     success:function (res) {
                         wx.navigateTo({
-                            url: '/page/main/pages/dishlist/dishlist?sid='+self.data.params.sid+'&tid='+self.data.params.tid
+                            url: '/page/main/pages/dishlist/index?sid='+self.data.params.sid+'&tid='+self.data.params.tid
                         })
                     }
                 });
@@ -223,27 +223,27 @@ Page({
     },
     onScroll:function (e){
         var self = this;
-        if(!self.data.tap){
-            var scale = e.detail.scrollWidth / 570,
-                scrollTop = e.detail.scrollTop / scale;
-            var hlist = self.data.hlist;
-            var hlen = hlist.length;
-            var ii=self.data.curNav;
-            for(var i=0;i<hlen;i++){
-                if(i<hlen-1){
-                    if(e.detail.scrollTop+32 < hlist[i+1]){
-                        ii = i;
-                        break;
-                    }
-                }else{
-                    ii = i;
-                    break;
-                }
-            }
-            self.setData({
-                curNav:ii
-            })
-        }
+        // if(!self.data.tap){
+        //     var scale = e.detail.scrollWidth / 570,
+        //         scrollTop = e.detail.scrollTop / scale;
+        //     var hlist = self.data.hlist;
+        //     var hlen = hlist.length;
+        //     var ii=self.data.curNav;
+        //     for(var i=0;i<hlen;i++){
+        //         if(i<hlen-1){
+        //             if(e.detail.scrollTop+32 < hlist[i+1]){
+        //                 ii = i;
+        //                 break;
+        //             }
+        //         }else{
+        //             ii = i;
+        //             break;
+        //         }
+        //     }
+        //     self.setData({
+        //         curNav:ii
+        //     })
+        // }
     },
 
 })
