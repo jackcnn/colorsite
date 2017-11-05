@@ -135,6 +135,7 @@ class IndexController extends BaseController
 
         $cart = Dishcart::find()->where(["store_id"=>$sid,"tid"=>$tid,"isdone"=>0])->asArray()->orderBy("type asc")->all();
 
+
         $cartlist = [];
         $i=0;
         $total = 0;
@@ -166,13 +167,17 @@ class IndexController extends BaseController
                 if($v['cateid'] == $value['id']){
 
 
-                    $cartinfo=$cartlist[$v['id']];
+                    if(isset($cartlist[$v['id']])){
+                        $cartinfo=$cartlist[$v['id']];
+                        $v['get_labels'] = $cartinfo['labels'];
+                        $v['hascount'] = $cartinfo['hascount'];
+                    }else{
 
+                        $v['get_labels'] = '';
+                        $v['hascount'] = 0;
 
-                    $v['get_labels'] = $cartinfo['labels'];
+                    }
 
-
-                    $v['hascount'] = $cartinfo['hascount'];
 
                     $v['cover'] = \Yii::$app->request->hostInfo.$v['cover'];
 
