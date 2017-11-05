@@ -220,9 +220,10 @@ class IndexController extends BaseController
             }
             $content .= '</table>';
             $content .= str_repeat('-',32)."\n";
-            $content .= "<FS>总金额: ".$total/100."元</FS>\r\n";
+            $content .= "<FS>总金额: ".($total/100)."元</FS>\r\n";
 
             $this->printer_content($sid,$content);
+
 
             $return = ['success'=>true,'msg'=>'提交成功！'];
         }else{
