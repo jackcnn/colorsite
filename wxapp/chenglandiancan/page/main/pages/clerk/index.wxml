@@ -43,7 +43,7 @@
                 </view>
             </view>
             <view bindtap="toggleCart" class="cart-total">￥{{total_price}}</view>
-            <view bindtap="submit" class="cart-submit">确认点单</view>
+            <view bindtap="submit" class="cart-submit">选择操作</view>
         </view>
     </view>
 

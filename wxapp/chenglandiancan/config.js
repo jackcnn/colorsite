@@ -30,6 +30,8 @@ var config = {
 
     //判断跳转
     router: `${host}/dish/index/router.html`,
+    //店员提交打印页面
+    clerk_submit_cart: `${host}/dish/index/clerk-subcart.html`,
 
 
 };

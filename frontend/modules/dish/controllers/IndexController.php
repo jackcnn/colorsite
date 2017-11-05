@@ -85,7 +85,7 @@ class IndexController extends BaseController
 
     }
 
-    //提交购物车
+    //客户提交购物车
     public function actionSubmitCart($sid,$tid)
     {
         $postData = \Yii::$app->request->post();
@@ -128,13 +128,13 @@ class IndexController extends BaseController
 
     }
 
+    //店员点餐页面
     public function actionShowCart($sid,$tid)
     {
 
         $store = Stores::find()->where(['id'=>$sid])->asArray()->one();
 
         $cart = Dishcart::find()->where(["store_id"=>$sid,"tid"=>$tid,"isdone"=>0])->asArray()->orderBy("type asc")->all();
-
 
         $cartlist = [];
         $i=0;
@@ -166,7 +166,6 @@ class IndexController extends BaseController
             foreach($dishes as $k=>$v){
                 if($v['cateid'] == $value['id']){
 
-
                     if(isset($cartlist[$v['id']])){
                         $cartinfo=$cartlist[$v['id']];
                         $v['get_labels'] = $cartinfo['labels'];
@@ -178,7 +177,6 @@ class IndexController extends BaseController
 
                     }
 
-
                     $v['cover'] = \Yii::$app->request->hostInfo.$v['cover'];
 
                     $category[$key]['dishes'][] = $v;
@@ -189,8 +187,53 @@ class IndexController extends BaseController
         }
 
         return $this->asJson(['category'=>$category,'total'=>$total,'total_count'=>$total_count,'store'=>$store]);
+    }
+
+    //店员提交打印菜单
+    public function actionClerkSubcart($sid,$tid)
+    {
+        $res_list = \Yii::$app->request->post("res_list");
+
+        $total = \Yii::$app->request->post("total");
+
+        $model = Dishcart::find()->where(["store_id"=>$sid,"tid"=>$tid,"isdone"=>0])->asArray()->orderBy("id desc")->one();
+
+        $model->list = json_encode($res_list);
+
+        if($model->validate() && $model->save()){
+
+            //打印订单
+
+            $content = '';                          //打印内容
+            $content .= '<FS><center>'.$tid.'号</center></FS>';
+            $content .= str_repeat('-',32);
+            $content .= '<table>';
+            $content .= '<tr><td>菜品</td><td>数量</td><td>价格</td></tr>';
+            foreach($res_list as $key=>$value){
+                if(isset($value['name'])){
+                    $price = intval($value['price']*$value['hascount'])/100;
+                    $content .= '<tr><td>'.$value['name'].'</td><td>'.$value['hascount'].'</td><td>'.$price.'元</td></tr>';
+                }
+                if(isset($value['labels']) && strlen($value['labels'])> 1){
+                    $content .= '<tr><td></td><td></td><td>('.$value['labels'].')</td></tr>';
+                }
+            }
+            $content .= '</table>';
+            $content .= str_repeat('-',32)."\n";
+            $content .= "<FS>总金额: ".$total/100."元</FS>\r\n";
+
+            $this->printer_content($sid,$content);
+
+            $return = ['success'=>true,'msg'=>'提交成功！'];
+        }else{
+            $return = ['success'=>false,'msg'=>'提交失败！'];
+        }
+        return $this->asJson($return);
+
 
     }
+
+
 
     public function actionRouter($sid,$tid)
     {

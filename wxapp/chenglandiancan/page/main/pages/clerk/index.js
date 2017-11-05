@@ -1,5 +1,7 @@
 var app = getApp();
 const show_cart = require('../../../../config').show_cart;
+const clerk_submit_cart = require('../../../../config').clerk_submit_cart;
+
 Page({
     data:{
         list: [],
@@ -137,34 +139,63 @@ Page({
         var category = self.data.category;
 
         wx.showActionSheet({
-            itemList: ['提交菜单'],
+            itemList: ['打印菜单','设置可微信付款','设置现金付款'],
             success: function(res) {
-                //console.log(category)
-                var arr = new Array();
-                category.forEach(function(value,key){
-                    value.dishes.forEach(function (v,k) {
-                        if(parseInt(v.hascount)>0){
-                            arr.push({id:v.id,count:v.hascount});
-                        }
-                    })
-                });
-                try {
-                    wx.setStorageSync('category', category);
-                } catch (e) {
-                    console.log(e)
+                if(res){
+
+                    self.print_list(category,self.data.params);
+
+
                 }
-                wx.setStorage({
-                    key:"cart-list",
-                    data:arr,
-                    success:function (res) {
-                        wx.navigateTo({
-                            url: '/page/main/pages/dishlist/index?sid='+self.data.params.sid+'&tid='+self.data.params.tid
-                        })
-                    }
-                });
+
             },
             fail: function(res) {
                 console.log(res.errMsg)
+            }
+        })
+    },
+    print_list:function(category,params){
+
+        var res_list = [];
+        category.forEach(function(value,key){
+            value.dishes.forEach(function (v,k) {
+                if(v.hascount >0){
+                    var label="";
+
+                    res_list.push({id:v.id,count:v.hascount,name:v.name,price:v.price,lable:label});
+                }
+            });
+        }); //点菜单
+
+
+        wx.request({
+            url: clerk_submit_cart+"?sid="+params.sid+"&tid="+params.tid,
+            data: {
+                res_list:res_list,
+            },
+            method:"post",
+            success: function(res) {
+                if(res.data.success){
+                    wx.setStorage({
+                        key:'alert-flash',
+                        data:{type:'success',msg:'提交成功！'},
+                        success:function () {
+                            wx.reLaunch({
+                                url: "/page/common/msg/index"
+                            });
+                        }
+                    });
+                }else{
+                    wx.setStorage({
+                        key:'alert-flash',
+                        data:{type:'error',msg:'提交失败'},
+                        success:function () {
+                            wx.reLaunch({
+                                url: "/page/common/msg/index"
+                            });
+                        }
+                    });
+                }
             }
         })
     },
