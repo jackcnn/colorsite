@@ -82,7 +82,9 @@ class IndexController extends BaseController
                 $path = "/page/main/pages/orderdishes/index?sid=".$sid."&tid=".$tid;
             }
             if($order){ // 付款页面 sid=1&tid=33&orderid=20&ordersn=171105184653001331005
-                $path = "/page/main/pages/pay/index?sid=".$sid."&tid=".$tid."&orderid=".$order->id."&ordersn=".$order->ordersn;
+                if(!$haspay){
+                    $path = "/page/main/pages/pay/index?sid=".$sid."&tid=".$tid."&orderid=".$order->id."&ordersn=".$order->ordersn;
+                }
             }
 
         }
