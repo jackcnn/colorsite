@@ -10,12 +10,12 @@
 
             <block wx:for="{{category}}" wx:for-item="cateitem">
 
-                <view wx:for="{{cateitem.dishes}}" wx:key="{{this}}" class="dish">
+                <view wx:for="{{cateitem.dishes}}" wx:if="{{item.hascount}}" wx:key="{{this}}" class="dish">
                     <view class="dish-detail">
                         <view class="dish-price">
                             <view class="dish-name">{{item.name}}</view>
                             <view class="dish-count"><view class="rmb">×</view>{{item.hascount}}</view>
-                            <view class="dish-nprice"><view class="rmb">￥</view>{{item.price*item.count/100}}</view>
+                            <view class="dish-nprice"><view class="rmb">￥</view>{{item.price*item.hascount/100}}</view>
                         </view>
 
                     </view>

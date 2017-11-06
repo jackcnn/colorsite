@@ -373,6 +373,20 @@ class IndexController extends BaseController
 
     }
 
+    public function actionPayOrder($orderid,$ordersn)
+    {
+
+        $model = Dishorder::find()->where(['id'=>$orderid,'ordersn'=>$ordersn])->one();
+
+        $model->status = 2;
+        $model->paytime = time();
+
+        $model->save();
+
+
+
+    }
+
 
     public function actionPrintCart($sid,$tid)
     {

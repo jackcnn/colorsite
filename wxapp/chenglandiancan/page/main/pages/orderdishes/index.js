@@ -40,7 +40,9 @@ Page({
     },
     add:function () {
         wx.showModal({
-            content:'呼叫服务员加菜'
+            content:'请呼叫服务员加菜',
+            confirmColor:'#20a0ff',
+            showCancel:false,
         });
     }
 })
