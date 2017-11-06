@@ -102,7 +102,10 @@ Page({
                                 key:'alert-flash',
                                 data:{type:'success',msg:'提交成功！服务员马上过来确认'},
                                 success:function () {
-                                    wx.reLaunch({
+                                    // wx.reLaunch({
+                                    //     url: "/page/common/msg/index"
+                                    // });
+                                    wx.redirectTo({
                                         url: "/page/common/msg/index"
                                     });
                                 }
@@ -113,7 +116,10 @@ Page({
                                 key:'alert-flash',
                                 data:{type:'error',msg:'提交失败'},
                                 success:function () {
-                                    wx.reLaunch({
+                                    // wx.reLaunch({
+                                    //     url: "/page/common/msg/index"
+                                    // });
+                                    wx.redirectTo({
                                         url: "/page/common/msg/index"
                                     });
                                 }

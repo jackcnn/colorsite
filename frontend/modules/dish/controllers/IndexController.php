@@ -347,7 +347,8 @@ class IndexController extends BaseController
         $data['success'] = true;
         try{
             $model = Dishorder::find()->where(['store_id'=>$sid,'id'=>$orderid,'ordersn'=>$ordersn])->asArray()->one();
-
+            $store = Stores::find()->where(['id'=>$sid])->asArray()->one();
+            $data['store'] = $store;
             if(!$model){
                 throw new \Exception('订单不存在！');
             }
@@ -382,7 +383,6 @@ class IndexController extends BaseController
         $model->paytime = time();
 
         $model->save();
-
 
 
     }

@@ -94,10 +94,12 @@ Page({
 
                 if(res.data.success){
 
-                    wx.reLaunch({
+                    // wx.reLaunch({
+                    //     url: "/page/main/pages/checkpay/index?sid="+data.params.sid+"&tid="+data.params.tid+"&orderid="+res.data.orderid+"&ordersn="+res.data.ordersn
+                    // });
+                    wx.redirectTo({
                         url: "/page/main/pages/checkpay/index?sid="+data.params.sid+"&tid="+data.params.tid+"&orderid="+res.data.orderid+"&ordersn="+res.data.ordersn
                     });
-
 
 
                 }else{

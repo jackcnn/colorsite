@@ -7,6 +7,7 @@ Page({
         list: [],
         params:{},
         order:[],
+        storeName:'',
     },
     onLoad:function(params)
     {
@@ -15,6 +16,8 @@ Page({
         wx.request({
             url: orderdetail,
             data:{
+                sid:params.sid,
+                tid:params.tid,
                 orderid:params.orderid,
                 ordersn:params.ordersn
             },
@@ -23,7 +26,8 @@ Page({
                     self.setData({
                         order:res.data.order,
                         list:res.data.order.list,
-                        params:params
+                        params:params,
+                        storeName:res.data.store.name
                     })
                 }else{
 

@@ -1,8 +1,8 @@
 {
   "pages": [
+    "page/main/index",
     "page/common/router/index",
     "page/common/bind/index",
-    "page/main/index",
     "page/user/index",
     "page/common/msg/index",
     "page/main/pages/clerk/index",

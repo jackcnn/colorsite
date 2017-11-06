@@ -1,0 +1,32 @@
+page{
+    background-color: #fff;
+}
+.title{
+    height:105rpx;
+    text-align: left;
+    padding-left:15rpx;
+    font-size:30rpx;
+    font-weight:bold;
+    padding-top:15rpx;
+}
+.block{
+    width:100%;
+}
+.block view{
+    display: inline-block;
+}
+.block .name{
+    width:30%;
+    text-align: center;
+    padding:15rpx 0rpx;
+    box-sizing: border-box;
+}
+.block .content{
+    width:70%;
+}
+.block .content view{
+    width:100%;
+}
+.block .dishlist{
+    float: right;
+}

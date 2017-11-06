@@ -27,7 +27,10 @@ Page({
                 var category = res.data.category;
 
                 if(res.data.isCart){
-                    wx.reLaunch({
+                    // wx.reLaunch({
+                    //     url: "/page/user/index"
+                    // });
+                    wx.redirectTo({
                         url: "/page/user/index"
                     });
                     return;

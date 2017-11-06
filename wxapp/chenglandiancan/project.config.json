@@ -21,7 +21,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 8,
+			"current": 9,
 			"list": [
 				{
 					"id": 0,
@@ -72,10 +72,16 @@
 					"query": "sid=1&tid=33&orderid=30&ordersn=171106113236001335210"
 				},
 				{
-					"id": -1,
+					"id": 8,
 					"name": "餐牌二维码页面",
-					"pathName": "page/common/router/index",
+					"pathName": "page/main/index",
 					"query": "sid=1&tid=33"
+				},
+				{
+					"id": -1,
+					"name": "客户订单详细",
+					"pathName": "page/user/pages/order/index",
+					"query": "sid=1&tid=33&orderid=32&ordersn=171106153927001331029"
 				}
 			]
 		}
