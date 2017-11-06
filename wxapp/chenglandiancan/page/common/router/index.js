@@ -7,20 +7,31 @@ Page({
     {
         wx.showLoading('请稍后...');
         var self = this;
-        wx.request({
-            url:router,
-            data: {
-                sid:params.sid,
-                tid:params.tid
-            },
-            success: function(res) {
-                var path = res.data.path;
-                wx.reLaunch({
-                    url: path
-                });
+        app.getUserOpenId(function(){
 
-            }
+
+            wx.request({
+                url:router,
+                data: {
+                    sid:params.sid,
+                    tid:params.tid,
+                    openid:app.globalData.openid
+                },
+                success: function(res) {
+                    console.log(res.data)
+                    var path = res.data.path;
+                    wx.reLaunch({
+                        url: path
+                    });
+
+                }
+            });
+
+
         });
+
+
+
     }
 
 })

@@ -40,7 +40,7 @@ class IndexController extends BaseController
     //定位页面--扫描的二维码都是从这里再进到其他的页面
     public function actionRouter($sid,$tid)
     {
-        $openid = \Yii::$app->request->post("openid");
+        $openid = \Yii::$app->request->get("openid","openid");
 
         $clerk = Clerk::find()->where(['openid'=>$openid,'store_id'=>$sid])->one();
 

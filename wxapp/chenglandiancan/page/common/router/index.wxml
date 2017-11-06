@@ -1,45 +1,16 @@
 <view class="container">
     <view class="mch-title">
-        <view>已点菜单</view>
+        <view>等待跳转</view>
     </view>
 
     <view class="list-container">
 
-        <scroll-view scroll-y class="dishes-container">
-
-                <view wx:for="{{cartlist}}" wx:key="{{this}}"  class="dish">
-                    <view class="dish-detail">
-                        <view class="dish-price">
-                            <view class="dish-name">{{item.name}}</view>
-                            <view class="dish-count"><view class="rmb">×</view>{{item.hascount}}</view>
-                            <view class="dish-nprice"><view class="rmb">￥</view>{{item.price*item.hascount/100}}</view>
-                        </view>
-                        <view class="dish-desc" hidden="{{!item.labels}}">
-                            备注：{{item.labels}}
-                        </view>
-
-                    </view>
-                </view>
-
-            <view class="dish">
-                <view class="dish-detail">
-                    <view class="dish-price">
-                        <view class="dish-name input-name">请输入茶位费:</view>
-                        <view class="dish-count input-ss"><view class="rmb">￥</view></view>
-                        <view class="dish-nprice"><input bindinput="bindKeyInput" bindfocus="bindInputfocus"  value="{{inputValue}}" type="digit" class="input" /></view>
-                    </view>
-
-                </view>
-            </view>
-
-
-        </scroll-view>
     </view>
 
     <view class="cart-container">
         <view class="cart-index">
-            <view class="cart-total">￥{{total}}</view>
-            <view bindtap="submit" class="cart-submit">打印订单</view>
+            <view class="cart-total"></view>
+            <view bindtap="submit" class="cart-submit">等待跳转</view>
         </view>
     </view>
 

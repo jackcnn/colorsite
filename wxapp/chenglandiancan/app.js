@@ -3,7 +3,7 @@ const openIdUrl = require('./config').openIdUrl
 App({
   onLaunch: function () {
     console.log('App Launch')
-      this.getUserOpenId(function(){});
+      //this.getUserOpenId(function(){});
   },
   onShow: function () {
     console.log('App Show');
@@ -18,9 +18,8 @@ App({
   // lazy loading openid
   getUserOpenId: function(callback) {
     var self = this
-
     if (self.globalData.openid) {
-      callback(null, self.globalData.openid)
+      callback(null, self.globalData.openid);
     } else {
       wx.login({
         success: function(data) {
