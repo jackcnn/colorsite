@@ -392,7 +392,14 @@ class IndexController extends BaseController
     {
         $list = Dishorder::find()->where(['openid'=>$openid,'status'=>2])
             ->andWhere([">","created_at",time()-3600*24*90])
+            ->andWhere([">","paytime",0])
             ->asArray()->orderBy("created_at desc")->all();
+
+        foreach ($list as $key=>$value){
+
+            $list[$key]['format_time'] = date("Y-m-d H:i:s",$value['paytime']);
+
+        }
 
         return $this->asJson(['list'=>$list]);
 
