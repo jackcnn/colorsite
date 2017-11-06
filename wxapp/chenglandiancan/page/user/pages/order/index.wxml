@@ -3,7 +3,7 @@
 
     <view class="block">
         <view class="name">支付金额：</view>
-        <view class="content">{{order.amount/100}}</view>
+        <view class="content">￥{{order.amount/100}}</view>
     </view>
     <view class="block">
         <view class="name">支付方式：</view>

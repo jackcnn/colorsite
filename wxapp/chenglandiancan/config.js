@@ -29,9 +29,10 @@ var config = {
     createorder: `${host}/dish/index/create-order.html`,
     //微信支付页面
     payorder: `${host}/dish/index/pay-order.html`,
+    //订单列表
+    orderlist: `${host}/dish/index/order-list.html`,
     //订单详细
     orderdetail: `${host}/dish/index/order-detail.html`,
-
 
 };
 

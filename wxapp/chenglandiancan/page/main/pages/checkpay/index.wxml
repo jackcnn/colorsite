@@ -6,6 +6,7 @@
 
     <view hidden="{{!hadpay}}" class="payinfo">
         <view>订单已支付！</view>
+        <view>支付金额：￥{{amount}}</view>
         <view>支付时间：{{paytime}}</view>
         <view>支付方式：{{pay_name}}</view>
         <view>付款编号：{{params.ordersn}}</view>

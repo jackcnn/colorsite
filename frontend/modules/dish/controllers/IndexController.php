@@ -374,6 +374,7 @@ class IndexController extends BaseController
 
     }
 
+    //微信支付页面
     public function actionPayOrder($orderid,$ordersn)
     {
 
@@ -384,6 +385,16 @@ class IndexController extends BaseController
 
         $model->save();
 
+    }
+
+    //订单列表
+    public function actionOrderList($openid)
+    {
+        $list = Dishorder::find()->where(['openid'=>$openid,'status'=>2])
+            ->andWhere([">","created_at",time()-3600*24*90])
+            ->asArray()->orderBy("created_at desc")->all();
+
+        return $this->asJson($list);
 
     }
 

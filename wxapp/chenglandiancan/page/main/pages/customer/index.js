@@ -201,7 +201,7 @@ Page({
                     key:"cart-list",
                     data:arr,
                     success:function (res) {
-                        wx.navigateTo({
+                        wx.redirectTo({
                             url: '/page/main/pages/dishlist/index?sid='+self.data.params.sid+'&tid='+self.data.params.tid
                         })
                     }

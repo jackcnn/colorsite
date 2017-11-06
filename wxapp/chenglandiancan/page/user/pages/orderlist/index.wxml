@@ -1,0 +1,9 @@
+<view class="container">
+    <view class="title">近3月订单列表:</view>
+
+    <view class="block">
+        <view class="name">日　　期：{{item.time}}</view>
+        <view class="content">支付金额：￥{{item.amount/100}}</view>
+    </view>
+
+</view>

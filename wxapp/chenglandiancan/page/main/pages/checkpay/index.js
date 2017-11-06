@@ -9,6 +9,7 @@ Page({
         order:[],
         paytime:'',
         pay_name:'',
+        amount:0
     },
     onLoad:function(params)
     {
@@ -35,12 +36,14 @@ Page({
                     var order = res.data.order;
                     if(parseInt(order.status) == 2 && order.paytime >0){
                         self.setData({
+                            amount:order.amount/100,
                             hadpay:true,
                             paytime:order.format_paytime,
                             pay_name:order.paytype_name
                         });
                     }else{
                         self.setData({
+                            amount:order.amount/100,
                             hadpay:false,
                             paytime:order.format_paytime,
                             pay_name:order.paytype_name

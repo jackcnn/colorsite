@@ -140,7 +140,7 @@ Page({
         var params = self.data.params;
 
         wx.showActionSheet({
-            itemList: ['打印菜单','设置结账','重置餐牌'],
+            itemList: ['确认下单','设置结账','重置餐牌'],
             success: function(res) {
                 var tapIndex = parseInt(res.tapIndex);
                 if(tapIndex == 0){
