@@ -9,3 +9,12 @@ page{
     font-weight:bold;
     padding-top:15rpx;
 }
+.container{
+    padding:15rpx;
+}
+.block{
+    border-bottom:1rpx dashed #eaeefb;
+}
+.block view{
+    padding:15rpx 25rpx;
+}

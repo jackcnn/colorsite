@@ -17,9 +17,9 @@ Page({
                     openid:app.globalData.openid
                 },
                 success: function(res) {
-                    if(res.data.success){
+                    if(res.data.list){
                         self.setData({
-                            order:res.data.list,
+                            list:res.data.list,
                         });
                     }
                 }
