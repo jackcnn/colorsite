@@ -62,7 +62,7 @@ Page({
                         data:{type:'success',msg:'绑定成功！'},
                         success:function () {
                             wx.reLaunch({
-                                url: "/page/common/msg/msg"
+                                url: "/page/common/msg/index"
                             });
                         }
                     });
@@ -72,7 +72,7 @@ Page({
                         data:{type:'error',msg:'绑定失败！'},
                         success:function () {
                             wx.reLaunch({
-                                url: "/page/common/msg/msg"
+                                url: "/page/common/msg/index"
                             });
                         }
                     });

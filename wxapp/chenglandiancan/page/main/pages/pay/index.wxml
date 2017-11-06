@@ -1,0 +1,35 @@
+<view class="container">
+    <view class="mch-title">
+        <view>付款页面({{params.tid}}号餐牌)</view>
+    </view>
+
+    <view class="list-container">
+
+        <scroll-view scroll-y class="dishes-container">
+
+
+            <view wx:for="{{list}}" wx:key="{{this}}" class="dish">
+                <view class="dish-detail">
+                    <view class="dish-price">
+                        <view class="dish-name">{{item.name}}</view>
+                        <view class="dish-count"><view class="rmb">×</view>{{item.count}}</view>
+                        <view class="dish-nprice"><view class="rmb">￥</view>{{item.price*item.count/100}}</view>
+                    </view>
+
+                </view>
+            </view>
+
+        </scroll-view>
+    </view>
+
+    <view class="cart-container">
+        <view class="cart-index">
+            <view class="cart-title">实付：</view>
+            <view class="cart-total">￥{{true_price}}</view>
+            <view bindtap="pay" class="cart-submit">确认支付</view>
+        </view>
+    </view>
+
+
+
+</view>

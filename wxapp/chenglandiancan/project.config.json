@@ -21,7 +21,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 5,
+			"current": 8,
 			"list": [
 				{
 					"id": 0,
@@ -30,8 +30,8 @@
 					"query": "sid=1&tid=33"
 				},
 				{
-					"id": -1,
-					"name": "已点菜单",
+					"id": 1,
+					"name": "客人已点菜单",
 					"pathName": "page/main/pages/dishlist/index",
 					"query": ""
 				},
@@ -57,6 +57,24 @@
 					"id": -1,
 					"name": "店员点餐页面",
 					"pathName": "page/main/pages/clerk/index",
+					"query": "sid=1&tid=33"
+				},
+				{
+					"id": 6,
+					"name": "支付页面",
+					"pathName": "page/main/pages/pay/index",
+					"query": "sid=1&tid=33&orderid=20&ordersn=171105184653001331005"
+				},
+				{
+					"id": 7,
+					"name": "等待支付",
+					"pathName": "page/main/pages/checkpay/index",
+					"query": "sid=1&tid=33&orderid=30&ordersn=171106113236001335210"
+				},
+				{
+					"id": -1,
+					"name": "餐牌二维码页面",
+					"pathName": "page/common/router/index",
 					"query": "sid=1&tid=33"
 				}
 			]

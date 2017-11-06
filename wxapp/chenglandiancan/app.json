@@ -1,13 +1,18 @@
 {
   "pages": [
+    "page/common/router/index",
     "page/common/bind/index",
     "page/main/index",
     "page/user/index",
     "page/common/msg/index",
     "page/main/pages/clerk/index",
+    "page/main/pages/pay/index",
     "page/main/pages/checkout/index",
     "page/main/pages/customer/index",
-    "page/main/pages/dishlist/index"
+    "page/main/pages/dishlist/index",
+    "page/main/pages/checkpay/index",
+    "page/main/pages/orderdishes/index",
+    "page/user/pages/order/index"
   ],
   "window": {
     "navigationBarTextStyle": "withe",

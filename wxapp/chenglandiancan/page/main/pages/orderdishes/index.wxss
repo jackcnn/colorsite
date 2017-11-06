@@ -123,15 +123,25 @@
 }
 .cart-index view{
     display: inline-block;
+    float: left;
 }
-
+.cart-title{
+    width:25%;
+    color: #FFFFFF;
+    font-size:30rpx;
+    box-sizing: border-box;
+    padding-left:5%;
+}
 .cart-total{
-    width:65%;
+    width:40%;
     color: #FFFFFF;
     font-weight: bolder;
     font-size:40rpx;
-    padding-left:20%;
     box-sizing: border-box;
+}
+.cart-total .truepay{
+    width:100%;
+    display: inline-block;
 }
 .cart-index .cart-submit{
     width:35%;
@@ -142,18 +152,4 @@
     background: #13CE66;
     font-size:40rpx;
     color: #ffffff;
-}
-.input-name{
-    font-weight: normal;
-}
-.input-ss{
-    text-align: right;
-}
-.input{
-    width:100%;
-    height:105rpx;
-    border:1px solid #20A0FF;
-    box-sizing: border-box;
-    text-align: center;
-    font-size:30rpx;
 }

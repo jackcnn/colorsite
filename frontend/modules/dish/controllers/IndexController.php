@@ -37,6 +37,59 @@ class IndexController extends BaseController
         return $this->asJson($res);
     }
 
+    //定位页面--扫描的二维码都是从这里再进到其他的页面
+    public function actionRouter($sid,$tid)
+    {
+        $openid = \Yii::$app->request->post("openid");
+
+        $clerk = Clerk::find()->where(['openid'=>$openid,'store_id'=>$sid])->one();
+
+        $cart = Dishcart::find()->where(['store_id'=>$sid,'tid'=>$tid,'isdone'=>0])->one();
+
+        $order = Dishorder::find()->where(['store_id'=>$sid,'table_num'=>$tid])
+            ->andWhere(['>',"created_at",time()-3600*4])
+            ->orderBy("id desc,created_at desc")->one();
+        //找到餐牌对应的最新一条订单记录
+        if(intval($order->status) == 2 && $order->paytime){
+            $haspay = true;
+        }else{
+            $haspay = false;
+        }
+
+        if($clerk){//如果是店员，则进入帮助点餐页面
+
+            $role = "clerk";
+
+            if($order){//如果已经生成支付订单了，就调到等待支付的页面sid=1&tid=33&orderid=31&ordersn=171106151917001335310
+                if($haspay){//订单已支付的，已经完成了上一个交易了
+                    $path = "/page/main/pages/clerk/index?sid=".$sid."&tid=".$tid;
+                }else{
+                    $path = "/page/main/pages/checkpay/index?sid=".$sid."&tid=".$tid."&orderid=".$order->id."&ordersn=".$order->ordersn;
+                }
+            }else{
+                $path = "/page/main/pages/clerk/index?sid=".$sid."&tid=".$tid;
+
+            }
+
+        }else{//顾客，进入自助点餐页面
+
+            $role = "customer";
+
+            //默认进入点菜页面
+            $path = "/page/main/pages/customer/index?sid=".$sid."&tid=".$tid;
+
+            if($cart){ // 查看点单的页面
+                $path = "/page/main/pages/orderdishes/index?sid=".$sid."&tid=".$tid;
+            }
+            if($order){ // 付款页面 sid=1&tid=33&orderid=20&ordersn=171105184653001331005
+                $path = "/page/main/pages/pay/index?sid=".$sid."&tid=".$tid."&orderid=".$order->id."&ordersn=".$order->ordersn;
+            }
+
+        }
+
+        return $this->asJson(['role'=>$role,'path'=>$path]);
+    }
+
 
     //门店列表，暂时不弄
     public function actionIndex($sid,$tid)
@@ -286,26 +339,38 @@ class IndexController extends BaseController
 
     }
 
-
-    //定位页面
-    public function actionRouter($sid,$tid)
+    //获取订单详情
+    public function actionOrderDetail($sid,$tid,$orderid,$ordersn)
     {
-        $openid = \Yii::$app->request->post("openid");
+        $data['success'] = true;
+        try{
+            $model = Dishorder::find()->where(['store_id'=>$sid,'id'=>$orderid,'ordersn'=>$ordersn])->asArray()->one();
 
-        $clerk = Clerk::find()->where(['openid'=>$openid,'store_id'=>$sid])->count();
+            if(!$model){
+                throw new \Exception('订单不存在！');
+            }
 
-        if($clerk){//如果是店员，则进入帮助点餐页面
+//            if($model['status'] > 1 && $model['paytime']>0){
+//                throw new \Exception('订单已支付！');
+//            }
 
-            $role = "clerk";
+            $model['list'] = json_decode($model['list'],1);
+            $model['format_paytime'] = $model['paytime']>0?date("Y-m-d H:i:s",$model['paytime']):'';
 
-        }else{//顾客，进入自助点餐页面
+            $model['paytype_name'] = $model['paytype']=="weixin"?"微信支付":"其他支付方式";
 
-            $role = "customer";
+            $data['order'] = $model;
 
+        }catch (\Exception $e){
+            $data['success'] = false;
+            $data['msg'] = $e->getMessage();
         }
 
-        return $this->asJson(['role'=>$role]);
+        return $this->asJson($data);
+
+
     }
+
 
     public function actionPrintCart($sid,$tid)
     {

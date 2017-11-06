@@ -1,10 +1,11 @@
 var app = getApp();
-const router = require('../../../../config').router;
+const router = require('../../../config').router;
 Page({
     data:{
     },
     onLoad:function(params)
     {
+        wx.showLoading('请稍后...');
         var self = this;
         wx.request({
             url:router,
@@ -13,13 +14,7 @@ Page({
                 tid:params.tid
             },
             success: function(res) {
-
-                if(res.role == "clerk"){
-                    var path = "/page/";
-                }else{
-                    var path = "";
-                }
-
+                var path = res.data.path;
                 wx.reLaunch({
                     url: path
                 });

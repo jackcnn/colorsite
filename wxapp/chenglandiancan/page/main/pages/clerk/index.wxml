@@ -1,6 +1,6 @@
 <view class="container">
     <view class="mch-title">
-            <view>选择商品(店员页面)</view>
+            <view>选择商品(店员页面-{{params.tid}}号餐牌)</view>
     </view>
 
     <view class="list-container">

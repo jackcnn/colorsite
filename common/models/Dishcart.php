@@ -70,10 +70,10 @@ class Dishcart extends \yii\db\ActiveRecord
 
     /**
      * @inheritdoc
-     * @return DishcartQuery the active query used by this AR class.
+     * @return \common\models\query\DishcartQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new DishcartQuery(get_called_class());
+        return new \common\models\query\DishcartQuery(get_called_class());
     }
 }

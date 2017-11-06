@@ -1,0 +1,6 @@
+<view class="container">
+    <view>这里是订单详情</view>
+
+    <view>{{order.amount/100}}-{{order.paytime}}</view>
+
+</view>

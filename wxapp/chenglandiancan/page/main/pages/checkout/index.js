@@ -45,13 +45,8 @@ Page({
         })
     },
     submit:function () {
-
         var self = this;
         var category = self.data.category;
-
-
-
-
 
         wx.showActionSheet({
             itemList: ['微信支付','现金或其他方式支付'],
@@ -91,14 +86,20 @@ Page({
             url: createorder+"?sid="+data.params.sid+"&tid="+data.params.tid,
             method:"post",
             data:{
-                truepay:data.truepay,
+                truepay:data.true_price,
                 type:type,
                 res_list:res_list
             },
             success: function(res) {
 
                 if(res.data.success){
-                    console.log(res.data)
+
+                    wx.reLaunch({
+                        url: "/page/main/pages/checkpay/index?sid="+data.params.sid+"&tid="+data.params.tid+"&orderid="+res.data.orderid+"&ordersn="+res.data.ordersn
+                    });
+
+
+
                 }else{
                     console.log(res.data)
                 }
