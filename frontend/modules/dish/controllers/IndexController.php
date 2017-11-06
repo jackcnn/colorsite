@@ -394,7 +394,7 @@ class IndexController extends BaseController
             ->andWhere([">","created_at",time()-3600*24*90])
             ->asArray()->orderBy("created_at desc")->all();
 
-        return $this->asJson($list);
+        return $this->asJson(['list'=>$list]);
 
     }
 
