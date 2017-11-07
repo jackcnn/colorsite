@@ -20,6 +20,7 @@ use frontend\controllers\BaseController;
 use yii\data\Pagination;
 use yii\helpers\ColorHelper;
 use yii\helpers\CurlHelper;
+use yii\helpers\Html;
 use yii\helpers\Url;
 
 class IndexController extends BaseController
@@ -436,6 +437,22 @@ class IndexController extends BaseController
 
         $this->printer_content($sid,$content);
 
+    }
+
+    public function actionJokeList()
+    {
+        $data= (new \yii\db\Query())
+            ->select(['title', 'desc'])
+            ->from('{{%jokes}}')
+            ->orderBy("rand()")
+            ->limit(10)
+            ->all();
+        foreach ($data as $key=>$value){
+            $data[$key]['desc'] = str_replace("</p>","",str_replace("<p>","",$value['desc']));
+        }
+
+
+        return $this->asJson(['list'=>$data]);
     }
 
 

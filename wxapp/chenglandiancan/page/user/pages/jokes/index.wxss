@@ -1,0 +1,23 @@
+page{
+    background-color: #fff;
+}
+.container{
+    box-sizing: border-box;
+    padding:0rpx 25rpx;
+}
+.content{
+    border-bottom:1rpx dashed #eaeefb;
+    line-height: 1.5rem;
+}
+.name{
+    font-weight: bold;
+    padding-top:25rpx;
+}
+.desc{
+    color: #8492A6;
+}
+.loading{
+    color: #8492A6;
+    text-align: center;
+    padding:25rpx;
+}

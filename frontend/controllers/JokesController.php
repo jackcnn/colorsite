@@ -36,8 +36,6 @@ class JokesController extends BaseController
 
         return $this->asJson($data);
 
-
-
     }
 
 

@@ -13,6 +13,7 @@
     "page/main/pages/checkpay/index",
     "page/main/pages/orderdishes/index",
     "page/user/pages/orderlist/index",
+    "page/user/pages/jokes/index",
     "page/user/pages/order/index"
   ],
   "window": {
@@ -36,6 +37,11 @@
       "iconPath": "image/user.png",
       "selectedIconPath": "image/user_HL.png",
       "text": "我的"
+    }, {
+      "pagePath": "page/user/pages/jokes/index",
+      "iconPath": "image/user.png",
+      "selectedIconPath": "image/user_HL.png",
+      "text": "笑话"
     }]
   },
   "networkTimeout": {
