@@ -50,8 +50,12 @@ class IndexController extends BaseController
             ->andWhere(['>',"created_at",time()-3600*4])
             ->orderBy("id desc,created_at desc")->one();
         //找到餐牌对应的最新一条订单记录
-        if(intval($order->status) == 2 && $order->paytime){
-            $haspay = true;
+        if($order){
+            if(intval($order->status) == 2 && $order->paytime){
+                $haspay = true;
+            }else{
+                $haspay = false;
+            }
         }else{
             $haspay = false;
         }
