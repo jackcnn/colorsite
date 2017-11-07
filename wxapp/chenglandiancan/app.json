@@ -39,8 +39,8 @@
       "text": "我的"
     }, {
       "pagePath": "page/user/pages/jokes/index",
-      "iconPath": "image/user.png",
-      "selectedIconPath": "image/user_HL.png",
+      "iconPath": "image/jokes.png",
+      "selectedIconPath": "image/jokes_HL.png",
       "text": "笑话"
     }]
   },

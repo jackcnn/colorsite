@@ -46,7 +46,9 @@ $this->params['breadcrumbs'][] = $this->title;
                 'attribute'=>'',
                 'label'=>'更多操作',
                 'value'=>function($model){
-                    return Html::a('店员管理', ['/restaurant/clerk/index','store_id'=>$model->id], ['class' => 'layui-btn layui-btn-mini']);
+                    $html = Html::a('餐牌管理', ['/restaurant/dishtable/index','storeid'=>$model->id], ['class' => 'layui-btn layui-btn-mini']);
+
+                    return $html.Html::a('店员管理', ['/restaurant/clerk/index','store_id'=>$model->id], ['class' => 'layui-btn layui-btn-mini']);
                 },
                 'format'=>'raw'
             ],

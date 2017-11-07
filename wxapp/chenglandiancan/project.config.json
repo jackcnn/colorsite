@@ -21,7 +21,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 11,
+			"current": 8,
 			"list": [
 				{
 					"id": 0,
@@ -92,7 +92,8 @@
 				{
 					"id": -1,
 					"name": "jokes",
-					"pathName": "page/user/pages/jokes/index"
+					"pathName": "page/user/pages/jokes/index",
+					"query": ""
 				}
 			]
 		}
