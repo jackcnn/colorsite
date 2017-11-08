@@ -114,7 +114,7 @@ class DishtableController extends BaseController
             $data['width'] = "430";
             $res = CurlHelper::callWebServer($url,json_encode($data),"post",false);
 
-            $dir = \Yii::getAlias("@site")."/uploads/dishtable/".$model->store_id;
+            $dir = \Yii::getAlias("@site")."/uploads/dishtables/".$model->store_id;
 
             FileHelper::createDirectory($dir,777);
 
