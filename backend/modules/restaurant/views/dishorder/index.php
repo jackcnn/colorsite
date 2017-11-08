@@ -45,7 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
              [
                  'attribute'=>'paytime',
                  'value'=>function($model){
-                    return date("Y-m-d H:i:s",$model->paytime);
+                    return $model->paytime>0?date("Y-m-d H:i:s",$model->paytime):'';
                  },
                  'label'=>'付款时间'
              ],
