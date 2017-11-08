@@ -331,10 +331,10 @@ class IndexController extends BaseController
         $model->table_num = $tid;
         $model->paytype = $type;
         $model->formid = $formId;
-
-        if($type == "wxpay"){
+        $model->status = 1;//可付款
+        if($type == "weixin"){
             $model->status = 1;//可付款
-        }else{
+        }elseif($type == "other"){
             $model->status = 2;//其他方式，已付款
             $model->paytime = time();
             $model->payopenid = $openid;

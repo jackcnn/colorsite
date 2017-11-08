@@ -35,7 +35,7 @@ Page({
       wx.scanCode({
           onlyFromCamera: true,
           success: (res) => {
-            console.log(res)
+            console.log(res.path)
           if(res.path){
                   wx.reLaunch({
                       url: "/"+res.path

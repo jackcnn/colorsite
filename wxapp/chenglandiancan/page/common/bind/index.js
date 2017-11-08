@@ -46,7 +46,8 @@ Page({
 
         var self = this;
         wx.showLoading({title: '加载中.'});
-        wx.request({
+        app.getUserOpenId(function(){
+            wx.request({
             url: bindclerk,
             data:{
                 sid:self.data.params.sid,
@@ -79,6 +80,7 @@ Page({
                 }
             }
         });
+        })
 
 
 

@@ -61,7 +61,7 @@ Page({
                 var tapIndex = parseInt(res.tapIndex);
 
                 if(tapIndex == 0){
-                    self.createorder(self.data,"wxpay",formId);
+                    self.createorder(self.data,"weixin",formId);
                 }
 
                 if(tapIndex == 1 ){//确认设置微信付款吗.设置现金付款--跳转到设置页面
