@@ -11,7 +11,7 @@ return [
     ],
     'components' => [
         'cache' => [
-            'class' => 'yii\caching\FileCache',
+            'class' => 'yii\caching\DbCache',
         ],
         'formatter' => [
             'dateFormat' => 'yyyy-MM-dd',

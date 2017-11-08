@@ -90,22 +90,7 @@ class DishtableController extends BaseController
 
     public function actionCreatecode($id)
     {
-        $appid = "wx0dd0829415ec47da";
-        $appsecret = "d28911cd2ad0a767bb76e7ab237f3656";
-        $cache = \Yii::$app->cache;
-        $access_token = $cache->get("diancan-wxapp");
-        if(!$access_token){
-            $parame['grant_type']='client_credential';
-            $parame['appid']=$appid;
-            $parame['secret']=$appsecret;
-            $return=CurlHelper::callWebServer("https://api.weixin.qq.com/cgi-bin/token",$parame);
-            if(isset($return['access_token']) && isset($return['expires_in'])){
-                $cache->set('diancan-wxapp',$return['access_token'],intval($return['expires_in']-200));
-            }else{
-                throw new HttpException('access token 获取失败！');
-            }
-            $access_token = $return['access_token'];
-        }
+        $access_token=ColorHelper::CHENGLAN_DIANCAN_ACCESSTOKEN();
 
         $model = $this->findModel($id);
 

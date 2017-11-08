@@ -27,8 +27,8 @@ class IndexController extends BaseController
 {
     public $enableCsrfValidation = false;
 
-    public $appid = "wx0dd0829415ec47da";
-    public $appsecret = "d28911cd2ad0a767bb76e7ab237f3656";
+    public $appid = CHENGLAN_DIANCAN_APPID;
+    public $appsecret = CHENGLAN_DIANCAN_APPSECRET;
 
     //登陆
     public function actionLogin($code)
@@ -396,8 +396,23 @@ class IndexController extends BaseController
         $model->status = 2;
         $model->paytime = time();
 
-        $model->save();
+        $store = Stores::findOne($model->store_id);
 
+        $model->save();
+        //发送小程序模板信息
+        $access_token=ColorHelper::CHENGLAN_DIANCAN_ACCESSTOKEN();
+        $url = "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=$access_token";
+
+        $send_data['touser'] = $model->openid;
+        $send_data['template_id'] = "yO4GOBrdXTQVMS0b4C5uw9QPz8YIRRxehsKmYB6XO00";
+        $send_data['form_id'] = $model->formid;
+        $send_data['data'] = [
+            'keyword1'=>['value'=>$model->amount/100,'color'=>'#173177'],
+            'keyword2'=>['value'=>date("Y-m-d H:i:s",$model->paytime),'color'=>'#173177'],
+            'keyword3'=>['value'=>$store->name,'color'=>'#173177'],
+        ];
+        $send_data['emphasis_keyword'] = "keyword1.DATA";
+        $res = CurlHelper::callWebServer($url,json_encode($send_data),"post",false);
     }
 
     //订单列表

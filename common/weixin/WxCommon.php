@@ -20,6 +20,7 @@ class WxCommon {
     {
         return Thirdcfg::find()->where(['ownerid'=>$owid,'type'=>'weixin'])->asArray()->one();
     }
+
     /*
      * 所有的accessToken都必须使用这个函数获取
      * */

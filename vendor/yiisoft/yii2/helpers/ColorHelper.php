@@ -161,4 +161,28 @@ class ColorHelper
 
     }
 
+    //获取橙蓝点餐accesstoken
+    public static function CHENGLAN_DIANCAN_ACCESSTOKEN()
+    {
+
+        $appid = CHENGLAN_DIANCAN_APPID;
+        $appsecret = CHENGLAN_DIANCAN_APPSECRET;
+        $cache = \Yii::$app->cache;
+        $access_token = $cache->get("diancan-wxapp");
+        if(!$access_token){
+            $parame['grant_type']='client_credential';
+            $parame['appid']=$appid;
+            $parame['secret']=$appsecret;
+            $return=CurlHelper::callWebServer("https://api.weixin.qq.com/cgi-bin/token",$parame);
+            if(isset($return['access_token']) && isset($return['expires_in'])){
+                $cache->set('diancan-wxapp',$return['access_token'],intval($return['expires_in']-200));
+            }else{
+                throw new HttpException('access token 获取失败！');
+            }
+            $access_token = $return['access_token'];
+        }
+        return $access_token;
+
+    }
+
 }
