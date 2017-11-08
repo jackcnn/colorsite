@@ -252,7 +252,7 @@ class IndexController extends BaseController
     {
         $res_list = \Yii::$app->request->post("res_list");
 
-        $total = \Yii::$app->request->post("total");
+        //$total = \Yii::$app->request->post("total");
 
         $model = Dishcart::find()->where(["store_id"=>$sid,"tid"=>$tid,"isdone"=>0])->orderBy("id desc")->one();
 
@@ -268,6 +268,8 @@ class IndexController extends BaseController
 
         $model->list = json_encode($res_list);
 
+        $total = 0 ;
+
         if($model->validate() && $model->save()){
 
             //打印订单
@@ -281,6 +283,9 @@ class IndexController extends BaseController
                 if(isset($value['name'])){
                     $price = intval($value['price']*$value['count'])/100;
                     $content .= '<tr><td>'.$value['name'].'</td><td>'.$value['count'].'</td><td>'.$price.'元</td></tr>';
+
+                    $total = $total + $price;
+
                 }
                 if(isset($value['lable']) && strlen($value['lable'])> 1){
                     $content .= '<tr><td></td><td></td><td>('.$value['lable'].')</td></tr>';
@@ -335,7 +340,7 @@ class IndexController extends BaseController
         if($model->validate() && $model->save()){
 
             //把菜品购物车设置过期
-            \Yii::$app->db->createCommand()->update('{{%dishcart}}', ['isdone' => 1], ['store_id'=>$sid,'tid'=>$tid])->execute();
+            \Yii::$app->db->createCommand()->update('{{%dishcart}}', ['isdone' => 1], ['store_id'=>$sid,'isdone'=>0,'tid'=>$tid])->execute();
 
 
             $return = ['success'=>true,'msg'=>'提交成功！','orderid'=>$model->id,'ordersn'=>$model->ordersn];
