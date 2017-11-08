@@ -152,4 +152,6 @@
     background: #13CE66;
     font-size:40rpx;
     color: #ffffff;
+    margin:0rpx;
+    border-radius: 0rpx;
 }

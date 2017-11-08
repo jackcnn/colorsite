@@ -8,35 +8,40 @@ Page({
         params:{},
         total_price:0,
         true_price:0,
+        openid:'',
     },
     onLoad:function(params)
     {
         var self = this;
 
-        wx.request({
-            url: show_cart,
-            data:{
-                sid:params.sid,
-                tid:params.tid
-            },
-            success: function(res) {
-                var store = res.data.store;
-                var category = res.data.category;
-                var total_count = res.data.total_count;
-                var total_price = res.data.total;
+        app.getUserOpenId(function () {
+            wx.request({
+                url: show_cart,
+                data:{
+                    sid:params.sid,
+                    tid:params.tid
+                },
+                success: function(res) {
+                    var store = res.data.store;
+                    var category = res.data.category;
+                    var total_count = res.data.total_count;
+                    var total_price = res.data.total;
 
-                wx.setNavigationBarTitle({
-                    title: store.name
-                });
+                    wx.setNavigationBarTitle({
+                        title: store.name
+                    });
 
-                self.setData({
-                    category:category,
-                    total_price:total_price/100,
-                    true_price:total_price/100,
-                    params:params
-                });
-            }
-        });
+                    self.setData({
+                        category:category,
+                        total_price:total_price/100,
+                        true_price:total_price/100,
+                        params:params,
+                        openid:app.globalData.openid
+                    });
+                }
+            });
+        })
+
 
     },
     bindKeyInput:function (e) {
@@ -44,9 +49,11 @@ Page({
             true_price: e.detail.value
         })
     },
-    submit:function () {
+    submit:function (e) {
+
         var self = this;
         var category = self.data.category;
+        var formId = e.detail.formId;
 
         wx.showActionSheet({
             itemList: ['微信支付','现金或其他方式支付'],
@@ -54,11 +61,11 @@ Page({
                 var tapIndex = parseInt(res.tapIndex);
 
                 if(tapIndex == 0){
-                    self.createorder(self.data,"weixin");
+                    self.createorder(self.data,"wxpay",formId);
                 }
 
                 if(tapIndex == 1 ){//确认设置微信付款吗.设置现金付款--跳转到设置页面
-                    self.createorder(self.data,"other");
+                    self.createorder(self.data,"other",formId);
                 }
 
 
@@ -68,7 +75,7 @@ Page({
             }
         })
     },
-    createorder:function (data,type) {
+    createorder:function (data,type,formId) {
 
         var category = data.category;
         var res_list = [];
@@ -88,7 +95,9 @@ Page({
             data:{
                 truepay:data.true_price,
                 type:type,
-                res_list:res_list
+                res_list:res_list,
+                openid:data.openid,
+                formId:formId
             },
             success: function(res) {
 

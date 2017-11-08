@@ -16,7 +16,7 @@ class BaseController extends Controller
         return [
             'access' => [
                 'class' => \yii\filters\AccessControl::className(),
-                'except' => ['login', 'register','active','logout'],//其他控制器不要取这些名字
+                'except' => ['login', 'register','active','logout','forget-pwd','repwd'],//其他控制器不要取这些名字
                 'rules' => [
                     [
                         'allow' => true,

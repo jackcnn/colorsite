@@ -18,6 +18,10 @@
         <view class="content">{{storeName}}</view>
     </view>
     <view class="block">
+        <view class="name">订单编号：</view>
+        <view class="content">{{order.ordersn}}</view>
+    </view>
+    <view class="block">
         <view class="name">点餐内容：</view>
         <view class="content dishlist">
             <view wx:for="{{order.list}}">

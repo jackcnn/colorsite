@@ -10,15 +10,15 @@ $this->title = 'COLORSITE';
 
         <?php $form = LayForm::begin(); ?>
 
-        <?= $form->field($model,'username')->lytextInput(['label'=>'邮　箱','placeholder'=>'请填写注册的邮箱','lay-verify'=>'email'])?>
+        <?= $form->field($model,'username')->lytextInput(['label'=>'邮　箱','readonly'=>true])?>
 
-        <?= $form->field($model, 'password')->lypasswordInput(['label'=>'密　码','placeholder'=>'请填写密码','max-length'=>'5']) ?>
+        <?= $form->field($model,'password')->lytextInput(['label'=>'新密码'])?>
 
-        <?= $form->field($model,'token')->lycheckboxList(['1'=>'一段时间内自动登录'],['label'=>'记住我'])?>
+        <?= $form->field($model,'token')->lytextInput(['label'=>'确认密码'])?>
 
-        <?= $form->field($model,'')->lylink('忘记密码',['/site/forget-pwd'])?>
+        <?= $form->field($model,'')->lylink('输入新密码',"javascript:;")?>
 
-        <?= $form->field($model,'')->lybuttons(['login','register'])?>
+        <?= $form->field($model,'')->lybuttons()?>
 
         <?php LayForm::end(); ?>
 

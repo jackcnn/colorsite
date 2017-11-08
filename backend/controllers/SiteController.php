@@ -134,6 +134,91 @@ class SiteController extends BaseController
             'model'=>$model
         ]);
     }
+
+
+    //忘记密码页面
+    public function actionForgetPwd()
+    {
+        if(\Yii::$app->request->isPost){
+            $post = \Yii::$app->request->post('User');
+
+            $email = $post['username'];
+            $model = User::find()->where(['username'=>$email])->one();
+            if(!$model){
+                \Yii::$app->session->setFlash("RegisterMsg","邮箱未注册！");
+                return $this->redirect(['site/login']);
+            }
+
+            \Yii::$app->cache->set(md5($email),$email,3600);
+
+            $active_link=\yii\helpers\Url::toRoute(['site/repwd','email'=>$model->username,'token'=>md5($model->access_token)],true);
+            $sendcontent='你的账号：'.$email.'正在申请重置密码，点击链接进入重置密码页面，1小时内有效（如果邮箱内无法点击链接，请直接复制链接到浏览器打开）<br/><a href="'.$active_link.'">'.$active_link.'</a>';
+            $mail= \Yii::$app->mailer->compose();
+            $mail->setTo($model->username);
+            $mail->setSubject("colorsite重置密码");
+            $mail->setHtmlBody($sendcontent);
+            $mail->send();
+            \Yii::$app->session->setFlash("RegisterMsg","我们已发送认证邮件到您的邮箱，请及时查看");
+            return $this->redirect(['site/login']);
+        }else{
+            $model = new User();
+        }
+        return $this->render('forget-pwd',[
+            'model'=>$model
+        ]);
+    }
+
+    //修改密码
+    public function actionRepwd($email,$token)
+    {
+
+        try{
+            $model = User::findOne(['username'=>$email]);
+            if(!$model){
+                throw new \Exception('邮箱未注册');
+            }
+            if($token != md5($model->access_token)){
+                throw new \Exception('token不正确');
+            }
+
+            if(!\Yii::$app->cache->get(md5($email))){
+                throw new \Exception('链接已过期，请重新操作！');
+            }
+
+            if(\Yii::$app->request->isPost){
+
+                $post = \Yii::$app->request->post('User');
+
+                if($post['password'] != $post['token']){
+                    \Yii::$app->session->setFlash("RegisterMsg",'两次密码不一致');
+                    return $this->redirect(\Yii::$app->request->absoluteUrl);
+                }
+
+
+                $model->password = \Yii::$app->security->generatePasswordHash($post['password']);
+
+                if($model->save()){
+                    \Yii::$app->session->setFlash("RegisterMsg","密码修改成功！请登录");
+                    return $this->redirect(['site/login']);
+                }else{
+                    throw new \Exception(current($model->getFirstError()));
+                }
+            }
+
+
+        }catch (\Exception $e){
+            \Yii::$app->session->setFlash("RegisterMsg",$e->getMessage());
+            return $this->redirect(['site/login']);
+        }
+
+        return $this->render('repwd',[
+            'model'=>$model
+        ]);
+
+    }
+
+
+    //邮箱激活页面
     public function actionActive($email,$token)
     {
         $model = User::findOne(['username'=>$email]);

@@ -5,7 +5,7 @@ namespace common\models;
 use Yii;
 
 /**
- * This is the model class for table "cs_dishorder".
+ * This is the model class for table "{{%dishorder}}".
  *
  * @property integer $id
  * @property integer $ownerid
@@ -18,6 +18,7 @@ use Yii;
  * @property string $list
  * @property string $payinfo
  * @property string $openid
+ * @property string $formid
  * @property string $openid_list
  * @property string $payopenid
  * @property string $paytype
@@ -33,7 +34,7 @@ class Dishorder extends \yii\db\ActiveRecord
      */
     public static function tableName()
     {
-        return 'cs_dishorder';
+        return '{{%dishorder}}';
     }
 
     /**
@@ -45,7 +46,7 @@ class Dishorder extends \yii\db\ActiveRecord
             [['ownerid', 'store_id', 'status', 'amount', 'paytime', 'table_num', 'created_at', 'updated_at'], 'integer'],
             [['list', 'payinfo', 'openid_list'], 'string'],
             [['ordersn', 'sn', 'paytype'], 'string', 'max' => 30],
-            [['openid', 'payopenid'], 'string', 'max' => 100],
+            [['openid', 'formid', 'payopenid'], 'string', 'max' => 100],
             [['transaction_id'], 'string', 'max' => 50],
         ];
     }
@@ -67,6 +68,7 @@ class Dishorder extends \yii\db\ActiveRecord
             'list' => 'List',
             'payinfo' => 'Payinfo',
             'openid' => '店员openid',
+            'formid' => '小程序提交的formid',
             'openid_list' => '客户openid',
             'payopenid' => '付款openid',
             'paytype' => 'Paytype',
@@ -84,14 +86,5 @@ class Dishorder extends \yii\db\ActiveRecord
     public static function find()
     {
         return new \common\models\query\DishorderQuery(get_called_class());
-    }
-
-    public function getStore()
-    {
-        return $this->hasOne(Stores::className(),['id'=>'store_id']);
-    }
-    public function getPayname()
-    {
-        return $this->hasOne(Member::className(),['openid'=>'payopenid']);
     }
 }

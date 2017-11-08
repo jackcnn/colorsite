@@ -314,6 +314,7 @@ class IndexController extends BaseController
         $openid = \Yii::$app->request->post("openid");
         $truepay = \Yii::$app->request->post("truepay");
         $type = \Yii::$app->request->post("type");
+        $formId = \Yii::$app->request->post("formId");
         $res_list = \Yii::$app->request->post("res_list");
 
         $store = Stores::findOne($sid);
@@ -329,8 +330,9 @@ class IndexController extends BaseController
         $model->openid = $openid;
         $model->table_num = $tid;
         $model->paytype = $type;
+        $model->formid = $formId;
 
-        if($type == "weixin"){
+        if($type == "wxpay"){
             $model->status = 1;//可付款
         }else{
             $model->status = 2;//其他方式，已付款
