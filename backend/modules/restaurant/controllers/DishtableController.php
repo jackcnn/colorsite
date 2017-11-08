@@ -94,9 +94,10 @@ class DishtableController extends BaseController
 
         $model = $this->findModel($id);
 
-        if(!$model->code){
+        if(1){
             $url = "https://api.weixin.qq.com/wxa/getwxacode?access_token=".$access_token;
-            $data['path'] = "page/main/index?sid=".$model->store_id."&tid=".$model->id;
+            //$data['path'] = "page/main/index?sid=".$model->store_id."&tid=".$model->id;
+            $data['path'] = "page/common/router/index?sid=".$model->store_id."&tid=".$model->id;
             $data['width'] = "430";
             $res = CurlHelper::callWebServer($url,json_encode($data),"post",false);
 
