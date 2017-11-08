@@ -3,6 +3,7 @@
 namespace backend\modules\restaurant\controllers;
 
 use common\models\Stores;
+use DoctrineTest\InstantiatorTestAsset\FinalExceptionAsset;
 use Yii;
 use common\models\Dishtable;
 use common\models\search\DishtableSearch;
@@ -114,7 +115,7 @@ class DishtableController extends BaseController
             $data['width'] = "430";
             $res = CurlHelper::callWebServer($url,json_encode($data),"post",false);
 
-            $dir = \Yii::getAlias("@site")."/uploads/dishtables/".$model->store_id;
+            $dir = \Yii::getAlias("@site")."/uploads/dishtable/".$model->store_id;
 
             FileHelper::createDirectory($dir,777);
 
@@ -122,9 +123,13 @@ class DishtableController extends BaseController
 
             $ss = file_put_contents($file,$res);
 
-            $model->path = $data['path'];
-            $model->code ="/uploads/dishtable/".$model->store_id."/mendian-".$model->store_id."-zhuohao-".$model->id.".jpg";
-            $model->save();
+            if($ss){
+                $model->path = $data['path'];
+                $model->code ="/uploads/dishtable/".$model->store_id."/mendian-".$model->store_id."-zhuohao-".$model->id.".jpg";
+                $model->save();
+            }else{
+                ColorHelper::err('生成二维码失败！');
+            }
 //            return $model->code;
         }else{
 //            return $model->code;
