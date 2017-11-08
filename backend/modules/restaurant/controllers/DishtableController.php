@@ -116,7 +116,7 @@ class DishtableController extends BaseController
 
             $dir = \Yii::getAlias("@site")."/uploads/dishtable/".$model->store_id;
 
-            FileHelper::createDirectory($dir);
+            FileHelper::createDirectory($dir,777);
 
             $file = $dir."/mendian-".$model->store_id."-zhuohao-".$model->id.".jpg";
 
