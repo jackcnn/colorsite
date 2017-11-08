@@ -43,7 +43,7 @@ class DishorderSearch extends Dishorder
     {
         $query = Dishorder::find();
 
-        $query->orderBy("paytime DESC,created_at DESC");
+        $query->orderBy("created_at DESC");
 
         // add conditions that should always apply here
 
