@@ -59,7 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
                  'label'=>'支付方式',
                  'value'=>function($model){
                      switch($model->paytype){
-                         case 'weixin':
+                         case 'wxpay':
                              return "微信支付";break;
                          case 'cash':
                              return "现金支付";break;

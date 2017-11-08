@@ -332,7 +332,7 @@ class IndexController extends BaseController
         $model->paytype = $type;
         $model->formid = $formId;
         $model->status = 1;//可付款
-        if($type == "weixin"){
+        if($type == "wxpay"){
             $model->status = 1;//可付款
         }elseif($type == "other"){
             $model->status = 2;//其他方式，已付款
@@ -373,7 +373,7 @@ class IndexController extends BaseController
             $model['list'] = json_decode($model['list'],1);
             $model['format_paytime'] = $model['paytime']>0?date("Y-m-d H:i:s",$model['paytime']):'';
 
-            $model['paytype_name'] = $model['paytype']=="weixin"?"微信支付":"其他支付方式";
+            $model['paytype_name'] = $model['paytype']=="wxpay"?"微信支付":"其他支付方式";
 
             $data['order'] = $model;
 
