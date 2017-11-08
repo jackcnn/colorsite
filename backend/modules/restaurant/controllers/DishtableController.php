@@ -121,7 +121,8 @@ class DishtableController extends BaseController
 
             $file = $dir."/mendian-".$model->store_id."-zhuohao-".$model->id.".jpg";
 
-            $ss = file_put_contents($file,$res);
+            //$ss = file_put_contents($file,$res);
+            $ss=@file_put_contents($file, $res, LOCK_EX);
 
             if($ss){
                 $model->path = $data['path'];
