@@ -48,8 +48,8 @@ class DishorderController extends BaseController
 
             $clerk  = Clerk::find()->where(['ownerid'=>$this->ownerid,'openid'=>$model->openid])->one();
 
-            $model->payopenid = $member->wxname;
-            $model->openid = $clerk->wxname;
+            $model->payopenid = $member?$member->wxname:'';
+            $model->openid = $clerk?$clerk->wxname:'';
 
             return $this->render('update', [
                 'model' => $model,
