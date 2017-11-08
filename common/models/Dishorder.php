@@ -94,7 +94,7 @@ class Dishorder extends \yii\db\ActiveRecord
     }
     public function getPayname()
     {
-        return $this->hasOne(Member::className(),['payopenid'=>'openid']);
+        return $this->hasOne(Member::className(),['openid'=>'payopenid']);
     }
 
 
