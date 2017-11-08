@@ -293,7 +293,8 @@ class IndexController extends BaseController
             }
             $content .= '</table>';
             $content .= str_repeat('-',32)."\n";
-            $content .= "<FS>总金额: ".($total/100)."元</FS>\r\n";
+            $content .= "<FS>总金额: ".$total."元</FS>\r\n";
+            $content .= "时间: ".date('Y-m-d H:i:s',time())."\r\n";
 
             $this->printer_content($sid,$content);
 
