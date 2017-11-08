@@ -115,11 +115,11 @@ class DishtableController extends BaseController
             $data['width'] = "430";
             $res = CurlHelper::callWebServer($url,json_encode($data),"post",false);
 
-            $dir = \Yii::getAlias("@site")."/uploads/dishtable/".$model->store_id;
+            $dir = \Yii::getAlias("@site").DIRECTORY_SEPARATOR."uploads".DIRECTORY_SEPARATOR."dishtable".DIRECTORY_SEPARATOR.$model->store_id;
 
             FileHelper::createDirectory($dir,777);
 
-            $file = $dir."/mendian-".$model->store_id."-zhuohao-".$model->id.".jpg";
+            $file = $dir.DIRECTORY_SEPARATOR."mendian-".$model->store_id."-zhuohao-".$model->id.".jpg";
 
             //$ss = file_put_contents($file,$res);
             $ss=@file_put_contents($file, $res, LOCK_EX);
