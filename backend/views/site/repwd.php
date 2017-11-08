@@ -12,9 +12,9 @@ $this->title = 'COLORSITE';
 
         <?= $form->field($model,'username')->lytextInput(['label'=>'邮　箱','readonly'=>true])?>
 
-        <?= $form->field($model,'password')->lytextInput(['label'=>'新密码'])?>
+        <?= $form->field($model,'password')->lytextInput(['label'=>'新密码','value'=>''])?>
 
-        <?= $form->field($model,'token')->lytextInput(['label'=>'确认密码'])?>
+        <?= $form->field($model,'token')->lytextInput(['label'=>'确认密码','value'=>''])?>
 
         <?= $form->field($model,'')->lylink('输入新密码',"javascript:;")?>
 
