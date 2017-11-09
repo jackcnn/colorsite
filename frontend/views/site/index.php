@@ -25,7 +25,7 @@
         <div class="row">
             <?php foreach($value as $k=>$v){?>
                 <div class="col s12 m3">
-                    <a href="<?=\yii\helpers\Url::to(['/site/detail','id'=>$v['id']])?>" class="list">
+                    <a target="_blank" href="<?=\yii\helpers\Url::to(['/site/detail','id'=>$v['id']])?>" class="list">
                         <div class="img-box">
                             <img src="<?=\yii\helpers\Url::to(['/site/img','url'=>$v['logo']])?>">
                         </div>
@@ -46,7 +46,9 @@
             <a href="javascript:;">共<?=$pager['total']?>页</a>
         </div>
     </div>
-
+    <div class="row" style="text-align: center;color: #999999;padding: 15px 0px;">
+        本网站内容来源于互联网，如有侵犯版权请来信告知,我们将立即处理。<a target="_blank" href="<?=\yii\helpers\Url::to(['/site/submit'])?>">(点我发送信息告知)</a>
+    </div>
 </div>
 </body>
 </html>

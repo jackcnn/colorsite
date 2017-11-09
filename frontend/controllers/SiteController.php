@@ -52,12 +52,51 @@ class SiteController extends BaseController
             $pager['end'] = 10;
         }
 
-
-
-
         return $this->renderPartial("index",[
             'list'=>$list,
             'pager'=>$pager
+        ]);
+    }
+
+    public function actionSubmit(){
+
+
+        $request = \Yii::$app->request;
+        if($request->isPost){
+            $return['success'] = true;
+            try{
+
+                if(!$request->post('link') || !$request->post("desc")){
+                    throw new \Exception('链接和描述必须填！');
+                }
+
+                $check1 = Baoming::find()->where(['ip'=>$request->getUserIP()])
+                    ->andWhere(['>',"created_at",time()-3600])->count();
+                if($check1){
+                    throw new \Exception('操作过于频繁');
+                }
+
+                $model = new Baoming();
+                $model->name = $request->post("link");
+                $model->tel = $request->post("desc");
+                $model->func = "gallery-submit";
+                $model->ip= $request->getUserIP();
+
+                if($model->validate() && $model->save()){
+                    $return['msg'] = '提交成功！';
+                }else{
+                    $return['msg'] = current($model->getFirstErrors());
+                }
+            }catch (\Exception $e){
+                $return['msg'] = $e->getMessage();
+                $return['success'] = false;
+            }
+        }else{
+            $return['msg'] = '';
+        }
+
+        return $this->renderPartial("submit",[
+            'msg'=>urlencode($return['msg'])
         ]);
     }
 
@@ -149,11 +188,6 @@ class SiteController extends BaseController
             }
             return $this->asJson($return);
         }
-
-
-
-
-
 
         return $this->renderPartial("index");
     }
