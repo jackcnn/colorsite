@@ -1,351 +1,194 @@
-<?php
-/**
- * Date: 2017/10/11 0011
- * Time: 11:09
- */
-
-?>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="utf-8">
-    <title><?=$store['name']?></title>
-    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
-    <link rel="stylesheet" type="text/css" href="/assets/reset.css">
-    <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
-    <link rel="stylesheet" href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+    <title>橙蓝科技</title>
 
-    <link href="/assets/css.css" rel="stylesheet">
+    <!-- CSS  -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="/assets/materialize/css/materialize.min.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="/assets/materialize/css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+    <link href="/assets/chenglansite/icon/iconfont.css" type="text/css" rel="stylesheet" media="screen,projection"/>
 </head>
 <body>
-<div>
-    <div class="header" style="display:none;background-image: url('<?=$store['logo']?>');"></div>
+<nav class="light-blue lighten-1" role="navigation">
+    <div class="nav-wrapper container">
+        <a id="logo-container" href="#" class="brand-logo">
+            <div class="icon iconfont icon-logo"></div>
+            橙蓝网络
+        </a>
+        <ul class="right hide-on-med-and-down">
+           <li><a href="#modal1" class="modal-trigger">联系我们</a></li>
+         </ul>
 
-    <div class="tab_nav" style="display: none;">
-        <div class="tab_list">
-            <a>菜品</a>
-        </div>
-        <div class="tab_list">
-            <a>评论</a>
-        </div>
+         <ul id="nav-mobile" class="side-nav">
+           <li><a href="#modal1" class="modal-trigger">联系我们</a></li>
+         </ul>
+         <a href="#" data-activates="nav-mobile" class="button-collapse"><i class="material-icons">menu</i></a>
     </div>
-    <div>
-        <div class="container"  style="top: 0px;">
-            <div class="menu_wrapper">
-                <div class="menu">
-                    <ul class="menu_box">
-                        <?php foreach($category as $key=>$value){?>
-                            <li class="menu_item" data-id="<?=$value['id']?>">
-                                <span class="text"><?=$value['name']?></span>
-                            </li>
-                        <?php }?>
-                    </ul>
-                </div>
-            </div>
-
-            <div class="foods_wrapper">
-                <div class="foods">
-
-                    <ul class="foods_box">
-                        <?php foreach($category as $key=>$value){?>
-
-                            <li class="foods_category category_h1_<?=$value['id']?>" data-key="<?=$key?>">
-                                <h1><?=$value['name']?></h1>
-                                <ul>
-                                    <?php foreach($value['dishes'] as $k=>$v){?>
-
-                                        <li class="foods_item">
-                                            <div class="icon">
-                                                <img width="57" height="57" src="<?=$v['cover']?>">
-                                            </div>
-                                            <div class="content">
-                                                <h2><?=$v['name']?></h2>
-                                                <p class="description"><?=$v['desc']?></p>
-                                                <div class="sell-info">
-                                                    <span class="sellCount">月售<?=$v['month_sales']?>份</span>
-                                                    <span class="rating" style="display: none;">好评率99%</span>
-                                                </div>
-                                                <div class="price">
-                                                    <span class="newPrice"><span class="unit">￥</span><?=$v['price']/100?></span>
-                                                    <span class="oldPrice" <?php if($v['oprice']<1){?>style="display: none;"<?php }?>>￥<?=$v['oprice']/100?></span></div>
-                                                <div class="cartcontrol-wrapper">
-                                                    <div class="cartcontrol">
-                                                        <div class="cart-decrease" <?php if($v['hascount']<1){?>style="display: none;"<?php }?>>
-                                                            <span class="icon-remove_circle_outline inner"></span>
-                                                        </div>
-                                                        <div class="cart-count" id="foodID_<?=$v['id']?>" data-id="<?=$v['id']?>" data-price = "<?=$v['price']?>" <?php if($v['hascount']<1){?>style="display: none;"<?php }?>>
-                                                            <?=$v['hascount']?>
-                                                        </div>
-                                                        <div class="cart-add"><i class="icon-add_circle"></i></div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </li>
-
-                                    <?php }?>
-                                </ul>
-                            </li>
-
-
-                        <?php }?>
-                    </ul>
-
-                </div>
-
-            </div>
-
-            <div>
-                <div class="shopCart">
-                    <div class="content">
-                        <div class="content-left">
-                            <div class="logo-wrapper">
-                                <div class="badge">
-                                    0
-                                </div>
-                                <div class="logo active"><i class="icon-shopping_cart"></i></div>
-                            </div>
-                            <div class="price active">
-                                ￥0
-                            </div>
-                            <div class="desc">
-                                已点列表
-                            </div>
-                        </div>
-                        <div id="submit" data-total="0" class="content-right">提交</div>
-                    </div>
-
-                    <div class="shopcart-list" style="display: none;">
-                        <div class="list-header"><h1 class="title"><?php if(!\Yii::$app->user->isGuest){echo \Yii::$app->user->identity->wxname;}?></h1> <span class="empty">清空</span></div>
-                        <div class="list-content">
-                            <ul>
-                                <?php foreach($dishes as $key=>$value){?>
-
-                                    <li class="food" id="cartlist_fid_<?=$value['id']?>">
-                                        <span class="name"><?=$value['name']?></span>
-                                        <div class="price"><span>￥0</span></div>
-                                        <div class="cartcontrol-wrapper">
-                                            <div class="cartcontrol">
-                                                <div class="cart-decrease" data-price="<?=$value['price']?>" data-fid="<?=$value['id']?>"><span class="icon-remove_circle_outline inner"></span></div>
-                                                <div class="cart-count">
-                                                    0
-                                                </div>
-                                                <div class="cart-add" data-price="<?=$value['price']?>" data-fid="<?=$value['id']?>"><i class="icon-add_circle"></i></div>
-                                            </div>
-                                        </div>
-                                    </li>
-
-
-                                <?php }?>
-
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="backdrop"></div>
-            </div>
+</nav>
+<div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+        <br><br>
+        <h1 class="header center orange-text">橙蓝科技</h1>
+        <div class="row center">
+            <h5 class="header col s12 light">不只是工作 也可以是合作</h5>
         </div>
+        <div class="row center">
+            <a href="#modal1" id="download-button" class="btn-large waves-effect waves-light orange modal-trigger">联系我们</a>
+        </div>
+        <br><br>
 
     </div>
-
 </div>
-</body>
-<script src="/assets/jquery.js"></script>
-<script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
+
+
+<div class="container">
+    <div class="section">
+
+        <!--   Icon Section   -->
+        <div class="row">
+            <div class="col s12 m3">
+                <div class="icon-block">
+                    <h2 class="center light-blue-text"><i class="material-icons">devices</i></h2>
+                    <h5 class="center">网站应用开发</h5>
+
+                    <p class="light">网站建设综合服务，是为企业提供一对一的定制建站方案，帮助企业在网络中全面展示品牌优势，扩大商业影响力</p>
+                </div>
+            </div>
+
+            <div class="col s12 m3">
+                <div class="icon-block">
+                    <h2 class="center light-blue-text"><i class="material-icons">group</i></h2>
+                    <h5 class="center">公众帐号开发</h5>
+
+                    <p class="light">微信公众帐号开发，为亿万微信用户提供轻便的服务。</p>
+                </div>
+            </div>
+
+            <div class="col s12 m3">
+                <div class="icon-block">
+                    <h2 class="center light-blue-text"><i class="material-icons">all_inclusive</i></h2>
+                    <h5 class="center">微信小程序开发</h5>
+
+                    <p class="light">一种新的开放能力，可以在微信内被便捷地获取和传播，同时具有出色的使用体验。</p>
+                </div>
+            </div>
+
+            <div class="col s12 m3">
+                <div class="icon-block">
+                    <h2 class="center light-blue-text"><i class="material-icons">web</i></h2>
+                    <h5 class="center">搭建运营服务</h5>
+
+                    <p class="light">不仅为你开发好所需的功能，更提供专业的搭建与运营服务，免去额外的学习成本，更好的关注你的业务。</p>
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+    <br><br>
+</div>
+
+<footer class="page-footer orange">
+    <div class="container">
+        <div class="row">
+            <div class="col l7 s12">
+                <h5 class="white-text">公司理念</h5>
+                <p class="grey-text text-lighten-4">
+                    以实事求是为原则，打造信赖产品；以坚守承诺为准绳，建立诚信团队。<br/>
+                    以尽职尽责的态度，担当工作职责；以乐于奉献的精神，承担公司责任。
+                </p>
+
+
+            </div>
+            <div style="display:none;" class="col l3 s12">
+                <h5 class="white-text">Settings</h5>
+                <ul>
+                    <li><a class="white-text" href="#!">Link 1</a></li>
+                    <li><a class="white-text" href="#!">Link 2</a></li>
+                    <li><a class="white-text" href="#!">Link 3</a></li>
+                    <li><a class="white-text" href="#!">Link 4</a></li>
+                </ul>
+            </div>
+            <div style="display:none;" class="col l3 s12">
+                <h5 class="white-text">Connect</h5>
+                <ul>
+                    <li><a class="white-text" href="#!">Link 1</a></li>
+                    <li><a class="white-text" href="#!">Link 2</a></li>
+                    <li><a class="white-text" href="#!">Link 3</a></li>
+                    <li><a class="white-text" href="#!">Link 4</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="footer-copyright">
+        <div class="container">
+            Copyright © 2017 <a class="orange-text text-lighten-3" href="javascript:;">广州市橙蓝网络科技有限公司, All Rights Reserved</a>
+        </div>
+    </div>
+</footer>
+
+
+<div id="modal1" class="modal">
+    <div class="modal-content">
+        <h4>联系我们</h4>
+        <p>提交你的信息，我们将尽快联系你。</p>
+        <div class="row">
+            <form method="post" class="col s12">
+                <div class="row">
+                    <div class="input-field col m6 s12">
+                        <input id="submit_name" type="text" class="">
+                        <label for="submit_name">姓名</label>
+                    </div>
+                    <div class="input-field col m6 s12">
+                        <input id="submit_phone" type="text" class="">
+                        <label for="submit_phone">手机号</label>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col m12 s12">
+            <span>
+              <input type="checkbox" name="list[]" value="网站开发" class="func filled-in" id="filled-in-box-1" />
+              <label for="filled-in-box-1">网站开发</label>
+            </span>
+                        <span>
+              <input type="checkbox" name="list[]" value="微信公众号开发" class="func filled-in" id="filled-in-box-2" />
+              <label for="filled-in-box-2">微信公众号开发</label>
+            </span>
+                        <span>
+              <input type="checkbox" name="list[]" value="小程序开发" class="func filled-in" id="filled-in-box-3" />
+              <label for="filled-in-box-3">小程序开发</label>
+            </span>
+                        <span>
+              <input type="checkbox" name="list[]" value="搭建代运营服务" class="func filled-in" id="filled-in-box-4" />
+              <label for="filled-in-box-4">搭建代运营服务</label>
+            </span>
+                        <span>
+              <input type="checkbox" name="list[]" value="其他" class="func filled-in" id="filled-in-box-5" />
+              <label for="filled-in-box-5">其他</label>
+            </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col s6">
+                        <a id="submit" class="waves-effect waves-light orange btn">提交</a>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!--  Scripts-->
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="/assets/materialize/js/materialize.min.js"></script>
 <script>
-    $(function () {
-        var scroll_list = new Array();
-        $(".foods_category").each(function () {
-            scroll_list.push($(this).offset().top)
-        })
-        $(".menu_item").click(function () {
-            var self = $(this);
-            if(!self.hasClass("menu_item_selected")){
-                $(".menu_item").removeClass("menu_item_selected");
-                self.addClass("menu_item_selected");
-                var index = $(".category_h1_"+self.data("id")).data("key");
-                $(".foods").animate({scrollTop: parseInt(scroll_list[index]) }, {duration: 300,easing: "swing"});
-            }
-        })
-
-        get_result();
-
-        //购物车相关
-
-        $(".foods_category .cart-add").click(function () {//菜品点击增加
-            var self = $(this);
-            var target = self.parent().find(".cart-count");
-            var res = parseInt(target.html())+1;
-            target.html(res);
-            if(res > 0){
-                self.parent().find(".cart-decrease").show();
-                target.show();
-            }
-
-            get_result();
-        })
-
-        $(".foods_category .cart-decrease").click(function () {//菜品点击减少
-            var self = $(this);
-            var target = self.parent().find(".cart-count");
-            var res = parseInt(target.html())-1;
-            target.html(res);
-            if(res < 1){
-                self.hide();
-                target.hide();
-            }
-
-            get_result();
-
-        })
-
-        $(".content-left").click(function () {
-            $(".shopcart-list .food").hide();
-
-            $(".foods_category .cart-count").each(function(){
-                var self = $(this);
-                var count = parseInt(self.html());
-                var id = parseInt(self.data("id"));
-                var price = parseInt(self.data("price"));
-                var obj = $("#cartlist_fid_"+id);
-                if(count > 0){
-                    obj.show();
-                    obj.find(".cart-count").html(count);
-                    obj.find(".price span").html("￥"+parseInt(count*price)/100);
-                }
-            })
-
-            $(".shopcart-list").slideToggle();
-            $(".backdrop").toggle();
-        })
-
-
-        $(".shopcart-list .cart-add").click(function () {//点餐清单里面点击的
-            var self = $(this);
-            var target = self.parent().find(".cart-count");
-            var res = parseInt(target.html())+1;
-            target.html(res);
-
-            var fid = self.data("fid");
-            var object = $("#foodID_"+fid);
-            object.html(res);
-
-            self.parent().parent().parent().find(".price span").html("￥"+parseInt(self.data("price")*res)/100);
-
-            if(res > 0){
-                self.parent().find(".cart-decrease").show();
-                target.show();
-
-                object.parent().find(".cart-decrease").show();
-                object.parent().find(".cart-count").show();
-            }
-            get_result();
-        })
-
-        $(".shopcart-list .cart-decrease").click(function () {//菜品点击减少
-            var self = $(this);
-            var target = self.parent().find(".cart-count");
-            var res = parseInt(target.html())-1;
-            target.html(res);
-
-            var fid = self.data("fid");
-            var object = $("#foodID_"+fid);
-            object.html(res);
-
-            self.parent().parent().parent().find(".price span").html("￥"+parseInt(self.data("price")*res)/100);
-
-            if(res < 1){
-                self.hide();
-                target.hide();
-                self.parent().parent().parent().fadeOut();
-                object.parent().find(".cart-decrease").hide();
-                object.parent().find(".cart-count").hide();
-
-            }
-
-            get_result();
-
-        })
-
-
-        $(".list-header .empty").click(function () {//清空菜单
-
-            $(".foods_category .cart-count").each(function(){
-                var self = $(this);
-                self.html(0);
-                self.parent().find(".cart-decrease").hide();
-
-            })
-            $(".shopcart-list .food").hide();
-            get_result()
-        })
-
-        $("#submit").click(function () {
-
-            var self = $(this);
-            if(!self.hasClass("enough")){
-                return false;
-            }
-
-            var list = new Array();
-
-            $(".foods_category .cart-count").each(function(){
-                var count = parseInt($(this).html());
-                if(count > 0){
-                    var id = $(this).data("id");
-                    list.push(id+"-"+count);
-                }
-            })
-
-
-            $.ajax({
-                url: "<?=\yii\helpers\Url::toRoute(['site/cookiesorder','token'=>$this->params['token'],'store_id'=>$store['id']])?>",
-                type:"post",
-                data:{
-                    'list':list,
-                    'amount':$("#submit").data("total"),
-                    'sn':'<?=\Yii::$app->request->get("sn")?>',
-                },
-                dataType:"json",
-                beforeSend:function(){
-                },
-                complete:function(){
-                },
-                error:function (XMLHttpRequest, textStatus, errorThrown){
-                    alert("网络错误,请重试...");
-                },
-                success: function(data){
-                    if(data.location){
-                        return location.href=data.location;
-                    }
-                }
-            });
-
-
-        })
-
-
-
-        function get_result()
-        {
-            var count = 0;
-            var total = 0;
-            $(".foods_category .cart-count").each(function () {
-                count = parseInt($(this).html()) + count ;
-                total = parseInt($(this).data("price")*parseInt($(this).html()))+total;
-            })
-
-            if(count > 0){
-                $("#submit").addClass("enough");
-            }else{
-                $("#submit").removeClass("enough");
-            }
-
-            $(".shopCart .badge").html(count);
-            $(".shopCart .content-left .price").html("￥"+total/100);
-            $("#submit").data("total",total);
-
-        }
-
-
-    })
+    var URL="<?=\yii\helpers\Url::to(['/site/index'])?>";
 </script>
+<script src="/assets/materialize/js/init.js"></script>
+</body>
 </html>

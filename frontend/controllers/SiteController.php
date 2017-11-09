@@ -1,6 +1,7 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\Baoming;
 use common\models\Category;
 use common\models\Clerk;
 use common\models\Dishcart;
@@ -17,374 +18,53 @@ use yii\helpers\Url;
 
 class SiteController extends BaseController
 {
+
     public $enableCsrfValidation = false;
 
-
-
-
-    public function actionIndex($store_id,$sn)
-    {
-
-        ColorHelper::wxlogin($this->ownerid,"index",true);
-
-        //判断是否是店员
-        $clerk = Clerk::find()->where(['store_id'=>$store_id,'openid'=>\Yii::$app->user->identity->openid])->one();
-
-        if($clerk != null){
-            //跳转到店员页面
-
-            $order = Dishorder::find()->where(['store_id'=>$store_id,'ordersn'=>$sn])->one();
-
-            if($order){ //店员下单了
-                switch(intval($order->status)){
-                    case 0://刚刚下单，客户只可以查看或者加菜
-                        return $this->redirect(['order/clerk','store_id'=>$store_id,'token'=>$this->token,'orderid'=>$order->id,'ordersn'=>$order->ordersn]);
-                        break;
-                    case 1://可以付款了
-                        return $this->redirect(['order/clerk','store_id'=>$store_id,'token'=>$this->token,'orderid'=>$order->id,'ordersn'=>$order->ordersn]);
-                        break;
-                    case 2://订单已经支付
-                        return $this->redirect(['order/clerk','store_id'=>$store_id,'token'=>$this->token,'orderid'=>$order->id,'ordersn'=>$order->ordersn]);
-                        break;
-                }
-            }else{
-                return $this->redirect(['clerk/index','store_id'=>$store_id,'sn'=>$sn,'token'=>$this->token]);
-            }
-
-
-        }else{
-            $order = Dishorder::find()->where(['store_id'=>$store_id,'ordersn'=>$sn])->one();
-
-            if($order){ //店员下单了
-                switch(intval($order->status)){
-                    case 0://刚刚下单，客户只可以查看或者加菜
-                        return $this->redirect(['order/index','store_id'=>$store_id,'token'=>$this->token,'orderid'=>$order->id,'ordersn'=>$order->ordersn]);
-                        break;
-                    case 1://可以付款了
-                        return $this->redirect(['order/index','store_id'=>$store_id,'token'=>$this->token,'orderid'=>$order->id,'ordersn'=>$order->ordersn]);
-                        break;
-                    case 2://订单已经支付
-                        return $this->redirect(['order/index','store_id'=>$store_id,'token'=>$this->token,'orderid'=>$order->id,'ordersn'=>$order->ordersn]);
-                        break;
-                }
-            }
-        }
-
-
-        $store = Stores::find()->where(['ownerid'=>$this->ownerid,'id'=>$store_id])->asArray()->one();
-
-        $category = Category::find()->where(['ownerid'=>$this->ownerid,'table'=>'restaurant'])->asArray()->orderBy("sort,id")->all();
-
-        $dishes = Dishes::find()->where(['ownerid'=>$this->ownerid])->asArray()->orderBy("sort,id")->all();
-
-        $alldishes = $dishes;
-
-
-        //点餐的缓存
-        $cookies = \Yii::$app->request->cookies;
-        $list = $cookies->getValue('dish'.$store_id.'cart'.$sn);
-        $list = json_decode($list,1);
-        if(!$list){
-            $list = [];
-        }
-
-        foreach($category as $key=>$value){
-
-            foreach($dishes as $k=>$v){
-
-
-                if(isset($list[$v['id']]) && $list[$v['id']]>0){
-                    $v['hascount'] = $list[$v['id']];
-                }else{
-                    $v['hascount'] = 0 ;
-                }
-
-                if($v['cateid'] == $value['id']){
-                    if($v['labes']){
-                        $labels = explode(",",$v['labes']);
-                        $res = [];
-                        foreach($labels as $lk=>$lv){
-                            $res[$lk]['name'] = $lv;
-                            $res[$lk]['sel'] = 0;
-                        }
-
-                        $v['label_list'] = $res;
-                    }else{
-                        $v['label_list'] = [];
-                    }
-
-
-                    $category[$key]['dishes'][] = $v;
-
-                    unset($dishes[$k]);
-                }
-            }
-        }
-
-        ColorHelper::dump(json_encode($category));
-        ColorHelper::dump($category);
-        die;
-
-        return $this->renderPartial("index",[
-            'category'=>$category,
-            'store'=>$store,
-            'dishes'=>$alldishes,
-        ]);
-    }
-
-    //本地cookies 存储一下
-    public function actionCookiesorder($store_id)
-    {
-        $list = \Yii::$app->request->post("list");
-        $sn = \Yii::$app->request->post("sn");
-        $dish_list = [];
-        foreach($list as $key=>$value){
-            $data = explode("-",$value);
-            $dish_list[$data[0]] = $data[1];
-        }
-
-        $data = json_encode($dish_list);
-
-        $cookies = \Yii::$app->response->cookies;
-
-        $cookies->add(new \yii\web\Cookie([
-            'name' => 'dish'.$store_id.'cart'.$sn,
-            'value' => $data,
-        ]));
-
-        $res['location']=Url::to(['site/preorder','store_id'=>$store_id,'token'=>$this->token,'sn'=>$sn]);
-
-        return $this->asJson($res);
-    }
-
-    public function actionPreorder($store_id,$sn)
-    {
-        $store = Stores::find()->where(['id'=>$store_id,'ownerid'=>$this->ownerid])->one();
-        $cookies = \Yii::$app->request->cookies;
-        $list = $cookies->getValue('dish'.$store_id.'cart'.$sn);
-        $list = json_decode($list,1);
-        if(!$list){
-            $list = [];
-        }
-        $ids = [];
-        $count_list = [];
-        foreach($list as $key=>$value){
-            $ids[]=$key;
-            $count_list[$key]=$value;
-        }
-
-        $dishes = Dishes::find()->where(['ownerid'=>$this->ownerid])
-            ->andWhere(['in','id',$ids])->asArray()->all();
-        $total = 0 ;
-        foreach($dishes as $key=>$value){
-            $dishes[$key]['order_count'] = $count_list[$value['id']];
-
-            $dishes[$key]['order_single_amount'] = intval($count_list[$value['id']]*$value['price']);
-
-            if($value['labes']){
-                $dishes[$key]['labels'] = explode(",",$value['labes']);
-            }else{
-                $dishes[$key]['labels'] = [];
-            }
-
-            $total = $total + $dishes[$key]['order_single_amount'];
-
-        }
-        return $this->renderPartial("preorder",[
-            'dishes'=>$dishes,
-            'total'=>$total,
-            'store'=>$store,
-        ]);
-    }
-
-    public function actionSaveorder($store_id,$sn)
+    public function actionIndex()
     {
         $request = \Yii::$app->request;
         if($request->isPost){
-            $post = $request->post();
-            $ids = isset($post['ids'])?$post['ids']:[];
-            $count = isset($post['count'])?$post['count']:[];
-            $labels = isset($post['labels'])?$post['labels']:[];
+            $return['success'] = true;
+            try{
 
-            if(count($ids)){
-                $data = [];
-                foreach($ids as $key=>$value){
-                    $data[$key]['id'] = $value;
-                    $data[$key]['count'] = $count[$key];
-                    $data[$key]['labels'] = $labels[$key];
+                if(!$request->post('name') || !$request->post("tel")){
+                    throw new \Exception('姓名和手机号必须填！');
+                }
+                $check = Baoming::find()->where(['tel'=>$request->post('tel')])
+                    ->andWhere(['>',"created_at",time()-3600])->count();
+                if($check){
+                    throw new \Exception('你已提交过了');
+                }
+                $check1 = Baoming::find()->where(['ip'=>$request->getUserIP()])
+                    ->andWhere(['>',"created_at",time()-3600])->count();
+                if($check1){
+                    throw new \Exception('操作过于频繁');
                 }
 
-                $model = Dishcart::find()->where([
-                    'store_id'=>$store_id,
-                    'sn'=>$sn,
-                    'openid'=>\Yii::$app->user->identity->openid,
-                    'type'=>0 //第一次点餐
-                ])->one();
-
-                if(!$model){
-                    $model = new Dishcart();
-                }
-
-                $model->store_id = $store_id;
-                $model->ownerid = $this->ownerid;
-                $model->openid = \Yii::$app->user->identity->openid;
-                $model->name = \Yii::$app->user->identity->wxname;
-                $model->sn = $sn;
-                $model->list = json_encode($data);
-                $model->mark = $post['mark'];
+                $model = new Baoming();
+                $model->name = $request->post("name");
+                $model->tel = $request->post("tel");
+                $model->func = implode(",",$request->post("list"));
+                $model->ip= $request->getUserIP();
 
                 if($model->validate() && $model->save()){
-                    return $this->redirect(['site/resorder','store_id'=>$store_id,'sn'=>$sn,'token'=>$this->token]);
+                    $return['msg'] = '提交成功！';
+                }else{
+                    $return['msg'] = current($model->getFirstErrors());
                 }
-            }else{
-                $model = Dishcart::find()->where([
-                    'store_id'=>$store_id,
-                    'sn'=>$sn,
-                    'openid'=>\Yii::$app->user->identity->openid,
-                    'type'=>0
-                ])->one();
-                if($model){
-                    $model->delete();
-                }
-
+            }catch (\Exception $e){
+                $return['msg'] = $e->getMessage();
+                $return['success'] = false;
             }
-        }
-
-    }
-
-    //所有人的点餐列表
-    public function actionResorder($store_id,$sn)
-    {
-        $store = Stores::find()->where(['id'=>$store_id,'ownerid'=>$this->ownerid])->one();
-        $carts = Dishcart::find()->where(['store_id'=>$store_id,'sn'=>$sn,'ownerid'=>$this->ownerid])->orderBy("id asc")->asArray()->all();
-
-        $dish_ids = [];
-        foreach($carts as $key=>$value){
-            $list = json_decode($value['list'],1);
-
-            foreach($list as $k=>$v){
-                $dish_ids[]=$v['id'];
-                $carts[$key]['dish_ids'][]=$v['id'];
-            }
-
-        }
-        $dishes = Dishes::find()->where(['ownerid'=>$this->ownerid])
-            ->andWhere(['in','id',$dish_ids])->asArray()->all();
-        $new_dishes = [];
-        foreach($dishes as $key=>$value){
-            $new_dishes[$value['id']]=$value;
-        }
-        unset($dishes);
-
-        $total = 0;
-
-        foreach($carts as $key=>$value){
-            $list = json_decode($value['list'],1);
-
-            $cart_dishes = [];
-
-            foreach($list as $k=>$v){
-                $cart_dishes[$v['id']] = $new_dishes[$v['id']];
-                $cart_dishes[$v['id']]['order_count'] = $v['count'];
-                $cart_dishes[$v['id']]['order_labels'] = $v['labels'];
-                $cart_dishes[$v['id']]['order_single_amount'] = intval($v['count']*$new_dishes[$v['id']]['price']);
-
-                $total = $total + intval($v['count']*$new_dishes[$v['id']]['price']);
-
-            }
-
-            $carts[$key]['dishes'] = $cart_dishes;
-
-        }
-
-        return $this->renderPartial("resorder",[
-            'carts'=>$carts,
-            'total'=>$total,
-            'store'=>$store,
-        ]);
-
-    }
-
-    public function actionResetorder($store_id,$sn)
-    {
-
-        $model = Dishcart::find()->where(['store_id'=>$store_id,'sn'=>$sn,'openid'=>\Yii::$app->user->identity->openid,'type'=>0])->one();
-
-        if($model !== null){
-            $model->delete();
-        }
-
-        $cookies = \Yii::$app->response->cookies;
-
-        $cookies->remove('dish'.$store_id.'cart'.$sn);
-
-        return $this->redirect(['site/index','store_id'=>$store_id,'token'=>$this->token,'sn'=>$sn]);
-
-
-    }
-
-    //绑定店员https://colorsite.com/site/bindclerk.html?store_id=2&clerk_id=2&token=bRGqRLRqA
-    public function actionBindclerk($store_id,$clerk_id)
-    {
-        ColorHelper::wxlogin($this->ownerid);
-
-        $store = Stores::findOne($store_id);
-
-        $clerk = Clerk::findOne($clerk_id);
-
-        $check = Clerk::find()->where(['store_id'=>$store_id,'openid'=>\Yii::$app->user->identity->openid])->one();
-
-        $show = "bind";
-
-        if($check){
-            $show = "hadbind";
-            $hadname = $check->name;
-        }else{
-            $hadname = "";
-        }
-
-        $request = \Yii::$app->request;
-
-        if($request->isPost){
-
-            $clerk->openid = \Yii::$app->user->identity->openid;
-            $clerk->wxname = \Yii::$app->user->identity->wxname;
-            $clerk->avatar = \Yii::$app->user->identity->wxpic;
-
-            if($clerk->validate() && $clerk->save()){
-                $show = "success";
-            }else{
-                $show = "fail";
-            }
-
+            return $this->asJson($return);
         }
 
 
-        return $this->renderPartial("bindclerk",[
-            'store'=>$store,
-            'clerk'=>$clerk,
-            'show'=>$show,
-            'hadname'=>$hadname
-        ]);
-    }
-
-
-    public function actionCode($store_id)
-    {
-
-        $sn = ColorHelper::orderSN($store_id);
-
-        $url = Url::to(['site/index','store_id'=>$store_id,'token'=>$this->token,'sn'=>$sn],true);
-
-        $store = Stores::find()->where(['id'=>$store_id])->asArray()->one();
-
-        return $this->renderPartial("code",[
-            'url'=>$url,
-            'store'=>$store
-        ]);
 
 
 
 
+        return $this->renderPartial("index");
     }
 }
