@@ -21,7 +21,97 @@ class SiteController extends BaseController
 
     public $enableCsrfValidation = false;
 
-    public function actionIndex()
+    public function actionIndex($page=1)
+    {
+        $size = 12;
+        $data= (new \yii\db\Query())
+            ->from('ms_gallery')
+            ->orderBy("id asc")
+            ->offset(($page-1)*$size)
+            ->limit($size)
+            ->all();
+
+        $count = (new \yii\db\Query())
+            ->from('ms_gallery')->count();
+        $total = ceil($count/$size);
+
+        $list = array_chunk($data,4);
+
+        $pager['cur'] = $page;
+        $pager['count'] = $count;
+        $pager['total'] = $total;
+
+        if($page > $total-5 ){
+            $pager['start'] = $total - 10;
+            $pager['end'] = $total;
+        }elseif($page > 5){
+            $pager['start'] = $page-5;
+            $pager['end'] = $page +5;
+        }else{
+            $pager['start'] = 1;
+            $pager['end'] = 10;
+        }
+
+
+
+
+        return $this->renderPartial("index",[
+            'list'=>$list,
+            'pager'=>$pager
+        ]);
+    }
+
+    public function actionDetail($id)
+    {
+        $data = (new \yii\db\Query())
+            ->from('ms_gallery')
+            ->where(['id'=>$id])
+            ->one();
+
+        $prev =(new \yii\db\Query())
+            ->from('ms_gallery')
+            ->where(['<','id',$id])
+            ->orderBy("id desc")
+            ->limit(1)
+            ->one();
+
+        $next =(new \yii\db\Query())
+            ->from('ms_gallery')
+            ->where(['>','id',$id])
+            ->limit(1)
+            ->one();
+        if($prev){
+            $prev_data['title'] = "上一页：".$prev['title'];
+            $prev_data['router'] = Url::to(['/site/detail','id'=>$prev['id']]);
+        }else{
+            $prev_data['title'] = "上一页：没有了";
+            $prev_data['router'] ="javascript:;";
+        }
+
+        if($next){
+            $next_data['title'] = "下一页：".$next['title'];
+            $next_data['router'] = Url::to(['/site/detail','id'=>$next['id']]);
+        }else{
+            $next_data['title'] = "下一页：没有了";
+            $next_data['router'] ="javascript:;";
+        }
+
+        return $this->renderPartial("detail",[
+            'data'=>$data,
+            'list'=>json_decode($data['imgs'],1),
+            'prev'=>$prev_data,
+            'next'=>$next_data
+        ]);
+    }
+
+
+    public function actionImg($url){
+        header('Content-type: image/jpeg');
+        echo file_get_contents(isset($url)?$url:'');
+    }
+
+
+    public function actionForm()
     {
         $request = \Yii::$app->request;
         if($request->isPost){
