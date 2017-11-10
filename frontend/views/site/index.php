@@ -16,10 +16,7 @@
 <body>
 <div class="container">
 
-    <heade class="header">
-        美图蜘蛛
-
-    </heade>
+    <heade class="header">美图蜘蛛</heade>
 
     <?php foreach ($list as $key=>$value){?>
         <div class="row">
@@ -27,7 +24,7 @@
                 <div class="col s12 m3">
                     <a target="_blank" href="<?=\yii\helpers\Url::to(['/site/detail','id'=>$v['id']])?>" class="list">
                         <div class="img-box">
-                            <img src="<?=\yii\helpers\Url::to(['/site/img','url'=>$v['logo']])?>">
+                            <img alt="<?=$v['title']?>" title="<?=$v['title']?>" src="<?=\yii\helpers\Url::to(['/site/img','url'=>$v['logo']])?>">
                         </div>
                         <div class="img-title"><?=$v['title']?></div>
                     </a>
@@ -51,4 +48,5 @@
     </div>
 </div>
 </body>
+<script src="https://s22.cnzz.com/z_stat.php?id=1266710485&web_id=1266710485" language="JavaScript"></script>
 </html>

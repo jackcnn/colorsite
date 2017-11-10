@@ -6,6 +6,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
+    <meta name="keyword" content="美女图片,邪恶动态图,性感美女,美女写真,日本人体艺术,美女图片大全,邪恶gif,邪恶GIF,搞笑图片" />
     <title>美图蜘蛛</title>
     <!-- CSS  -->
     <link href="/assets/reset.css" type="text/css" rel="stylesheet" media="screen,projection"/>
@@ -20,7 +21,7 @@
             <?php if(count($list)){?>
 
                 <?php foreach ($list as $key=>$value){?>
-                    <img id="ix<?=$key?>" class="detail-imglist" src="<?=\yii\helpers\Url::to(['/site/img','url'=>$value])?>">
+                    <img id="ix<?=$key?>" class="detail-imglist" alt="<?=$data['title']?>" title="<?=$data['title']?>" src="<?=\yii\helpers\Url::to(['/site/img','url'=>$value])?>">
                 <?php }?>
 
             <?php }?>
@@ -36,4 +37,5 @@
     </div>
 </div>
 </body>
+<script src="https://s22.cnzz.com/z_stat.php?id=1266710485&web_id=1266710485" language="JavaScript"></script>
 </html>
