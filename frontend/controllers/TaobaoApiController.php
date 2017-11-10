@@ -25,10 +25,14 @@ class TaobaoApiController extends BaseController
 
         ColorHelper::dump($res);
 
+    }
 
+    public function actionTaokoulin()
+    {
 
+        $res = \common\vendor\taobaoke\TaobaokeApiHelper::taokoulin();
 
-        echo 1232;
+        ColorHelper::dump($res);
 
     }
 }
