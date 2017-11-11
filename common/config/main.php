@@ -13,6 +13,9 @@ return [
         'cache' => [
             'class' => 'yii\caching\DbCache',
         ],
+        'filecache' => [
+            'class' => 'yii\caching\FileCache',
+        ],
         'formatter' => [
             'dateFormat' => 'yyyy-MM-dd',
             'datetimeFormat' =>'yyyy-MM-dd H:i:s',

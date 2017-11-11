@@ -18,10 +18,6 @@ return [
             'useFileTransport' => false,
             'transport' => [
                 'class' => 'Swift_SmtpTransport',
-//                'host' => 'smtp.qq.com',
-//                'username' => '1946755280@qq.com',
-//                'password' => 'rvlsdcplroakhgcf',
-//                'port' => '25',
                 'host' => 'smtpdm.aliyun.com',
                 'username' => 'admin@email.326108993.com',
                 'password' => 'SA523BERxia',
