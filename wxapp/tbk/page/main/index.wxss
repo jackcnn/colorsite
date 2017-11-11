@@ -1,6 +1,8 @@
 .category-container{
     height:90rpx;
     background: #ffffff;
+    width:100%;
+    white-space: nowrap;
 }
 .category{
     display: inline-block;

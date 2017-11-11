@@ -1,7 +1,7 @@
 <view class="container">
 
     <view class="swiper-container">
-        <swiper indicator-dots="true" autoplay="true">
+        <swiper indicator-dots="{{true}}" autoplay="{{true}}">
             <block wx:for="{{imgUrls}}">
                 <swiper-item>
                     <image src="{{item}}" class="slide-image" width="355" height="150"/>
@@ -11,7 +11,7 @@
     </view>
 
 
-    <scroll-view scroll-x  class="category-container">
+    <scroll-view scroll-x class="category-container" style="width: 100%;">
         <view wx:for="{{category}}" data-id="{{item.favorites_id}}" class="category">{{item.favorites_title}}</view>
     </scroll-view>
 
