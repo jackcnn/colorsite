@@ -1,0 +1,10 @@
+.category-container{
+    height:90rpx;
+    background: #ffffff;
+}
+.category{
+    display: inline-block;
+    height: 90rpx;
+    line-height:90rpx;
+    padding:0rpx 50rpx;
+}

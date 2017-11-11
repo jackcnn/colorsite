@@ -1,0 +1,36 @@
+{
+  "pages": [
+    "page/main/index",
+    "page/user/index"
+  ],
+  "window": {
+    "navigationBarTextStyle": "withe",
+    "navigationBarTitleText": "橙蓝点餐",
+    "navigationBarBackgroundColor": "#20A0FF",
+    "backgroundColor": "#20A0FF"
+  },
+  "tabBar": {
+    "color": "#666666",
+    "selectedColor": "#20a0ff",
+    "borderStyle": "black",
+    "backgroundColor": "#ffffff",
+    "list": [{
+      "pagePath": "page/main/index",
+      "iconPath": "image/home.png",
+      "selectedIconPath": "image/home_HL.png",
+      "text": "首页"
+    }, {
+      "pagePath": "page/user/index",
+      "iconPath": "image/user.png",
+      "selectedIconPath": "image/user_HL.png",
+      "text": "我的"
+    }]
+  },
+  "networkTimeout": {
+    "request": 10000,
+    "connectSocket": 10000,
+    "uploadFile": 10000,
+    "downloadFile": 10000
+  },
+  "debug": false
+}

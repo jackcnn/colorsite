@@ -14,24 +14,23 @@ class TaobaokeApiHelper
     public static $appkey="24688190";
     Public static $secret="c6d11887d7d35768833ddc55c2a9e8e7";
 
-    public static $adzone_id="147956443";
+    public static $adzone_id="147956443";//推广位id
 
 
 
-    public static function getlist($favorites_id,$page=1)
+    public static function getlist($favorites_id,$page=1,$platform=2,$pageSize=20)
     {
         include "TopSdk.php";
         //选品库id ，14072980
-
         $c = new \TopClient;
         $c->appkey = self::$appkey;
         $c->secretKey = self::$secret;
         $req = new \TbkUatmFavoritesItemGetRequest;
-        $req->setPlatform("2");
-        $req->setPageSize("20");
+        $req->setPlatform($platform);
+        $req->setPageSize($pageSize);
         $req->setAdzoneId(self::$adzone_id);
         $req->setUnid(time());
-        $req->setFavoritesId($favorites_id);
+        $req->setFavoritesId((string)$favorites_id);
         $req->setPageNo($page);
         $labels=[
             "num_iid","title","pict_url","small_images","reserve_price","zk_final_price","user_type","provcity","item_url","click_url","nick","seller_id",
@@ -49,7 +48,6 @@ class TaobaokeApiHelper
     {
 
         include "TopSdk.php";
-
         $c = new \TopClient;
         $c->appkey = self::$appkey;
         $c->secretKey = self::$secret;

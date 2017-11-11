@@ -1,0 +1,9 @@
+<view class="container">
+    <view class="title">近3月订单列表:</view>
+
+    <navigator url="/page/user/pages/order/index?sid={{item.store_id}}&tid={{item.table_num}}&orderid={{item.id}}&ordersn={{item.ordersn}}" wx:for="{{list}}" class="block">
+        <view class="name">日　　期：{{item.format_time}}</view>
+        <view class="content">支付金额：￥{{item.amount/100}}</view>
+    </navigator>
+
+</view>

@@ -1,0 +1,17 @@
+<view class="container">
+    <view class="group">
+
+       <icon type="{{type}}" size="80" color="{{color}}"/>
+
+    </view>
+
+    <view class="group">
+        <view class="msg" style="color: {{color}};">
+            {{msg}}
+        </view>
+    </view>
+
+
+
+
+</view>

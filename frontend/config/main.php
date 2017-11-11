@@ -15,6 +15,9 @@ return [
         'dish' => [
             'class' => 'frontend\modules\dish\DishMoudle',
         ],
+        'tbk' => [
+            'class' => 'frontend\modules\tbk\TbkMoudle',
+        ],
     ],
     'components' => [
         'request' => [
