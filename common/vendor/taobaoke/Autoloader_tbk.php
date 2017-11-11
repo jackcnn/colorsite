@@ -1,6 +1,6 @@
 <?php
 
-class Autoloader{
+class Autoloader_tbk{
   
   /**
      * 类库自动加载，写死路径，确保不加载其他文件。
