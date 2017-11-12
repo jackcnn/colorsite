@@ -16,8 +16,6 @@ class TaobaokeApiHelper
 
     public static $adzone_id="147956443";//推广位id
 
-
-
     public static function getlist($favorites_id,$page=1,$platform=2,$pageSize=20)
     {
         include "TopSdk.php";
@@ -46,7 +44,6 @@ class TaobaokeApiHelper
 
     public static function getcategory()
     {
-
         include "TopSdk.php";
         $c = new \TopClient;
         $c->appkey = self::$appkey;
@@ -57,17 +54,14 @@ class TaobaokeApiHelper
         $req->setFields("favorites_title,favorites_id,type");
         $req->setType("-1");
         $resp = $c->execute($req);
-
         return $resp;
     }
 
 
     public static function getlist111()
     {
-
         include "TopSdk.php";
-
-        $c = new \TopClient;
+         $c = new \TopClient;
         $c->appkey = self::$appkey;
         $c->secretKey = self::$secret;
         $req = new \TbkItemGetRequest;

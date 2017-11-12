@@ -74,5 +74,5 @@ class Autoloader_tbk{
     }
 }
 
-spl_autoload_register('Autoloader::autoload');
+spl_autoload_register('Autoloader_tbk::autoload');
 ?>
