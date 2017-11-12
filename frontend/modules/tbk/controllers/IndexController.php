@@ -7,11 +7,13 @@
  */
 
 namespace frontend\modules\tbk\controllers;
+use phpDocumentor\Reflection\Types\String_;
 use Yii;
 use frontend\controllers\BaseController;
 use yii\helpers\ColorHelper;
 use yii\helpers\CurlHelper;
 use yii\helpers\Html;
+use yii\helpers\StringHelper;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use common\vendor\taobaoke\TaobaokeApiHelper;
@@ -104,6 +106,7 @@ class IndexController extends BaseController
                 if($value['status']<1){
                     unset($list[$key]);
                 }
+                $list[$key]['title'] = StringHelper::truncate($value['title'],20);
             }
 
             return $list;
