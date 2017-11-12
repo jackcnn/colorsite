@@ -99,10 +99,15 @@ class IndexController extends BaseController
                     throw new \Exception('网络错误！');
                 }
             }
+
+            foreach($list as $key=>$value){
+                if($value['status']<1){
+                    unset($list[$key]);
+                }
+            }
+
             return $list;
         }catch (\Exception $e){
-//            $asJson['success'] = false;
-//            $asJson['msg'] = $e->getMessage();
             return $e->getMessage();
         }
 
