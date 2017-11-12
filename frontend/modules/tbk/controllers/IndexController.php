@@ -40,12 +40,20 @@ class IndexController extends BaseController
 
         $list = $this->getLists($category[0]['favorites_id']);
 
+        if(!is_array($list)){
+            $list =[];
+        }
+
         return $this->asJson(['list'=>$list,'category'=>$category]);
     }
 
-    public function actionLists($favorites_id)
+    public function actionLists($favorites_id,$page)
     {
-        $list = $this->getLists($favorites_id);
+        $list = $this->getLists($favorites_id,$page);
+
+        if(!is_array($list)){
+            $list =[];
+        }
 
         return $this->asJson(['list'=>$list]);
 

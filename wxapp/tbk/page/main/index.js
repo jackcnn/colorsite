@@ -12,6 +12,7 @@ Page({
       list:[],
       category:[],
       curNav:0,
+      page:1
   },
   onLoad:function(params)
   {
@@ -30,14 +31,15 @@ Page({
                       self.setData({
                           category:category,
                           list:list,
-                          curNav:category[0].favorites_id
+                          curNav:category[0].favorites_id,
+                          page:2,
                       })
                   }
               });
           });
 
     },
-    getlist:function(favorites_id){
+    getlist:function(favorites_id,page,iscate){
         var self = this;
         wx.showLoading('加载中...');
         app.getUserOpenId(function(){
@@ -45,13 +47,28 @@ Page({
                 url:getLists,
                 data: {
                     openid:app.globalData.openid,
-                    favorites_id:favorites_id
+                    favorites_id:favorites_id,
+                    page:page
                 },
                 success: function(res) {
                     wx.hideLoading();
-                    var list = res.data.list;
+                    if(iscate){
+                        var list = res.data.list;
+                    }else{
+                        if(res.data.list.length){
+                            var list = self.data.list;
+                            for(var i=0;i<res.data.list.length;i++){
+                                list.push(res.data.list[i]);
+                            }
+                            page = page + 1;
+                        }else{
+                            var list = self.data.list;
+                        }
+                    }
+
                     self.setData({
                         list:list,
+                        page:page
                     })
                 }
             });
@@ -62,27 +79,25 @@ Page({
         var self = this;
         var id = e.target.dataset.id;
         self.setData({
-            curNav:id
+            curNav:id,
         })
 
-        self.getlist(id);
+        self.getlist(id,1,true);
 
     },
-    onPageScroll:function(e){
-
+    onPageScroll:function(e){//分类导航
         if((!this.data.posNav)&&(e.scrollTop > 200)){
             this.setData({
                 posNav:true
             })
         }
-
         if((this.data.posNav)&&(e.scrollTop < 200)){
             this.setData({
                 posNav:false
             })
         }
-
-
-
+    },
+    onReachBottom:function () {
+        this.getlist(this.data.curNav,this.data.page,false);
     }
 })
