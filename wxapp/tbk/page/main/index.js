@@ -39,6 +39,18 @@ Page({
           });
 
     },
+    showdetail:function (e) {
+        wx.setStorage({
+            key:"tbk_item",
+            data:e.currentTarget.dataset.item,
+            success:function () {
+                wx.navigateTo({
+                    url: '/page/main/pages/detail/index'
+                })
+            }
+        })
+
+    },
     getlist:function(favorites_id,page,iscate){
         var self = this;
         wx.showLoading('加载中...');

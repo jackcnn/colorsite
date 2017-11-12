@@ -119,7 +119,7 @@ class IndexController extends BaseController
                 if($value['status']<1){
                     unset($list[$key]);
                 }else{
-                    $list[$key]['title'] = StringHelper::truncate($value['title'],25);
+                    $list[$key]['indexTitle'] = StringHelper::truncate($value['title'],25);
                 }
             }
             return $list;

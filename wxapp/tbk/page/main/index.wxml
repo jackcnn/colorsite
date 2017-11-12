@@ -17,12 +17,12 @@
 
 
     <view class="lister-container">
-        <view wx:for="{{list}}" class="lister">
+        <view wx:for="{{list}}" wx:key="{{this}}" bindtap="showdetail" class="lister" data-item="{{item}}">
             <view class="lister-img">
                 <image src="{{item.pict_url}}" mode="widthFix" lazy-load="true" class="image"></image>
             </view>
             <view class="lister-content">
-                <view class="title">{{item.title}}</view>
+                <view class="title">{{item.indexTitle}}</view>
                 <view class="desc">
                     <view class="reserve_price">现价￥{{item.reserve_price}}</view>
                     <view class="volume">月销{{item.volume}}件</view>
