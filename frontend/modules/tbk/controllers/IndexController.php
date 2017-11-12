@@ -38,11 +38,17 @@ class IndexController extends BaseController
 
         $category = $this->category();
 
-
-        $list = $this->getLists($category[1]['favorites_id']);
-
+        $list = $this->getLists($category[0]['favorites_id']);
 
         return $this->asJson(['list'=>$list,'category'=>$category]);
+    }
+
+    public function actionLists($favorites_id)
+    {
+        $list = $this->getLists($favorites_id);
+
+        return $this->asJson(['list'=>$list]);
+
     }
 
 
@@ -101,7 +107,6 @@ class IndexController extends BaseController
                     throw new \Exception('网络错误！');
                 }
             }
-
             foreach($list as $key=>$value){
                 if($value['status']<1){
                     unset($list[$key]);
@@ -109,7 +114,6 @@ class IndexController extends BaseController
                     $list[$key]['title'] = StringHelper::truncate($value['title'],25);
                 }
             }
-
             return $list;
         }catch (\Exception $e){
             return $e->getMessage();

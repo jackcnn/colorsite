@@ -6,12 +6,12 @@
   "window": {
     "navigationBarTextStyle": "withe",
     "navigationBarTitleText": "橙蓝点餐",
-    "navigationBarBackgroundColor": "#20A0FF",
-    "backgroundColor": "#20A0FF"
+    "navigationBarBackgroundColor": "#FF5500",
+    "backgroundColor": "#FF5500"
   },
   "tabBar": {
     "color": "#666666",
-    "selectedColor": "#20a0ff",
+    "selectedColor": "#FF5500",
     "borderStyle": "black",
     "backgroundColor": "#ffffff",
     "list": [{

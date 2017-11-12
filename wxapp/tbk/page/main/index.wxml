@@ -10,7 +10,7 @@
         </swiper>
     </view>
 
-    <scroll-view scroll-x class="category-container" scroll-into-view="{{'c'+curNav}}" scroll-with-animation>
+    <scroll-view scroll-x class="category-container {{posNav?'posNav':''}}" scroll-into-view="{{'c'+curNav}}" scroll-with-animation>
         <view wx:for="{{category}}" bindtap="selectCategory" id="c{{item.favorites_id}}" data-id="{{item.favorites_id}}" class="category {{curNav==item.favorites_id?'active':''}}">{{item.favorites_title}}</view>
     </scroll-view>
 
@@ -29,12 +29,12 @@
                 </view>
                 <view class="desc">
                     <view class="label">劵后价￥</view>
-                    <view>{{item.zk_final_price}}</view>
+                    <view class="final-price">{{item.zk_final_price}}</view>
                 </view>
-                <view class="desc">
-                    <view class="coupon-value">{{item.coupon_info}}</view>
-                    <view>{{item.coupon_total_count}}</view>
-                    <view>{{item.coupon_remain_count}}</view>
+                <view wx:if="{{item.coupon_remain_count&&item.coupon_total_count}}" class="desc coupon-desc">
+                    <view class="coupon-total"></view>
+                    <view wx:if="{{item.coupon_total_count-item.coupon_remain_count}}" style="width: {{(item.coupon_total_count-item.coupon_remain_count)/item.coupon_total_count*100}}%;" class="coupon-remain"></view>
+                    <view class="coupon-msg">券  |  余{{item.coupon_remain_count}}张</view>
                 </view>
             </view>
         </view>

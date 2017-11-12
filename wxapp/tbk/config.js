@@ -9,8 +9,10 @@ var config = {
     host,
     //登陆
     openIdUrl: `${host}/tbk/index/login.html`,
-    // 获取菜单
+    // 第一次获取菜单和列表
     getIndex: `${host}/tbk/index/index.html`,
+    //获取列表
+    getLists: `${host}/tbk/index/lists.html`,
 
 };
 
