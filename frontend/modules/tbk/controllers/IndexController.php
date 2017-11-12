@@ -105,8 +105,9 @@ class IndexController extends BaseController
             foreach($list as $key=>$value){
                 if($value['status']<1){
                     unset($list[$key]);
+                }else{
+                    $list[$key]['title'] = StringHelper::truncate($value['title'],25);
                 }
-                $list[$key]['title'] = StringHelper::truncate($value['title'],20);
             }
 
             return $list;

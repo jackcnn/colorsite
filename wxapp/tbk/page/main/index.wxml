@@ -10,9 +10,35 @@
         </swiper>
     </view>
 
-
-    <scroll-view scroll-x class="category-container" style="width: 100%;">
-        <view wx:for="{{category}}" data-id="{{item.favorites_id}}" class="category">{{item.favorites_title}}</view>
+    <scroll-view scroll-x class="category-container" scroll-into-view="{{'c'+curNav}}" scroll-with-animation>
+        <view wx:for="{{category}}" bindtap="selectCategory" id="c{{item.favorites_id}}" data-id="{{item.favorites_id}}" class="category {{curNav==item.favorites_id?'active':''}}">{{item.favorites_title}}</view>
     </scroll-view>
+
+
+
+    <view class="lister-container">
+        <view wx:for="{{list}}" class="lister">
+            <view class="lister-img">
+                <image src="{{item.pict_url}}" mode="widthFix" lazy-load="true" class="image"></image>
+            </view>
+            <view class="lister-content">
+                <view class="title">{{item.title}}</view>
+                <view class="desc">
+                    <view class="reserve_price">现价￥{{item.reserve_price}}</view>
+                    <view class="volume">月销{{item.volume}}件</view>
+                </view>
+                <view class="desc">
+                    <view class="label">劵后价￥</view>
+                    <view>{{item.zk_final_price}}</view>
+                </view>
+                <view class="desc">
+                    <view class="coupon-value">{{item.coupon_info}}</view>
+                    <view>{{item.coupon_total_count}}</view>
+                    <view>{{item.coupon_remain_count}}</view>
+                </view>
+            </view>
+        </view>
+
+    </view>
 
 </view>

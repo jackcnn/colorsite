@@ -1,3 +1,6 @@
+page{
+    background-color: #fff;
+}
 .category-container{
     height:90rpx;
     background: #ffffff;
@@ -9,4 +12,64 @@
     height: 90rpx;
     line-height:90rpx;
     padding:0rpx 50rpx;
+    box-sizing: border-box;
+}
+.category.active{
+    border-bottom:5rpx solid #ff5500;
+    color: #ff5500;
+}
+.lister-container{
+    width: 100%;
+    overflow: hidden;
+    padding:0rpx 15rpx;
+    padding-bottom:100rpx;
+    box-sizing: border-box;
+}
+
+.lister:last-child{
+    border-bottom:none;
+}
+
+.lister{
+    width: 100%;
+    overflow: hidden;
+    margin-top:15rpx;
+    border-bottom:2rpx solid #e6e6e6;
+}
+.lister-img{
+    width:35%;
+    float: left;
+}
+.lister-img .image{
+    width:100%;
+}
+.lister-content{
+    width:63%;
+    float: right;
+    box-sizing: border-box;
+}
+
+.lister-content view{
+    display: block;
+    width:100%;
+}
+.lister-content .title{
+    height: 100rpx;
+    width:100%;
+    line-height:50rpx;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    color: #666666;
+}
+.desc .reserve_price{
+    float: left;
+    color: #e6e6e6;
+    width:50%;
+    font-size:25rpx;
+}
+.desc .volume{
+    float: right;
+    color: #e6e6e6;
+    width:50%;
+    font-size:25rpx;
 }

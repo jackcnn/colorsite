@@ -8,7 +8,8 @@ Page({
           '../../../image/wechatHL.png'
       ],
       list:[],
-      category:[]
+      category:[],
+      curNav:0,
   },
   onLoad:function(params)
   {
@@ -25,15 +26,15 @@ Page({
                     wx.hideLoading();
                     var category = res.data.category;
 
-                    if(res.data.list.length > 1){
-                        var list = res.data.list;
-                    }else{
-                        var list = [];
-                    }
+                    var list = res.data.list;
+
+
+                    console.log(res.data.list)
 
                     self.setData({
                         category:category,
-                        list:list
+                        list:list,
+                        curNav:category[0].favorites_id
                     })
 
                 }
@@ -41,4 +42,14 @@ Page({
         });
 
     },
+    selectCategory:function (e) {
+        var self = this;
+        var id = e.target.dataset.id;
+
+        self.setData({
+            curNav:id
+        })
+
+
+    }
 })
