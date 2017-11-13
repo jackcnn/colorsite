@@ -61,7 +61,7 @@ class TaobaokeApiHelper
 
 
 
-    public static function taokoulin($url,$title='粉丝优惠')
+    public static function taokoulin($url,$title='粉丝优惠来啦')
     {
         include "TopSdk.php";
         $c = new \TopClient;
