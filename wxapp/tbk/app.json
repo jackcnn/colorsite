@@ -22,9 +22,9 @@
       "text": "首页"
     }, {
       "pagePath": "page/user/index",
-      "iconPath": "image/user.png",
-      "selectedIconPath": "image/user_HL.png",
-      "text": "我的"
+      "iconPath": "image/coopration.png",
+      "selectedIconPath": "image/coopration_HL.png",
+      "text": "合作"
     }]
   },
   "networkTimeout": {

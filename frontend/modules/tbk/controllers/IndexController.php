@@ -7,6 +7,7 @@
  */
 
 namespace frontend\modules\tbk\controllers;
+use Codeception\Codecept;
 use phpDocumentor\Reflection\Types\String_;
 use Yii;
 use frontend\controllers\BaseController;
@@ -17,6 +18,7 @@ use yii\helpers\StringHelper;
 use yii\helpers\Url;
 use yii\helpers\ArrayHelper;
 use common\vendor\taobaoke\TaobaokeApiHelper;
+use common\models\Baoming;
 
 class IndexController extends BaseController
 {
@@ -70,7 +72,52 @@ class IndexController extends BaseController
 
         $asJson['success'] = true;
         try{
-            $asJson['data'] = TaobaokeApiHelper::taokoulin(urldecode($url));
+            $res = TaobaokeApiHelper::taokoulin(urldecode($url));
+            $res = ArrayHelper::toArray($res);
+            if(isset($res['data']['model'])){
+                $asJson['data'] = $res['data']['model'];
+            }else{
+                throw new \Exception($res['sub_msg']);
+            }
+        }catch (\Exception $e){
+            $asJson['success'] = false;
+            $asJson['msg'] = $e->getMessage();
+        }
+        return $this->asJson($asJson);
+    }
+
+
+    //信息提交
+    public function actionSubmit()
+    {
+        $asJson['success'] = true;
+        try{
+          $tel = \Yii::$app->request->post("tel");
+          $ways = \Yii::$app->request->post("ways");
+          $desc  = \Yii::$app->request->post("desc");
+          $openid = \Yii::$app->request->post("openid");
+
+            $check = Baoming::find()->where(['tel'=>$tel])
+                ->andWhere(['>',"created_at",time()-3600])->count();
+            if($check){
+                throw new \Exception('手机号已提交过了');
+            }
+            $check1 = Baoming::find()->where(['ip'=>$openid])
+                ->andWhere(['>',"created_at",time()-3600])->count();
+            if($check1){
+                throw new \Exception('操作过于频繁');
+            }
+
+            $model = new Baoming();
+            $model->name = "tbk-submit";
+            $model->tel = $tel;
+            $model->func = json_encode(['ways'=>$ways,'desc'=>$desc]);
+            $model->ip= $openid;
+            if($model->validate() && $model->save()){
+                $asJson['msg'] = '提交成功！';
+            }else{
+                $asJson['msg'] = current($model->getFirstErrors());
+            }
         }catch (\Exception $e){
             $asJson['success'] = false;
             $asJson['msg'] = $e->getMessage();

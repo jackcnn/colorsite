@@ -3,8 +3,8 @@
  */
 
 
-var host = "https://326108993.com";
-    // var host = "http://colorsite.com";
+// var host = "https://326108993.com";
+    var host = "http://colorsite.com";
 var config = {
     host,
     //登陆
@@ -15,6 +15,9 @@ var config = {
     getLists: `${host}/tbk/index/lists.html`,
     //获取淘宝客讨口林
     getKoulin: `${host}/tbk/index/koulin.html`,
+    //提交信息
+    submit: `${host}/tbk/index/submit.html`,
+
 
 };
 

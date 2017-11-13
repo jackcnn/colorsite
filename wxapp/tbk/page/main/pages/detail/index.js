@@ -4,6 +4,7 @@ Page({
     data:{
         item: {},
         detail_images:{},
+        koulin:'',
     },
     onLoad:function()
     {
@@ -21,6 +22,25 @@ Page({
     },
     submit:function () {
         var self = this ;
+
+        if(self.data.koulin.length){
+            wx.setClipboardData({
+                data: self.data.koulin,
+                success: function(res) {
+                    wx.showModal({
+                        title: '提示',
+                        showCancel:false,
+                        confirmText:'我知道啦',
+                        confirmColor:'#ff5500',
+                        content: '口令已复制，打开手机淘宝即可购买！',
+                        success: function(res) {
+                        }
+                    });
+                }
+            })
+            return;
+        }
+
         wx.showLoading('加载中...');
         if(self.data.item.coupon_click_url){
             var url = self.data.item.coupon_click_url;
@@ -37,23 +57,30 @@ Page({
             },
             success: function(res) {
                 wx.hideLoading();
+                if(res.data.success){
+                    var data = res.data.data;
+
+                    self.setData({
+                        koulin:data
+                    })
+
+                    wx.setClipboardData({
+                        data: data,
+                        success: function(res) {
+                            wx.showModal({
+                                title: '提示',
+                                showCancel:false,
+                                confirmText:'我知道啦',
+                                confirmColor:'#ff5500',
+                                content: '口令已复制，打开手机淘宝即可购买！',
+                                success: function(res) {
+                                }
+                            });
+                        }
+                    })
+                }
             }
         });
-
-
-
-
-        // wx.setClipboardData({
-        //     data: data,
-        //     success: function(res) {
-        //         wx.showModal({
-        //             title: '提示',
-        //             content: '这是一个模态弹窗',
-        //             success: function(res) {
-        //             }
-        //         })
-        //     }
-        // })
     },
     loadImg:function (e) {
         this.setData({
