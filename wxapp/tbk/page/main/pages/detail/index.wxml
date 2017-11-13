@@ -1,18 +1,31 @@
 <view class="container">
     <view class="swiper-container">
-        <swiper indicator-dots="{{true}}" autoplay="{{true}}">
+        <swiper indicator-dots="{{true}}" autoplay="{{true}}" style="height: {{swiperHeight}}rpx;">
             <block wx:for="{{item.small_images}}" wx:for-item="ss">
                 <swiper-item>
-                    <image src="{{ss}}" class="slide-image" mode="widthFix"/>
+                    <image  bindload="loadImg" src="{{ss}}" class="slide-image" mode="widthFix"/>
                 </swiper-item>
             </block>
         </swiper>
     </view>
     <view class="content">
         <view class="title">{{item.title}}</view>
+        <view class="desc">
+            <view class="reserve_price">现价￥{{item.reserve_price}}</view>
+            <view class="volume">月销{{item.volume}}件</view>
+        </view>
+        <view class="desc">
+            <view class="label">劵后价￥</view>
+            <view class="final-price">{{item.zk_final_price}}</view>
+        </view>
+    </view>
 
+    <!--<view class="images-content">-->
+        <!--<view class="load-more">点击加载商品图文详情</view>-->
 
+    <!--</view>-->
 
-
+    <view bindtap="submit" class="footer">
+        优惠购买
     </view>
 </view>

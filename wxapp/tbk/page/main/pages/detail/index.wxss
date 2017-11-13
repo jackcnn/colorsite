@@ -1,8 +1,13 @@
 page{
-    background-color: #fff;
+    /*background-color: #EFF2F7;*/
+    background-color: #ffffff;
 }
+
 .slide-image{
     width:100%;
+}
+.container{
+    padding-bottom:180rpx;
 }
 .content{
     display: block;
@@ -10,12 +15,79 @@ page{
     overflow: hidden;
     padding:0rpx 15rpx;
     box-sizing: border-box;
+    background: #ffffff;
+    border-bottom:2rpx solid #e6e6e6;
 }
 .title{
     width:100%;
     color: rgb(48, 57, 66);
-    line-height: 60rpx;
-    font-size:40rpx;
+    line-height:50rpx;
     padding:35rpx 0rpx;
-    border-bottom:2rpx solid #e6e6e6;
+    /*border-bottom:2rpx solid #e6e6e6;*/
+}
+.desc .reserve_price{
+    float: left;
+    color: #999999;
+    width:50%;
+    font-size:25rpx;
+}
+.desc .volume{
+    float: right;
+    color: #999999;
+    width:50%;
+    font-size:25rpx;
+}
+.desc .label{
+    display: inline-block;
+    color: #999999;
+    width:auto;
+    font-size:25rpx;
+}
+.desc .final-price{
+    display: inline-block;
+    font-weight: bolder;
+    font-size:45rpx;
+    /*color: rgb(48, 57, 66);*/
+    color:#ff5500;
+    font-weight: bold;
+    width:auto;
+}
+.images-content{
+    display: block;
+    width: 100%;
+    overflow: hidden;
+    padding:0rpx 15rpx;
+    box-sizing: border-box;
+    background: #ffffff;
+}
+.images-view{
+    display: block;
+    width:100%;
+}
+.images-view .images{
+    width:100%;
+    margin-top:5rpx;
+}
+.load-more{
+    display: block;
+    width:80%;
+    height:60rpx;
+    line-height:60rpx;
+    color: #303942;
+    text-align: center;
+    margin:35rpx auto;
+    background: #EFF2F7;
+}
+
+.footer{
+    position: fixed;
+    width:100%;
+    height:105rpx;
+    line-height:105rpx;
+    text-align: center;
+    color: #ffffff;
+    /*background-color: #ff5500;*/
+    background-color: rgba(255,85,0,.9);
+    bottom:0;
+    left:0;
 }

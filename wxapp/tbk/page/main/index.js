@@ -40,6 +40,7 @@ Page({
 
     },
     showdetail:function (e) {
+        wx.showLoading('加载中...');
         wx.setStorage({
             key:"tbk_item",
             data:e.currentTarget.dataset.item,

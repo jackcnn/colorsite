@@ -13,6 +13,8 @@ var config = {
     getIndex: `${host}/tbk/index/index.html`,
     //获取列表
     getLists: `${host}/tbk/index/lists.html`,
+    //获取淘宝客讨口林
+    getKoulin: `${host}/tbk/index/koulin.html`,
 
 };
 

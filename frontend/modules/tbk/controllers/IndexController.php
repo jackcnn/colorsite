@@ -60,6 +60,24 @@ class IndexController extends BaseController
 
     }
 
+    //通过链接获取图文详情
+    public function actionDetail($url){
+    }
+
+    //生成淘口令
+    public function actionKoulin($url)
+    {
+
+        $asJson['success'] = true;
+        try{
+            $asJson['data'] = TaobaokeApiHelper::taokoulin(urldecode($url));
+        }catch (\Exception $e){
+            $asJson['success'] = false;
+            $asJson['msg'] = $e->getMessage();
+        }
+        return $this->asJson($asJson);
+    }
+
 
     //获取分类，其实是淘宝联盟后台的选品库列表
     public function category($allow_cache=true)
@@ -86,8 +104,6 @@ class IndexController extends BaseController
             }
             return $category;
         }catch (\Exception $e){
-//            $asJson['success'] = false;
-//            $asJson['msg'] = $e->getMessage();
             return $e->getMessage();
         }
 
@@ -131,23 +147,7 @@ class IndexController extends BaseController
 
     }
 
-    public function detail($favorites_id,$num_iid)
-    {
-        $asJson['success'] = true;
-        try{
-            $cache = \Yii::$app->filecache;
-            $list = $cache->get('tkapi_list_'.$favorites_id);
-            $list = json_decode($list,1);
 
-            $data = $list[$num_iid];
-            $asJson['data'] = $data;
-        }catch (\Exception $e){
-            $asJson['success'] = false;
-            $asJson['msg'] = $e->getMessage();
-        }
-        return $this->asJson($asJson);
-
-    }
 
 
 }

@@ -16,6 +16,8 @@ class TaobaokeApiHelper
 
     public static $adzone_id="147956443";//推广位id
 
+    public static $userId = "124102488";//淘宝卡账户ID
+
     public static function getlist($favorites_id,$page=1,$platform=2,$pageSize=20)
     {
         include "TopSdk.php";
@@ -58,43 +60,18 @@ class TaobaokeApiHelper
     }
 
 
-    public static function getlist111()
-    {
-        include "TopSdk.php";
-         $c = new \TopClient;
-        $c->appkey = self::$appkey;
-        $c->secretKey = self::$secret;
-        $req = new \TbkItemGetRequest;
-        $req->setFields("num_iid,title,pict_url,small_images,reserve_price,zk_final_price,user_type,provcity,item_url,seller_id,volume,nick");
-        $req->setQ("女装尖货");
-//        $req->setCat("16,18");
-//        $req->setItemloc("杭州");
-//        $req->setSort("tk_rate_des");
-//        $req->setIsTmall("false");
-//        $req->setIsOverseas("false");
-//        $req->setStartPrice("10");
-//        $req->setEndPrice("10");
-//        $req->setStartTkRate("123");
-//        $req->setEndTkRate("123");
-        $req->setPlatform("1");
-//        $req->setPageNo("123");
-//        $req->setPageSize("20");
-        $resp = $c->execute($req);
-        return $resp;
 
-    }
-
-    public static function taokoulin()
+    public static function taokoulin($url,$title='粉丝优惠')
     {
         include "TopSdk.php";
         $c = new \TopClient;
         $c->appkey = self::$appkey;
         $c->secretKey = self::$secret;
         $req = new \TbkTpwdCreateRequest;
-        $req->setUserId("124102488");
-        $req->setText("有汇聚的优惠来啦");
-        $req->setUrl("https://item.taobao.com/item.htm?id=560240344400");
-//        $req->setLogo("https://326108993.com/uploads/00001/201710/ec767bd83519bb1204f951a1c03256b5.jpg");
+        $req->setUserId(self::$userId);
+        $req->setText($title);
+        $req->setUrl($url);
+        $req->setLogo("https://326108993.com/uploads/00001/201710/ec767bd83519bb1204f951a1c03256b5.jpg");
         $resp = $c->execute($req);
         return $resp;
     }
