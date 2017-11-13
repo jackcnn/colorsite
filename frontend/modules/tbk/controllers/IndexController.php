@@ -40,6 +40,7 @@ class IndexController extends BaseController
 
         $list = $this->getLists($category[0]['favorites_id']);
 
+//        ColorHelper::dump($list);
         if(!is_array($list)){
             $list =[];
         }
@@ -120,6 +121,7 @@ class IndexController extends BaseController
                     unset($list[$key]);
                 }else{
                     $list[$key]['indexTitle'] = StringHelper::truncate($value['title'],25);
+                    $list[$key]['small_images'] = $value['small_images']['string'];
                 }
             }
             return $list;

@@ -1,6 +1,9 @@
 page{
     background-color: #fff;
 }
+.slide-image{
+    width:100%;
+}
 .category-container{
     height:90rpx;
     background: #ffffff;

@@ -7,19 +7,14 @@ Page({
     onLoad:function()
     {
         var self = this;
-
         wx.getStorage({
             key: 'tbk_item',
             success: function(res) {
+                console.log(res.data)
                 self.setData({
                     item:res.data
-                })
+                });
             }
-        })
-
-
-
-
+        });
     },
-
 })

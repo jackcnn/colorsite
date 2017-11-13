@@ -1,7 +1,18 @@
 <view class="container">
-    <view class="mch-title">
-            <view>{{item.title}}</view>
+    <view class="swiper-container">
+        <swiper indicator-dots="{{true}}" autoplay="{{true}}">
+            <block wx:for="{{item.small_images}}" wx:for-item="ss">
+                <swiper-item>
+                    <image src="{{ss}}" class="slide-image" mode="widthFix"/>
+                </swiper-item>
+            </block>
+        </swiper>
     </view>
+    <view class="content">
+        <view class="title">{{item.title}}</view>
 
 
+
+
+    </view>
 </view>

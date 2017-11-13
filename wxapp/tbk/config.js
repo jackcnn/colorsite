@@ -4,7 +4,7 @@
 
 
 var host = "https://326108993.com";
-//     var host = "http://colorsite.com";
+    // var host = "http://colorsite.com";
 var config = {
     host,
     //登陆
