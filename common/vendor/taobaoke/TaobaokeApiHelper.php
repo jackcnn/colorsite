@@ -61,7 +61,7 @@ class TaobaokeApiHelper
 
 
 
-    public static function taokoulin($url,$title='粉丝优惠来啦')
+    public static function taokoulin($url,$title='淘易淘小程序，粉丝优惠来啦')
     {
         include "TopSdk.php";
         $c = new \TopClient;
@@ -71,7 +71,7 @@ class TaobaokeApiHelper
         $req->setUserId(self::$userId);
         $req->setText($title);
         $req->setUrl($url);
-        $req->setLogo("https://326108993.com/uploads/00001/201710/ec767bd83519bb1204f951a1c03256b5.jpg");
+        //$req->setLogo("https://326108993.com/uploads/00001/201710/ec767bd83519bb1204f951a1c03256b5.jpg");
         $resp = $c->execute($req);
         return $resp;
     }

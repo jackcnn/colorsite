@@ -59,9 +59,7 @@ Page({
                 wx.hideLoading();
                 if(res.data.success){
                     var data = res.data.data;
-                    var model = data.data.model;
-
-
+                    var model = data;
                     self.setData({
                         koulin:model
                     })
