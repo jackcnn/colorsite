@@ -108,7 +108,7 @@
 <div class="clipboard">
     <div class="tbk-clipboard" data-clipboard-text="sss">
         <div class="tbk-kl-title">sssss</div>
-        <div class="tbk-kl-msg">淘口令生成成功！点击复制到剪贴板后打开手机淘宝即可购买商品！</div>
+        <div class="tbk-kl-msg">淘口令生成成功！</div>
         <div class="tbk-kl-btn">复制到剪贴板</div>
     </div>
 </div>
@@ -131,7 +131,8 @@ $(function () {
         console.info('Trigger:', e.trigger);
         $(".clipboard").hide();
         e.clearSelection();
-        $.toptip('复制成功！', 'success');
+        $.alert("复制成功！打开手机淘宝即可领取优惠！");
+
     });
 
     clipboard.on('error', function(e) {
@@ -212,7 +213,7 @@ $(function () {
 
             var html='<div class="tbk-clipboard" data-clipboard-text="'+self.data('model')+'">\n' +
                 '        <div class="tbk-kl-title">'+self.data('model')+'</div>\n' +
-                '        <div class="tbk-kl-msg">淘口令生成成功！点击复制到剪贴板后打开手机淘宝即可购买商品！</div>\n' +
+                '        <div class="tbk-kl-msg">淘口令生成成功！</div>\n' +
                 '        <div class="tbk-kl-btn">复制到剪贴板</div>\n' +
                 '    </div>';
             $(".clipboard").html(html);
@@ -228,7 +229,7 @@ $(function () {
                 $.hideLoading();
                 var html='<div class="tbk-clipboard" data-clipboard-text="'+res.data+'">\n' +
                     '        <div class="tbk-kl-title">'+res.data+'</div>\n' +
-                    '        <div class="tbk-kl-msg">淘口令生成成功！点击复制到剪贴板后打开手机淘宝即可购买商品！</div>\n' +
+                    '        <div class="tbk-kl-msg">淘口令生成成功！</div>\n' +
                     '        <div class="tbk-kl-btn">复制到剪贴板</div>\n' +
                     '    </div>';
                 $(".clipboard").html(html);
