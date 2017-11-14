@@ -1,13 +1,14 @@
 var app = getApp();
 const getIndex = require('../../config').getIndex;
 const getLists = require('../../config').getLists;
+const host = require('../../config').host;
 
 
 Page({
   data:{
       imgUrls:[
-          '../../../image/banner1.png',
-          '../../../image/banner2.png'
+          host+'/uploads/tbk/image/banner1.png',
+          host+'/uploads/tbk/image/banner2.png'
       ],
       list:[],
       category:[],
