@@ -24,24 +24,36 @@ class HotSaleController extends BaseController
 {
     public $enableCsrfValidation = false;
 
+    public $limit=10;
 
-    public function actionIndex()
+    public function actionIndex($keyword='',$page=1)
     {
-
-
-        $list = Taobaolist::find()->limit(100)->orderBy("sale DESC")->asArray()->all();
-
+        $limit = $this->limit;
+        $list = Taobaolist::find()->offset(($page-1)*$limit)->limit($limit)
+            ->andFilterWhere(['like','title',$keyword])
+            ->orderBy("sale DESC")->asArray()->all();
 
         return $this->renderPartial("index",[
             'list'=>$list
         ]);
-
     }
+
+    public function actionLists($kw='',$page=1)
+    {
+        $limit = $this->limit;
+        $list = Taobaolist::find()->offset(($page-1)*$limit)->limit($limit)
+            ->andFilterWhere(['like','title',$kw])
+            ->orderBy("sale DESC")->asArray()->all();
+        echo $this->renderPartial("lists",[
+            'list'=>$list
+        ]);
+    }
+
+
 
     //生成淘口令
     public function actionKoulin($url)
     {
-
         $asJson['success'] = true;
         try{
             $res = TaobaokeApiHelper::taokoulin(urldecode($url));

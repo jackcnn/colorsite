@@ -20,7 +20,7 @@
     <link href="/assets/tbk/tbk-h5.css" rel="stylesheet">
 </head>
 <body>
-<div>
+<div id="main-body">
     <div class="tbk-search">
         <div class="weui-search-bar" id="searchBar">
             <form class="weui-search-bar__form">
@@ -49,21 +49,24 @@
 
     <div class="tbk-nav-container">
         <div class="tbk-nav-scroll">
-            <div class="tbk-nav-item active">男装</div>
-            <div class="tbk-nav-item">男装</div>
-            <div class="tbk-nav-item">男装</div>
-            <div class="tbk-nav-item">男装</div>
-            <div class="tbk-nav-item">男装</div>
-            <div class="tbk-nav-item">男装</div>
-            <div class="tbk-nav-item">男装</div>
-            <div class="tbk-nav-item">男装</div>
+            <div class="tbk-nav-item active">全网热销</div>
+            <div class="tbk-nav-item" data-kw="女装">女装</div>
+            <div class="tbk-nav-item" data-kw="女鞋">女鞋</div>
+            <div class="tbk-nav-item" data-kw="男装">男装</div>
+            <div class="tbk-nav-item" data-kw="男鞋">男鞋</div>
+            <div class="tbk-nav-item" data-kw="美容">美容</div>
+            <div class="tbk-nav-item" data-kw="运动">运动</div>
+            <div class="tbk-nav-item" data-kw="饰品">饰品</div>
+            <div class="tbk-nav-item" data-kw="孕妇">孕妇</div>
+            <div class="tbk-nav-item" data-kw="食品">食品</div>
+            <div class="tbk-nav-item" data-kw="玩具">玩具</div>
+            <div class="tbk-nav-item" data-kw="零食">零食</div>
         </div>
     </div>
 
     <div class="tbk-lister-container">
         <?php foreach($list as $key=>$value){?>
-
-            <a href="<?=$value['coupon_url']?>" class="tbk-lister" data-clickurl="<?=$value['click_url']?>" data-couponurl="<?=$value['coupon_url']?>">
+            <div class="tbk-lister" data-model="" data-clickurl="<?=$value['click_url']?>" data-couponurl="<?=$value['coupon_surl']?>">
                 <div class="tbk-lister-img">
                     <img src="<?=$value['main_pic']?>"  />
                 </div>
@@ -72,8 +75,8 @@
                         <?=$value['title']?>
                     </div>
                     <div class="tbk-lister-desc">
-                        <div class="tbk-lister-price">月销<?=$value['sale']?>件</div>
-                        <div class="tbk-lister-sale">优惠券：<?=$value['coupon_title']?></div>
+                        <div class="tbk-lister-price">优惠券：<?=$value['coupon_title']?></div>
+                        <div class="tbk-lister-sale">月销<?=$value['sale']?>件</div>
                     </div>
                     <div class="tbk-lister-final">
                         <div class="tbk-lister-final-price">商品价格￥<span><?=$value['price']?></span></div>
@@ -87,18 +90,18 @@
                         券时间：<?=$value['startime']?>至<?=$value['endtime']?>
                     </div>
                 </div>
-            </a>
-
+            </div>
         <?php }?>
+
+
     </div>
-
-
-
-
-
-
-
-
+    <div class="weui-loadmore" style="display: none;">
+        <i class="weui-loading"></i>
+        <span class="weui-loadmore__tips">正在加载</span>
+    </div>
+    <div class="tbk-loadmore">
+        点击加载更多
+    </div>
 
 </div>
 </body>
@@ -117,7 +120,83 @@ $(function () {
         }else{
             $(".tbk-nav-container").removeClass("fixed-nav");
         }
+
     })
+    var loading = false;  //状态标记
+    var page = 2;
+    var kw = '';
+    $(".tbk-loadmore").on("click",function () {
+        if(loading) return;
+        $(".weui-loadmore").show();
+        $(".tbk-loadmore").hide();
+        loading = true;
+        $.get("<?=\yii\helpers\Url::to(['/tbk/hot-sale/lists'])?>",{
+            page:page,
+            kw:kw
+        },function (data) {
+            if(data){
+                $(".weui-loadmore").hide();
+                $(".tbk-loadmore").show();
+                $(".tbk-lister-container").append(data);
+                loading = false;
+                page = page+1;
+            }else{
+                $(".weui-loadmore").hide();
+                $(".tbk-loadmore").hide();
+            }
+        })
+    })
+
+
+    $(".tbk-nav-item").on("click",function () {
+        if(loading) return;
+
+        $(".tbk-lister-container").html('');
+        page =1;
+        kw = $(this).data("kw");
+
+        $(".tbk-nav-item").removeClass("active");
+        $(this).addClass("active")
+        $(".weui-loadmore").show();
+        $(".tbk-loadmore").hide();
+        loading = true;
+        $.get("<?=\yii\helpers\Url::to(['/tbk/hot-sale/lists'])?>",{
+            page:page,
+            kw:kw
+        },function (data) {
+            if(data){
+                $(".weui-loadmore").hide();
+                $(".tbk-loadmore").show();
+                $(".tbk-lister-container").append(data);
+                loading = false;
+                page = page+1;
+            }else{
+                $(".weui-loadmore").hide();
+                $(".tbk-loadmore").hide();
+            }
+        })
+    })
+
+
+    $(document).on("click",".tbk-lister",function () {
+        var self = $(this);
+        if(self.data('model')){
+            console.log(self.data('model'));
+            window.clipboardData.setData("Text",self.data('model'));
+        }else{
+            $.showLoading('生成中...');
+
+            $.get("<?=\yii\helpers\Url::to(['/tbk/hot-sale/koulin'])?>",{
+                url:self.data("couponurl"),
+            },function (res) {
+                self.data("model",res.data);
+                $.hideLoading();
+            })
+        }
+    })
+
+
+
 })
 </script>
 </html>
