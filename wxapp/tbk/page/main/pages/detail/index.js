@@ -59,13 +59,15 @@ Page({
                 wx.hideLoading();
                 if(res.data.success){
                     var data = res.data.data;
+                    var model = data.data.model;
+
 
                     self.setData({
-                        koulin:data
+                        koulin:model
                     })
 
                     wx.setClipboardData({
-                        data: data,
+                        data: model,
                         success: function(res) {
                             wx.showModal({
                                 title: '提示',
@@ -81,6 +83,22 @@ Page({
                 }
             }
         });
+    },
+    onShareAppMessage: function (res) {
+        if (res.from === 'button') {
+            // 来自页面内转发按钮
+            console.log(res.target)
+        }
+        return {
+            title: '淘宝天猫内部优惠券，每日更新，速度来抢！',
+            path: '/page/main/index',
+            success: function(res) {
+                // 转发成功
+            },
+            fail: function(res) {
+                // 转发失败
+            }
+        }
     },
     loadImg:function (e) {
         this.setData({

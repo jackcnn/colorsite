@@ -6,8 +6,8 @@ const getLists = require('../../config').getLists;
 Page({
   data:{
       imgUrls:[
-          '../../../image/wechat.png',
-          '../../../image/wechatHL.png'
+          '../../../image/banner1.png',
+          '../../../image/banner2.png'
       ],
       list:[],
       category:[],
@@ -97,6 +97,22 @@ Page({
 
         self.getlist(id,1,true);
 
+    },
+    onShareAppMessage: function (res) {
+        if (res.from === 'button') {
+            // 来自页面内转发按钮
+            console.log(res.target)
+        }
+        return {
+            title: '淘宝天猫内部优惠券，每日更新，速度来抢！',
+            path: '/page/main/index',
+            success: function(res) {
+                // 转发成功
+            },
+            fail: function(res) {
+                // 转发失败
+            }
+        }
     },
     onPageScroll:function(e){//分类导航
         if((!this.data.posNav)&&(e.scrollTop > 200)){
