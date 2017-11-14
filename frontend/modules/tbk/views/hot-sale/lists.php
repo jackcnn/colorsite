@@ -7,7 +7,7 @@
  */
 ?>
 <?php foreach($list as $key=>$value){?>
-    <div class="tbk-lister" data-clickurl="<?=$value['click_url']?>" data-couponurl="<?=$value['coupon_surl']?>">
+    <div class="tbk-lister" data-clickurl="<?=$value['click_url']?>"  data-model="" data-couponurl="<?=$value['coupon_surl']?>">
         <div class="tbk-lister-img">
             <img src="<?=$value['main_pic']?>"  />
         </div>

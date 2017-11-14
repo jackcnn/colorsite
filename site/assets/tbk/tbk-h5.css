@@ -140,5 +140,42 @@
     margin-left:5%;
     font-size:14px;
     color: #ffffff;
-
+}
+.clipboard{
+    display: none;
+    width:100%;
+    height:100%;
+    background-color: rgba(0,0,0,.6);
+    position: fixed;
+    left:0;
+    z-index:99999;
+    bottom:0;
+    text-align: center;
+}
+.clipboard .tbk-clipboard{
+    display: block;
+    text-align: center;
+    background-color: #fff;
+    width:80%;
+    margin-left:10%;
+    margin-top:75%;
+}
+.tbk-clipboard .tbk-kl-title{
+    font-size: 18px;
+    font-weight: bold;
+    color: #ff5500;
+    padding:15px 0px;
+}
+.tbk-clipboard .tbk-kl-msg{
+    font-size: 18px;
+    font-weight: bold;
+    color: #ff5500;
+    padding:5px 0px;
+}
+.tbk-clipboard .tbk-kl-btn{
+    font-size: 18px;
+    font-weight: bold;
+    color: #ff5500;
+    padding:15px 0px;
+    border-top:1px solid #e6e6e6;
 }

@@ -104,15 +104,41 @@
     </div>
 
 </div>
+
+<div class="clipboard">
+    <div class="tbk-clipboard" data-clipboard-text="sss">
+        <div class="tbk-kl-title">sssss</div>
+        <div class="tbk-kl-msg">淘口令生成成功！点击复制到剪贴板后打开手机淘宝即可购买商品！</div>
+        <div class="tbk-kl-btn">复制到剪贴板</div>
+    </div>
+</div>
+
 </body>
 <script src="/assets/jquery.js"></script>
 <script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/jquery-weui.min.js"></script>
 <script src="//cdn.bootcss.com/jquery-weui/1.0.1/js/swiper.min.js"></script>
 <script src="https://cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js"></script>
+<script src="https://cdn.bootcss.com/clipboard.js/1.5.16/clipboard.min.js"></script>
 <script>
 $(function () {
     FastClick.attach(document.body);
-    $(".swiper-container").swiper();
+
+    clipboard = new Clipboard('.tbk-clipboard');
+
+    clipboard.on('success', function(e) {
+        console.info('Action:', e.action);
+        console.info('Text:', e.text);
+        console.info('Trigger:', e.trigger);
+        $(".clipboard").hide();
+        e.clearSelection();
+        $.toptip('复制成功！', 'success');
+    });
+
+    clipboard.on('error', function(e) {
+        console.error('Action:', e.action);
+        console.error('Trigger:', e.trigger);
+    });
+
     var navFixed = false;
     $(document).on("scroll",function (e) {
         if($("body").scrollTop()>200){
@@ -178,11 +204,20 @@ $(function () {
     })
 
 
+    //clipboard-text
     $(document).on("click",".tbk-lister",function () {
+        console.log(123123)
         var self = $(this);
         if(self.data('model')){
-            console.log(self.data('model'));
-            window.clipboardData.setData("Text",self.data('model'));
+
+            var html='<div class="tbk-clipboard" data-clipboard-text="'+self.data('model')+'">\n' +
+                '        <div class="tbk-kl-title">'+self.data('model')+'</div>\n' +
+                '        <div class="tbk-kl-msg">淘口令生成成功！点击复制到剪贴板后打开手机淘宝即可购买商品！</div>\n' +
+                '        <div class="tbk-kl-btn">复制到剪贴板</div>\n' +
+                '    </div>';
+            $(".clipboard").html(html);
+            $(".clipboard").show();
+
         }else{
             $.showLoading('生成中...');
 
@@ -191,10 +226,19 @@ $(function () {
             },function (res) {
                 self.data("model",res.data);
                 $.hideLoading();
+                var html='<div class="tbk-clipboard" data-clipboard-text="'+res.data+'">\n' +
+                    '        <div class="tbk-kl-title">'+res.data+'</div>\n' +
+                    '        <div class="tbk-kl-msg">淘口令生成成功！点击复制到剪贴板后打开手机淘宝即可购买商品！</div>\n' +
+                    '        <div class="tbk-kl-btn">复制到剪贴板</div>\n' +
+                    '    </div>';
+                $(".clipboard").html(html);
+                $(".clipboard").show();
             })
         }
     })
 
+
+    $(".swiper-container").swiper();
 
 
 })
