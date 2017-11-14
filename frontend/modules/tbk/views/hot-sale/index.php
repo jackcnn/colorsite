@@ -12,7 +12,7 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title></title>
+    <title>淘宝天猫内部优惠发放平台</title>
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
     <link rel="stylesheet" type="text/css" href="/assets/reset.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
