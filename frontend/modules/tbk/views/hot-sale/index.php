@@ -132,12 +132,12 @@ $(function () {
         $(".clipboard").hide();
         e.clearSelection();
         $.alert("复制成功！打开手机淘宝即可领取优惠！");
-
     });
 
     clipboard.on('error', function(e) {
         console.error('Action:', e.action);
         console.error('Trigger:', e.trigger);
+        $.alert("复制失败...请手动选择口令复制！");
     });
 
     var navFixed = false;
