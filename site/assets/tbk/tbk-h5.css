@@ -1,0 +1,91 @@
+*{
+    box-sizing: border-box;
+}
+.swiper-slide, .swiper-wrapper{
+    height:auto;
+}
+.swiper-pagination-bullet-active{
+    background-color: #ff5500;
+}
+.weui-search-bar__box{
+    height:auto;
+}
+.weui-search-bar__cancel-btn{
+    color: #ff5500;
+}
+.swiper-slide img{
+    display: block;
+    width: 100%;
+}
+.tbk-banner{
+    width: 100%;
+    height:auto;
+}
+.tbk-nav-container{
+    display: block;
+    width:100%;
+    height:45px;
+    overflow: hidden;
+    white-space: nowrap;
+    line-height: 45px;
+}
+.tbk-nav-scroll{
+    display: block;
+    width: 100%;
+    height: 50px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+}
+.tbk-nav-scroll .tbk-nav-item{
+    display: inline-block;
+    padding:0px 15px;
+    height:45px;
+}
+.tbk-nav-scroll .tbk-nav-item.active{
+    border-bottom:2px solid #ff5500;
+}
+
+.tbk-lister-container{
+    display: block;
+    width: 100%;
+    padding:10px 10px;
+}
+.tbk-lister{
+    display: block;
+    overflow: hidden;
+    border-bottom:1px solid #e6e6e6;
+    color: rgb(48, 57, 66);
+    padding:10px 0px;
+}
+.tbk-lister .tbk-lister-img{
+    display: block;
+    width:35%;
+    float: left;
+}
+.tbk-lister .tbk-lister-img img{
+    display: block;
+    width:100%;
+}
+.tbk-lister-content{
+    display: block;
+    width: 64%;
+    float: right;
+}
+.tbk-lister-desc,tbk-lister-final{
+    width: 100%;
+}
+.tbk-lister-desc .tbk-lister-price,.tbk-lister-desc .tbk-lister-sale{
+    width:50%;
+    float: left;
+    color: #999999;
+    font-size: 14px;
+}
+.tbk-lister-final .tbk-lister-final-price{
+    color: #999999;
+    font-size: 14px;
+}
+.tbk-lister-final .tbk-lister-final-price span{
+    color: rgb(48, 57, 66);
+    font-size: 25px;
+    font-weight: bold;
+}
