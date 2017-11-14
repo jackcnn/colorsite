@@ -78,6 +78,14 @@
                     <div class="tbk-lister-final">
                         <div class="tbk-lister-final-price">券后价￥<span>3234</span></div>
                     </div>
+                    <div class="tbk-lister-desc" style="position: relative;">
+                        <div class="tbk-slide-bg"></div>
+                        <div class="tbk-slide-cover" style="width: 15%;"></div>
+                        <div class="tbk-slide-title">券| 余15478568张</div>
+                    </div>
+                    <div class="tbk-lister-mark">
+                        优惠券结束时间：2017-11-25
+                    </div>
                 </div>
             </div>
 
