@@ -8,6 +8,7 @@
 
 namespace frontend\modules\tbk\controllers;
 use Codeception\Codecept;
+use common\models\Taobaolist;
 use phpDocumentor\Reflection\Types\String_;
 use Yii;
 use frontend\controllers\BaseController;
@@ -28,7 +29,12 @@ class HotSaleController extends BaseController
     {
 
 
-        return $this->renderPartial("index");
+        $list = Taobaolist::find()->limit(100)->orderBy("sale DESC")->asArray()->all();
+
+
+        return $this->renderPartial("index",[
+            'list'=>$list
+        ]);
 
     }
 

@@ -87,4 +87,10 @@ class TaobaoApiController extends BaseController
         }
         return $this->asJson($asJson);
     }
+
+
+
+    public function actionExcel(){
+
+    }
 }

@@ -61,33 +61,33 @@
     </div>
 
     <div class="tbk-lister-container">
-        <?php for($i=0;$i<20;$i++){?>
+        <?php foreach($list as $key=>$value){?>
 
-            <div class="tbk-lister">
+            <a href="<?=$value['coupon_url']?>" class="tbk-lister" data-clickurl="<?=$value['click_url']?>" data-couponurl="<?=$value['coupon_url']?>">
                 <div class="tbk-lister-img">
-                    <img src="http://img4.tbcdn.cn/tfscom/i2/680891391/TB2SR1ZnS3PL1JjSZFxXXcBBVXa_!!680891391.jpg"  />
+                    <img src="<?=$value['main_pic']?>"  />
                 </div>
                 <div class="tbk-lister-content">
                     <div class="tbk-lister-title">
-                        2017秋冬新款韩版chic短裙不规则A字裙高腰包2017秋冬新款韩版chic短裙不规则A字裙高腰包...
+                        <?=$value['title']?>
                     </div>
                     <div class="tbk-lister-desc">
-                        <div class="tbk-lister-price">现价￥193.00</div>
-                        <div class="tbk-lister-sale">月销量19999件</div>
+                        <div class="tbk-lister-price">月销<?=$value['sale']?>件</div>
+                        <div class="tbk-lister-sale">优惠券：<?=$value['coupon_title']?></div>
                     </div>
                     <div class="tbk-lister-final">
-                        <div class="tbk-lister-final-price">券后价￥<span>3234</span></div>
+                        <div class="tbk-lister-final-price">商品价格￥<span><?=$value['price']?></span></div>
                     </div>
                     <div class="tbk-lister-desc" style="position: relative;">
                         <div class="tbk-slide-bg"></div>
-                        <div class="tbk-slide-cover" style="width: 15%;"></div>
-                        <div class="tbk-slide-title">券| 余15478568张</div>
+                        <div class="tbk-slide-cover" style="width:<?=(($value['coupon_total']-$value['coupon_remain'])/$value['coupon_total']*100)?>%;"></div>
+                        <div class="tbk-slide-title">券| 余<?=$value['coupon_remain']?>张</div>
                     </div>
                     <div class="tbk-lister-mark">
-                        优惠券结束时间：2017-11-25
+                        券时间：<?=$value['startime']?>至<?=$value['endtime']?>
                     </div>
                 </div>
-            </div>
+            </a>
 
         <?php }?>
     </div>
@@ -109,7 +109,15 @@
 <script>
 $(function () {
     FastClick.attach(document.body);
-    $(".swiper-container").swiper()
+    $(".swiper-container").swiper();
+    var navFixed = false;
+    $(document).on("scroll",function (e) {
+        if($("body").scrollTop()>200){
+            $(".tbk-nav-container").addClass("fixed-nav");
+        }else{
+            $(".tbk-nav-container").removeClass("fixed-nav");
+        }
+    })
 })
 </script>
 </html>
