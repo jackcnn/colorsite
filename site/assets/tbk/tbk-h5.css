@@ -1,6 +1,9 @@
 *{
     box-sizing: border-box;
 }
+#main-body{
+    padding-bottom: 25px;
+}
 .swiper-slide, .swiper-wrapper{
     height:auto;
 }
@@ -140,6 +143,7 @@
     margin-left:5%;
     font-size:14px;
     color: #ffffff;
+    padding-bottom:15px;
 }
 .clipboard{
     display: none;
