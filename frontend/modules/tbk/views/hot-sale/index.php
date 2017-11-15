@@ -13,6 +13,7 @@
 <head>
     <meta charset="utf-8">
     <title>淘宝天猫内部优惠发放平台</title>
+    <meta name="description" content="淘宝天猫内部优惠发放平台,每日更新优惠商品，速度围观！">
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no">
     <link rel="stylesheet" type="text/css" href="/assets/reset.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
@@ -20,6 +21,7 @@
     <link href="/assets/tbk/tbk-h5.css" rel="stylesheet">
 </head>
 <body>
+<img style="display: none;" src="/uploads/tbk/image/banner1.png" alt="">
 <div id="main-body">
     <div class="tbk-search">
         <div class="weui-search-bar" id="searchBar">

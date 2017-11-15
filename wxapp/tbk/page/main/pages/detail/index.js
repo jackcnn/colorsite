@@ -32,7 +32,7 @@ Page({
                         showCancel:false,
                         confirmText:'我知道啦',
                         confirmColor:'#ff5500',
-                        content: '口令已复制，打开手机淘宝即可购买！',
+                        content: '复制成功！打开手机淘宝下单即可',
                         success: function(res) {
                         }
                     });
@@ -68,11 +68,11 @@ Page({
                         data: model,
                         success: function(res) {
                             wx.showModal({
-                                title: '提示',
+                                title: '温馨提示',
                                 showCancel:false,
                                 confirmText:'我知道啦',
                                 confirmColor:'#ff5500',
-                                content: '口令已复制，打开手机淘宝即可购买！',
+                                content: '复制成功！打开手机淘宝下单即可',
                                 success: function(res) {
                                 }
                             });
@@ -83,12 +83,13 @@ Page({
         });
     },
     onShareAppMessage: function (res) {
+        var self = this;
         if (res.from === 'button') {
             // 来自页面内转发按钮
             console.log(res.target)
         }
         return {
-            title: '淘宝天猫内部优惠券，每日更新，速度来抢！',
+            title: self.data.item.title,
             path: '/page/main/index',
             success: function(res) {
                 // 转发成功

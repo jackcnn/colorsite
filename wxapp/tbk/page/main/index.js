@@ -105,7 +105,7 @@ Page({
             console.log(res.target)
         }
         return {
-            title: '淘宝天猫内部优惠券，每日更新，速度来抢！',
+            title: '淘宝天猫优惠券，每日更新，速度来抢！',
             path: '/page/main/index',
             success: function(res) {
                 // 转发成功

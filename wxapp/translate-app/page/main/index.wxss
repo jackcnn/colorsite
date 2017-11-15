@@ -1,0 +1,66 @@
+Page{
+    background-color: #fff;
+}
+.header{
+    width: 100%;
+    height:105rpx;
+    border-bottom:2rpx solid #e6e6e6;
+
+}
+.header view{
+    display: inline-block;
+}
+.languages{
+    width:100%;
+    height: 105rpx;
+    line-height: 105rpx;
+    text-align: center;
+}
+.picker{
+    width: 90%;
+    display: inline-block;
+}
+.v-sign{
+    width: 10%;
+    display: inline-block;
+}
+.textarea-container{
+    padding:25rpx;
+    border-bottom:2rpx solid #e6e6e6;
+    box-sizing: border-box;
+}
+.textarea-container textarea{
+    width:100%;
+}
+.button-container{
+    width:100%;
+    padding:0 10%;
+    box-sizing: border-box;
+}
+.button-container .button{
+    display: block;
+    width: 100%;
+    margin-top:20rpx;
+    background-color: #20a0ff;
+    height:85rpx;
+    line-height: 85rpx;
+    text-align: center;
+    border-radius: 0;
+    color: #ffffff;
+}
+.button.cancel{
+    background-color: #FF4949;
+    float: right;
+}
+.button.small-btn{
+    display: inline-block;
+    width:40%;
+}
+.button.copy{
+    background-color: #13CE66;
+}
+
+.res{
+    width: 100%;
+    padding: 25rpx 15rpx;
+}

@@ -1,0 +1,25 @@
+<view class="container">
+  <form bindsubmit="formSubmit" bindreset="formReset">
+
+    <view class="section">
+      <view class="section__title">手机号:</view>
+      <input name="tel" type="number" placeholder="请输入手机号" />
+    </view>
+    <view class="section section_gap">
+      <view class="section__title">合作方式:</view>
+      <checkbox-group name="ways">
+        <label><checkbox color="#20A0FF" value="开发各种小程序"/>开发各种小程序</label>
+        <label><checkbox color="#20A0FF" value="微信H5开发"/>微信H5开发</label>
+        <label><checkbox color="#20A0FF" value="微信公众号开发"/>微信公众号开发</label>
+        <label><checkbox color="#20A0FF" value="网站开发"/>网站开发</label>
+      </checkbox-group>
+    </view>
+      <view class="section">
+          <view class="section__title">留言：</view>
+          <textarea name="desc" auto-height placeholder="" />
+        </view>
+    <view class="btn-area">
+      <button formType="submit">提交</button>
+    </view>
+  </form>
+</view>

@@ -1,0 +1,39 @@
+<view class="container">
+
+    <view class="header">
+
+        <view class="languages">
+            <picker bindchange="bindPickerChange" value="{{index}}" range="{{array}}">
+                <view class="picker">
+                    {{array[index]}}
+                </view>
+                <view class="v-sign">▼</view>
+            </picker>
+        </view>
+        <input hidden="{{true}}" name="index"  value="{{index}}" />
+    </view>
+
+    <form bindsubmit="formSubmit" bindreset="formReset">
+
+    <view class="textarea-container">
+
+        <textarea name="content" bindblur="" maxlength="500" auto-height placeholder="" />
+
+    </view>
+
+    <view class="res">
+
+        <text selectable="{{true}}">{{text}}</text>
+
+    </view>
+
+    <view hidden="{{false}}" class="button-container">
+        <button form-type="submit" class="button">翻    译</button>
+    </view>
+    <view  class="button-container">
+        <button bindtap="copy" class="button small-btn copy">复    制</button>
+        <button form-type="reset" class="button small-btn cancel">清    空</button>
+    </view>
+    </form>
+
+</view>
