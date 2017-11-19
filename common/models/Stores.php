@@ -17,6 +17,7 @@ use Yii;
  * @property string $lng
  * @property string $lat
  * @property string $phone
+ * @property integer $needpay
  * @property integer $created_at
  * @property integer $updated_at
  */
@@ -36,7 +37,7 @@ class Stores extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ownerid', 'created_at', 'updated_at'], 'integer'],
+            [['ownerid', 'needpay', 'created_at', 'updated_at'], 'integer'],
             [['token'], 'string', 'max' => 50],
             [['name'], 'string', 'max' => 100],
             [['desc'], 'string', 'max' => 500],
@@ -63,6 +64,7 @@ class Stores extends \yii\db\ActiveRecord
             'lng' => '经度',
             'lat' => '纬度',
             'phone' => '联系电话',
+            'needpay' => '付款打单',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
         ];
@@ -70,10 +72,10 @@ class Stores extends \yii\db\ActiveRecord
 
     /**
      * @inheritdoc
-     * @return \common\models\query\StoresQuery the active query used by this AR class.
+     * @return StoresQuery the active query used by this AR class.
      */
     public static function find()
     {
-        return new \common\models\query\StoresQuery(get_called_class());
+        return new StoresQuery(get_called_class());
     }
 }

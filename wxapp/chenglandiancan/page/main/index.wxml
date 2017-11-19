@@ -1,13 +1,27 @@
 <view class="container">
 
-    <view class="group">
-            <icon type="search" size="60" color="#20a0ff"/>
+    <view class="search">
+        <view class="weui-cell weui-cell_input">
+            <input class="weui-input" maxlength="20" placeholder="输入商家名称" bindconfirm="dosearch" />
+        </view>
     </view>
 
-    <view class="group">
-
-        <view bindtap="scan" class="scan">扫码点餐</view>
-
+    <view class="list-container">
+        <view class="list" wx:for="{{list}}" wx:key="{{this}}">
+            <image class="logo" src="{{host}}{{item.logo}}" mode="widthFix"></image>
+            <view class="message">
+                <view class="name">{{item.name}}</view>
+                <view class="desc" wx:if="{{item.desc}}">{{item.desc}}</view>
+                <view class="address" wx:if="{{item.address}}">地址：{{item.address}}</view>
+                <view class="address">距离：{{item.distance/1000}}km</view>
+                <view class="address" wx:if="{{item.phone}}">电话：{{item.phone}}</view>
+                <navigator url="/page/common/predish/index?sid={{item.id}}" class="address"  style="text-align: right;">查看菜单>></navigator>
+            </view>
+        </view>
     </view>
 
+
+
+
+  
 </view>

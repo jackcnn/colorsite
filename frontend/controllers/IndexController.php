@@ -22,8 +22,8 @@ class IndexController extends BaseController
 
     public $enableCsrfValidation = false;
 
-    public $appid = TBK_APPID;
-    public $appsecret = TBK_APPSECRET;
+    public $appid = "wx5c129bb7c615a146";
+    public $appsecret = "75d5dc704944c1808dee2b4e17dcdd05";
 
     //登陆
     public function actionLogin($code)

@@ -67,9 +67,6 @@ Page({
                     confirmColor:'#20a0ff',
                     showCancel:false,
                     success: function(res) {
-                        // wx.reLaunch({
-                        //url: "/page/user/pages/order/index?sid="+params.sid+"&tid="+params.tid+"&orderid="+self.data.params.orderid+"&ordersn="+self.data.params.ordersn
-                        // });
                         wx.redirectTo({
                             url: "/page/user/pages/order/index?sid="+params.sid+"&tid="+params.tid+"&orderid="+self.data.params.orderid+"&ordersn="+self.data.params.ordersn
                         });

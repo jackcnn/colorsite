@@ -3,6 +3,7 @@
     "page/main/index",
     "page/common/router/index",
     "page/common/bind/index",
+    "page/common/predish/index",
     "page/user/index",
     "page/common/msg/index",
     "page/main/pages/clerk/index",
@@ -14,7 +15,10 @@
     "page/main/pages/orderdishes/index",
     "page/user/pages/orderlist/index",
     "page/user/pages/jokes/index",
-    "page/user/pages/order/index"
+    "page/user/pages/order/index",
+    "page/self/pages/list/index",
+
+    "page/self/index"
   ],
   "window": {
     "navigationBarTextStyle": "withe",

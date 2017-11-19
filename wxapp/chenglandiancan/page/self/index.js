@@ -1,5 +1,5 @@
 var app = getApp();
-const getdishes = require('../../../../config').getdishes;
+const getdishes = require('../../config').getdishes;
 Page({
     data:{
         list: [],
@@ -25,13 +25,6 @@ Page({
             success: function(res) {
                 var store = res.data.store;
                 var category = res.data.category;
-
-                if(res.data.isCart){
-                    wx.redirectTo({
-                        url: "/page/user/index"
-                    });
-                    return;
-                }
 
 
                 wx.setNavigationBarTitle({
@@ -198,9 +191,20 @@ Page({
                     key:"cart-list",
                     data:arr,
                     success:function (res) {
-                        wx.redirectTo({
-                            url: '/page/main/pages/dishlist/index?sid='+self.data.params.sid+'&tid='+self.data.params.tid
-                        })
+                        // wx.navigateTo({
+                        //     url: '/page/self/pages/list/index?sid='+self.data.params.sid+'&tid='+self.data.params.tid
+                        // })
+
+                        wx.setStorage({
+                            key:'alert-flash',
+                            data:{type:'success',msg:'点菜成功，到店后扫码即可马上下单！'},
+                            success:function () {
+                                wx.navigateTo({
+                                    url: "/page/common/msg/index"
+                                });
+                            }
+                        });
+
                     }
                 });
             },

@@ -5,12 +5,14 @@
 // 此处主机域名是腾讯云解决方案分配的域名
 // 小程序后台服务解决方案：https://www.qcloud.com/solution/la
 
-var host = "https://326108993.com";
-    // var host = "http://colorsite.com";
+// var host = "https://326108993.com";
+    var host = "http://colorsite.com";
 var config = {
     host,
     //登陆
     openIdUrl: `${host}/dish/index/login.html`,
+    //商户列表
+    mchlist: `${host}/dish/index/mch-list.html`,
     // 获取菜单
     getdishes: `${host}/dish/index/getdishes.html`,
     // 提交购物车
@@ -33,6 +35,8 @@ var config = {
     orderlist: `${host}/dish/index/order-list.html`,
     //订单详细
     orderdetail: `${host}/dish/index/order-detail.html`,
+    //付款马上打单
+    submit_order: `${host}/dish/index/submit-order.html`,
     //笑话
     jokelist: `${host}/dish/index/joke-list.html`,
 

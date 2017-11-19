@@ -1,0 +1,41 @@
+<view class="container">
+    <view class="mch-title">
+        <view>已点菜单</view>
+    </view>
+
+    <view class="list-container">
+
+        <scroll-view scroll-y scroll-into-view="{{dishescateview}}" scroll-with-animation="{{true}}" class="dishes-container">
+            <block wx:for="{{category}}" wx:key="{{this}}" wx:for-item="cateitem" wx:for-index="cateindex" data-cid="{{cateitem.id}}" id="cate{{cateindex}}" class="dishes">
+
+                <view wx:for="{{cateitem.dishes}}" wx:key="{{item.id}}" wx:if="{{item.hascount}}" class="dish">
+                    <image src="{{item.cover}}" mode="widthFix" class="dish-logo"></image>
+                    <view class="dish-detail">
+                        <view class="dish-price">
+                            <view class="dish-name">{{item.name}}</view>
+                            <view class="dish-count"><view class="rmb">×</view>{{item.hascount}}</view>
+                            <view class="dish-nprice"><view class="rmb">￥</view>{{item.price*item.hascount/100}}</view>
+                        </view>
+                        <view class="dish-desc" hidden="{{!item.label_list.length}}">
+                            备注：
+                            <view wx:for="{{item.label_list}}" wx:for-index="ix" wx:for-item="label" wx:key="{{this}}" bindtap="click_label" data-cid="{{cateindex}}" data-did="{{index}}" data-ix="{{ix}}" class="checkbox {{label.sel>0?'selected':''}}">{{label.name}}</view>
+                        </view>
+
+                    </view>
+                </view>
+
+            </block>
+
+        </scroll-view>
+    </view>
+
+    <view class="cart-container">
+        <view class="cart-index">
+            <view class="cart-total">￥{{total_price}}</view>
+            <view bindtap="submit" class="cart-submit">支付</view>
+        </view>
+    </view>
+
+
+
+</view>

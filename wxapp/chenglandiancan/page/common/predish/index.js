@@ -1,5 +1,5 @@
 var app = getApp();
-const getdishes = require('../../../../config').getdishes;
+const getdishes = require('../../../config').getdishes;
 Page({
     data:{
         list: [],
@@ -14,13 +14,14 @@ Page({
     },
     onLoad:function(params)
     {
+        //预约点菜，只是保留在localstorege
         var self = this;
 
         wx.request({
             url: getdishes,
             data:{
                 sid:params.sid,
-                tid:params.tid
+                tid:0
             },
             success: function(res) {
                 var store = res.data.store;
@@ -198,9 +199,16 @@ Page({
                     key:"cart-list",
                     data:arr,
                     success:function (res) {
-                        wx.redirectTo({
-                            url: '/page/main/pages/dishlist/index?sid='+self.data.params.sid+'&tid='+self.data.params.tid
+                        //保存成功后，弹提示就好了
+                        wx.showModal({
+                            content: '预点餐成功！到店扫码餐桌即可立即下单！',
+                            confirmColor:'#20a0ff',
+                            showCancel:false,
+                            success: function(res) {
+
+                            }
                         })
+
                     }
                 });
             },

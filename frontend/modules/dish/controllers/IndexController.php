@@ -47,6 +47,16 @@ class IndexController extends BaseController
 
         $cart = Dishcart::find()->where(['store_id'=>$sid,'tid'=>$tid,'isdone'=>0])->one();
 
+        $store = Stores::findOne($sid);
+
+        //如果店铺选择了付款打单，就跳到这里来
+        if($store->needpay>0){
+            //$path = "/page/main/pages/customer/index?sid=".$sid."&tid=".$tid;
+            $path = "/page/self/index?sid=".$sid."&tid=".$tid;
+            return $this->asJson(['role'=>'customer','path'=>$path]);
+        }
+
+
         $order = Dishorder::find()->where(['store_id'=>$sid,'table_num'=>$tid])
             ->andWhere(['>',"created_at",time()-3600*4])
             ->orderBy("id desc,created_at desc")->one();
@@ -93,15 +103,30 @@ class IndexController extends BaseController
             }
 
         }
-
         return $this->asJson(['role'=>$role,'path'=>$path]);
     }
 
 
     //门店列表，暂时不弄
-    public function actionIndex($sid,$tid)
+    public function actionMchList($lat=0,$lng=0,$keyword="")
     {
-        echo 1231;die;
+
+        $distance="ROUND(6378.138*2*ASIN(SQRT(POW(SIN((".$lat."*PI()/180-lat*PI()/180)/2),2)+COS(".$lat."*PI()/180)*COS(lat*PI()/180)*POW(SIN((".$lng."*PI()/180-lng*PI()/180)/2),2)))*1000) AS `distance` ";
+
+        $query = Stores::find()->where([">","ownerid",0])
+            ->select("*,".$distance)
+            ->orderBy("distance")
+            ->andWhere(["<>","name",""])->andFilterWhere(["like","name",urldecode($keyword)]);
+
+        $list = $query->asArray()->all();
+
+        if(!$list){
+            $list = [];
+        }
+
+        return $this->asJson(['list'=>$list]);
+
+
     }
     //扫码进入点餐列表--顾客版
     public function actionGetdishes($sid,$tid)
@@ -430,6 +455,15 @@ class IndexController extends BaseController
         }
 
         return $this->asJson(['list'=>$list]);
+
+    }
+
+
+    //提交订单支付后打印
+    public function actionSubmitOrder($sid,$tid)
+    {
+        ColorHelper::dump(\Yii::$app->request->post());
+
 
     }
 

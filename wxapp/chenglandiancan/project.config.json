@@ -21,19 +21,13 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 8,
+			"current": 7,
 			"list": [
 				{
 					"id": 0,
 					"name": "菜单页",
 					"pathName": "page/main/pages/customer/index",
 					"query": "sid=1&tid=33"
-				},
-				{
-					"id": 1,
-					"name": "客人已点菜单",
-					"pathName": "page/main/pages/dishlist/index",
-					"query": ""
 				},
 				{
 					"id": -1,
@@ -93,6 +87,12 @@
 					"id": -1,
 					"name": "jokes",
 					"pathName": "page/user/pages/jokes/index",
+					"query": ""
+				},
+				{
+					"id": -1,
+					"name": "首页---",
+					"pathName": "page/main/index",
 					"query": ""
 				}
 			]

@@ -12,6 +12,8 @@ use backend\widgets\LayForm;
 
     <?= $form->field($model, 'name')->lytextInput() ?>
 
+    <?= $form->field($model, 'needpay')->lyradioList(['0'=>'店员合作点餐买单','1'=>'付款后直接打单'],['label'=>'模式选择']) ?>
+
     <?= $form->field($model, 'desc')->lytextArea() ?>
 
     <?= $form->field($model, 'logo')->lyFile() ?>

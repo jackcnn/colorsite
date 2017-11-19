@@ -1,5 +1,5 @@
 <view class="container">
-    <view wx:for="{{list}}" class="content">
+    <view wx:for="{{list}}" wx:key="{{this}}" class="content">
         <view class="name">{{item.title}}</view>
         <view class="desc"><text>{{item.desc}}</text></view>
     </view>

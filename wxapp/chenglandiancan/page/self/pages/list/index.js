@@ -1,5 +1,5 @@
 var app = getApp();
-const submit_cart = require('../../../../config').submit_cart;
+const submit_order = require('../../../../config').submit_order;
 
 Page({
     data:{
@@ -83,30 +83,26 @@ Page({
 
 
         wx.showActionSheet({
-            itemList: ['确认呼叫服务员下单'],
+            itemList: ['微信支付（'+self.data.total_price+'）'],
             success: function(res) {
                 wx.showLoading({title: '加载中.'});
 
                 app.getUserOpenId(function () {
                     wx.request({
-                        url: submit_cart+"?sid="+self.data.params.sid+"&tid="+self.data.params.tid,
+                        url: submit_order+"?sid="+self.data.params.sid+"&tid="+self.data.params.tid,
                         data: {
                             res_list:res_list,
                             openid:app.globalData.openid
                         },
                         method:"post",
-
                         success: function(res) {
                             console.log(app.globalData)
                             if(res.data.success){
                                 wx.removeStorageSync("cart-list");
                                 wx.setStorage({
                                     key:'alert-flash',
-                                    data:{type:'success',msg:'提交成功！服务员马上过来确认'},
+                                    data:{type:'success',msg:'提交成功！'},
                                     success:function () {
-                                        // wx.reLaunch({
-                                        //     url: "/page/common/msg/index"
-                                        // });
                                         wx.redirectTo({
                                             url: "/page/common/msg/index"
                                         });
@@ -118,9 +114,6 @@ Page({
                                     key:'alert-flash',
                                     data:{type:'error',msg:'提交失败'},
                                     success:function () {
-                                        // wx.reLaunch({
-                                        //     url: "/page/common/msg/index"
-                                        // });
                                         wx.redirectTo({
                                             url: "/page/common/msg/index"
                                         });
@@ -130,7 +123,6 @@ Page({
                         }
                     })
                 })
-
 
             },
             fail: function(res) {

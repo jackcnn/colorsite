@@ -1,15 +1,41 @@
-.group{
-    display: block;
-    width: 100%;
-    padding-top:100rpx;
-    text-align: center;
+.search{
+    background:#20A0FF;
+    padding: 15rpx 45rpx;
+    position:fixed;
+    top:0px;
+    width:100%;
+    box-sizing: border-box;
 }
-.scan{
-    display: inline-block;
-    text-align: center;
-    font-size:35rpx;
-    padding:20rpx 150rpx;
-    margin:0rpx auto;
-    background: #20A0FF;
-    color: #FFFFFF;
+.weui-input{
+    background:#ffffff;
+    padding:10rpx;
+    text-align:center;
+}
+.list-container{
+    margin-top: 120rpx;
+}
+.list{
+    background:#ffffff;
+    padding:15rpx;
+    overflow:hidden;
+    margin-top:25rpx;
+}
+
+.logo{
+    /*width:250rpx;*/
+    width:100%;
+}
+.message{
+    /*width:430rpx;*/
+    float:right;
+    width:100%;
+}
+.name{
+    font-weight:blod;
+}
+.address,.desc{
+    color:#666;
+    font-size:25rpx;
+    border-top:1rpx solid #F9FAFC;
+    padding:15rpx 0rpx;
 }

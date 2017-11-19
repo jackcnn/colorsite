@@ -1,6 +1,6 @@
 <view class="container">
     <view class="mch-title">
-            <view>选择商品(店员页面-{{params.tid}}号餐牌)</view>
+            <view>选择商品(自助点餐付款)</view>
     </view>
 
     <view class="list-container">
@@ -38,12 +38,12 @@
         <view class="cart-index">
             <view class="cart-logo">
                 <view class="cart-cirle">
-                    <image src="../../../../image/cart.png"></image>
+                    <image src="../../../image/cart.png"></image>
                     <view class="badge">{{total_count}}</view>
                 </view>
             </view>
             <view bindtap="toggleCart" class="cart-total">￥{{total_price}}</view>
-            <view bindtap="submit" class="cart-submit">选择操作</view>
+            <view bindtap="submit" class="cart-submit">确认点单</view>
         </view>
     </view>
 

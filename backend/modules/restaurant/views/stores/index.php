@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </p>
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
-        'filterModel' => $searchModel,
+//        'filterModel' => $searchModel,
         'columns' => [
             ['class' => 'yii\grid\SerialColumn'],
             'name',
@@ -41,6 +41,14 @@ $this->params['breadcrumbs'][] = $this->title;
                  'format'=>'raw',
                  'filter'=>false
              ],
+            [
+                'attribute'=>'needpay',
+                'label'=>'点餐模式',
+                'value'=>function($model){
+                    $data = [0=>'店员合作点餐买单',1=>'付款后直接打单'];
+                    return $data[$model->needpay];
+                }
+            ],
             ['class' => 'yii\grid\ActionColumn'],
             [
                 'attribute'=>'',
