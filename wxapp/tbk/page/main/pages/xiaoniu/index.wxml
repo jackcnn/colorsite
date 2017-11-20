@@ -58,7 +58,7 @@
     </view>
 
     <view class="footer">
-        <image src="{{host}}/wxapp/images/xiaolv.png" mode="widthFix"></image>
+        <image src="{{host}}/wxapp/images/duowei.jpg" mode="widthFix"></image>
         <image src="{{host}}/wxapp/images/footer.jpg" mode="widthFix"></image>
     </view>
 
