@@ -20,7 +20,84 @@ page{
     overflow: hidden;
     padding:0rpx 15rpx;
     text-align: center;
+    padding-top:30rpx;
 }
 .header .header-item image{
+    width: 50%;
+}
+.header .header-title{
+    font-size: 0.8rem;
+    color: #999999;
+}
+.form{
     width: 100%;
+    padding:0rpx 15rpx;
+    box-sizing: border-box;
+    margin-top:45rpx;
+}
+.form .form-input{
+    display: inline-block;
+    width:70%;
+    box-sizing: border-box;
+}
+.form .form-input input{
+    width:100%;
+    box-sizing: border-box;
+    height: 85rpx;
+    line-height: 85rpx;
+    border: 1px solid #e6e6e6;
+    padding:0rpx 15rpx;
+}
+.form .form-button{
+    width:25%;
+    height: 85rpx;
+    line-height: 85rpx;
+    text-align: center;
+    background-color: #20A0FF;
+    color: #ffffff;
+    float: right;
+    font-size: 0.8rem;
+}
+.blocks-container{
+    width:100%;
+    box-sizing: border-box;
+    padding:0rpx 15rpx;
+}
+.blocks{
+    width: 100%;
+    padding:0rpx 0rpx;
+    box-sizing: border-box;
+    overflow: hidden;
+    border:1px solid #13CE66;
+    font-size: 0.8rem;
+    margin-top: 15rpx;
+}
+.blocks .bl-half{
+    display: inline-block;
+    box-sizing: border-box;
+    text-align: center;
+    width:85%;
+}
+.blocks image{
+    display: inline-block;
+    width:15%;
+
+}
+.bl-half .title{
+
+}
+.bl-half .min-title,.bl-half .desc{
+    display: inline-block;
+    font-size: 0.5rem;
+    padding:5rpx 15rpx;
+}
+.bl-half .min-title{
+    background-color: #FF4949;
+    color: #ffffff;
+
+    border-radius: 20rpx;
+
+}
+.bl-half .desc{
+    color: #999999;
 }

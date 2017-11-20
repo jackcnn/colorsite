@@ -8,12 +8,12 @@ Page({
             host+'/wxapp/images/ba3.png',
         ],
         headers:[
-            {image:host+'/wxapp/images/company.png',title:'开公司'},
-            {image:host+'/wxapp/images/book.png',title:'代记账'},
-            {image:host+'/wxapp/images/honor.png',title:'办资质'},
-            {image:host+'/wxapp/images/ask.png',title:'咨询'},
+            {image:'images/company.png',title:'开公司'},
+            {image:'images/book.png',title:'代记账'},
+            {image:'images/honor.png',title:'办资质'},
+            {image:'images/ask.png',title:'咨询'},
         ],
-        swiperHeight:240
+        swiperHeight:420
     },
     onLoad:function()
     {

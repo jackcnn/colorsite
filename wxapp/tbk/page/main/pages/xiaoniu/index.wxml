@@ -17,6 +17,52 @@
 
     </view>
 
+    <view class="form">
+        <view class="form-input">
+            <input type="" />
+        </view>
+        <view class="form-button">免费核名</view>
+    </view>
+
+    <view class="blocks-container">
+        <view class="blocks">
+            <view class="bl-half">
+                <view class="title">公司注册（含一年代帐）</view>
+                <view class="stitle">
+                    <view class="min-title">最惊爆价格</view>
+                    <view class="desc">良心推荐</view>
+                </view>
+            </view>
+            <image src="images/regcap.png" mode="widthFix"></image>
+        </view>
+        <view class="blocks">
+            <view class="bl-half">
+                <view class="title">代理记账</view>
+                <view class="stitle">
+                    <view class="min-title">99元/月起</view>
+                    <view class="desc">记账没烦恼</view>
+                </view>
+            </view>
+            <image src="images/book1.png" mode="widthFix"></image>
+        </view>
+        <view class="blocks">
+            <view class="bl-half">
+                <view class="title">商标注册</view>
+                <view class="stitle">
+                    <view class="min-title">1000元起</view>
+                    <view class="desc">实力畅销</view>
+                </view>
+            </view>
+            <image src="images/book2.png" mode="widthFix"></image>
+        </view>
+    </view>
+
+    <view class="yinsu">
+        <image src="{{host}}/wxapp/images/xiaolv.png"></image>
+
+
+    </view>
+
 
 
 </view>
