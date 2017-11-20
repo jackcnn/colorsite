@@ -1,19 +1,35 @@
 var app = getApp();
 const router = require('../../../config').router;
+
+const queryString = require('../../../util/util').queryString;
+
 Page({
     data:{
     },
     onLoad:function(params)
     {
-        wx.showLoading('请稍后...');
         var self = this;
-        if(params.sid && params.tid){
+        //自定义二维码扫描进入
+        var url =decodeURIComponent(params.q);
+
+        console.log(url)
+
+        var stid = queryString(url,'stid');
+
+        var st_arr = stid.split("-");
+
+        var sid = st_arr[0];
+        var tid = st_arr[1];
+
+        wx.showLoading('请稍后...');
+
+        if(sid && tid){
             app.getUserOpenId(function(){
                 wx.request({
                     url:router,
                     data: {
-                        sid:params.sid,
-                        tid:params.tid,
+                        sid:sid,
+                        tid:tid,
                         openid:app.globalData.openid
                     },
                     success: function(res) {
@@ -22,7 +38,6 @@ Page({
                         wx.reLaunch({
                             url: path
                         });
-
                     }
                 });
             });

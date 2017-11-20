@@ -30,7 +30,22 @@ function formatLocation(longitude, latitude) {
   }
 }
 
+
+function queryString(url,queryName)
+{
+    var reg = new RegExp("(^|/?|&)"+ queryName +"=([^&]*)(/s|&|$)", "i");
+
+    if (reg.test(url)){
+       //console.log(RegExp.$2);
+        return RegExp.$2;
+    }else{
+        return "";
+    }
+
+}
+
 module.exports = {
   formatTime: formatTime,
-  formatLocation: formatLocation
+  formatLocation: formatLocation,
+    queryString: queryString,
 }

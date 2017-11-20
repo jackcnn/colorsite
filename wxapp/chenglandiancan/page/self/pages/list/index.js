@@ -80,10 +80,8 @@ Page({
             });
         });
 
-
-
         wx.showActionSheet({
-            itemList: ['微信支付（'+self.data.total_price+'）'],
+            itemList: ['微信支付（￥'+self.data.total_price+'）'],
             success: function(res) {
                 wx.showLoading({title: '加载中.'});
 

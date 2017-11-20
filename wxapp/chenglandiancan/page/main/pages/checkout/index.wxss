@@ -154,4 +154,6 @@
     color: #ffffff;
     margin:0rpx;
     border-radius: 0rpx;
+    border:none;
+    box-sizing: border-box;
 }

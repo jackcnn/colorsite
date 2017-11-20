@@ -42,7 +42,7 @@ Page({
                     var cartlist = wx.getStorageSync('cart-list')
                     var total_count = 0;
                     var total_price = 0;
-                    if (cartlist) {
+                    if (cartlist.length) {
                         category.forEach(function(value,key){
                             value.dishes.forEach(function (v,k) {
                                 cartlist.forEach(function(cv,ck){

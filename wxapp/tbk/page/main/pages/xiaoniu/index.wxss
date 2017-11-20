@@ -1,0 +1,26 @@
+page{
+    background-color: #ffffff;
+}
+
+.slide-image{
+    width:100%;
+}
+.container{
+    padding-bottom:180rpx;
+}
+
+.header{
+    width: 100%;
+    overflow: hidden;
+}
+.header .header-item{
+    display: inline-block;
+    width:25%;
+    box-sizing: border-box;
+    overflow: hidden;
+    padding:0rpx 15rpx;
+    text-align: center;
+}
+.header .header-item image{
+    width: 100%;
+}

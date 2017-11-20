@@ -35,7 +35,7 @@ Page({
                     var cartlist = wx.getStorageSync('cart-list')
                     var total_count = 0;
                     var total_price = 0;
-                    if (cartlist) {
+                    if (cartlist.length) {
                         category.forEach(function(value,key){
                             value.dishes.forEach(function (v,k) {
                                 cartlist.forEach(function(cv,ck){
@@ -191,19 +191,19 @@ Page({
                     key:"cart-list",
                     data:arr,
                     success:function (res) {
-                        // wx.navigateTo({
-                        //     url: '/page/self/pages/list/index?sid='+self.data.params.sid+'&tid='+self.data.params.tid
-                        // })
+                        wx.navigateTo({
+                            url: '/page/self/pages/list/index?sid='+self.data.params.sid+'&tid='+self.data.params.tid
+                        })
 
-                        wx.setStorage({
-                            key:'alert-flash',
-                            data:{type:'success',msg:'点菜成功，到店后扫码即可马上下单！'},
-                            success:function () {
-                                wx.navigateTo({
-                                    url: "/page/common/msg/index"
-                                });
-                            }
-                        });
+                        // wx.setStorage({
+                        //     key:'alert-flash',
+                        //     data:{type:'success',msg:'点菜成功，到店后扫码即可马上下单！'},
+                        //     success:function () {
+                        //         wx.navigateTo({
+                        //             url: "/page/common/msg/index"
+                        //         });
+                        //     }
+                        // });
 
                     }
                 });

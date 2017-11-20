@@ -3,17 +3,5 @@
         <view>等待跳转</view>
     </view>
 
-    <view class="list-container">
-
-    </view>
-
-    <view class="cart-container">
-        <view class="cart-index">
-            <view class="cart-total"></view>
-            <view bindtap="submit" class="cart-submit">等待跳转</view>
-        </view>
-    </view>
-
-
 
 </view>

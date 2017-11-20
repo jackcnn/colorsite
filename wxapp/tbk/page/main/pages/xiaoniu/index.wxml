@@ -1,0 +1,22 @@
+<view class="container">
+    <swiper indicator-dots="{{true}}"
+            autoplay="{{true}}" style="height: {{swiperHeight}}rpx;">
+        <block wx:for="{{imgUrls}}" wx:key="{{this}}">
+            <swiper-item>
+                <image bindload="loadImg" src="{{item}}" class="slide-image" mode="widthFix"/>
+            </swiper-item>
+        </block>
+    </swiper>
+
+    <view class="header">
+
+        <view wx:for="{{headers}}" wx:key="{{this}}" class="header-item">
+            <image src="{{item.image}}" class="header-image" mode="widthFix"></image>
+            <view class="header-title">{{item.title}}</view>
+        </view>
+
+    </view>
+
+
+
+</view>

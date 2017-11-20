@@ -45,27 +45,25 @@ Page({
               keyword:encodeURI(keyword)
           },
           success: function(res) {
+
               wx.hideLoading();
 
-              if(res.data.list.length){
-
-                  if(keyword){
-                      var list = [];
-                  }else{
-                      var list = self.data.list;
-                  }
-
-                  for(var i=0;i<res.data.list.length;i++){
-                      list.push(res.data.list[i]);
-                  }
-
-                  self.setData({
-                      list:list,
-                      lat:lat,
-                      lng:lng,
-                      keyword:keyword
-                  })
+              if(keyword){
+                  var list = [];
+              }else{
+                  var list = self.data.list;
               }
+
+              for(var i=0;i<res.data.list.length;i++){
+                  list.push(res.data.list[i]);
+              }
+
+              self.setData({
+                  list:list,
+                  lat:lat,
+                  lng:lng,
+                  keyword:keyword
+              })
           }
       });
   },

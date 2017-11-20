@@ -2,6 +2,7 @@
   "pages": [
     "page/main/index",
     "page/main/pages/detail/index",
+    "page/main/pages/xiaoniu/index",
     "page/user/index"
   ],
   "window": {
