@@ -13,7 +13,8 @@ Page({
             {image:'images/honor.png',title:'办资质'},
             {image:'images/ask.png',title:'咨询'},
         ],
-        swiperHeight:420
+        swiperHeight:420,
+        host:host
     },
     onLoad:function()
     {

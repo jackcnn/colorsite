@@ -6,7 +6,7 @@ page{
     width:100%;
 }
 .container{
-    padding-bottom:180rpx;
+    padding-bottom:20rpx;
 }
 
 .header{
@@ -94,10 +94,16 @@ page{
 .bl-half .min-title{
     background-color: #FF4949;
     color: #ffffff;
-
     border-radius: 20rpx;
-
 }
 .bl-half .desc{
     color: #999999;
+}
+.footer{
+    width:100%;
+    padding:0rpx 15rpx;
+    box-sizing: border-box;
+}
+.footer image{
+    width:100%;
 }

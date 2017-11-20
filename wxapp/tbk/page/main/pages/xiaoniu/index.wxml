@@ -57,10 +57,9 @@
         </view>
     </view>
 
-    <view class="yinsu">
-        <image src="{{host}}/wxapp/images/xiaolv.png"></image>
-
-
+    <view class="footer">
+        <image src="{{host}}/wxapp/images/xiaolv.png" mode="widthFix"></image>
+        <image src="{{host}}/wxapp/images/footer.jpg" mode="widthFix"></image>
     </view>
 
 
