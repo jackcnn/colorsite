@@ -21,7 +21,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": -1,
+			"current": 4,
 			"list": [
 				{
 					"id": 0,
@@ -48,10 +48,10 @@
 					"query": "sid=1&tid=33"
 				},
 				{
-					"id": -1,
+					"id": 4,
 					"name": "店员点餐页面",
 					"pathName": "page/main/pages/clerk/index",
-					"query": "sid=1&tid=33"
+					"query": "sid=1&tid=34"
 				},
 				{
 					"id": 6,
@@ -100,6 +100,12 @@
 					"name": "路由页面",
 					"pathName": "page/common/router/index",
 					"query": "q=https%3a%2f%2f326108993.com%2fwxapp%2fdish%3fstid%3d1-2"
+				},
+				{
+					"id": -1,
+					"name": "客户点餐页面",
+					"pathName": "page/main/pages/customer/index",
+					"query": "sid=1&tid=34"
 				}
 			]
 		}

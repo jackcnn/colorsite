@@ -1,0 +1,10 @@
+.mch-title{
+
+    text-align: center;
+
+    padding:200rpx 0rpx;
+
+    font-size:40rpx;
+
+
+}

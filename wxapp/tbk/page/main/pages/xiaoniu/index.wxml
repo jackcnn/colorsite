@@ -62,6 +62,4 @@
         <image src="{{host}}/wxapp/images/footer.jpg" mode="widthFix"></image>
     </view>
 
-
-
 </view>

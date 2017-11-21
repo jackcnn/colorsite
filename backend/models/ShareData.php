@@ -18,6 +18,7 @@ class ShareData
                 ['label'=>'菜品管理','router'=>['/restaurant/dishes/index']],
                 ['label'=>'门店管理','router'=>['/restaurant/stores/index']],
                 ['label'=>'打印机管理','router'=>['/restaurant/printer/index']],
+                ['label'=>'支付管理','router'=>['/payconfig/index']],
             ]],
 
             ['label'=>'用户资料','router'=>['/user/index/index']]

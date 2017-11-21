@@ -103,7 +103,9 @@ page{
     width:100%;
     padding:0rpx 15rpx;
     box-sizing: border-box;
+    padding-top:50rpx;
 }
 .footer image{
     width:100%;
+    margin-top:50rpx;
 }

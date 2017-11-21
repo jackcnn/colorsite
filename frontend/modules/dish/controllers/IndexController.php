@@ -107,7 +107,7 @@ class IndexController extends BaseController
     }
 
 
-    //门店列表，暂时不弄
+    //门店列表
     public function actionMchList($lat=0,$lng=0,$keyword="")
     {
 
@@ -125,7 +125,6 @@ class IndexController extends BaseController
         }
 
         return $this->asJson(['list'=>$list]);
-
 
     }
     //扫码进入点餐列表--顾客版
@@ -218,7 +217,7 @@ class IndexController extends BaseController
     public function actionShowCart($sid,$tid)
     {
         $store = Stores::find()->where(['id'=>$sid])->asArray()->one();
-        $cart = Dishcart::find()->where(["store_id"=>$sid,"tid"=>$tid,"isdone"=>0])->asArray()->orderBy("type asc")->all();
+        $cart = Dishcart::find()->where(["store_id"=>$sid,"tid"=>$tid,"isdone"=>0])->asArray()->orderBy("id desc,type asc")->all();
         $cartlist = [];
         $i=0;
         $total = 0;
@@ -424,10 +423,9 @@ class IndexController extends BaseController
         $store = Stores::findOne($model->store_id);
 
         $model->save();
-        //发送小程序模板信息
+        //发送小程序模板信息-这里是发送给店员的
         $access_token=ColorHelper::CHENGLAN_DIANCAN_ACCESSTOKEN();
         $url = "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=$access_token";
-
         $send_data['touser'] = $model->openid;
         $send_data['template_id'] = "yO4GOBrdXTQVMS0b4C5uw9QPz8YIRRxehsKmYB6XO00";
         $send_data['form_id'] = $model->formid;

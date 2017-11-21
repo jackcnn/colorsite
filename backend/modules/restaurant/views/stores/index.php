@@ -25,10 +25,10 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
             'name',
             'phone',
-             [
-                 'attribute'=>'desc',
-                 'filter'=>false
-             ],
+//             [
+//                 'attribute'=>'desc',
+//                 'filter'=>false
+//             ],
             [
                 'attribute'=>'address',
                 'filter'=>false
