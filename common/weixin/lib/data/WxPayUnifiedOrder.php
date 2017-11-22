@@ -68,6 +68,87 @@ class WxPayUnifiedOrder extends WxPayDataBase
     }
 
 
+
+
+    /**
+     * 设置sub_appid  -- lurongze
+     * @param string $value
+     **/
+    public function SetSubAppid($value)
+    {
+        $this->values['sub_appid'] = $value;
+    }
+    /**
+     * 获取sub_appid -- lurongze
+     * @return 值
+     **/
+    public function GetSubAppid()
+    {
+        return $this->values['sub_appid'];
+    }
+    /**
+     * 判断sub_appid -- lurongze是否存在
+     * @return true 或 false
+     **/
+    public function IsSubAppidSet()
+    {
+        return array_key_exists('sub_appid', $this->values);
+    }
+
+
+    /**
+     * 设置微信支付分配的子商户号 -lrz
+     * @param string $value
+     **/
+    public function SetSubMch_id($value)
+    {
+        $this->values['sub_mch_id'] = $value;
+    }
+    /**
+     * 获取微信支付分配的子商户号的值 -lrz
+     * @return 值
+     **/
+    public function GetSubMch_id()
+    {
+        return $this->values['sub_mch_id'];
+    }
+    /**
+     * 判断微信支付分配的子商户号是否存在 -lrz
+     * @return true 或 false
+     **/
+    public function IsSubMch_idSet()
+    {
+        return array_key_exists('sub_mch_id', $this->values);
+    }
+
+    /**
+     * 设置微信支付分配的子商户号 -lrz
+     * @param string $value
+     **/
+    public function SetSubOpenid($value)
+    {
+        $this->values['sub_openid'] = $value;
+    }
+    /**
+     * 获取微信支付分配的子商户号的值 -lrz
+     * @return 值
+     **/
+    public function GetSubOpenid()
+    {
+        return $this->values['sub_openid'];
+    }
+    /**
+     * 判断微信支付分配的子商户号是否存在 -lrz
+     * @return true 或 false
+     **/
+    public function IsSubOpenidSet()
+    {
+        return array_key_exists('sub_openid', $this->values);
+    }
+
+
+
+
     /**
      * 设置微信支付分配的终端设备号，商户自定义
      * @param string $value
