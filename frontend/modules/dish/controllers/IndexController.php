@@ -217,7 +217,7 @@ class IndexController extends BaseController
     public function actionShowCart($sid,$tid)
     {
         $store = Stores::find()->where(['id'=>$sid])->asArray()->one();
-        $cart = Dishcart::find()->where(["store_id"=>$sid,"tid"=>$tid,"isdone"=>0])->asArray()->orderBy("id desc,type asc")->all();
+        $cart = Dishcart::find()->where(["store_id"=>$sid,"tid"=>$tid,"isdone"=>0])->asArray()->orderBy("id desc,type asc")->limit(1)->all();
         $cartlist = [];
         $i=0;
         $total = 0;

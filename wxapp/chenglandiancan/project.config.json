@@ -21,7 +21,7 @@
 			"list": []
 		},
 		"miniprogram": {
-			"current": 4,
+			"current": 5,
 			"list": [
 				{
 					"id": 0,
@@ -54,10 +54,10 @@
 					"query": "sid=1&tid=34"
 				},
 				{
-					"id": 6,
+					"id": 5,
 					"name": "支付页面",
 					"pathName": "page/main/pages/pay/index",
-					"query": "sid=1&tid=33&orderid=20&ordersn=171105184653001331005"
+					"query": "sid=1&tid=34&orderid=66&ordersn=171121182702001345448"
 				},
 				{
 					"id": 7,
