@@ -175,9 +175,7 @@ Page({
         category.forEach(function(value,key){
             value.dishes.forEach(function (v,k) {
                 if(v.hascount >0){
-                    var label="";
-
-                    res_list.push({id:v.id,count:v.hascount,name:v.name,price:v.price,lable:label});
+                    res_list.push({id:v.id,count:v.hascount,name:v.name,price:v.price,lable:v.get_labels});
                 }
             });
         }); //点菜单

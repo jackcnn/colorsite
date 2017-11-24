@@ -46,21 +46,20 @@ class WxnotifyController extends controller
                     throw new \Exception('order-no-exist！');
                 }
 
-                $wxconfig = WxPayHelper::getconfig($order->ownerid);
-                //$checkSign=WxPayHelper::createSign($postArray,$wxconfig['mch_key']);
-//                if($checkSign != $postArray['sign']){//验证签名
-//                    $err=$postArray;
-//                    $err['addMsg']='sign-error-'.$checkSign;
-//                    \Yii::info($err,__METHOD__);
-//                    throw new \Exception($err['addMsg']);
-//                }
-//                  金额在测试的时候是1分钱
-//                if(($order->amount != $postArray['total_fee']) || $postArray['total_fee']<=0){
-//                    $err=$postArray;
-//                    $err['addMsg']='amount-error-'.($order['amount']*100).'-'.$postArray['total_fee'];
-//                    \Yii::info($err,__METHOD__);
-//                    throw new \Exception($err['addMsg']);
-//                }
+
+                $checkSign=WxPayHelper::createSign($postArray,CHENGLAN_MCHKEY);
+                if($checkSign != $postArray['sign']){//验证签名
+                    $err=$postArray;
+                    $err['addMsg']='sign-error-'.$checkSign;
+                    \Yii::info($err,__METHOD__);
+                    throw new \Exception($err['addMsg']);
+                }
+                if(($order->amount != $postArray['total_fee']) || $postArray['total_fee']<=0){
+                    $err=$postArray;
+                    $err['addMsg']='amount-error-'.($order['amount']*100).'-'.$postArray['total_fee'];
+                    \Yii::info($err,__METHOD__);
+                    throw new \Exception($err['addMsg']);
+                }
 
                 $order->paytime=time();
                 $order->transaction_id=$postArray['transaction_id'];

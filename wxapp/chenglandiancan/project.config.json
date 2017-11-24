@@ -108,10 +108,10 @@
 					"query": "sid=1&tid=34"
 				},
 				{
-					"id": -1,
+					"id": 14,
 					"name": "小程序码路由页面",
 					"pathName": "page/common/routers/index",
-					"query": "sid=1&tid=2"
+					"query": "sid=1&tid=5"
 				}
 			]
 		}
