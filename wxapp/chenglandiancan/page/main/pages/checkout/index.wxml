@@ -41,7 +41,6 @@
             <view class="cart-title">实收：</view>
             <view class="cart-total"><input bindinput="bindKeyInput" class="truepay" type="digit" value="{{true_price}}" /></view>
             <button form-type="submit" plain="{{true}}" class="cart-submit">设置可付款</button>
-            <!--<button bindtap="submit" class="cart-submit">设置可付款</button>-->
         </view>
     </view>
     </form>
