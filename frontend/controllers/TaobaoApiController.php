@@ -23,7 +23,6 @@ class TaobaoApiController extends BaseController
     public function actionIndex()
     {
 
-        //服务商的apikey S9r6LCNS2PEG9TIyEiDBQq4ayks3ufR8
         echo \Yii::$app->security->generateRandomString();
 
     }

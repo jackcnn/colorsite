@@ -28,13 +28,18 @@ class IndexController extends BaseController
 {
     public $enableCsrfValidation = false;
 
-    public $appid = CHENGLAN_DIANCAN_APPID;
-    public $appsecret = CHENGLAN_DIANCAN_APPSECRET;
+    public $mini_appid = CHENGLAN_DIANCAN_APPID;
+    public $mini_appsecret = CHENGLAN_DIANCAN_APPSECRET;
+
+    public $appid = CHENGLAN_APPID;
+    public $appsecret = CHENGLAN_APPSECRET;
+    public $mch = CHENGLAN_MCH;
+    public $mchkey = CHENGLAN_MCHKEY;
 
     //登陆
     public function actionLogin($code)
     {
-        $url="https://api.weixin.qq.com/sns/jscode2session?appid=".$this->appid."&secret=".$this->appsecret."&js_code=".$code."&grant_type=authorization_code";
+        $url="https://api.weixin.qq.com/sns/jscode2session?appid=".$this->mini_appid."&secret=".$this->mini_appsecret."&js_code=".$code."&grant_type=authorization_code";
         $res = CurlHelper::callWebServer($url);
         return $this->asJson($res);
     }
@@ -417,7 +422,6 @@ class IndexController extends BaseController
     {
 
         $asJson['success'] = true;
-
         try{
             $orderInfo = Dishorder::find()->where(['id'=>$orderid,'ordersn'=>$ordersn])->one();
             if(!$orderInfo){
@@ -433,8 +437,6 @@ class IndexController extends BaseController
             if(!$mchInfo || !$mchInfo['mch_number']){
                 throw new \Exception('商户信息错误！');
             }
-
-
             //调用微信统一下单接口
             //微信下单
             $input = new \common\weixin\lib\data\WxPayUnifiedOrder();
@@ -445,28 +447,17 @@ class IndexController extends BaseController
             $input->SetTime_start(date("YmdHis",time()));
             $input->SetTime_expire(date("YmdHis", time() + 6000));
             $input->SetGoods_tag("goods_tag");
-            $input->SetNotify_url(Url::to(['/payments/wxnotify/fw7notify'],true));
+            $input->SetNotify_url(Url::to(['/payments/wxnotify/dish'],true));
             $input->SetTrade_type("JSAPI");
-            $input->SetAppid($wxconfig->wx_appid);
-            $input->SetMch_id($wxconfig->wx_merchant_number);
-
-
-
-            $input->SetOpenid($openid);
-            $orderRes = WxPayHelper::unifiedOrder($input , $wxconfig->wx_merchant_key);
-            $return['jsapiparams'] = WxPayHelper::GetJsApiParameters($orderRes , $wxconfig->wx_merchant_key);
-
-
-
-
-
-
-
-
-
-
-
-
+            $input->SetAppid($this->appid);
+            $input->SetMch_id($this->mch);
+            //$input->SetOpenid($openid);
+            //子商户的信息
+            $input->SetSubAppid($this->mini_appid);//这里使用小程序appid
+            $input->SetSubMch_id($mchInfo['mch_number']);
+            $input->SetSubOpenid($openid);
+            $orderRes = WxPayHelper::unifiedOrder($input , $this->mchkey);
+            $asJson['jsapiparams'] = WxPayHelper::GetJsApiParameters($orderRes , $this->mchkey);
         }catch (\Exception $e){
             $asJson['success'] = false;
             $asJson['msg'] = $e->getMessage();

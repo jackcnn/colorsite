@@ -2,6 +2,7 @@
   "pages": [
     "page/main/index",
     "page/common/router/index",
+    "page/common/routers/index",
     "page/common/bind/index",
     "page/common/predish/index",
     "page/user/index",

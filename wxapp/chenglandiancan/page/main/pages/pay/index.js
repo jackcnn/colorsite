@@ -64,18 +64,67 @@ Page({
                 },
                 success: function(res) {
 
+                    if(res.data.success){
+                        //调起微信支付JSAPI
+                        self.callwxpay(res.data.jsapiparams,function () {
+                            wx.showModal({
+                                content: '支付成功！',
+                                confirmColor:'#20a0ff',
+                                showCancel:false,
+                                success: function(res) {
+                                    wx.redirectTo({
+                                        url: "/page/user/pages/order/index?sid="+params.sid+"&tid="+params.tid+"&orderid="+self.data.params.orderid+"&ordersn="+self.data.params.ordersn
+                                    });
+                                }
+                            });
+                        });
+                    }else{
+                        wx.showModal({
+                            content: res.data.msg,
+                            confirmColor:'#20a0ff',
+                            showCancel:false,
+                            success: function(res) {
+                            }
+                        });
+                    }
+                }
+            });
+        });
+
+
+    },
+    callwxpay:function(data,callback){
+
+        wx.requestPayment({
+            'timeStamp': data.timeStamp,
+            'nonceStr': data.nonceStr,
+            'package': data.package,
+            'signType': data.signType,
+            'paySign': data.paySign,
+            'success':function(res){
+                if(res.errMsg == "requestPayment:ok" ) {// 支付成功后的回调函数
+                    if(callback){
+                        callback();
+                    }
+                }else{
                     wx.showModal({
-                        content: '支付成功！',
+                        content: '支付失败！',
                         confirmColor:'#20a0ff',
                         showCancel:false,
                         success: function(res) {
-                            wx.redirectTo({
-                                url: "/page/user/pages/order/index?sid="+params.sid+"&tid="+params.tid+"&orderid="+self.data.params.orderid+"&ordersn="+self.data.params.ordersn
-                            });
                         }
-                    })
+                    });
                 }
-            });
+            },
+            'fail':function(res){
+                wx.showModal({
+                    content: '支付失败！！',
+                    confirmColor:'#20a0ff',
+                    showCancel:false,
+                    success: function(res) {
+                    }
+                });
+            }
         })
 
 

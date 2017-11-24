@@ -154,7 +154,6 @@ class IndexController extends BaseController
             return $e->getMessage();
         }
 
-
     }
 
     public function getLists($favorites_id,$page=1,$allow_cache=false)

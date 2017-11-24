@@ -32,7 +32,7 @@ class WxnotifyController extends controller
 
         $postArray = ArrayHelper::xmlToArray($postData);
 
-        ColorHelper::dump($postArray);
+        //ColorHelper::dump($postArray);
 
         $transaction = \Yii::$app->db->beginTransaction();
         $xml['return_code']="Ok";
@@ -47,13 +47,13 @@ class WxnotifyController extends controller
                 }
 
                 $wxconfig = WxPayHelper::getconfig($order->ownerid);
-                $checkSign=WxPayHelper::createSign($postArray,$wxconfig['mch_key']);
-                if($checkSign != $postArray['sign']){//验证签名
-                    $err=$postArray;
-                    $err['addMsg']='sign-error-'.$checkSign;
-                    \Yii::info($err,__METHOD__);
-                    throw new \Exception($err['addMsg']);
-                }
+                //$checkSign=WxPayHelper::createSign($postArray,$wxconfig['mch_key']);
+//                if($checkSign != $postArray['sign']){//验证签名
+//                    $err=$postArray;
+//                    $err['addMsg']='sign-error-'.$checkSign;
+//                    \Yii::info($err,__METHOD__);
+//                    throw new \Exception($err['addMsg']);
+//                }
 //                  金额在测试的时候是1分钱
 //                if(($order->amount != $postArray['total_fee']) || $postArray['total_fee']<=0){
 //                    $err=$postArray;
