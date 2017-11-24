@@ -228,18 +228,20 @@ class IndexController extends BaseController
         $i=0;
         $total = 0;
         $total_count=0;
-        foreach($cart as $key=>$value){
-            $list = json_decode($value['list'],1);
-            foreach ($list as $k=>$v){
-                $cartlist[$v['id']]["id"]= $v['id'];
-                $cartlist[$v['id']]["hascount"] = $v['count'];
-                $cartlist[$v['id']]["type"] = $value['type'];
-                $cartlist[$v['id']]["labels"] = $v['lable']?substr($v['lable'],1):'';
-                $cartlist[$v['id']]["name"] = $v['name'];
-                $cartlist[$v['id']]["price"] = $v['price'];
-                $total = $total + $v['price']*$v['count'];
-                $total_count = $total_count + $v['count'];
-                $i++;
+        if(count($cart)){
+            foreach($cart as $key=>$value){
+                $list = json_decode($value['list'],1);
+                foreach ($list as $k=>$v){
+                    $cartlist[$v['id']]["id"]= $v['id'];
+                    $cartlist[$v['id']]["hascount"] = $v['count'];
+                    $cartlist[$v['id']]["type"] = $value['type'];
+                    $cartlist[$v['id']]["labels"] = $v['lable'];
+                    $cartlist[$v['id']]["name"] = $v['name'];
+                    $cartlist[$v['id']]["price"] = $v['price'];
+                    $total = $total + $v['price']*$v['count'];
+                    $total_count = $total_count + $v['count'];
+                    $i++;
+                }
             }
         }
 
@@ -259,13 +261,13 @@ class IndexController extends BaseController
                         $v['get_labels'] = $cartinfo['labels'];
                         $v['hascount'] = $cartinfo['hascount'];
                     }else{
-
                         $v['get_labels'] = '';
                         $v['hascount'] = 0;
-
                     }
 
                     $v['cover'] = \Yii::$app->request->hostInfo.$v['cover'];
+
+                    unset($v['spec']);
 
                     $category[$key]['dishes'][] = $v;
 
