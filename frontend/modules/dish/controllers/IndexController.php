@@ -320,6 +320,9 @@ class IndexController extends BaseController
                 if(isset($value['lable']) && strlen($value['lable'])> 1){
                     $content .= '<tr><td></td><td></td><td>('.$value['lable'].')</td></tr>';
                 }
+                if($value['lable']){
+                    $content .= '<tr><td></td><td></td><td>('.$value['lable'].')</td></tr>';
+                }
             }
             $content .= '</table>';
             $content .= str_repeat('-',32)."\n";
