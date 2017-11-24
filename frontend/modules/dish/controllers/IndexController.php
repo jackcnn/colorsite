@@ -451,7 +451,7 @@ class IndexController extends BaseController
             $input->SetTrade_type("JSAPI");
             $input->SetAppid($this->appid);
             $input->SetMch_id($this->mch);
-            $input->SetOpenid($openid);
+            //$input->SetOpenid($openid);
             //子商户的信息
             $input->SetSubAppid($this->mini_appid);//这里使用小程序appid
             $input->SetSubMch_id($mchInfo['mch_number']);

@@ -64,6 +64,8 @@ Page({
                 },
                 success: function(res) {
 
+                    console.log(res);
+
                     if(res.data.success){
                         //调起微信支付JSAPI
                         self.callwxpay(res.data.jsapiparams,function () {
@@ -80,7 +82,7 @@ Page({
                         });
                     }else{
                         wx.showModal({
-                            content: res.data.msg,
+                            content: 'shibaile',
                             confirmColor:'#20a0ff',
                             showCancel:false,
                             success: function(res) {
