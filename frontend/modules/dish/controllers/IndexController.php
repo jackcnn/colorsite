@@ -457,6 +457,7 @@ class IndexController extends BaseController
             $input->SetSubMch_id($mchInfo['mch_number']);
             $input->SetSubOpenid($openid);
             $orderRes = \common\weixin\WxPayHelper::unifiedOrder($input , $this->mchkey);
+            $asJson['res'] = $orderRes;
             $asJson['jsapiparams'] = \common\weixin\WxPayHelper::GetJsApiParameters($orderRes , $this->mchkey);
         }catch (\Exception $e){
             $asJson['success'] = false;
