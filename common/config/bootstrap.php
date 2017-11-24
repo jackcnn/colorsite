@@ -16,7 +16,7 @@ defined('CHENGLAN_DIANCAN_APPSECRET') or define('CHENGLAN_DIANCAN_APPSECRET','a5
 defined('CHENGLAN_APPID') or define('CHENGLAN_APPID','wxb71d19c0e31e1168');
 defined('CHENGLAN_APPSECRET') or define('CHENGLAN_APPSECRET','da72cd609ea073beb155e905673f2f76');
 //橙蓝服务商
-defined('CHENGLAN_MCH') or define('CHENGLAN_MCH','wx0dd0829415ec47da');
+defined('CHENGLAN_MCH') or define('CHENGLAN_MCH','1492946832');
 defined('CHENGLAN_MCHKEY') or define('CHENGLAN_MCHKEY','S9r6LCNS2PEG9TIyEiDBQq4ayks3ufR8');
 
 //淘宝客小程序
