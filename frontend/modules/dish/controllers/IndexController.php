@@ -320,7 +320,7 @@ class IndexController extends BaseController
 
                 }
                 if(isset($value['lable']) && strlen($value['lable'])> 1){
-                    $content .= '<tr><td></td><td></td><td>('.$value['lable'].')</td></tr>';
+                    $content .= '<tr><td></td><td></td><td>('.str_replace(',','*',$value['lable']).')</td></tr>';
                 }
 
             }
