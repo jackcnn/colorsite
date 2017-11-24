@@ -148,7 +148,6 @@ class WxPayUnifiedOrder extends WxPayDataBase
 
 
 
-
     /**
      * 设置微信支付分配的终端设备号，商户自定义
      * @param string $value

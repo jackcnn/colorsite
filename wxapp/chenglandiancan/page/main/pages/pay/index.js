@@ -54,26 +54,29 @@ Page({
     wxpayfunc:function () {//微信支付
         var self = this;
         var params = self.data.params;
-        wx.request({
-            url: payorder,
-            data:{
-                orderid:params.orderid,
-                ordersn:params.ordersn
-            },
-            success: function(res) {
+        app.getUserOpenId(function(){
+            wx.request({
+                url: payorder,
+                data:{
+                    orderid:params.orderid,
+                    ordersn:params.ordersn,
+                    openid:app.globalData.openid
+                },
+                success: function(res) {
 
-                wx.showModal({
-                    content: '支付成功！',
-                    confirmColor:'#20a0ff',
-                    showCancel:false,
-                    success: function(res) {
-                        wx.redirectTo({
-                            url: "/page/user/pages/order/index?sid="+params.sid+"&tid="+params.tid+"&orderid="+self.data.params.orderid+"&ordersn="+self.data.params.ordersn
-                        });
-                    }
-                })
-            }
-        });
+                    wx.showModal({
+                        content: '支付成功！',
+                        confirmColor:'#20a0ff',
+                        showCancel:false,
+                        success: function(res) {
+                            wx.redirectTo({
+                                url: "/page/user/pages/order/index?sid="+params.sid+"&tid="+params.tid+"&orderid="+self.data.params.orderid+"&ordersn="+self.data.params.ordersn
+                            });
+                        }
+                    })
+                }
+            });
+        })
 
 
     }

@@ -182,7 +182,7 @@ Page({
             });
         }); //点菜单
 
-        wx.request({
+        wx.request({//生成后台订单
             url: clerk_submit_cart+"?sid="+params.sid+"&tid="+params.tid,
             data: {
                 res_list:res_list,
@@ -194,9 +194,6 @@ Page({
                         key:'alert-flash',
                         data:{type:'success',msg:'提交成功！'},
                         success:function () {
-                            // wx.reLaunch({
-                            //     url: "/page/common/msg/index"
-                            // });
                             wx.redirectTo({
                                 url: "/page/common/msg/index"
                             });
@@ -207,9 +204,6 @@ Page({
                         key:'alert-flash',
                         data:{type:'error',msg:'提交失败'},
                         success:function () {
-                            // wx.reLaunch({
-                            //     url: "/page/common/msg/index"
-                            // });
                             wx.redirectTo({
                                 url: "/page/common/msg/index"
                             });

@@ -13,6 +13,7 @@ use common\models\Dishcart;
 use common\models\Dishes;
 use common\models\Dishorder;
 use common\models\Gallery;
+use common\models\Payconfig;
 use common\models\Printer;
 use common\models\Stores;
 use Yii;
@@ -412,30 +413,85 @@ class IndexController extends BaseController
     }
 
     //微信支付页面
-    public function actionPayOrder($orderid,$ordersn)
+    public function actionPayOrder($orderid,$ordersn,$openid)
     {
 
-        $model = Dishorder::find()->where(['id'=>$orderid,'ordersn'=>$ordersn])->one();
+        $asJson['success'] = true;
 
-        $model->status = 2;
-        $model->paytime = time();
+        try{
+            $orderInfo = Dishorder::find()->where(['id'=>$orderid,'ordersn'=>$ordersn])->one();
+            if(!$orderInfo){
+                throw new \Exception('订单不存在!');
+            }
+            if($orderInfo->paytime>0 && $orderInfo->status==2){
+                throw new \Exception('订单已支付！');
+            }
+            if($orderInfo->amount < 1){
+                throw new \Exception('订单金额错误！');
+            }
+            $mchInfo = Payconfig::find()->where(['ownerid'=>$orderInfo->ownerid,'type'=>'weixin','isuse'=>1])->asArray()->one();
+            if(!$mchInfo || !$mchInfo['mch_number']){
+                throw new \Exception('商户信息错误！');
+            }
 
-        $store = Stores::findOne($model->store_id);
 
-        $model->save();
-        //发送小程序模板信息-这里是发送给店员的
-        $access_token=ColorHelper::CHENGLAN_DIANCAN_ACCESSTOKEN();
-        $url = "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=$access_token";
-        $send_data['touser'] = $model->openid;
-        $send_data['template_id'] = "yO4GOBrdXTQVMS0b4C5uw9QPz8YIRRxehsKmYB6XO00";
-        $send_data['form_id'] = $model->formid;
-        $send_data['data'] = [
-            'keyword1'=>['value'=>$model->amount/100,'color'=>'#173177'],
-            'keyword2'=>['value'=>date("Y-m-d H:i:s",$model->paytime),'color'=>'#173177'],
-            'keyword3'=>['value'=>$store->name,'color'=>'#173177'],
-        ];
-        $send_data['emphasis_keyword'] = "keyword1.DATA";
-        $res = CurlHelper::callWebServer($url,json_encode($send_data),"post",false);
+            //调用微信统一下单接口
+            //微信下单
+            $input = new \common\weixin\lib\data\WxPayUnifiedOrder();
+            $input->SetBody("橙蓝点餐付款");
+            $input->SetAttach("记录gid:");
+            $input->SetOut_trade_no($orderInfo->ordersn);
+            $input->SetTotal_fee(intval($orderInfo->amount));
+            $input->SetTime_start(date("YmdHis",time()));
+            $input->SetTime_expire(date("YmdHis", time() + 6000));
+            $input->SetGoods_tag("goods_tag");
+            $input->SetNotify_url(Url::to(['/payments/wxnotify/fw7notify'],true));
+            $input->SetTrade_type("JSAPI");
+            $input->SetAppid($wxconfig->wx_appid);
+            $input->SetMch_id($wxconfig->wx_merchant_number);
+
+
+
+            $input->SetOpenid($openid);
+            $orderRes = WxPayHelper::unifiedOrder($input , $wxconfig->wx_merchant_key);
+            $return['jsapiparams'] = WxPayHelper::GetJsApiParameters($orderRes , $wxconfig->wx_merchant_key);
+
+
+
+
+
+
+
+
+
+
+
+
+        }catch (\Exception $e){
+            $asJson['success'] = false;
+            $asJson['msg'] = $e->getMessage();
+        }
+
+        return $this->asJson($asJson);
+//        $model->status = 2;
+//        $model->paytime = time();
+//
+//        $store = Stores::findOne($model->store_id);
+//
+//        $model->save();
+//        //发送小程序模板信息-这里是发送给店员的
+//        $access_token=ColorHelper::CHENGLAN_DIANCAN_ACCESSTOKEN();
+//        $url = "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=$access_token";
+//        $send_data['touser'] = $model->openid;
+//        $send_data['template_id'] = "yO4GOBrdXTQVMS0b4C5uw9QPz8YIRRxehsKmYB6XO00";
+//        $send_data['form_id'] = $model->formid;
+//        $send_data['data'] = [
+//            'keyword1'=>['value'=>$model->amount/100,'color'=>'#173177'],
+//            'keyword2'=>['value'=>date("Y-m-d H:i:s",$model->paytime),'color'=>'#173177'],
+//            'keyword3'=>['value'=>$store->name,'color'=>'#173177'],
+//        ];
+//        $send_data['emphasis_keyword'] = "keyword1.DATA";
+//        $res = CurlHelper::callWebServer($url,json_encode($send_data),"post",false);
     }
 
     //订单列表
