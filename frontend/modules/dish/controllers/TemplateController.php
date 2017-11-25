@@ -69,7 +69,7 @@ class TemplateController extends BaseController
                 $query=$request->get();
                 unset($query['code']);
                 unset($query['state']);
-                array_unshift($query,$router);
+                array_unshift($query,"index");
                 $url=Url::to($query,true);
                 \Yii::$app->getResponse()->redirect($url)->send();die;
             }
