@@ -167,7 +167,7 @@ class ColorHelper
         $appid = CHENGLAN_DIANCAN_APPID;
         $appsecret = CHENGLAN_DIANCAN_APPSECRET;
         $cache = \Yii::$app->cache;
-        $access_token = $cache->get("diancan-wxapp");
+        $access_token = $cache->get("yidiancan-wxapp");
         if(!$access_token){
             $parame['grant_type']='client_credential';
             $parame['appid']=$appid;
