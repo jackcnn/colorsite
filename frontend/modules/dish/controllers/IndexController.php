@@ -475,12 +475,6 @@ class IndexController extends BaseController
         }
 
         return $this->asJson($asJson);
-//        $model->status = 2;
-//        $model->paytime = time();
-//
-//        $store = Stores::findOne($model->store_id);
-//
-//        $model->save();
 //        //发送小程序模板信息-这里是发送给店员的
 //        $access_token=ColorHelper::CHENGLAN_DIANCAN_ACCESSTOKEN();
 //        $url = "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=$access_token";

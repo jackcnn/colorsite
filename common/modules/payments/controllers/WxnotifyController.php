@@ -6,6 +6,7 @@
 
 namespace common\modules\payments\controllers;
 
+use common\models\Stores;
 use yii\db\Exception;
 use yii\helpers\ArrayHelper;
 use yii\helpers\ColorHelper;
@@ -13,7 +14,7 @@ use yii\helpers\Json;
 use yii\helpers\Url;
 use yii\web\Controller;
 use common\models\Dishorder;
-
+use yii\helpers\CurlHelper;
 use common\weixin\WxPayHelper;
 
 
@@ -56,6 +57,8 @@ class WxnotifyController extends controller
                     throw new \Exception($err['addMsg']);
                 }
 
+                $store = Stores::findOne($order->store_id);
+
                 $order->paytime=time();
                 $order->transaction_id=$postArray['transaction_id'];
                 $order->status=2;
@@ -64,13 +67,22 @@ class WxnotifyController extends controller
 
                 $order->payinfo=Json::encode($postArray);
                 if($order->validate() && $order->save()){
-                    //下发模板消息
-
-
-
-
-
-
+                    //下发模板消息，先给付款人发送
+                    $prepay = json_decode($order->unifiedorder_res,1);
+                    $access_token=ColorHelper::CHENGLAN_DIANCAN_ACCESSTOKEN();
+                    $url = "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=$access_token";
+                    $send_data['touser'] = $postArray['openid'];
+                    $send_data['template_id'] = "BMjZV4JI5ysZ_Z_Cq-HgTcLcrqVogv9ztXRl23cI7AY";
+                    $send_data['form_id'] = $prepay['prepay_id'];
+                    $send_data['data'] = [
+                        'keyword1'=>['value'=>$order->title,'color'=>'#173177'],
+                        'keyword2'=>['value'=>($order->amount/100).'元','color'=>'#173177'],
+                        'keyword3'=>['value'=>$store->name,'color'=>'#173177'],
+                        'keyword3'=>['value'=>date("Y-m-d H:i:s",$order->paytime),'color'=>'#173177'],
+                        'keyword3'=>['value'=>'微信支付','color'=>'#173177'],
+                    ];
+                    $send_data['emphasis_keyword'] = "keyword2.DATA";
+                    $res = CurlHelper::callWebServer($url,json_encode($send_data),"post",false);
 
                 }else{
                     $err=$postArray;

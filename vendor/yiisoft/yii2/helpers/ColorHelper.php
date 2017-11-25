@@ -164,7 +164,6 @@ class ColorHelper
     //获取橙蓝点餐accesstoken
     public static function CHENGLAN_DIANCAN_ACCESSTOKEN()
     {
-
         $appid = CHENGLAN_DIANCAN_APPID;
         $appsecret = CHENGLAN_DIANCAN_APPSECRET;
         $cache = \Yii::$app->cache;
