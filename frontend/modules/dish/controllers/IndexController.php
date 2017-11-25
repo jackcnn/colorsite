@@ -578,7 +578,7 @@ class IndexController extends BaseController
                 $orderRes['appid'] = $orderRes['sub_appid'];//这里要把appid的值改为小程序的app id
                 $asJson['jsapiparams'] = WxPayHelper::GetJsApiParameters($orderRes , $this->mchkey);
             }else{
-                throw new \Exception('生成订单失败！');
+                throw new \Exception('生成订单失败！'.current($model->getFirstErrors()));
             }
         }catch (\Exception $e){
             $asJson['success'] = false;
