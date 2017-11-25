@@ -86,11 +86,17 @@ class ClerkController extends BaseController
         ]);
     }
 
+    //小程序绑定
     public function actionBind($id,$store_id)
     {
-
         return $this->render('bind',['id'=>$id,'store_id'=>$store_id,'token'=>$this->token]);
+    }
 
+    //公众号绑定
+    public function actionBindPublic($id,$store_id)
+    {
+
+        return $this->render('bind-public',['id'=>$id,'store_id'=>$store_id,'token'=>$this->token]);
     }
 
 
@@ -101,6 +107,8 @@ class ClerkController extends BaseController
             $model->openid = null;
             $model->wxname = null;
             $model->avatar = null;
+            $model->public_openid = null;
+            $model->receive = 0;
 
             $model->save();
 
