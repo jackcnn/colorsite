@@ -18,6 +18,7 @@
     <style>
         body{
             padding:0px 100px;
+            box-sizing: border-box;
         }
         .demos-title{
             font-size:30px;
