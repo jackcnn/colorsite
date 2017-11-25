@@ -87,9 +87,18 @@ class DishtableController extends BaseController
         return $this->redirect(['index','storeid'=>$model->store_id]);
     }
 
+    //打印餐桌二维码
+    public function actionPrintQrcode($id)
+    {
 
+
+
+    }
+
+    //这个是生成小程序码的，暂时放弃先
     public function actionCreatecode($id)
     {
+        return;
         $access_token=ColorHelper::CHENGLAN_DIANCAN_ACCESSTOKEN();
 
         $model = $this->findModel($id);

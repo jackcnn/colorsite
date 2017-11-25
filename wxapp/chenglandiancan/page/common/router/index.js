@@ -12,14 +12,20 @@ Page({
         //自定义二维码扫描进入
         var url =decodeURIComponent(params.q);
 
-        console.log(url)
-
         var stid = queryString(url,'stid');
 
         var st_arr = stid.split("-");
 
         var sid = st_arr[0];
         var tid = st_arr[1];
+        var type = st_arr[2];
+
+        if(type == "BIND"){
+            wx.reLaunch({
+                url: "/page/common/bind/index?sid="+sid+"&clerkid="+tid
+            });
+            return;
+        }
 
         wx.showLoading('请稍后...');
 

@@ -65,7 +65,7 @@ class IndexController extends BaseController
         }
 
 
-        $order = Dishorder::find()->where(['store_id'=>$sid,'table_num'=>$tid])
+        $order = Dishorder::find()->where(['store_id'=>$sid,'table_num'=>$tid,'isdone'=>0])
             ->andWhere(['>',"created_at",time()-3600*4])
             ->orderBy("id desc,created_at desc")->one();
         //找到餐牌对应的最新一条订单记录
@@ -629,6 +629,29 @@ class IndexController extends BaseController
     }
 
 
+    //重置餐牌
+    public function actionResetTable($sid,$tid)
+    {
+        $asJson['success'] = true;
+
+        try{
+
+            Dishcart::updateAll(['isdone'=>1],"`isdone`=0 and `store_id`=:sid and `tid`=:tid and `created_at`>=:time",
+                [':sid'=>$sid,':tid'=>$tid,':time'=>time()-3600*4]
+            );
+
+            Dishorder::updateAll(['isdone'=>1],"`isdone`=0 and `store_id`=:sid and `table_num`=:tid and `created_at`>=:time",
+                [':sid'=>$sid,':tid'=>$tid,':time'=>time()-3600*4]
+            );
+
+        }catch (\Exception $e){
+            $asJson['success'] = false;
+            $asJson['msg'] = $e->getMessage();
+        }
+        return $this->asJson($asJson);
+    }
+
+
     public function checkIsCart($sid,$tid)
     {
         //当时点菜记录
@@ -668,50 +691,5 @@ class IndexController extends BaseController
         }
     }
 
-    //打印菜单
-    public function print_dishes($dishes,$order,$token)
-    {
-
-        $content = '';                          //打印内容
-        $content .= '<FS><center>'.$order->table_num.'号</center></FS>';
-        $content .= str_repeat('-',32);
-        $content .= '<table>';
-        $content .= '<tr><td>菜品</td><td>数量</td><td>价格</td></tr>';
-        foreach($dishes as $key=>$value){
-            if(isset($value['name'])){
-                $price = intval($value['price']*$value['count'])/100;
-                $content .= '<tr><td>'.$value['name'].'</td><td>'.$value['count'].'</td><td>'.$price.'元</td></tr>';
-            }
-            if(isset($value['labels']) && strlen($value['labels'])> 1){
-                $content .= '<tr><td></td><td></td><td>('.$value['labels'].')</td></tr>';
-            }
-        }
-        $content .= '</table>';
-        $content .= str_repeat('-',32)."\n";
-        $content .= "<FS>总金额: ".($order->amount/100)."元</FS>\r\n";
-        $content .= "订单编号：".$order->id."\r\n\r\n";
-
-        $qrcode = Url::to(['/site/index','token'=>$token,'store_id'=>$order->store_id,'sn'=>$order->ordersn],true);
-
-        $content .= "<center><QR>".$qrcode."</QR></center>";
-
-
-        //把所有打印机
-        $printers = Printer::find()->where(['store_id'=>$order->store_id,'isuse'=>1])->asArray()->all();
-
-        foreach($printers as $key=>$value){
-            $actions = json_decode($value['actions'],1);
-            if(in_array("dishes",$actions)){//选为打印的，开始打印
-                $machineCode = $value['machine_code'];                      //授权的终端号
-                $res = \common\vendor\yilianyun\YilianyunHelper::printer($content,$machineCode);
-                if($res == 'success'){
-                    return true;
-                }else{
-                    return false;
-                }
-            }
-        }
-
-    }
 
 }

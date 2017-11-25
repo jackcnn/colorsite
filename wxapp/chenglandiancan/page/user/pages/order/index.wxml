@@ -5,6 +5,10 @@
         <view class="content">{{order.title}}</view>
     </view>
     <view class="block">
+        <view class="name">单　　号：</view>
+        <view class="content">{{order.id}}</view>
+    </view>
+    <view class="block">
         <view class="name">支付金额：</view>
         <view class="content">￥{{order.amount/100}}</view>
     </view>

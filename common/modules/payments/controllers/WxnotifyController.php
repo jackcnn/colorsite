@@ -64,8 +64,8 @@ class WxnotifyController extends controller
                 $order->status=2;
                 $order->paytype = "wxpay";
                 $order->payopenid = $postArray['sub_openid'];
-
                 $order->payinfo=Json::encode($postArray);
+                $order->isdone = 1;//订单已完成
                 if($order->validate() && $order->save()){
                     //下发模板消息，先给付款人发送
                     self::sendtmp_to_payer($order,$store,$postArray['sub_openid']);

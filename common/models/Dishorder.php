@@ -28,6 +28,7 @@ use Yii;
  * @property integer $created_at
  * @property integer $updated_at
  * @property string $unifiedorder_res
+ * @property integer $isdone
  */
 class Dishorder extends \yii\db\ActiveRecord
 {
@@ -45,7 +46,7 @@ class Dishorder extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ownerid', 'store_id', 'status', 'amount', 'paytime', 'table_num', 'created_at', 'updated_at'], 'integer'],
+            [['ownerid', 'store_id', 'status', 'amount', 'paytime', 'table_num', 'created_at', 'updated_at', 'isdone'], 'integer'],
             [['list', 'payinfo', 'openid_list', 'unifiedorder_res'], 'string'],
             [['title', 'openid', 'formid', 'payopenid'], 'string', 'max' => 100],
             [['ordersn', 'sn', 'paytype'], 'string', 'max' => 30],
@@ -80,6 +81,7 @@ class Dishorder extends \yii\db\ActiveRecord
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
             'unifiedorder_res' => '微信统一下单接口返回结果',
+            'isdone' => '1',
         ];
     }
 
@@ -91,7 +93,6 @@ class Dishorder extends \yii\db\ActiveRecord
     {
         return new \common\models\query\DishorderQuery(get_called_class());
     }
-
     public function getStore()
     {
         return $this->hasOne(Stores::className(),['id'=>'store_id']);
@@ -100,5 +101,4 @@ class Dishorder extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Member::className(),['openid'=>'payopenid']);
     }
-
 }

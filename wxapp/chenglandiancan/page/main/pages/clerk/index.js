@@ -1,7 +1,7 @@
 var app = getApp();
 const show_cart = require('../../../../config').show_cart;
 const clerk_submit_cart = require('../../../../config').clerk_submit_cart;
-
+const reset_table = require('../../../../config').reset_table;
 Page({
     data:{
         list: [],
@@ -158,6 +158,18 @@ Page({
                     wx.showActionSheet({
                         itemList:['确认重置餐牌吗？'],
                         success:function () {
+                            wx.showLoading();
+                            wx.request({//重置餐牌
+                                url: reset_table+"?sid="+params.sid+"&tid="+params.tid,
+                                success: function(res) {
+                                    wx.hideLoading();
+                                    wx.redirectTo({
+                                        url:"/page/main/pages/clerk/index?sid="+params.sid+"&tid="+params.tid
+                                    })
+                                    return;
+                                }
+                            })
+
 
                         }
                     })
@@ -170,7 +182,6 @@ Page({
         })
     },
     print_list:function(category,params){
-
         var res_list = [];
         category.forEach(function(value,key){
             value.dishes.forEach(function (v,k) {
@@ -179,7 +190,6 @@ Page({
                 }
             });
         }); //点菜单
-
         wx.request({//生成后台订单
             url: clerk_submit_cart+"?sid="+params.sid+"&tid="+params.tid,
             data: {

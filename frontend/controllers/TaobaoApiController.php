@@ -23,7 +23,16 @@ class TaobaoApiController extends BaseController
     public function actionIndex()
     {
 
-        echo \Yii::$app->security->generateRandomString();
+        $sid=0;
+        $tid=1;
+
+        //\common\models\Dishcart::updateAll(['isdone'=>1],['isdone'=>0,'store_id'=>$sid,'tid'=>$tid,'created_at'=>['>','created_at',time()]]);
+
+        \common\models\Dishcart::updateAll(['isdone'=>1],"`isdone`=0 and `store_id`=:sid and `tid`=:tid and `created_at`>=:time",
+            [':sid'=>$sid,':tid'=>$tid,':time'=>time()-3600*4]
+        );
+
+        return $this->render('index');
 
     }
 

@@ -18,7 +18,7 @@ use backend\widgets\LayForm;
 
     <?= $form->field($model, 'machine_code')->lytextInput() ?>
 
-    <?= $form->field($model, 'actions')->lycheckboxList(['qrcode'=>'排号打印','dishes'=>'菜单打印']) ?>
+    <?= $form->field($model, 'actions')->lycheckboxList(['qrcode'=>'餐桌二维码打印','dishes'=>'菜单打印']) ?>
 
     <?= $form->field($model, 'isuse')->lyswitch([],'是|否') ?>
 

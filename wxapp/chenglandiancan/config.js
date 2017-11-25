@@ -39,6 +39,8 @@ var config = {
     submit_order: `${host}/dish/index/submit-order.html`,
     //笑话
     jokelist: `${host}/dish/index/joke-list.html`,
+    //重置餐牌
+    reset_table: `${host}/dish/index/reset-table.html`,
 
 };
 

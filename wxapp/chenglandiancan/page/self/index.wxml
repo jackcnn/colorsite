@@ -38,7 +38,7 @@
         <view class="cart-index">
             <view class="cart-logo">
                 <view class="cart-cirle">
-                    <image src="../../../image/cart.png"></image>
+                    <image src="../../image/cart.png"></image>
                     <view class="badge">{{total_count}}</view>
                 </view>
             </view>
