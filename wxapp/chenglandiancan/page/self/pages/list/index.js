@@ -33,9 +33,6 @@ Page({
         })
 
     },
-    onReady:function(){
-        var self = this;
-    },
     click_label:function (e) {
         var self = this;
         var cid = e.target.dataset.cid;
@@ -97,15 +94,32 @@ Page({
                             console.log(app.globalData)
                             if(res.data.success){
                                 wx.removeStorageSync("cart-list");
-                                wx.setStorage({
-                                    key:'alert-flash',
-                                    data:{type:'success',msg:'提交成功！'},
-                                    success:function () {
-                                        wx.redirectTo({
-                                            url: "/page/common/msg/index"
+                                if(res.data.success){
+                                    //调起微信支付JSAPI
+                                    self.callwxpay(res.data.jsapiparams,function () {
+                                        wx.showModal({
+                                            content: '支付成功！',
+                                            confirmColor:'#20a0ff',
+                                            showCancel:false,
+                                            success: function(res) {
+                                                wx.redirectTo({
+                                                    url: "/page/user/pages/order/index?sid="+params.sid+"&tid="+params.tid+"&orderid="+self.data.params.orderid+"&ordersn="+self.data.params.ordersn
+                                                });
+                                            }
                                         });
-                                    }
-                                });
+                                    });
+                                }else{
+                                    wx.showModal({
+                                        content: '订单提交失败！',
+                                        confirmColor:'#20a0ff',
+                                        showCancel:false,
+                                        success: function(res) {
+                                        }
+                                    });
+                                }
+
+
+
                             }else{
                                 wx.setStorageSync('cart-list', {});
                                 wx.setStorage({
@@ -125,6 +139,41 @@ Page({
             },
             fail: function(res) {
                 console.log(res.errMsg)
+            }
+        })
+    },
+
+    callwxpay:function(data,callback){
+
+        wx.requestPayment({
+            'timeStamp': data.timeStamp,
+            'nonceStr': data.nonceStr,
+            'package': data.package,
+            'signType': data.signType,
+            'paySign': data.paySign,
+            'success':function(res){
+                if(res.errMsg == "requestPayment:ok" ) {// 支付成功后的回调函数
+                    if(callback){
+                        callback();
+                    }
+                }else{
+                    wx.showModal({
+                        content: '支付失败！',
+                        confirmColor:'#20a0ff',
+                        showCancel:false,
+                        success: function(res) {
+                        }
+                    });
+                }
+            },
+            'fail':function(res){
+                wx.showModal({
+                    content: '支付失败！！',
+                    confirmColor:'#20a0ff',
+                    showCancel:false,
+                    success: function(res) {
+                    }
+                });
             }
         })
 

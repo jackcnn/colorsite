@@ -23,6 +23,8 @@ use yii\helpers\ColorHelper;
 use yii\helpers\CurlHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
+use common\weixin\lib\data\WxPayUnifiedOrder;
+use common\weixin\WxPayHelper;
 
 class IndexController extends BaseController
 {
@@ -442,7 +444,8 @@ class IndexController extends BaseController
             }
             //调用微信统一下单接口
             //微信下单
-            $input = new \common\weixin\lib\data\WxPayUnifiedOrder();
+
+            $input = new WxPayUnifiedOrder();
             $input->SetBody("橙蓝点餐付款");
             $input->SetAttach("记录gid:");
             $input->SetOut_trade_no($orderInfo->ordersn);
@@ -459,10 +462,13 @@ class IndexController extends BaseController
             $input->SetSubAppid($this->mini_appid);//这里使用小程序appid
             $input->SetSubMch_id($mchInfo['mch_number']);
             $input->SetSubOpenid($openid);
-            $orderRes = \common\weixin\WxPayHelper::unifiedOrder($input , $this->mchkey);
-            $asJson['res'] = $orderRes;
+            $orderRes = WxPayHelper::unifiedOrder($input , $this->mchkey);
+
+            $orderInfo->unifiedorder_res = json_encode($orderRes);
+            $orderInfo->save();
+
             $orderRes['appid'] = $orderRes['sub_appid'];//这里要把appid的值改为小程序的app id
-            $asJson['jsapiparams'] = \common\weixin\WxPayHelper::GetJsApiParameters($orderRes , $this->mchkey);
+            $asJson['jsapiparams'] = WxPayHelper::GetJsApiParameters($orderRes , $this->mchkey);
         }catch (\Exception $e){
             $asJson['success'] = false;
             $asJson['msg'] = $e->getMessage();
@@ -510,10 +516,75 @@ class IndexController extends BaseController
 
 
     //提交订单支付后打印
-    public function actionSubmitOrder($sid,$tid)
+    public function actionSubmitOrder($sid,$tid,$type='wxpay')
     {
-        ColorHelper::dump(\Yii::$app->request->post());
 
+        $asJson['success'] = true;
+
+        try{
+            $postData = \Yii::$app->request->post();
+
+            $res_list = $postData['res_list'];
+
+            $total = 0;
+            foreach($res_list as $key=>$value){
+                $total = $total + $value['count']*$value['price'];
+            }
+
+            //生成系统订单
+            $store = Stores::findOne($sid);
+            $model = new Dishorder();
+            $model->ownerid = $store->ownerid;
+            $model->store_id = $sid;
+            $model->ordersn = ColorHelper::orderSN($sid.$tid);
+            $model->sn = $model->ordersn;
+            $model->amount = $total;
+            $model->list = json_encode($res_list);
+            $model->openid = $postData['openid'];
+            $model->table_num = $tid;
+            $model->paytype = $type;
+            $model->formid = 0;
+            $model->status = 1;//可付款
+
+            if($model->validate() && $model->save()){//开始微信下单部分
+
+                $mchInfo = Payconfig::find()->where(['ownerid'=>$store->ownerid,'type'=>'weixin','isuse'=>1])->asArray()->one();
+                if(!$mchInfo || !$mchInfo['mch_number']){
+                    throw new \Exception('商户信息错误！');
+                }
+                //调用微信统一下单接口
+                //微信下单
+                $input = new WxPayUnifiedOrder();
+                $input->SetBody("橙蓝自助点餐付款");
+                $input->SetAttach("记录gid:");
+                $input->SetOut_trade_no($model->ordersn);
+                $input->SetTotal_fee(intval($model->amount));
+                $input->SetTime_start(date("YmdHis",time()));
+                $input->SetTime_expire(date("YmdHis", time() + 6000));
+                $input->SetGoods_tag("goods_tag");
+                $input->SetNotify_url(Url::to(['/payments/wxnotify/dish'],true));
+                $input->SetTrade_type("JSAPI");
+                $input->SetAppid($this->appid);
+                $input->SetMch_id($this->mch);
+                //$input->SetOpenid($openid);
+                //子商户的信息
+                $input->SetSubAppid($this->mini_appid);//这里使用小程序appid
+                $input->SetSubMch_id($mchInfo['mch_number']);
+                $input->SetSubOpenid($postData['openid']);
+                $orderRes = WxPayHelper::unifiedOrder($input , $this->mchkey);
+
+                $model->unifiedorder_res = json_encode($orderRes);
+                $model->save();
+                $orderRes['appid'] = $orderRes['sub_appid'];//这里要把appid的值改为小程序的app id
+                $asJson['jsapiparams'] = WxPayHelper::GetJsApiParameters($orderRes , $this->mchkey);
+            }else{
+                throw new \Exception('生成订单失败！');
+            }
+        }catch (\Exception $e){
+            $asJson['success'] = false;
+            $asJson['msg'] = $e->getMessage();
+        }
+        return $this->asJson($asJson);
 
     }
 

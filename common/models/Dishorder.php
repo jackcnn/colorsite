@@ -9,6 +9,7 @@ use Yii;
  *
  * @property integer $id
  * @property integer $ownerid
+ * @property string $title
  * @property integer $store_id
  * @property string $ordersn
  * @property string $sn
@@ -26,6 +27,7 @@ use Yii;
  * @property string $transaction_id
  * @property integer $created_at
  * @property integer $updated_at
+ * @property string $unifiedorder_res
  */
 class Dishorder extends \yii\db\ActiveRecord
 {
@@ -44,9 +46,9 @@ class Dishorder extends \yii\db\ActiveRecord
     {
         return [
             [['ownerid', 'store_id', 'status', 'amount', 'paytime', 'table_num', 'created_at', 'updated_at'], 'integer'],
-            [['list', 'payinfo', 'openid_list'], 'string'],
+            [['list', 'payinfo', 'openid_list', 'unifiedorder_res'], 'string'],
+            [['title', 'openid', 'formid', 'payopenid'], 'string', 'max' => 100],
             [['ordersn', 'sn', 'paytype'], 'string', 'max' => 30],
-            [['openid', 'formid', 'payopenid'], 'string', 'max' => 100],
             [['transaction_id'], 'string', 'max' => 50],
         ];
     }
@@ -59,6 +61,7 @@ class Dishorder extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'ownerid' => 'Ownerid',
+            'title' => '类型，self自助买单，part合作买单',
             'store_id' => 'Store ID',
             'ordersn' => '订单编号',
             'sn' => 'Sn',
@@ -76,6 +79,7 @@ class Dishorder extends \yii\db\ActiveRecord
             'transaction_id' => 'Transaction ID',
             'created_at' => 'Created At',
             'updated_at' => 'Updated At',
+            'unifiedorder_res' => '微信统一下单接口返回结果',
         ];
     }
 

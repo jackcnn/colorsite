@@ -82,7 +82,7 @@ Page({
                         });
                     }else{
                         wx.showModal({
-                            content: 'shibaile',
+                            content: '订单提交失败！！',
                             confirmColor:'#20a0ff',
                             showCancel:false,
                             success: function(res) {
