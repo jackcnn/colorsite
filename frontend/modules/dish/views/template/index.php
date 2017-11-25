@@ -17,7 +17,7 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
     <style>
         body{
-            padding:0px 20px;
+            padding:90px 20px;
             box-sizing: border-box;
         }
         .demos-title{
