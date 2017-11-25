@@ -11,6 +11,7 @@ use common\models\Clerk;
 use Yii;
 use frontend\controllers\BaseController;
 use yii\helpers\ColorHelper;
+use yii\helpers\Url;
 
 class TemplateController extends BaseController
 {
@@ -70,7 +71,7 @@ class TemplateController extends BaseController
                 unset($query['code']);
                 unset($query['state']);
                 array_unshift($query,"index");
-                $url=Url::to($query,true);
+                $url = Url::to($query,'https');
                 \Yii::$app->getResponse()->redirect($url)->send();die;
             }
 
