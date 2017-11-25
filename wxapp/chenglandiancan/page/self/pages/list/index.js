@@ -97,13 +97,14 @@ Page({
                                 if(res.data.success){
                                     //调起微信支付JSAPI
                                     self.callwxpay(res.data.jsapiparams,function () {
+                                        var paramsData = res.data.params;
                                         wx.showModal({
                                             content: '支付成功！',
                                             confirmColor:'#20a0ff',
                                             showCancel:false,
                                             success: function(res) {
                                                 wx.redirectTo({
-                                                    url: "/page/user/pages/order/index?sid="+params.sid+"&tid="+params.tid+"&orderid="+self.data.params.orderid+"&ordersn="+self.data.params.ordersn
+                                                    url: "/page/user/pages/order/index?sid="+paramsData.sid+"&tid="+paramsData.tid+"&orderid="+paramsData.orderid+"&ordersn="+paramsData.ordersn
                                                 });
                                             }
                                         });
@@ -117,8 +118,6 @@ Page({
                                         }
                                     });
                                 }
-
-
 
                             }else{
                                 wx.setStorageSync('cart-list', {});
