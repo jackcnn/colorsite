@@ -83,7 +83,7 @@ class WxnotifyController extends controller
                     ];
                     $send_data['emphasis_keyword'] = "keyword2.DATA";
                     $res = CurlHelper::callWebServer($url,json_encode($send_data),"post",false);
-
+                    \Yii::info($res,__METHOD__);
                 }else{
                     $err=$postArray;
                     $err['addMsg']=current($order->getFirstErrors());
