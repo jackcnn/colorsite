@@ -53,7 +53,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute'=>'',
                 'value'=>function($model){
-                    $html = Html::a('微信绑定', 'javascript:;', ['class' => 'layui-btn layui-btn-mini bind','data-href'=>\yii\helpers\Url::to(['/restaurant/clerk/bind','id'=>$model->id,'store_id'=>\Yii::$app->request->get("store_id")])]);
+                    $html = Html::a('小程序绑定', 'javascript:;', ['class' => 'layui-btn layui-btn-mini bind','data-href'=>\yii\helpers\Url::to(['/restaurant/clerk/bind','id'=>$model->id,'store_id'=>\Yii::$app->request->get("store_id")])]);
 
                     $html .= Html::a('解除绑定', ['/restaurant/clerk/unbind','id'=>$model->id,'store_id'=>\Yii::$app->request->get("store_id")], ['class' => 'layui-btn layui-btn-mini layui-btn-danger unbind']);
 
@@ -75,7 +75,7 @@ layui.use('layer',function(){
     jQuery(".bind").click(function() {
         var link = jQuery(this).attr("data-href");
         layer.open({
-          title:'微信绑定',
+          title:'小程序绑定',
           type: 2, 
           shadeClose:true,
           area: ['500px', '500px'],

@@ -69,6 +69,7 @@ class WxnotifyController extends controller
                 if($order->validate() && $order->save()){
                     //下发模板消息，先给付款人发送
                     self::sendtmp_to_payer($order,$store,$postArray['sub_openid']);
+                    //橙蓝公众号收款通知模板ID，OPENTM411290721
 
                 }else{
                     $err=$postArray;
