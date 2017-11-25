@@ -15,6 +15,15 @@
     <link rel="stylesheet" type="text/css" href="/assets/reset.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
     <link rel="stylesheet" href="//cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
+    <style>
+        body{
+            padding:0px 100px;
+        }
+        .demos-title{
+            font-size:30px;
+            color: #20A0FF;
+        }
+    </style>
 </head>
 <body ontouchstart>
 <header class='demos-header'>
