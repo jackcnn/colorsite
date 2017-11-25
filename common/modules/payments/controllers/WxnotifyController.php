@@ -10,7 +10,6 @@ use yii\db\Exception;
 use yii\helpers\ArrayHelper;
 use yii\helpers\ColorHelper;
 use yii\helpers\Json;
-use yii\helpers\UHelper;
 use yii\helpers\Url;
 use yii\web\Controller;
 use common\models\Dishorder;
@@ -23,16 +22,13 @@ class WxnotifyController extends controller
     //微信的信息不要做csrf验证
     public $enableCsrfValidation = false;
 
-    public function actionDish(){
+    public function actionDish(){//橙蓝点餐的微信回调
 
         $postData = file_get_contents('php://input');
-
 
         \Yii::info($postData,__METHOD__);
 
         $postArray = ArrayHelper::xmlToArray($postData);
-
-        //ColorHelper::dump($postArray);
 
         $transaction = \Yii::$app->db->beginTransaction();
         $xml['return_code']="Ok";
@@ -45,7 +41,6 @@ class WxnotifyController extends controller
                     \Yii::info($err,__METHOD__);
                     throw new \Exception('order-no-exist！');
                 }
-
 
                 $checkSign=WxPayHelper::createSign($postArray,CHENGLAN_MCHKEY);
                 if($checkSign != $postArray['sign']){//验证签名
@@ -68,9 +63,18 @@ class WxnotifyController extends controller
                 $order->payopenid = $postArray['openid'];
 
                 $order->payinfo=Json::encode($postArray);
-                if(!$order->save()){
+                if($order->validate() && $order->save()){
+                    //下发模板消息
+
+
+
+
+
+
+
+                }else{
                     $err=$postArray;
-                    $err['addMsg']='order-change-fail';
+                    $err['addMsg']=current($order->getFirstErrors());
                     \Yii::info($err,__METHOD__);
                     throw new \Exception($err['addMsg']);
                 }
