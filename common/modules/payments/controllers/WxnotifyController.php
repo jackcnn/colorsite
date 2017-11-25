@@ -63,7 +63,7 @@ class WxnotifyController extends controller
                 $order->transaction_id=$postArray['transaction_id'];
                 $order->status=2;
                 $order->paytype = "wxpay";
-                $order->payopenid = $postArray['openid'];
+                $order->payopenid = $postArray['sub_openid'];
 
                 $order->payinfo=Json::encode($postArray);
                 if($order->validate() && $order->save()){
@@ -71,7 +71,7 @@ class WxnotifyController extends controller
                     $prepay = json_decode($order->unifiedorder_res,1);
                     $access_token=ColorHelper::CHENGLAN_DIANCAN_ACCESSTOKEN();
                     $url = "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=$access_token";
-                    $send_data['touser'] = $postArray['openid'];
+                    $send_data['touser'] = $postArray['sub_openid'];
                     $send_data['template_id'] = "BMjZV4JI5ysZ_Z_Cq-HgTcLcrqVogv9ztXRl23cI7AY";
                     $send_data['form_id'] = $prepay['prepay_id'];
                     $send_data['data'] = [
