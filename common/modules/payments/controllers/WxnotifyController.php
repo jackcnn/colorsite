@@ -32,7 +32,7 @@ class WxnotifyController extends controller
         $postArray = ArrayHelper::xmlToArray($postData);
 
         $transaction = \Yii::$app->db->beginTransaction();
-        $xml['return_code']="Ok";
+        $xml['return_code']="SUCCESS";
         try{
             if(strtoupper($postArray['result_code'])=="SUCCESS"){
                 $order=Dishorder::find()->where(['ordersn'=>$postArray['out_trade_no']])->one();
@@ -68,22 +68,8 @@ class WxnotifyController extends controller
                 $order->payinfo=Json::encode($postArray);
                 if($order->validate() && $order->save()){
                     //下发模板消息，先给付款人发送
-                    $prepay = json_decode($order->unifiedorder_res,1);
-                    $access_token=ColorHelper::CHENGLAN_DIANCAN_ACCESSTOKEN();
-                    $url = "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=$access_token";
-                    $send_data['touser'] = $postArray['sub_openid'];
-                    $send_data['template_id'] = "BMjZV4JI5ysZ_Z_Cq-HgTcLcrqVogv9ztXRl23cI7AY";
-                    $send_data['form_id'] = $prepay['prepay_id'];
-                    $send_data['data'] = [
-                        'keyword1'=>['value'=>$order->title,'color'=>'#173177'],
-                        'keyword2'=>['value'=>($order->amount/100).'元','color'=>'#173177'],
-                        'keyword3'=>['value'=>$store->name,'color'=>'#173177'],
-                        'keyword4'=>['value'=>date("Y-m-d H:i:s",$order->paytime),'color'=>'#173177'],
-                        'keyword5'=>['value'=>'微信支付','color'=>'#173177'],
-                    ];
-                    $send_data['emphasis_keyword'] = "keyword2.DATA";
-                    $res = CurlHelper::callWebServer($url,json_encode($send_data),"post",false);
-                    \Yii::info($res,__METHOD__);
+                    self::sendtmp_to_payer($order,$store);
+
                 }else{
                     $err=$postArray;
                     $err['addMsg']=current($order->getFirstErrors());
@@ -100,5 +86,26 @@ class WxnotifyController extends controller
             $transaction->rollBack();
         }
         exit(ArrayHelper::arrayToXml($xml));
+    }
+
+    public static function sendtmp_to_payer($order,$store)
+    {
+        $prepay = json_decode($order->unifiedorder_res,1);
+        $access_token=ColorHelper::CHENGLAN_DIANCAN_ACCESSTOKEN();
+        $url = "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=$access_token";
+        $send_data['touser'] = $postArray['sub_openid'];
+        $send_data['template_id'] = "BMjZV4JI5ysZ_Z_Cq-HgTUm1_7VSP27NOQKLucHdvLk";
+        $send_data['form_id'] = $prepay['prepay_id'];
+        $send_data['data'] = [
+            'keyword1'=>['value'=>$order->id,'color'=>'#173177'],//单号
+            'keyword2'=>['value'=>$order->title,'color'=>'#173177'],//商品信息
+            'keyword3'=>['value'=>($order->amount/100).'元','color'=>'#173177'],//付款金额
+            'keyword4'=>['value'=>date("Y-m-d H:i:s",$order->paytime),'color'=>'#173177'],//付款时间
+            'keyword5'=>['value'=>$order->ordersn,'color'=>'#173177'],//订单编号
+            'keyword6'=>['value'=>'微信支付','color'=>'#173177'],//支付方式
+            'keyword7'=>['value'=>$store->name,'color'=>'#173177'],//门店
+        ];
+        $send_data['emphasis_keyword'] = "keyword1.DATA";
+        $res = CurlHelper::callWebServer($url,json_encode($send_data),"post",false);
     }
 }
