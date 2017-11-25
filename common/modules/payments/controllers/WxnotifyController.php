@@ -68,7 +68,7 @@ class WxnotifyController extends controller
                 $order->payinfo=Json::encode($postArray);
                 if($order->validate() && $order->save()){
                     //下发模板消息，先给付款人发送
-                    self::sendtmp_to_payer($order,$store);
+                    self::sendtmp_to_payer($order,$store,$postArray['sub_openid']);
 
                 }else{
                     $err=$postArray;
@@ -88,12 +88,12 @@ class WxnotifyController extends controller
         exit(ArrayHelper::arrayToXml($xml));
     }
 
-    public static function sendtmp_to_payer($order,$store)
+    public static function sendtmp_to_payer($order,$store,$openid)
     {
         $prepay = json_decode($order->unifiedorder_res,1);
         $access_token=ColorHelper::CHENGLAN_DIANCAN_ACCESSTOKEN();
         $url = "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=$access_token";
-        $send_data['touser'] = $postArray['sub_openid'];
+        $send_data['touser'] = $openid;
         $send_data['template_id'] = "BMjZV4JI5ysZ_Z_Cq-HgTUm1_7VSP27NOQKLucHdvLk";
         $send_data['form_id'] = $prepay['prepay_id'];
         $send_data['data'] = [
