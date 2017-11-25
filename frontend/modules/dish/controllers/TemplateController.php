@@ -7,6 +7,7 @@
  */
 namespace frontend\modules\dish\controllers;
 
+use common\models\Clerk;
 use Yii;
 use frontend\controllers\BaseController;
 use yii\helpers\ColorHelper;
@@ -14,11 +15,36 @@ use yii\helpers\ColorHelper;
 class TemplateController extends BaseController
 {
 
-    public function actionIndex()
+    public function actionIndex($store_id,$clerk_id)
     {
-        $openid=self::wxlogin();
-        echo $openid;
 
+        $request = \Yii::$app->request;
+        if($request->isPost){
+            $asJson['success'] = true;
+
+            try{
+                $model = Clerk::findOne($clerk_id);
+
+                if($model->public_openid){
+                    throw new \Exception('二维码已被绑定了');
+                }
+                $model->public_openid = $request->post('openid');
+                if($model->validate() && $model->save()){
+                    $asJson['msg'] = '绑定成功！';
+                }else{
+                    throw new \Exception(current($model->getFirstErrors()));
+                }
+
+            }catch (\Exception $e){
+                $asJson['success'] = false;
+                $asJson['msg'] = $e->getMessage();
+            }
+            return $this->asJson($asJson);
+        }else{
+            $openid=self::wxlogin();
+        }
+
+        return $this->renderPartial('index',['openid'=>$openid]);
     }
 
     public static function wxlogin()
