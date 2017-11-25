@@ -15,6 +15,8 @@ use yii\helpers\ColorHelper;
 class TemplateController extends BaseController
 {
 
+    public $enableCsrfValidation = false;
+
     public function actionIndex($store_id,$clerk_id)
     {
 

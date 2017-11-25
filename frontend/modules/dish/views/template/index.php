@@ -39,6 +39,7 @@ $(function () {
         $.post(location.href,{
             openid:'<?=$openid?>'
         },function (res) {
+            $.hideLoading();
             $.alert(res.msg);
         })
 
