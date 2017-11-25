@@ -78,8 +78,8 @@ class WxnotifyController extends controller
                         'keyword1'=>['value'=>$order->title,'color'=>'#173177'],
                         'keyword2'=>['value'=>($order->amount/100).'元','color'=>'#173177'],
                         'keyword3'=>['value'=>$store->name,'color'=>'#173177'],
-                        'keyword3'=>['value'=>date("Y-m-d H:i:s",$order->paytime),'color'=>'#173177'],
-                        'keyword3'=>['value'=>'微信支付','color'=>'#173177'],
+                        'keyword4'=>['value'=>date("Y-m-d H:i:s",$order->paytime),'color'=>'#173177'],
+                        'keyword5'=>['value'=>'微信支付','color'=>'#173177'],
                     ];
                     $send_data['emphasis_keyword'] = "keyword2.DATA";
                     $res = CurlHelper::callWebServer($url,json_encode($send_data),"post",false);
