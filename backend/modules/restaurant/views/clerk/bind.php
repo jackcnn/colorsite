@@ -34,7 +34,8 @@
 
 <?php
 
-$str = \yii\helpers\Url::to(['/site/bindclerk.html','store_id'=>$store_id,'clerk_id'=>$id,'token'=>$token],'https');
+//$str = \yii\helpers\Url::to(['/site/bindclerk.html','store_id'=>$store_id,'clerk_id'=>$id,'token'=>$token],'https');
+$str = \yii\helpers\Url::to(['/wxapp/dish','stid'=>$store_id.'-'.$id.'-BIND'],'https');
 $str = str_replace("/admin","",$str);
 $js = <<<JS
 
