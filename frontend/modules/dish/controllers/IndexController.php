@@ -543,7 +543,7 @@ class IndexController extends BaseController
             $model->openid = $postData['openid'];
             $model->table_num = $tid;
             $model->paytype = $type;
-            $model->formid = 0;
+            $model->formid = '';
             $model->status = 1;//可付款
 
             if($model->validate() && $model->save()){//开始微信下单部分
