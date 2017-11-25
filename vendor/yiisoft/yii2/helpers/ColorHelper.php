@@ -129,8 +129,6 @@ class ColorHelper
                     \Yii::$app->getResponse()->redirect($url)->send();die;
                 }
 
-
-
                 //可以拿到微信信息了
                 $member=\frontend\models\MemberAccess::find()->where(['openid'=>$user_info['openid']])->one();
                 if(!$member){

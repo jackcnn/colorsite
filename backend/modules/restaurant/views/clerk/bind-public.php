@@ -29,7 +29,7 @@
 
     <div id="code"></div>
 
-    <div class="msg">使用微信扫码授权绑定,已接收到微信的收款通知</div>
+    <div class="msg">使用微信扫码授权绑定,已方便接收到微信的收款通知</div>
 
 <?php
 
