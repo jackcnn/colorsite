@@ -26,11 +26,9 @@
 }
 </style>
 
-
 <div id="code"></div>
 
-<div class="msg">使用微信扫码授权绑定帐号</div>
-
+<div class="msg">使用微信扫码进入小程序授权绑定帐号</div>
 
 <?php
 

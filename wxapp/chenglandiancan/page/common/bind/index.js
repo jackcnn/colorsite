@@ -6,6 +6,7 @@ Page({
         nickName:'',
         avatarUrl:'',
         params:{},
+        had:false,
     },
     onLoad:function (params) {
 
@@ -15,6 +16,7 @@ Page({
         self.setData({
             params:params
         });
+        wx.showLoading();
         wx.request({
             url: bindclerk,
             data:{
@@ -22,6 +24,7 @@ Page({
                 clerkid:params.clerkid
             },
             success: function(res) {
+                wx.hideLoading();
                 var store = res.data.store;
                 var clerk = res.data.clerk;
 
@@ -34,6 +37,7 @@ Page({
                             store_name:store.name,
                             nickName:nickName,
                             avatarUrl:avatarUrl,
+                            had:res.data.had
                         });
                     }
                 });

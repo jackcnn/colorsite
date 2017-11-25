@@ -206,6 +206,10 @@ class IndexController extends BaseController
 
         $clerk = Clerk::findOne($clerkid);
 
+        if(strlen($clerk->openid)>5){
+            return $this->asJson(['store'=>$store,'clerk'=>$clerk,'had'=>true]);
+        }
+
         if(strlen($openid)>1){
             $clerk->openid = $openid;
             $clerk->wxname = $nickName;
@@ -216,9 +220,7 @@ class IndexController extends BaseController
                 return $this->asJson(['success'=>false]);
             }
         }
-
-        return $this->asJson(['store'=>$store,'clerk'=>$clerk]);
-
+        return $this->asJson(['store'=>$store,'clerk'=>$clerk,'had'=>false]);
     }
 
     //店员点餐页面
