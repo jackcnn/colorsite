@@ -27,6 +27,7 @@ Page({
                 wx.hideLoading();
                 var store = res.data.store;
                 var clerk = res.data.clerk;
+                var had = res.data.had;
 
                 wx.getUserInfo({
                     success: function(res) {
@@ -37,7 +38,7 @@ Page({
                             store_name:store.name,
                             nickName:nickName,
                             avatarUrl:avatarUrl,
-                            had:res.data.had
+                            had:had
                         });
                     }
                 });
