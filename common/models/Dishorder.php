@@ -61,7 +61,7 @@ class Dishorder extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'ownerid' => 'Ownerid',
-            'title' => '类型，self自助买单，part合作买单',
+            'title' => '商品',
             'store_id' => 'Store ID',
             'ordersn' => '订单编号',
             'sn' => 'Sn',
@@ -100,6 +100,5 @@ class Dishorder extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Member::className(),['openid'=>'payopenid']);
     }
-
 
 }

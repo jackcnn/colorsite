@@ -91,7 +91,7 @@ Page({
                         },
                         method:"post",
                         success: function(res) {
-                            console.log(app.globalData)
+                            wx.hideLoading();
                             if(res.data.success){
                                 wx.removeStorageSync("cart-list");
                                 if(res.data.success){

@@ -1,6 +1,10 @@
 <view class="container">
     <view class="title">订单详情:</view>
     <view class="block">
+        <view class="name">商　　品：</view>
+        <view class="content">{{order.title}}</view>
+    </view>
+    <view class="block">
         <view class="name">支付金额：</view>
         <view class="content">￥{{order.amount/100}}</view>
     </view>
