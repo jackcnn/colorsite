@@ -21,7 +21,7 @@
             box-sizing: border-box;
         }
         .demos-title{
-            font-size:30px;
+            font-size:18px;
             color: #20A0FF;
         }
     </style>
