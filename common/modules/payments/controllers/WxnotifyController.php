@@ -129,7 +129,7 @@ class WxnotifyController extends controller
             'keyword2'=>['value'=>'微信支付','color'=>'#173177'],
             'keyword3'=>['value'=>$order->ordersn,'color'=>'#173177'],
             'keyword4'=>['value'=>date('Y-m-d H:i:s',$order->paytime),'color'=>'#173177'],
-            'keyword5'=>['value'=>'门店：'.$store->name.'（'.$order->title.'）','color'=>'#173177'],
+            'keyword5'=>['value'=>'门店：'.$store->name.'（'.$order->title.',单号：'.$order->id.'）','color'=>'#173177'],
             'remark'=>['value'=>'橙蓝点餐服务平台','color'=>'#173177'],
         ];
         //查找接收信息的人
