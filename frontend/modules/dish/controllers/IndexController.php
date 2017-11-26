@@ -449,7 +449,7 @@ class IndexController extends BaseController
 
             $input = new WxPayUnifiedOrder();
             $input->SetBody("橙蓝点餐付款");
-            $input->SetAttach("记录gid:");
+            $input->SetAttach(date('Y-m-d H:i:s',time()));
             $input->SetOut_trade_no($orderInfo->ordersn);
             $input->SetTotal_fee(intval($orderInfo->amount));
             $input->SetTime_start(date("YmdHis",time()));
@@ -552,7 +552,7 @@ class IndexController extends BaseController
                 //微信下单
                 $input = new WxPayUnifiedOrder();
                 $input->SetBody("橙蓝自助点餐付款");
-                $input->SetAttach("记录gid:");
+                $input->SetAttach(date('Y-m-d H:i:s',time()));
                 $input->SetOut_trade_no($model->ordersn);
                 $input->SetTotal_fee(intval($model->amount));
                 $input->SetTime_start(date("YmdHis",time()));

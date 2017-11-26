@@ -70,8 +70,7 @@ class WxnotifyController extends controller
                 $order->payinfo=Json::encode($postArray);
                 $order->isdone = 1;//订单已完成
                 if($order->validate() && $order->save()){
-
-
+                    $xml['return_code']="SUCCESS";
                 }else{
                     $err=$postArray;
                     $err['addMsg']=current($order->getFirstErrors());
