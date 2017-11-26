@@ -49,11 +49,18 @@ $this->params['breadcrumbs'][] = $this->title;
                  },
                  'label'=>'付款时间'
              ],
-             [
-                 'attribute'=>'payopenid',
-                 'value'=>'payname.wxname',
-                 'label'=>'付款人'
-             ],
+//             [
+//                 'attribute'=>'payopenid',
+//                 'value'=>'payname.wxname',
+//                 'label'=>'付款人'
+//             ],
+            [
+                'attribute'=>'paywxname',
+                'value'=>function($model){
+                    return urldecode($model->paywxname);
+                },
+                'label'=>'付款人'
+            ],
              [
                  'attribute'=>'paytype',
                  'label'=>'支付方式',
