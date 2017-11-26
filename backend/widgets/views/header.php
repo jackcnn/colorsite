@@ -15,7 +15,7 @@ $router = \Yii::$app->controller->id.'/'.\Yii::$app->controller->action->id;
     <ul class="layui-nav layui-layout-left">
         <li style="display: none;" class="layui-nav-item"><a target="colorsit-iframe" href="<?= Url::to(['/site/home'])?>">控制台</a></li>
         <li style="display: none;" class="layui-nav-item"><a target="colorsit-iframe" href="<?= Url::to(['/site/config'])?>">网站配置</a></li>
-        <li class="layui-nav-item"><a target="colorsit-iframe" href="<?= Url::to(['/thirdcfg/index'])?>">第三方配置</a></li>
+        <li style="display: none;" class="layui-nav-item"><a target="colorsit-iframe" href="<?= Url::to(['/thirdcfg/index'])?>">第三方配置</a></li>
     </ul>
     <ul class="layui-nav layui-layout-right">
         <li class="layui-nav-item">
