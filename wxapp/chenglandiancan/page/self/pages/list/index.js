@@ -83,56 +83,70 @@ Page({
                 wx.showLoading({title: '加载中.'});
 
                 app.getUserOpenId(function () {
-                    wx.request({
-                        url: submit_order+"?sid="+self.data.params.sid+"&tid="+self.data.params.tid,
-                        data: {
-                            res_list:res_list,
-                            openid:app.globalData.openid
-                        },
-                        method:"post",
+
+
+                    wx.getUserInfo({
                         success: function(res) {
-                            wx.hideLoading();
-                            if(res.data.success){
-                                wx.removeStorageSync("cart-list");
-                                if(res.data.success){
-                                    //调起微信支付JSAPI
-                                    self.callwxpay(res.data.jsapiparams,function () {
-                                        var paramsData = res.data.params;
-                                        wx.showModal({
-                                            content: '支付成功！',
-                                            confirmColor:'#20a0ff',
-                                            showCancel:false,
-                                            success: function(res) {
+                            var userInfo = res.userInfo
+                            var nickName = userInfo.nickName
+
+
+                            wx.request({
+                                url: submit_order+"?sid="+self.data.params.sid+"&tid="+self.data.params.tid,
+                                data: {
+                                    res_list:res_list,
+                                    openid:app.globalData.openid,
+                                    wxname:encodeURI(nickName)
+                                },
+                                method:"post",
+                                success: function(res) {
+                                    wx.hideLoading();
+                                    if(res.data.success){
+                                        wx.removeStorageSync("cart-list");
+                                        if(res.data.success){
+                                            //调起微信支付JSAPI
+                                            self.callwxpay(res.data.jsapiparams,function () {
+                                                var paramsData = res.data.params;
+                                                wx.showModal({
+                                                    content: '支付成功！',
+                                                    confirmColor:'#20a0ff',
+                                                    showCancel:false,
+                                                    success: function(res) {
+                                                        wx.redirectTo({
+                                                            url: "/page/user/pages/order/index?sid="+paramsData.sid+"&tid="+paramsData.tid+"&orderid="+paramsData.orderid+"&ordersn="+paramsData.ordersn
+                                                        });
+                                                    }
+                                                });
+                                            });
+                                        }else{
+                                            wx.showModal({
+                                                content: '订单提交失败！',
+                                                confirmColor:'#20a0ff',
+                                                showCancel:false,
+                                                success: function(res) {
+                                                }
+                                            });
+                                        }
+
+                                    }else{
+                                        wx.setStorageSync('cart-list', {});
+                                        wx.setStorage({
+                                            key:'alert-flash',
+                                            data:{type:'error',msg:'提交失败'},
+                                            success:function () {
                                                 wx.redirectTo({
-                                                    url: "/page/user/pages/order/index?sid="+paramsData.sid+"&tid="+paramsData.tid+"&orderid="+paramsData.orderid+"&ordersn="+paramsData.ordersn
+                                                    url: "/page/common/msg/index"
                                                 });
                                             }
                                         });
-                                    });
-                                }else{
-                                    wx.showModal({
-                                        content: '订单提交失败！',
-                                        confirmColor:'#20a0ff',
-                                        showCancel:false,
-                                        success: function(res) {
-                                        }
-                                    });
-                                }
-
-                            }else{
-                                wx.setStorageSync('cart-list', {});
-                                wx.setStorage({
-                                    key:'alert-flash',
-                                    data:{type:'error',msg:'提交失败'},
-                                    success:function () {
-                                        wx.redirectTo({
-                                            url: "/page/common/msg/index"
-                                        });
                                     }
-                                });
-                            }
+                                }
+                            })
+
+
                         }
                     })
+
                 })
 
             },

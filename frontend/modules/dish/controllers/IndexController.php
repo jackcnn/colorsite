@@ -529,6 +529,7 @@ class IndexController extends BaseController
             $model->paytype = $type;
             $model->formid = '';
             $model->status = 1;//可付款
+            $model->paywxname = $postData['wxname'];
 
             if($model->validate() && $model->save()){//开始微信下单部分
 
