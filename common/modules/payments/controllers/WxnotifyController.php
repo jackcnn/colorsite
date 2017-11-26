@@ -9,6 +9,7 @@ namespace common\modules\payments\controllers;
 use common\models\Clerk;
 use common\models\Stores;
 use common\weixin\WxCommon;
+use Faker\Provider\Color;
 use yii\db\Exception;
 use yii\helpers\ArrayHelper;
 use yii\helpers\ColorHelper;
@@ -69,10 +70,7 @@ class WxnotifyController extends controller
                 $order->payinfo=Json::encode($postArray);
                 $order->isdone = 1;//订单已完成
                 if($order->validate() && $order->save()){
-                    //下发模板消息，先给付款人发送
-                    self::sendtmp_to_payer($order,$store,$postArray['sub_openid']);
-                    //橙蓝公众号收款通知模板ID，OPENTM411290721
-                    self::sendtmp_to_clerk($order,$store);
+
 
                 }else{
                     $err=$postArray;
@@ -84,6 +82,11 @@ class WxnotifyController extends controller
                 throw new \Exception('transaction-fail');
             }
             $transaction->commit();
+
+            //下发模板消息，先给付款人发送
+            self::sendtmp_to_payer($order,$store,$postArray['sub_openid']);
+            //橙蓝公众号收款通知模板ID，OPENTM411290721
+            self::sendtmp_to_clerk($order,$store);
         }catch (\Exception $e){
             $xml['return_code']="FAIL";
             $xml['return_msg']=$e->getMessage();
