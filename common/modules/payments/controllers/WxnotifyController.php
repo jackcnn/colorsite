@@ -6,7 +6,9 @@
 
 namespace common\modules\payments\controllers;
 
+use common\models\Clerk;
 use common\models\Stores;
+use common\weixin\WxCommon;
 use yii\db\Exception;
 use yii\helpers\ArrayHelper;
 use yii\helpers\ColorHelper;
@@ -70,6 +72,7 @@ class WxnotifyController extends controller
                     //下发模板消息，先给付款人发送
                     self::sendtmp_to_payer($order,$store,$postArray['sub_openid']);
                     //橙蓝公众号收款通知模板ID，OPENTM411290721
+                    self::sendtmp_to_clerk($order,$store);
 
                 }else{
                     $err=$postArray;
@@ -108,5 +111,31 @@ class WxnotifyController extends controller
         ];
         $send_data['emphasis_keyword'] = "keyword1.DATA";
         $res = CurlHelper::callWebServer($url,json_encode($send_data),"post",false);
+    }
+
+    public static function sendtmp_to_clerk($order,$store)
+    {
+        $accessToken = WxCommon::accessToken('CHENGLAN');
+        $url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=$accessToken";
+
+        $post['template_id'] = 'zQABVFbNomal1DPlGrZWiDszZKYoFqoSlArNELMgwNA';
+        $post['data'] = [
+            'first'=>['value'=>'您有新的收款订单','color'=>'#173177'],
+            'keynote1'=>['value'=>($order->amount/100).'元','color'=>'#173177'],
+            'keynote2'=>['value'=>'微信支付','color'=>'#173177'],
+            'keynote3'=>['value'=>$order->ordersn,'color'=>'#173177'],
+            'keynote4'=>['value'=>date('Y-m-d H:i:s',$order->paytime),'color'=>'#173177'],
+            'keynote5'=>['value'=>'门店：'.$store->name.'（'.$order->title.'）','color'=>'#173177'],
+            'remark'=>['value'=>'橙蓝点餐服务平台','color'=>'#173177'],
+        ];
+        //查找接收信息的人
+        $receiver = Clerk::find()->where(['store_id'=>$store->id,'receive'=>1])
+            ->andWhere(['<>','public_openid',''])->asArray()->all();
+
+        foreach($receiver as $key=>$value){
+            $post['touser'] = $value['public_openid'];
+            $res = CurlHelper::callWebServer($url,json_encode($post),"post",false);
+        }
+
     }
 }

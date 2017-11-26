@@ -29,15 +29,20 @@ class WxCommon {
         $cache = \Yii::$app->cache;
         $accessToken = $cache->get("wxAccessToken".$owid);
         if(!$accessToken){
-            $config = self::getconfig($owid);
-            $parame['grant_type']='client_credential';
-            if($config['isuse']>0){
-                $parame['appid']=$config['appid'];
-                $parame['secret']=$config['appsecret'];
+            if($owid=='CHENGLAN'){//橙蓝公众号的appid
+                $parame['appid']=CHENGLAN_APPID;
+                $parame['secret']=CHENGLAN_APPSECRET;
             }else{
-                $new_config=self::getconfig(ADMIN_OWID);
-                $parame['appid']=$new_config['appid'];
-                $parame['secret']=$new_config['appsecret'];
+                $config = self::getconfig($owid);
+                $parame['grant_type']='client_credential';
+                if($config['isuse']>0){
+                    $parame['appid']=$config['appid'];
+                    $parame['secret']=$config['appsecret'];
+                }else{
+                    $new_config=self::getconfig(ADMIN_OWID);
+                    $parame['appid']=$new_config['appid'];
+                    $parame['secret']=$new_config['appsecret'];
+                }
             }
             $return=CurlHelper::callWebServer(self::wx_access_token,$parame);
             if(isset($return['access_token']) && isset($return['expires_in'])){
