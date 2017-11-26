@@ -55,42 +55,54 @@ Page({
         var self = this;
         var params = self.data.params;
         app.getUserOpenId(function(){
-            wx.request({
-                url: payorder,
-                data:{
-                    orderid:params.orderid,
-                    ordersn:params.ordersn,
-                    openid:app.globalData.openid
-                },
+
+            wx.getUserInfo({
                 success: function(res) {
+                    var userInfo = res.userInfo
+                    var nickName = userInfo.nickName
 
-                    console.log(res);
+                    wx.request({
+                        url: payorder,
+                        data:{
+                            orderid:params.orderid,
+                            ordersn:params.ordersn,
+                            openid:app.globalData.openid,
+                            wxname:encodeURI(nickName),
+                        },
+                        success: function(res) {
 
-                    if(res.data.success){
-                        //调起微信支付JSAPI
-                        self.callwxpay(res.data.jsapiparams,function () {
-                            wx.showModal({
-                                content: '支付成功！',
-                                confirmColor:'#20a0ff',
-                                showCancel:false,
-                                success: function(res) {
-                                    wx.redirectTo({
-                                        url: "/page/user/pages/order/index?sid="+params.sid+"&tid="+params.tid+"&orderid="+self.data.params.orderid+"&ordersn="+self.data.params.ordersn
+                            console.log(res);
+
+                            if(res.data.success){
+                                //调起微信支付JSAPI
+                                self.callwxpay(res.data.jsapiparams,function () {
+                                    wx.showModal({
+                                        content: '支付成功！',
+                                        confirmColor:'#20a0ff',
+                                        showCancel:false,
+                                        success: function(res) {
+                                            wx.redirectTo({
+                                                url: "/page/user/pages/order/index?sid="+params.sid+"&tid="+params.tid+"&orderid="+self.data.params.orderid+"&ordersn="+self.data.params.ordersn
+                                            });
+                                        }
                                     });
-                                }
-                            });
-                        });
-                    }else{
-                        wx.showModal({
-                            content: '订单提交失败！！',
-                            confirmColor:'#20a0ff',
-                            showCancel:false,
-                            success: function(res) {
+                                });
+                            }else{
+                                wx.showModal({
+                                    content: '订单提交失败！！',
+                                    confirmColor:'#20a0ff',
+                                    showCancel:false,
+                                    success: function(res) {
+                                    }
+                                });
                             }
-                        });
-                    }
+                        }
+                    });
+
+
                 }
-            });
+            })
+
         });
 
 

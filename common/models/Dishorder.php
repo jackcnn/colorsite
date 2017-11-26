@@ -22,6 +22,7 @@ use Yii;
  * @property string $formid
  * @property string $openid_list
  * @property string $payopenid
+ * @property string $paywxname
  * @property string $paytype
  * @property integer $table_num
  * @property string $transaction_id
@@ -29,6 +30,7 @@ use Yii;
  * @property integer $updated_at
  * @property string $unifiedorder_res
  * @property integer $isdone
+ * @property integer $coupon_fee
  */
 class Dishorder extends \yii\db\ActiveRecord
 {
@@ -46,10 +48,11 @@ class Dishorder extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['ownerid', 'store_id', 'status', 'amount', 'paytime', 'table_num', 'created_at', 'updated_at', 'isdone'], 'integer'],
+            [['ownerid', 'store_id', 'status', 'amount', 'paytime', 'table_num', 'created_at', 'updated_at', 'isdone', 'coupon_fee'], 'integer'],
             [['list', 'payinfo', 'openid_list', 'unifiedorder_res'], 'string'],
             [['title', 'openid', 'formid', 'payopenid'], 'string', 'max' => 100],
             [['ordersn', 'sn', 'paytype'], 'string', 'max' => 30],
+            [['paywxname'], 'string', 'max' => 255],
             [['transaction_id'], 'string', 'max' => 50],
         ];
     }
@@ -75,6 +78,7 @@ class Dishorder extends \yii\db\ActiveRecord
             'formid' => '小程序提交的formid',
             'openid_list' => '客户openid',
             'payopenid' => '付款openid',
+            'paywxname' => '付款名称',
             'paytype' => 'Paytype',
             'table_num' => '桌号',
             'transaction_id' => 'Transaction ID',
@@ -82,6 +86,7 @@ class Dishorder extends \yii\db\ActiveRecord
             'updated_at' => 'Updated At',
             'unifiedorder_res' => '微信统一下单接口返回结果',
             'isdone' => '1',
+            'coupon_fee' => '代金券金额',
         ];
     }
 
@@ -93,6 +98,7 @@ class Dishorder extends \yii\db\ActiveRecord
     {
         return new \common\models\query\DishorderQuery(get_called_class());
     }
+
     public function getStore()
     {
         return $this->hasOne(Stores::className(),['id'=>'store_id']);

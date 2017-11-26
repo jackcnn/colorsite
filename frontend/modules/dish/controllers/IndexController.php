@@ -425,7 +425,7 @@ class IndexController extends BaseController
     }
 
     //微信支付页面
-    public function actionPayOrder($orderid,$ordersn,$openid)
+    public function actionPayOrder($orderid,$ordersn,$openid,$wxname)
     {
 
         $asJson['success'] = true;
@@ -467,6 +467,7 @@ class IndexController extends BaseController
             $orderRes = WxPayHelper::unifiedOrder($input , $this->mchkey);
 
             $orderInfo->unifiedorder_res = json_encode($orderRes);
+            $orderInfo->paywxname = $wxname;
             $orderInfo->save();
 
             $orderRes['appid'] = $orderRes['sub_appid'];//这里要把appid的值改为小程序的app id
@@ -477,19 +478,6 @@ class IndexController extends BaseController
         }
 
         return $this->asJson($asJson);
-//        //发送小程序模板信息-这里是发送给店员的
-//        $access_token=ColorHelper::CHENGLAN_DIANCAN_ACCESSTOKEN();
-//        $url = "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=$access_token";
-//        $send_data['touser'] = $model->openid;
-//        $send_data['template_id'] = "yO4GOBrdXTQVMS0b4C5uw9QPz8YIRRxehsKmYB6XO00";
-//        $send_data['form_id'] = $model->formid;
-//        $send_data['data'] = [
-//            'keyword1'=>['value'=>$model->amount/100,'color'=>'#173177'],
-//            'keyword2'=>['value'=>date("Y-m-d H:i:s",$model->paytime),'color'=>'#173177'],
-//            'keyword3'=>['value'=>$store->name,'color'=>'#173177'],
-//        ];
-//        $send_data['emphasis_keyword'] = "keyword1.DATA";
-//        $res = CurlHelper::callWebServer($url,json_encode($send_data),"post",false);
     }
 
     //订单列表
