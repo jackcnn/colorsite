@@ -32,7 +32,32 @@ class WxnotifyController extends controller
 
         \Yii::info($postData,__METHOD__);
 
+        $postData = "<xml><appid><![CDATA[wxb71d19c0e31e1168]]></appid>
+<attach><![CDATA[2017-11-26 10:31:05]]></attach>
+<bank_type><![CDATA[CFT]]></bank_type>
+<cash_fee><![CDATA[1]]></cash_fee>
+<fee_type><![CDATA[CNY]]></fee_type>
+<is_subscribe><![CDATA[Y]]></is_subscribe>
+<mch_id><![CDATA[1492946832]]></mch_id>
+<nonce_str><![CDATA[cazmv7y94c1hdrukhwejcfh6uartdhgj]]></nonce_str>
+<openid><![CDATA[oygRU07sg52dl3y6RPIpbDXrZC-g]]></openid>
+<out_trade_no><![CDATA[171126103051011029855]]></out_trade_no>
+<result_code><![CDATA[SUCCESS]]></result_code>
+<return_code><![CDATA[SUCCESS]]></return_code>
+<sign><![CDATA[E1BCF058744B0309C3B46B6A5FD4CCD0]]></sign>
+<sub_appid><![CDATA[wxa6a74ccfdf8979b9]]></sub_appid>
+<sub_is_subscribe><![CDATA[N]]></sub_is_subscribe>
+<sub_mch_id><![CDATA[1493162892]]></sub_mch_id>
+<sub_openid><![CDATA[o7LMF0YOzCBlb4ETa_kKCYkkmQoU]]></sub_openid>
+<time_end><![CDATA[20171126103109]]></time_end>
+<total_fee>1</total_fee>
+<trade_type><![CDATA[JSAPI]]></trade_type>
+<transaction_id><![CDATA[4200000049201711267117508421]]></transaction_id>
+</xml>";
+
         $postArray = ArrayHelper::xmlToArray($postData);
+
+        ColorHelper::dump($postArray);
 
         $transaction = \Yii::$app->db->beginTransaction();
         $xml['return_code']="SUCCESS";
@@ -86,6 +111,7 @@ class WxnotifyController extends controller
             self::sendtmp_to_payer($order,$store,$postArray['sub_openid']);
             //橙蓝公众号收款通知模板ID，OPENTM411290721
             self::sendtmp_to_clerk($order,$store);
+
         }catch (\Exception $e){
             $xml['return_code']="FAIL";
             $xml['return_msg']=$e->getMessage();
@@ -113,13 +139,15 @@ class WxnotifyController extends controller
         ];
         $send_data['emphasis_keyword'] = "keyword1.DATA";
         $res = CurlHelper::callWebServer($url,json_encode($send_data),"post",false);
+
+        ColorHelper::dump($res);
     }
 
     public static function sendtmp_to_clerk($order,$store)
     {
-        $accessToken = WxCommon::accessToken('CHENGLAN');
-        $url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=$accessToken";
+        $accessToken = WxPayHelper::accessToken('CHENGLAN');
 
+        $url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=$accessToken";
         $post['template_id'] = 'zQABVFbNomal1DPlGrZWiDszZKYoFqoSlArNELMgwNA';
         $post['data'] = [
             'first'=>['value'=>'您有新的收款订单','color'=>'#173177'],
@@ -134,9 +162,13 @@ class WxnotifyController extends controller
         $receiver = Clerk::find()->where(['store_id'=>$store->id,'receive'=>1])
             ->andWhere(['<>','public_openid',''])->asArray()->all();
 
+        ColorHelper::dump($receiver);
+
         foreach($receiver as $key=>$value){
             $post['touser'] = $value['public_openid'];
             $res = CurlHelper::callWebServer($url,json_encode($post),"post",false);
+
+            ColorHelper::dump($res);
         }
 
     }

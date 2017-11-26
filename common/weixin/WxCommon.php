@@ -8,6 +8,7 @@
  */
 namespace common\weixin;
 
+use yii\helpers\ColorHelper;
 use yii\helpers\CurlHelper;
 use common\models\Thirdcfg;
 use yii\web\HttpException;
@@ -30,6 +31,7 @@ class WxCommon {
         $accessToken = $cache->get("wxAccessToken".$owid);
         if(!$accessToken){
             if($owid=='CHENGLAN'){//橙蓝公众号的appid
+                $parame['grant_type']='client_credential';
                 $parame['appid']=CHENGLAN_APPID;
                 $parame['secret']=CHENGLAN_APPSECRET;
             }else{
@@ -45,6 +47,7 @@ class WxCommon {
                 }
             }
             $return=CurlHelper::callWebServer(self::wx_access_token,$parame);
+
             if(isset($return['access_token']) && isset($return['expires_in'])){
                 $cache->set('wxAccessToken'.$owid,$return['access_token'],intval($return['expires_in']-200));
             }else{
