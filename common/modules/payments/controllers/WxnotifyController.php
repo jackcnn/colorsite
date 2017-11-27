@@ -6,7 +6,7 @@
 
 namespace common\modules\payments\controllers;
 
-use common\models\Clerk;
+use common\models\Dishreceive;
 use common\models\Stores;
 use common\weixin\WxCommon;
 use Faker\Provider\Color;
@@ -139,27 +139,30 @@ class WxnotifyController extends controller
 
     public static function sendtmp_to_clerk($order,$store)
     {
-        $accessToken = WxPayHelper::accessToken('CHENGLAN');
-
-        $url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=$accessToken";
-        $post['template_id'] = 'zQABVFbNomal1DPlGrZWiDszZKYoFqoSlArNELMgwNA';
-        $post['data'] = [
-            'first'=>['value'=>'您有新的收款订单','color'=>'#173177'],
-            'keyword1'=>['value'=>($order->amount/100).'元','color'=>'#173177'],
-            'keyword2'=>['value'=>'微信支付','color'=>'#173177'],
-            'keyword3'=>['value'=>$order->ordersn,'color'=>'#173177'],
-            'keyword4'=>['value'=>date('Y-m-d H:i:s',$order->paytime),'color'=>'#173177'],
-            'keyword5'=>['value'=>$order->title.'(单号：'.$order->id.',支付微信号：'.urldecode($order->paywxname).'）','color'=>'#173177'],
-            'remark'=>['value'=>$store->name.'(橙蓝点餐服务平台)','color'=>'#173177'],
-        ];
         //查找接收信息的人
-        $receiver = Clerk::find()->where(['store_id'=>$store->id,'receive'=>1])
-            ->andWhere(['<>','public_openid',''])->asArray()->all();
 
+        $receiver = Dishreceive::find()->where(['store_id'=>$store->id,'is_receive'=>1])
+            ->andWhere(['<>','openid',''])->asArray()->all();
 
-        foreach($receiver as $key=>$value){
-            $post['touser'] = $value['public_openid'];
-            $res = CurlHelper::callWebServer($url,json_encode($post),"post",false);
+        if(count($receiver)){
+            $accessToken = WxPayHelper::accessToken('CHENGLAN');
+
+            $url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=$accessToken";
+            $post['template_id'] = 'zQABVFbNomal1DPlGrZWiDszZKYoFqoSlArNELMgwNA';
+            $post['data'] = [
+                'first'=>['value'=>'您有新的收款订单','color'=>'#173177'],
+                'keyword1'=>['value'=>($order->amount/100).'元','color'=>'#173177'],
+                'keyword2'=>['value'=>'微信支付','color'=>'#173177'],
+                'keyword3'=>['value'=>$order->ordersn,'color'=>'#173177'],
+                'keyword4'=>['value'=>date('Y-m-d H:i:s',$order->paytime),'color'=>'#173177'],
+                'keyword5'=>['value'=>$order->title.'(单号：'.$order->id.',支付微信号：'.urldecode($order->paywxname).'）','color'=>'#173177'],
+                'remark'=>['value'=>$store->name.'(橙蓝点餐服务平台)','color'=>'#173177'],
+            ];
+
+            foreach($receiver as $key=>$value){
+                $post['touser'] = $value['openid'];
+                $res = CurlHelper::callWebServer($url,json_encode($post),"post",false);
+            }
         }
 
     }

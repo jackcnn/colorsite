@@ -17,12 +17,13 @@
     <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
     <style>
         body{
-            padding:90px 20px;
+            padding:90px 0px;
             box-sizing: border-box;
         }
         .demos-title{
             font-size:18px;
             color: #20A0FF;
+            padding:0px 20px;
             text-align: center;
         }
         #bind{
@@ -33,12 +34,27 @@
 </head>
 <body ontouchstart>
 <header class='demos-header'>
-    <h1 class="demos-title">确认绑定店员帐号接收公众号的模板消息吗？</h1>
+    <h1 class="demos-title">设置收款通知</h1>
 </header>
 
-<div class='demos-content-padded'>
-    <a id="bind" href="javascript:;" class="weui-btn weui-btn_primary">确认绑定</a>
+<div class="weui-cells weui-cells_form">
+    <?php foreach($list as $key=>$value){?>
+
+        <div class="weui-cell weui-cell_switch">
+            <div class="weui-cell__bd"><?=$value['storeName']?></div>
+            <div class="weui-cell__ft">
+                <input class="weui-switch" type="checkbox" name="list[]"  value="<?=$value['id']?>" <?=$value['is_receive']>0?'checked':''?>>
+            </div>
+        </div>
+
+    <?php }?>
 </div>
+
+<div class='demos-content-padded'>
+    <a id="bind" href="javascript:;" class="weui-btn weui-btn_primary">确认修改</a>
+</div>
+
+
 
 </body>
 <script src="/assets/jquery.js"></script>
@@ -53,8 +69,6 @@ $(function () {
 
         $.post(location.href,{
             openid:'<?=$res['openid']?>',
-            wxname:'<?=$res['wxname']?>',
-            wxpic:'<?=$res['wxpic']?>'
         },function (res) {
             $.hideLoading();
             $.alert(res.msg);

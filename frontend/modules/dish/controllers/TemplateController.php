@@ -20,7 +20,6 @@ class TemplateController extends BaseController
 
     public function actionIndex($store_id,$id)
     {
-
         $request = \Yii::$app->request;
         if($request->isPost){
 
@@ -51,9 +50,42 @@ class TemplateController extends BaseController
             $res=self::wxlogin();
 
         }
-
         return $this->renderPartial('index',['res'=>$res]);
     }
+
+    public function actionSetreceive()
+    {
+
+        $request = \Yii::$app->request;
+        if($request->isPost){
+            $id = $request->post('id');
+            $asJson['success'] = true;
+            try{
+                $model = Dishreceive::findOne($id);
+                $model->openid = $request->post('openid');
+
+                if($model->validate() && $model->save()){
+                    $asJson['msg'] = '绑定成功！';
+                }else{
+                    throw new \Exception(current($model->getFirstErrors()));
+                }
+
+            }catch (\Exception $e){
+                $asJson['success'] = false;
+                $asJson['msg'] = $e->getMessage();
+            }
+            return $this->asJson($asJson);
+        }else{
+            //$res=self::wxlogin();
+            $res['openid'] = "oygRU07sg52dl3y6RPIpbDXrZC-g";
+
+            $list = Dishreceive::find()->join("left join","{{%stores}}","{{%stores}}.id={{%dishreceive}}.store_id")->select("{{%dishreceive}}.*,{{%stores}}.name as storeName")->where(['openid'=>$res['openid']])->asArray()->all();
+
+        }
+        return $this->renderPartial('setreceive',['res'=>$res,'list'=>$list]);
+
+    }
+
 
     public static function wxlogin()
     {

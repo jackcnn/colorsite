@@ -27,10 +27,31 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
             'name',
             'phone',
-            'wxname',
-            // 'wxpic',
-            // 'openid',
-            // 'is_receive',
+            [
+                'attribute'=>'wxname',
+                'value'=>function($model){
+                    return urldecode($model->wxname);
+                }
+            ],
+            [
+                'attribute'=>'wxpic',
+                'value'=>function($model){
+                    if($model->wxpic){
+                        $html="<img src='".$model->wxpic."' style='width: 50px;'/>";
+                    }else{
+                        $html='';
+                    }
+                    return $html;
+                },
+                'format'=>'raw'
+            ],
+            [
+                'attribute'=>'is_receive',
+                'value'=>function($model){
+                    $data = ['0'=>'不接收信息','1'=>'接收信息'];
+                    return $data[$model->is_receive];
+                }
+            ],
             ['class' => 'yii\grid\ActionColumn'],
             [
                 'attribute'=>'',

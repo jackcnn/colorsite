@@ -63,10 +63,10 @@ class DishtableSearch extends Dishtable
             'store_id' => $this->store_id,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'ownerid' => $this->ownerid
         ]);
 
-        $query->andFilterWhere(['like', 'ownerid', $this->ownerid])
-            ->andFilterWhere(['like', 'title', $this->title])
+        $query->andFilterWhere(['like', 'title', $this->title])
             ->andFilterWhere(['like', 'path', $this->path])
             ->andFilterWhere(['like', 'code', $this->code]);
 

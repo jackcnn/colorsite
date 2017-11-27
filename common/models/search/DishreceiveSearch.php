@@ -18,7 +18,7 @@ class DishreceiveSearch extends Dishreceive
     public function rules()
     {
         return [
-            [['id', 'ownerid', 'is_receive', 'created_at', 'updated_at'], 'integer'],
+            [['id', 'ownerid', 'store_id', 'is_receive', 'created_at', 'updated_at'], 'integer'],
             [['name', 'phone', 'wxname', 'wxpic', 'openid'], 'safe'],
         ];
     }
@@ -64,6 +64,7 @@ class DishreceiveSearch extends Dishreceive
             'is_receive' => $this->is_receive,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'store_id' => $this->store_id
         ]);
 
         $query->andFilterWhere(['like', 'name', $this->name])
