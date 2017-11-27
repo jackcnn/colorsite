@@ -60,7 +60,7 @@
 </div>
 
 <div class="chenglan-logo">
-    <img src="/uploads/chenglan.jpg" />
+    <img src="/uploads/chenglanapp.jpg" />
 </div>
 
 </body>
