@@ -99,25 +99,8 @@ class WxnotifyController extends controller
     //发送小程序模板消息，包括付款人和店员
     public static function sendtmp_to_payer($order,$store,$openid)
     {
-
-        $prepay = json_decode($order->unifiedorder_res,1);
         $access_token=ColorHelper::CHENGLAN_DIANCAN_ACCESSTOKEN();
         $url = "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=$access_token";
-        $send_data['touser'] = $openid;
-        $send_data['template_id'] = "BMjZV4JI5ysZ_Z_Cq-HgTUm1_7VSP27NOQKLucHdvLk";//付款通知模板消息
-        $send_data['form_id'] = $prepay['prepay_id'];
-        $send_data['data'] = [
-            'keyword1'=>['value'=>$order->id,'color'=>'#173177'],//单号
-            'keyword2'=>['value'=>$order->title,'color'=>'#173177'],//商品信息
-            'keyword3'=>['value'=>($order->amount/100).'元','color'=>'#173177'],//付款金额
-            'keyword4'=>['value'=>date("Y-m-d H:i:s",$order->paytime),'color'=>'#173177'],//付款时间
-            'keyword5'=>['value'=>$order->ordersn,'color'=>'#173177'],//订单编号
-            'keyword6'=>['value'=>'微信支付','color'=>'#173177'],//支付方式
-            'keyword7'=>['value'=>$store->name,'color'=>'#173177'],//门店
-        ];
-        $send_data['emphasis_keyword'] = "keyword1.DATA";
-        $res = CurlHelper::callWebServer($url,json_encode($send_data),"post",false);
-
 
         if(strlen($order->formid)>5){//有店员提交订单时的，付款了要发送模板消息
             $data['touser'] = $order->openid;
@@ -135,7 +118,22 @@ class WxnotifyController extends controller
             $res = CurlHelper::callWebServer($url,json_encode($data),"post",false);
         }
 
+        $prepay = json_decode($order->unifiedorder_res,1);
 
+        $send_data['touser'] = $openid;
+        $send_data['template_id'] = "BMjZV4JI5ysZ_Z_Cq-HgTUm1_7VSP27NOQKLucHdvLk";//付款通知模板消息
+        $send_data['form_id'] = $prepay['prepay_id'];
+        $send_data['data'] = [
+            'keyword1'=>['value'=>$order->id,'color'=>'#173177'],//单号
+            'keyword2'=>['value'=>$order->title,'color'=>'#173177'],//商品信息
+            'keyword3'=>['value'=>($order->amount/100).'元','color'=>'#173177'],//付款金额
+            'keyword4'=>['value'=>date("Y-m-d H:i:s",$order->paytime),'color'=>'#173177'],//付款时间
+            'keyword5'=>['value'=>$order->ordersn,'color'=>'#173177'],//订单编号
+            'keyword6'=>['value'=>'微信支付','color'=>'#173177'],//支付方式
+            'keyword7'=>['value'=>$store->name,'color'=>'#173177'],//门店
+        ];
+        $send_data['emphasis_keyword'] = "keyword1.DATA";
+        $res = CurlHelper::callWebServer($url,json_encode($send_data),"post",false);
 
     }
 
