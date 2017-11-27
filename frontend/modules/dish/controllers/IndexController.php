@@ -335,10 +335,10 @@ class IndexController extends BaseController
             foreach($res_list as $key=>$value){
                 if(isset($value['name'])){
                     //$price = intval($value['price']*$value['count'])/100;
-                    $content .= $value['name'].'*'.$value['count'].'\n';
+                    $content .= $value['name'].'*数量'.$value['count']."\\n";
                 }
                 if(isset($value['lable']) && strlen($value['lable'])> 1){
-                    $content .= '('.str_replace(',','*',$value['lable']).')\n';
+                    $content .= '('.str_replace(',','*',$value['lable']).")\\n";
                 }
             }
 
