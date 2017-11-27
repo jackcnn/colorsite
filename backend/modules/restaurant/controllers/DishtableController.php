@@ -23,6 +23,7 @@ class DishtableController extends BaseController
         $searchModel = new DishtableSearch();
         $params = Yii::$app->request->queryParams;
         $params['DishtableSearch']['ownerid'] = $this->ownerid;
+        $params['DishtableSearch']['store_id'] = $storeid;
         $dataProvider = $searchModel->search($params);
 
         $store = Stores::findOne($storeid);

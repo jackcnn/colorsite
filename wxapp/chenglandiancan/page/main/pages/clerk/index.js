@@ -136,18 +136,19 @@ Page({
 
 
     },
-    submit:function () {
+    submit:function (e) {
 
         var self = this;
         var category = self.data.category;
         var params = self.data.params;
+        var formId = e.detail.formId;
 
         wx.showActionSheet({
             itemList: ['确认下单','设置结账','重置餐牌'],
             success: function(res) {
                 var tapIndex = parseInt(res.tapIndex);
                 if(tapIndex == 0){
-                    self.print_list(category,params);
+                    self.print_list(category,params,formId);
                 }
 
                 if(tapIndex == 1 ){//确认设置微信付款吗.设置现金付款--跳转到设置页面
@@ -184,7 +185,7 @@ Page({
             }
         })
     },
-    print_list:function(category,params){
+    print_list:function(category,params,formId){
         var res_list = [];
         category.forEach(function(value,key){
             value.dishes.forEach(function (v,k) {
@@ -193,37 +194,45 @@ Page({
                 }
             });
         }); //点菜单
-        wx.request({//生成后台订单
-            url: clerk_submit_cart+"?sid="+params.sid+"&tid="+params.tid,
-            data: {
-                res_list:res_list,
-            },
-            method:"post",
-            success: function(res) {
-                if(res.data.success){
-                    wx.setStorage({
-                        key:'alert-flash',
-                        data:{type:'success',msg:'提交成功！'},
-                        success:function () {
-                            wx.redirectTo({
-                                url: "/page/common/msg/index"
-                            });
-                        }
-                    });
-                }else{
-                    wx.setStorage({
-                        key:'alert-flash',
-                        data:{type:'error',msg:'提交失败'},
-                        success:function () {
-                            wx.redirectTo({
-                                url: "/page/common/msg/index"
-                            });
 
-                        }
-                    });
+        app.getUserOpenId(function () {
+
+            wx.request({//生成后台订单
+                url: clerk_submit_cart+"?sid="+params.sid+"&tid="+params.tid,
+                data: {
+                    res_list:res_list,
+                    formId:formId,
+                    openid:app.globalData.openid
+                },
+                method:"post",
+                success: function(res) {
+                    if(res.data.success){
+                        wx.setStorage({
+                            key:'alert-flash',
+                            data:{type:'success',msg:'提交成功！'},
+                            success:function () {
+                                wx.redirectTo({
+                                    url: "/page/common/msg/index"
+                                });
+                            }
+                        });
+                    }else{
+                        wx.setStorage({
+                            key:'alert-flash',
+                            data:{type:'error',msg:'提交失败'},
+                            success:function () {
+                                wx.redirectTo({
+                                    url: "/page/common/msg/index"
+                                });
+
+                            }
+                        });
+                    }
                 }
-            }
+            })
+
         })
+
     },
     tapcategory:function(e){
         var self = this;

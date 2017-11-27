@@ -193,6 +193,10 @@
     background: #13CE66;
     font-size:40rpx;
     color: #ffffff;
+    display: inline-block;
+    float: right;
+    border:0rpx;
+    border-radius: 0rpx;
 }
 .cart-list-bg{
     width: 100%;

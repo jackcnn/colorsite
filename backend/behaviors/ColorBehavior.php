@@ -37,6 +37,7 @@ class ColorBehavior extends Behavior
             }else{//二级用户，父级的userid
                 $this->ownerid = $this->identity->parent_id;
             }
+            \Yii::$app->view->params['ownerid'] = $this->ownerid;
         }
         return true;
     }

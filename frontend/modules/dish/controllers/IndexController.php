@@ -305,9 +305,9 @@ class IndexController extends BaseController
 
         if($model->validate() && $model->save()){
 
-            //打印订单
-
-            $content = '';                          //打印内容
+            //打印订单打印内容--改为发送模板消息
+            /*
+            $content = '';
             $content .= '<FS><center>'.$tid.'号</center></FS>';
             $content .= str_repeat('-',32);
             $content .= '<table>';
@@ -316,22 +316,49 @@ class IndexController extends BaseController
                 if(isset($value['name'])){
                     $price = intval($value['price']*$value['count'])/100;
                     $content .= '<tr><td>'.$value['name'].'</td><td>'.$value['count'].'</td><td>'.$price.'元</td></tr>';
-
                     $total = $total + $price;
-
                 }
                 if(isset($value['lable']) && strlen($value['lable'])> 1){
                     $content .= '<tr><td></td><td></td><td>('.str_replace(',','*',$value['lable']).')</td></tr>';
                 }
-
             }
             $content .= '</table>';
             $content .= str_repeat('-',32)."\n";
             $content .= "<FS>总金额: ".$total."元</FS>\r\n";
             $content .= "时间: ".date('Y-m-d H:i:s',time())."\r\n";
-
             $this->printer_content($sid,$content);
+            */
 
+            //发送小程序的模板消息--后台的‘订单确认通知	’
+
+            $content = '';
+            foreach($res_list as $key=>$value){
+                if(isset($value['name'])){
+                    //$price = intval($value['price']*$value['count'])/100;
+                    $content .= $value['name'].'*'.$value['count'].'\n';
+                }
+                if(isset($value['lable']) && strlen($value['lable'])> 1){
+                    $content .= '('.str_replace(',','*',$value['lable']).')\n';
+                }
+            }
+
+            $store = Stores::findOne($sid);
+            $table = Dishtable::findOne($tid);
+
+
+            $access_token=ColorHelper::CHENGLAN_DIANCAN_ACCESSTOKEN();
+            $url = "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=$access_token";
+            $send_data['touser'] = \Yii::$app->request->post('openid');
+            $send_data['template_id'] = "gwHlCcVyKhe7-9M_QS8R9kah9J19YiDK-isX8IjjkEw";
+            $send_data['form_id'] = \Yii::$app->request->post('formId');
+            $send_data['data'] = [
+                'keyword1'=>['value'=>$store->name,'color'=>'#173177'],
+                'keyword2'=>['value'=>'餐号:'.$table->title,'color'=>'#173177'],
+                'keyword3'=>['value'=>date("Y-m-d H:i:s",time()),'color'=>'#173177'],
+                'keyword4'=>['value'=>$content,'color'=>'#173177'],
+            ];
+            $send_data['emphasis_keyword'] = "keyword2.DATA";
+            $res = CurlHelper::callWebServer($url,json_encode($send_data),"post",false);
 
             $return = ['success'=>true,'msg'=>'提交成功！'];
         }else{
