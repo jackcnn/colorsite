@@ -46,6 +46,7 @@ class DishreceiveController extends BaseController
         }
         $model = new Dishreceive();
         if($request->isPost){
+
             $model->load($request->post());
             $model->ownerid = $this->ownerid;
             $model->store_id = $request->get("store_id");

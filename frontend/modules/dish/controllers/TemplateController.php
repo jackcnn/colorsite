@@ -25,7 +25,13 @@ class TemplateController extends BaseController
 
             $asJson['success'] = true;
             try{
-                //$model = Clerk::findOne($clerk_id);
+
+                $count = Dishreceive::find()->where(['store_id'=>$store_id,'openid'=>$request->post('openid')])->count();
+
+                if($count){
+                    throw new \Exception('一个门店只能绑定唯一的微信号！');
+                }
+
                 $model = Dishreceive::findOne($id);
 
                 if($model->openid){
