@@ -9,6 +9,7 @@ Page({
         total_price:0,
         true_price:0,
         openid:'',
+        table:''
     },
     onLoad:function(params)
     {
@@ -26,6 +27,7 @@ Page({
                     var category = res.data.category;
                     var total_count = res.data.total_count;
                     var total_price = res.data.total;
+                    var table = res.data.table;
 
                     wx.setNavigationBarTitle({
                         title: store.name
@@ -36,7 +38,8 @@ Page({
                         total_price:total_price/100,
                         true_price:total_price/100,
                         params:params,
-                        openid:app.globalData.openid
+                        openid:app.globalData.openid,
+                        table:table
                     });
                 }
             });

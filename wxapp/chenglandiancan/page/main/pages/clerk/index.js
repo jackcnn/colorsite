@@ -13,6 +13,7 @@ Page({
         hlist:[],//保存分类所属的离顶部高度
         dishescateview:'',//当前可见
         params:{},
+        table:'',
     },
     onLoad:function(params)
     {
@@ -29,6 +30,7 @@ Page({
                 var category = res.data.category;
                 var total_count = res.data.total_count;
                 var total_price = res.data.total;
+                var table = res.data.table;
 
                 wx.setNavigationBarTitle({
                     title: store.name
@@ -38,7 +40,8 @@ Page({
                     category:category,
                     total_count:total_count,
                     total_price:total_price/100,
-                    params:params
+                    params:params,
+                    table:table
                 });
             }
         });

@@ -9,7 +9,8 @@ Page({
         order:[],
         paytime:'',
         pay_name:'',
-        amount:0
+        amount:0,
+        table:'',
     },
     onLoad:function(params)
     {
@@ -34,19 +35,22 @@ Page({
                 wx.hideLoading();
                 if(res.data.success){
                     var order = res.data.order;
+                    var table = res.data.table;
                     if(parseInt(order.status) == 2 && order.paytime >0){
                         self.setData({
                             amount:order.amount/100,
                             hadpay:true,
                             paytime:order.format_paytime,
-                            pay_name:order.paytype_name
+                            pay_name:order.paytype_name,
+                            table:table
                         });
                     }else{
                         self.setData({
                             amount:order.amount/100,
                             hadpay:false,
                             paytime:order.format_paytime,
-                            pay_name:order.paytype_name
+                            pay_name:order.paytype_name,
+                            table:table
                         });
                     }
                 }

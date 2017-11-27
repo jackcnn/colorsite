@@ -12,6 +12,7 @@ use common\models\Clerk;
 use common\models\Dishcart;
 use common\models\Dishes;
 use common\models\Dishorder;
+use common\models\Dishtable;
 use common\models\Gallery;
 use common\models\Payconfig;
 use common\models\Printer;
@@ -227,6 +228,7 @@ class IndexController extends BaseController
     public function actionShowCart($sid,$tid)
     {
         $store = Stores::find()->where(['id'=>$sid])->asArray()->one();
+        $table = Dishtable::findOne($tid);
         $cart = Dishcart::find()->where(["store_id"=>$sid,"tid"=>$tid,"isdone"=>0])->asArray()->orderBy("id desc,type asc")->limit(1)->all();
         $cartlist = [];
         $i=0;
@@ -259,7 +261,6 @@ class IndexController extends BaseController
         foreach($category as $key=>$value){
             foreach($dishes as $k=>$v){
                 if($v['cateid'] == $value['id']){
-
                     if(isset($cartlist[$v['id']])){
                         $cartinfo=$cartlist[$v['id']];
                         $v['get_labels'] = $cartinfo['labels'];
@@ -268,19 +269,15 @@ class IndexController extends BaseController
                         $v['get_labels'] = '';
                         $v['hascount'] = 0;
                     }
-
                     $v['cover'] = \Yii::$app->request->hostInfo.$v['cover'];
-
                     unset($v['spec']);
-
                     $category[$key]['dishes'][] = $v;
-
                     unset($dishes[$k]);
                 }
             }
         }
 
-        return $this->asJson(['category'=>$category,'total'=>$total,'total_count'=>$total_count,'store'=>$store]);
+        return $this->asJson(['category'=>$category,'total'=>$total,'total_count'=>$total_count,'store'=>$store,'table'=>$table->title]);
     }
 
     //店员提交打印菜单
@@ -397,8 +394,7 @@ class IndexController extends BaseController
         $data['success'] = true;
         try{
             $model = Dishorder::find()->where(['store_id'=>$sid,'id'=>$orderid,'ordersn'=>$ordersn])->asArray()->one();
-            $store = Stores::find()->where(['id'=>$sid])->asArray()->one();
-            $data['store'] = $store;
+
             if(!$model){
                 throw new \Exception('订单不存在！');
             }
@@ -406,6 +402,13 @@ class IndexController extends BaseController
 //            if($model['status'] > 1 && $model['paytime']>0){
 //                throw new \Exception('订单已支付！');
 //            }
+            $store = Stores::find()->where(['id'=>$sid])->asArray()->one();
+            $data['store'] = $store;
+
+            $table = Dishtable::findOne($tid);
+
+            $data['table'] = $table->title;
+
 
             $model['list'] = json_decode($model['list'],1);
             $model['format_paytime'] = $model['paytime']>0?date("Y-m-d H:i:s",$model['paytime']):'';

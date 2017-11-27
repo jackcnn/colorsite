@@ -1,6 +1,6 @@
 <view class="container">
     <view hidden="{{hadpay}}" class="mch-title">
-        <view>等待{{params.tid}}号餐牌客人支付...</view>
+        <view>等待客人支付...</view>
     </view>
 
 
@@ -10,7 +10,7 @@
         <view>支付时间：{{paytime}}</view>
         <view>支付方式：{{pay_name}}</view>
         <view>付款编号：{{params.ordersn}}</view>
-        <view>餐牌号：{{params.tid}}</view>
+        <view>餐牌号：{{table}}</view>
     </view>
 
 
