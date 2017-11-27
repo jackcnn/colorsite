@@ -9,6 +9,8 @@ use common\models\Dishtable;
 use common\models\search\DishtableSearch;
 use yii\helpers\CurlHelper;
 use yii\helpers\FileHelper;
+use yii\helpers\UHelper;
+use yii\imagine\Image;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
 use backend\controllers\BaseController;
@@ -89,15 +91,25 @@ class DishtableController extends BaseController
     }
 
     //打印餐桌二维码
-    public function actionPrintQrcode($id)
+    public function actionCreatecode($id)
     {
+        $model = Dishtable::findOne($id);
+        //https://326108993.com/wxapp/dish?stid=1-2
+        $url = "https://326108993.com/wxapp/dish?stid=".$model->store_id."-".$model->id;
 
+        $file = "/uploads/dishtable/".$model->store_id."/".$model->id.".png";
+        $outfile = FileHelper::normalizePath(\Yii::getAlias('@site').$file);
+        $res = UHelper::qrcode($url,$outfile);
+
+        $bg =FileHelper::normalizePath(\Yii::getAlias('@site').'/uploads/dishtable/dish-blank.png');
+        Image::watermark($bg,$outfile)->save($outfile);
+        Image::text($outfile,'nihaofsdfsdfd')->save($outfile);
 
 
     }
 
     //这个是生成小程序码的，暂时放弃先
-    public function actionCreatecode($id)
+    public function actionPrintQrcode($id)
     {
         return;
         $access_token=ColorHelper::CHENGLAN_DIANCAN_ACCESSTOKEN();

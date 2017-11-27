@@ -59,7 +59,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     $html = Html::a('公众号绑定', 'javascript:;', ['class' => 'layui-btn layui-btn-mini bind-public','data-href'=>\yii\helpers\Url::to(['/restaurant/dishreceive/bind-public','id'=>$model->id,'store_id'=>\Yii::$app->request->get("store_id")])]);
 
-                    $html .= Html::a('清除绑定', ['/restaurant/dishreceive/clear','id'=>$model->id], ['class' => 'layui-btn layui-btn-mini layui-btn-danger']);
+                    $html .= Html::a('清除绑定', ['/restaurant/dishreceive/clear','id'=>$model->id], ['class' => 'layui-btn layui-btn-mini layui-btn-danger clear-bind']);
 
                     return $html;
 
@@ -94,6 +94,15 @@ layui.use('layer',function(){
           content: link
         }); 
         
+    })
+    
+    jQuery(".clear-bind").click(function(e) {
+        e.preventDefault();
+        var href = jQuery(this).attr('href');
+        layer.confirm('你确定要清除绑定吗', {icon: 3, title:'提示'}, function(index){
+            location.href= href;
+            return;
+        });
     })
     
     

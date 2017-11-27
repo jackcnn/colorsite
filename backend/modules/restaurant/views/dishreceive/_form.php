@@ -15,7 +15,7 @@ use backend\widgets\LayForm;
 
     <?= $form->field($model, 'is_receive')->lyswitch(['0'=>'否','1'=>'是']) ?>
 
-    <?= $form->field($model, 'wxname')->lytextInput(['disabled' => true]) ?>
+    <?= $form->field($model, 'wxname')->lyhidden(['disabled' => true]) ?>
 
     <?= $form->field($model, 'wxpic')->lyhidden() ?>
 

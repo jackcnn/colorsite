@@ -9,7 +9,7 @@ use yii\base\Widget;
 
 class FooterWidget extends Widget
 {
-    public $data="© colorsite.com 陆荣泽";
+    public $data="©  广州市橙蓝网络科技有限公司";
 
     public function init()
     {

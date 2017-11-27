@@ -89,9 +89,13 @@ class DishreceiveController extends BaseController
 
     public function actionDelete($id)
     {
-        $this->findModel($id)->delete();
+        //$this->findModel($id)->delete();
 
-        return $this->redirect(['index']);
+        $model = $this->findModel($id);
+
+        $model->delete();
+
+        return $this->redirect(['index','store_id'=>$model->store_id]);
     }
 
     //公众号绑定

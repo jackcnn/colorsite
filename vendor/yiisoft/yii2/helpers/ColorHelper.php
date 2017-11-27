@@ -179,7 +179,6 @@ class ColorHelper
             $access_token = $return['access_token'];
         }
         return $access_token;
-
     }
 
 }
