@@ -351,6 +351,7 @@ class IndexController extends BaseController
             $send_data['touser'] = \Yii::$app->request->post('openid');
             $send_data['template_id'] = "gwHlCcVyKhe7-9M_QS8R9kah9J19YiDK-isX8IjjkEw";
             $send_data['form_id'] = \Yii::$app->request->post('formId');
+            $send_data['page'] = "/page/main/pages/clerk/index?sid=$sid&tid=$tid";
             $send_data['data'] = [
                 'keyword1'=>['value'=>$store->name,'color'=>'#173177'],
                 'keyword2'=>['value'=>'餐号:'.$table->title,'color'=>'#173177'],
