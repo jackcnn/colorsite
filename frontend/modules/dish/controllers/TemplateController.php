@@ -58,28 +58,35 @@ class TemplateController extends BaseController
 
         $request = \Yii::$app->request;
         if($request->isPost){
-            $id = $request->post('id');
+            $list = $request->post('list');
+            $openid = $request->post('openid');
             $asJson['success'] = true;
             try{
-                $model = Dishreceive::findOne($id);
-                $model->openid = $request->post('openid');
 
-                if($model->validate() && $model->save()){
-                    $asJson['msg'] = '绑定成功！';
-                }else{
-                    throw new \Exception(current($model->getFirstErrors()));
+                if(count($list)){
+                    foreach ($list as $key=>$value){
+                        $data = explode('-',$value);
+                        $model = Dishreceive::find()->where(['id'=>$data[0],'openid'=>$openid])->one();
+                        $model->is_receive = $data[1];
+                        if(!$model->save()){
+                            throw new \Exception(current($model->getFirstErrors()));
+                        }
+                    }
+                    $asJson['msg'] = '修改成功！';
                 }
-
             }catch (\Exception $e){
                 $asJson['success'] = false;
                 $asJson['msg'] = $e->getMessage();
             }
             return $this->asJson($asJson);
         }else{
-            //$res=self::wxlogin();
-            $res['openid'] = "oygRU07sg52dl3y6RPIpbDXrZC-g";
-
-            $list = Dishreceive::find()->join("left join","{{%stores}}","{{%stores}}.id={{%dishreceive}}.store_id")->select("{{%dishreceive}}.*,{{%stores}}.name as storeName")->where(['openid'=>$res['openid']])->asArray()->all();
+            $res=self::wxlogin();
+//            $res['openid'] = "oygRU07sg52dl3y6RPIpbDXrZC-g";
+            $list = Dishreceive::find()->join("left join","{{%stores}}","{{%stores}}.id={{%dishreceive}}.store_id")
+                ->select("{{%dishreceive}}.*,{{%stores}}.name as storeName")
+                ->where(['openid'=>$res['openid']])
+                ->asArray()
+                ->all();
 
         }
         return $this->renderPartial('setreceive',['res'=>$res,'list'=>$list]);

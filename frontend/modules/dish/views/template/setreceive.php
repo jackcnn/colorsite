@@ -41,7 +41,7 @@
     <?php foreach($list as $key=>$value){?>
 
         <div class="weui-cell weui-cell_switch">
-            <div class="weui-cell__bd"><?=$value['storeName']?></div>
+            <div class="weui-cell__bd"><?=$value['storeName']?>(<?=$value['name']?>)</div>
             <div class="weui-cell__ft">
                 <input class="weui-switch" type="checkbox" name="list[]"  value="<?=$value['id']?>" <?=$value['is_receive']>0?'checked':''?>>
             </div>
@@ -65,13 +65,28 @@ $(function () {
     FastClick.attach(document.body);
 
     $("#bind").click(function () {
+        var list = new Array();
+        $(".weui-switch").each(function () {
+
+            if($(this).is(":checked")){
+                list.push($(this).val()+'-1');
+            }else{
+                list.push($(this).val()+'-0');
+            }
+        })
+
+        //console.log(list);
+
         $.showLoading();
 
         $.post(location.href,{
             openid:'<?=$res['openid']?>',
+            list:list
         },function (res) {
             $.hideLoading();
-            $.alert(res.msg);
+            $.alert(res.msg,function () {
+                return location.reload();
+            });
         })
 
     })
