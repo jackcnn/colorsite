@@ -107,4 +107,8 @@ class Dishorder extends \yii\db\ActiveRecord
     {
         return $this->hasOne(Member::className(),['openid'=>'payopenid']);
     }
+    public function getTabletitle()
+    {
+        return $this->hasOne(Dishtable::className(),['id'=>'table_num']);
+    }
 }

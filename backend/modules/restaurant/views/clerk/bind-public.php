@@ -31,7 +31,7 @@
 
     <div class="msg">
         使用微信扫码授权绑定,已方便接收到微信的收款通知<br/>
-        <span style="color: #ff5500;">注意：必须关注公众号"橙蓝科技服务平台"才能收到通知消息！关注二维码在下面。</span>
+        <span style="color: #ff5500;font-weight: bolder;">注意：必须关注公众号"橙蓝科技服务平台"才能收到通知消息！关注二维码在下面。</span>
     </div>
 
     <div class="msg" style="font-weight: bolder;">

@@ -75,7 +75,11 @@ $this->params['breadcrumbs'][] = $this->title;
                      }
                  }
              ],
-             'table_num',
+//             'table_num',
+            [
+              'attribute'=>'table_num',
+              'value'=>'tabletitle.title',
+            ],
              [
                  'attribute'=>'created_at',
                  'label'=>'下单时间',
