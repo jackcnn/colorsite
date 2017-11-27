@@ -331,20 +331,19 @@ class IndexController extends BaseController
 
             //发送小程序的模板消息--后台的‘订单确认通知	’
 
-            $content = '';
+            $content = "";
             foreach($res_list as $key=>$value){
                 if(isset($value['name'])){
                     //$price = intval($value['price']*$value['count'])/100;
-                    $content .= $value['name'].'*数量'.$value['count']."\\n";
+                    $content .= $value['name']."*数量".$value['count']."\r\n";
                 }
                 if(isset($value['lable']) && strlen($value['lable'])> 1){
-                    $content .= '('.str_replace(',','*',$value['lable']).")\\n";
+                    $content .= "(".str_replace(',','*',$value['lable']).")\r\n";
                 }
             }
 
             $store = Stores::findOne($sid);
             $table = Dishtable::findOne($tid);
-
 
             $access_token=ColorHelper::CHENGLAN_DIANCAN_ACCESSTOKEN();
             $url = "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=$access_token";
