@@ -8,6 +8,7 @@
 namespace frontend\modules\dish\controllers;
 
 use common\models\Dishreceive;
+use common\models\Stores;
 use Yii;
 use frontend\controllers\BaseController;
 use yii\helpers\ColorHelper;
@@ -29,7 +30,7 @@ class TemplateController extends BaseController
                 $count = Dishreceive::find()->where(['store_id'=>$store_id,'openid'=>$request->post('openid')])->count();
 
                 if($count){
-                    throw new \Exception('一个门店只能绑定唯一的微信号！');
+                    throw new \Exception('你已绑定了该门店的收款通知帐号了！');
                 }
 
                 $model = Dishreceive::findOne($id);
@@ -54,9 +55,10 @@ class TemplateController extends BaseController
             return $this->asJson($asJson);
         }else{
             $res=self::wxlogin();
+            $store = Stores::findOne($store_id);
 
         }
-        return $this->renderPartial('index',['res'=>$res]);
+        return $this->renderPartial('index',['res'=>$res,'store'=>$store->name]);
     }
 
     public function actionSetreceive()

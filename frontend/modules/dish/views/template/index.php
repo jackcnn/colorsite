@@ -29,15 +29,24 @@
             margin-top:50px;
             width:50%;
         }
+        .chenglan-logo{
+            display: block;
+            width:100%;
+            text-align: center;
+        }
     </style>
 </head>
 <body ontouchstart>
 <header class='demos-header'>
-    <h1 class="demos-title">确认绑定店员帐号接收公众号的模板消息吗？</h1>
+    <h1 class="demos-title">确认绑定"<?=$store?>"的收款帐号，以接收公众号的模板消息吗？<span style="color: #ff5500;">（*绑定成功后，长按下方二维码关注公众号才可以接收到消息）</span></h1>
 </header>
 
 <div class='demos-content-padded'>
     <a id="bind" href="javascript:;" class="weui-btn weui-btn_primary">确认绑定</a>
+</div>
+
+<div class="chenglan-logo">
+    <img src="/uploads/chenglan.jpg" />
 </div>
 
 </body>

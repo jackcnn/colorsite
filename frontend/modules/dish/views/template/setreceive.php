@@ -30,6 +30,11 @@
             margin-top:50px;
             width:50%;
         }
+        .chenglan-logo{
+            display: block;
+            width:100%;
+            text-align: center;
+        }
     </style>
 </head>
 <body ontouchstart>
@@ -54,7 +59,9 @@
     <a id="bind" href="javascript:;" class="weui-btn weui-btn_primary">确认修改</a>
 </div>
 
-
+<div class="chenglan-logo">
+    <img src="/uploads/chenglan.jpg" />
+</div>
 
 </body>
 <script src="/assets/jquery.js"></script>
