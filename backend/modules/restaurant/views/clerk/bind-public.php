@@ -17,7 +17,7 @@
         .msg{
             display: block;
             width:100%;
-            height:45px;
+            /*height:45px;*/
             line-height: 45px;
             text-align: center;
             -webkit-box-sizing: border-box;
@@ -35,7 +35,7 @@
     </div>
 
     <div class="msg" style="font-weight: bolder;">
-        橙蓝科技服务平台
+        橙蓝科技服务平台<b/>
 
         <img src="/uploads/chenglanapp.jpg" />
     </div>
