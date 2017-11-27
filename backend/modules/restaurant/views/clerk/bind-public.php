@@ -35,7 +35,7 @@
     </div>
 
     <div class="msg" style="font-weight: bolder;">
-        橙蓝科技服务平台<b/>
+        橙蓝科技服务平台<br/>
 
         <img src="/uploads/chenglanapp.jpg" />
     </div>
