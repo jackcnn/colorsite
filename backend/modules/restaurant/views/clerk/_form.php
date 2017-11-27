@@ -8,8 +8,6 @@ use backend\widgets\LayForm;
 
     <?php $form = LayForm::begin(); ?>
 
-
-
     <?= $form->field($model, 'name')->lytextInput() ?>
 
     <?= $form->field($model, 'phone')->lytextInput() ?>

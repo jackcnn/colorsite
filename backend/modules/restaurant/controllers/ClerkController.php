@@ -92,7 +92,7 @@ class ClerkController extends BaseController
         return $this->render('bind',['id'=>$id,'store_id'=>$store_id,'token'=>$this->token]);
     }
 
-    //公众号绑定
+    //公众号绑定 -- 去掉了的
     public function actionBindPublic($id,$store_id)
     {
 

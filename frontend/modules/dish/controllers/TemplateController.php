@@ -7,7 +7,7 @@
  */
 namespace frontend\modules\dish\controllers;
 
-use common\models\Clerk;
+use common\models\Dishreceive;
 use Yii;
 use frontend\controllers\BaseController;
 use yii\helpers\ColorHelper;
@@ -18,20 +18,24 @@ class TemplateController extends BaseController
 
     public $enableCsrfValidation = false;
 
-    public function actionIndex($store_id,$clerk_id)
+    public function actionIndex($store_id,$id)
     {
 
         $request = \Yii::$app->request;
         if($request->isPost){
+
             $asJson['success'] = true;
-
             try{
-                $model = Clerk::findOne($clerk_id);
+                //$model = Clerk::findOne($clerk_id);
+                $model = Dishreceive::findOne($id);
 
-                if($model->public_openid){
+                if($model->openid){
                     throw new \Exception('二维码已被绑定了');
                 }
-                $model->public_openid = $request->post('openid');
+                $model->openid = $request->post('openid');
+                $model->wxname = urlencode($request->post('wxname'));
+                $model->wxpic = $request->post('wxpic');
+
                 if($model->validate() && $model->save()){
                     $asJson['msg'] = '绑定成功！';
                 }else{
@@ -44,10 +48,11 @@ class TemplateController extends BaseController
             }
             return $this->asJson($asJson);
         }else{
-            $openid=self::wxlogin();
+            $res=self::wxlogin();
+
         }
 
-        return $this->renderPartial('index',['openid'=>$openid]);
+        return $this->renderPartial('index',['res'=>$res]);
     }
 
     public static function wxlogin()
@@ -65,7 +70,12 @@ class TemplateController extends BaseController
             $oauth_info=\common\weixin\Wxoauth2Helper::getTokenAndOpenid($code,CHENGLAN_APPID,CHENGLAN_APPSECRET);
 
             if(isset($oauth_info['openid'])){
-                return $oauth_info['openid'];
+                $user_info=\common\weixin\Wxoauth2Helper::getUserInfo($oauth_info['access_token'],$oauth_info['openid']);
+
+                $res['openid'] = $oauth_info['openid'];
+                $res['wxname'] = $user_info['nickname'];
+                $res['wxpic'] = $user_info['headimgurl'];
+                return $res;
             }else{//重新拿code
                 $query=$request->get();
                 unset($query['code']);

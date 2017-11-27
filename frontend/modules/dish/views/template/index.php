@@ -24,6 +24,9 @@
             font-size:18px;
             color: #20A0FF;
         }
+        #bind{
+            width:30%;
+        }
     </style>
 </head>
 <body ontouchstart>
@@ -47,7 +50,9 @@ $(function () {
         $.showLoading();
 
         $.post(location.href,{
-            openid:'<?=$openid?>'
+            openid:'<?=$res['openid']?>',
+            wxname:'<?=$res['wxname']?>',
+            wxpic:'<?=$res['wxpic']?>'
         },function (res) {
             $.hideLoading();
             $.alert(res.msg);

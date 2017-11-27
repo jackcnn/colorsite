@@ -56,6 +56,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value'=>function($model){
                     $html = Html::a('餐牌管理', ['/restaurant/dishtable/index','storeid'=>$model->id], ['class' => 'layui-btn layui-btn-mini']);
 
+                    $html .= Html::a('收款通知管理', ['/restaurant/dishreceive/index','store_id'=>$model->id], ['class' => 'layui-btn layui-btn-mini']);
+
                     return $html.Html::a('店员管理', ['/restaurant/clerk/index','store_id'=>$model->id], ['class' => 'layui-btn layui-btn-mini']);
                 },
                 'format'=>'raw'
