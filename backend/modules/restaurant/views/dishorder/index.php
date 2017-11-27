@@ -9,6 +9,15 @@ use yii\grid\GridView;
 
 $this->title = '订单管理';
 $this->params['breadcrumbs'][] = $this->title;
+
+//桌子
+$table = \common\models\Dishtable::find()->where(['ownerid'=>$this->params['ownerid']])->asArray()->all();
+$table_arr = [];
+foreach ($table as $key=>$value){
+    $table_arr[$value['id']] = $value['title'];
+}
+
+
 ?>
 <div class="dishorder-index">
 
@@ -79,6 +88,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
               'attribute'=>'table_num',
               'value'=>'tabletitle.title',
+              'filter'=>$table_arr
             ],
              [
                  'attribute'=>'created_at',
