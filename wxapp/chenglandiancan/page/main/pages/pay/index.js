@@ -8,6 +8,7 @@ Page({
         params:{},
         total_price:0,
         true_price:0,
+        table:''
     },
     onLoad:function(params)
     {
@@ -27,7 +28,8 @@ Page({
                     self.setData({
                         list:res.data.order.list,
                         true_price:res.data.order.amount/100,
-                        params:params
+                        params:params,
+                        table:res.data.table
                     })
                 }else{
 

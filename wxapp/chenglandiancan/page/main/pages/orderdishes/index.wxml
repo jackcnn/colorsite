@@ -1,6 +1,6 @@
 <view class="container">
     <view class="mch-title">
-        <view>付款页面({{params.tid}}号餐牌)</view>
+        <view>已点菜单(餐牌:{{table}})</view>
     </view>
 
     <view class="list-container">
