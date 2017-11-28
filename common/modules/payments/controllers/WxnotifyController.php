@@ -7,6 +7,7 @@
 namespace common\modules\payments\controllers;
 
 use common\models\Dishreceive;
+use common\models\Printer;
 use common\models\Stores;
 use common\weixin\WxCommon;
 use Faker\Provider\Color;
