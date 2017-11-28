@@ -153,7 +153,7 @@ class WxnotifyController extends controller
                 'keyword2'=>['value'=>'微信支付','color'=>'#20a0ff'],
                 'keyword3'=>['value'=>$order->ordersn,'color'=>'#20a0ff'],
                 'keyword4'=>['value'=>date('Y-m-d H:i:s',$order->paytime),'color'=>'#20a0ff'],
-                'keyword5'=>['value'=>$order->title.'(单号：'.$order->id.',支付微信号：'.urldecode($order->paywxname).'）','color'=>'#20a0ff'],
+                'keyword5'=>['value'=>$order->title."\r\n单号：".$order->id."\r\n支付微信号：".urldecode($order->paywxname)."",'color'=>'#20a0ff'],
                 'remark'=>['value'=>$store->name.'(橙蓝点餐服务平台)','color'=>'#20a0ff'],
             ];
 
