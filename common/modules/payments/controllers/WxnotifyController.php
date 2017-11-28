@@ -171,7 +171,7 @@ class WxnotifyController extends controller
     {
         $content = '';
         $content .= '<FS><center>单号'.$order->id.'</center></FS>';
-        $content .="您有新的收款订单";
+        $content .="您有新的收款订单\r\n";
         $content .= str_repeat('-',32);
         $content .= '<table>';
         $content .= '<tr><td>商品信息</td><td>'.$order->title.'</td></tr>';
