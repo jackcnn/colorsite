@@ -2,6 +2,8 @@
 
 namespace backend\modules\restaurant\controllers;
 
+use common\models\Dishcart;
+use common\models\Dishorder;
 use common\models\Printer;
 use common\models\Stores;
 use DoctrineTest\InstantiatorTestAsset\FinalExceptionAsset;
@@ -216,6 +218,7 @@ class DishtableController extends BaseController
 
         $sid = $table->store_id;
         $tid = $id;
+
 
         Dishcart::updateAll(['isdone'=>1],"`isdone`=0 and `store_id`=:sid and `tid`=:tid and `created_at`>=:time",
             [':sid'=>$sid,':tid'=>$tid,':time'=>time()-3600*4]
