@@ -434,7 +434,11 @@ class IndexController extends BaseController
 
             $table = Dishtable::findOne($tid);
 
-            $data['table'] = $table->title;
+            if($table){
+                $model['table_num'] = $table->title;
+            }else{
+                $model['table_num'] = '未设置';
+            }
 
 
             $model['list'] = json_decode($model['list'],1);
