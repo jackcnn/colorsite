@@ -359,10 +359,10 @@ class IndexController extends BaseController
             $send_data['form_id'] = \Yii::$app->request->post('formId');
             $send_data['page'] = "/page/main/pages/clerk/index?sid=$sid&tid=$tid";
             $send_data['data'] = [
-                'keyword1'=>['value'=>$store->name,'color'=>'#173177'],
-                'keyword2'=>['value'=>'餐号:'.$tableTitle,'color'=>'#173177'],
-                'keyword3'=>['value'=>date("Y-m-d H:i:s",time()),'color'=>'#173177'],
-                'keyword4'=>['value'=>$content,'color'=>'#173177'],
+                'keyword1'=>['value'=>$store->name,'color'=>'#20a0ff'],
+                'keyword2'=>['value'=>'餐号:'.$tableTitle,'color'=>'#20a0ff'],
+                'keyword3'=>['value'=>date("Y-m-d H:i:s",time()),'color'=>'#20a0ff'],
+                'keyword4'=>['value'=>$content,'color'=>'#20a0ff'],
             ];
             $send_data['emphasis_keyword'] = "keyword2.DATA";
             $res = CurlHelper::callWebServer($url,json_encode($send_data),"post",false);

@@ -103,12 +103,12 @@ class WxnotifyController extends controller
             $data['template_id'] = "d8T7CEalF2iovSdBL6f9KflAbslADCU8H7pB8AxeBhg";//收款通知模板消息
             $data['form_id'] = $order->formid;
             $data['data'] = [
-                'keyword1'=>['value'=>($order->amount/100).'元','color'=>'#173177'],//收款金额
-                'keyword2'=>['value'=>$order->title,'color'=>'#173177'],//备注
-                'keyword3'=>['value'=>$store->name,'color'=>'#173177'],//商户名称
-                'keyword4'=>['value'=>'微信支付','color'=>'#173177'],//付款方式
-                'keyword5'=>['value'=>date("Y-m-d H:i:s",$order->paytime),'color'=>'#173177'],//收款时间
-                'keyword6'=>['value'=>$order->ordersn,'color'=>'#173177'],//单号
+                'keyword1'=>['value'=>($order->amount/100).'元','color'=>'#20a0ff'],//收款金额
+                'keyword2'=>['value'=>$order->title,'color'=>'#20a0ff'],//备注
+                'keyword3'=>['value'=>$store->name,'color'=>'#20a0ff'],//商户名称
+                'keyword4'=>['value'=>'微信支付','color'=>'#20a0ff'],//付款方式
+                'keyword5'=>['value'=>date("Y-m-d H:i:s",$order->paytime),'color'=>'#20a0ff'],//收款时间
+                'keyword6'=>['value'=>$order->ordersn,'color'=>'#20a0ff'],//单号
             ];
             $data['emphasis_keyword'] = "keyword1.DATA";
             $res = CurlHelper::callWebServer($url,json_encode($data),"post",false);
@@ -122,13 +122,13 @@ class WxnotifyController extends controller
         $send_data['template_id'] = "BMjZV4JI5ysZ_Z_Cq-HgTUm1_7VSP27NOQKLucHdvLk";//付款通知模板消息
         $send_data['form_id'] = $prepay['prepay_id'];
         $send_data['data'] = [
-            'keyword1'=>['value'=>$order->id,'color'=>'#173177'],//单号
-            'keyword2'=>['value'=>$order->title,'color'=>'#173177'],//商品信息
-            'keyword3'=>['value'=>($order->amount/100).'元','color'=>'#173177'],//付款金额
-            'keyword4'=>['value'=>date("Y-m-d H:i:s",$order->paytime),'color'=>'#173177'],//付款时间
-            'keyword5'=>['value'=>$order->ordersn,'color'=>'#173177'],//订单编号
-            'keyword6'=>['value'=>'微信支付','color'=>'#173177'],//支付方式
-            'keyword7'=>['value'=>$store->name,'color'=>'#173177'],//门店
+            'keyword1'=>['value'=>$order->id,'color'=>'#20a0ff'],//单号
+            'keyword2'=>['value'=>$order->title,'color'=>'#20a0ff'],//商品信息
+            'keyword3'=>['value'=>($order->amount/100).'元','color'=>'#20a0ff'],//付款金额
+            'keyword4'=>['value'=>date("Y-m-d H:i:s",$order->paytime),'color'=>'#20a0ff'],//付款时间
+            'keyword5'=>['value'=>$order->ordersn,'color'=>'#20a0ff'],//订单编号
+            'keyword6'=>['value'=>'微信支付','color'=>'#20a0ff'],//支付方式
+            'keyword7'=>['value'=>$store->name,'color'=>'#20a0ff'],//门店
         ];
         $send_data['emphasis_keyword'] = "keyword1.DATA";
         $res = CurlHelper::callWebServer($url,json_encode($send_data),"post",false);
@@ -148,13 +148,13 @@ class WxnotifyController extends controller
             $url = "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=$accessToken";
             $post['template_id'] = 'zQABVFbNomal1DPlGrZWiDszZKYoFqoSlArNELMgwNA';
             $post['data'] = [
-                'first'=>['value'=>'您有新的收款订单','color'=>'#173177'],
-                'keyword1'=>['value'=>($order->amount/100).'元','color'=>'#173177'],
-                'keyword2'=>['value'=>'微信支付','color'=>'#173177'],
-                'keyword3'=>['value'=>$order->ordersn,'color'=>'#173177'],
-                'keyword4'=>['value'=>date('Y-m-d H:i:s',$order->paytime),'color'=>'#173177'],
-                'keyword5'=>['value'=>$order->title.'(单号：'.$order->id.',支付微信号：'.urldecode($order->paywxname).'）','color'=>'#173177'],
-                'remark'=>['value'=>$store->name.'(橙蓝点餐服务平台)','color'=>'#173177'],
+                'first'=>['value'=>'您有新的收款订单','color'=>'#20a0ff'],
+                'keyword1'=>['value'=>($order->amount/100).'元','color'=>'#20a0ff'],
+                'keyword2'=>['value'=>'微信支付','color'=>'#20a0ff'],
+                'keyword3'=>['value'=>$order->ordersn,'color'=>'#20a0ff'],
+                'keyword4'=>['value'=>date('Y-m-d H:i:s',$order->paytime),'color'=>'#20a0ff'],
+                'keyword5'=>['value'=>$order->title.'(单号：'.$order->id.',支付微信号：'.urldecode($order->paywxname).'）','color'=>'#20a0ff'],
+                'remark'=>['value'=>$store->name.'(橙蓝点餐服务平台)','color'=>'#20a0ff'],
             ];
 
             foreach($receiver as $key=>$value){
