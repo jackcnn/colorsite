@@ -173,7 +173,7 @@ class DishtableController extends BaseController
         }
         if($count<1){
             ColorHelper::err('没有对应的打印机！');
-            return $this->redirect(['index','store_id'=>$store_id]);
+            return $this->redirect(['index','storeid'=>$store_id]);
         }
 
         $table = Dishtable::findOne($id);
@@ -199,7 +199,7 @@ class DishtableController extends BaseController
                     $result = true;
                 }else{
                     ColorHelper::err('打印出错了！');
-                    return $this->redirect(['index','store_id'=>$store_id]);
+                    return $this->redirect(['index','storeid'=>$store_id]);
                 }
             }
         }

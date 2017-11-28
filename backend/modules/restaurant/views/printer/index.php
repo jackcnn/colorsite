@@ -38,13 +38,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     $data = json_decode($model->actions,1);
                     $html = '';
                     if(in_array('qrcode',$data)){
-                        $html.='后台二维码打印';
+                        $html.='*后台二维码打印';
                     }
                     if(in_array('dishes',$data)){
-                        $html.=',菜单打印';
+                        $html.='*菜单打印';
                     }
                     if(in_array('payres',$data)){
-                        $html.=',付款后打印';
+                        $html.='*付款后打印';
                     }
                     return $html;
                 },

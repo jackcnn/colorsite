@@ -311,8 +311,7 @@ class IndexController extends BaseController
 
         if($model->validate() && $model->save()){
 
-            //打印订单打印内容--改为发送模板消息
-            /*
+            //打印订单打印内容
             $content = '';
             $content .= '<FS><center>'.$tid.'号</center></FS>';
             $content .= str_repeat('-',32);
@@ -333,10 +332,8 @@ class IndexController extends BaseController
             $content .= "<FS>总金额: ".$total."元</FS>\r\n";
             $content .= "时间: ".date('Y-m-d H:i:s',time())."\r\n";
             $this->printer_content($sid,$content);
-            */
 
             //发送小程序的模板消息--后台的‘订单确认通知	’
-
             $content = "";
             foreach($res_list as $key=>$value){
                 if(isset($value['name'])){
@@ -347,7 +344,6 @@ class IndexController extends BaseController
                     $content .= "(".str_replace(',','*',$value['lable']).")\r\n";
                 }
             }
-
             $store = Stores::findOne($sid);
             $table = Dishtable::findOne($tid);
             if($table){
@@ -602,7 +598,6 @@ class IndexController extends BaseController
                 $input->SetSubMch_id($mchInfo['mch_number']);
                 $input->SetSubOpenid($postData['openid']);
                 $orderRes = WxPayHelper::unifiedOrder($input , $this->mchkey);
-
                 $model->unifiedorder_res = json_encode($orderRes);
                 $model->save();
                 $orderRes['appid'] = $orderRes['sub_appid'];//这里要把appid的值改为小程序的app id
@@ -622,11 +617,16 @@ class IndexController extends BaseController
 
     public function actionPrintCart($sid,$tid)
     {
-
         $postData = \Yii::$app->request->post();
+        $table = Dishtable::findOne($tid);
+        if($table){
+            $tableTitle = $table->title;
+        }else{
+            $tableTitle = "ID".$tid;
+        }
 
         $content = '';                          //打印内容
-        $content .= '<FS><center>'.$tid.'号</center></FS>';
+        $content .= '<FS><center>'.$tableTitle.'</center></FS>';
         $content .= str_repeat('-',32);
         $content .= '<table>';
         $content .= '<tr><td>菜品</td><td>数量</td><td>价格</td></tr>';
@@ -639,13 +639,10 @@ class IndexController extends BaseController
                 $content .= '<tr><td></td><td></td><td>('.$value['labels'].')</td></tr>';
             }
         }
-        $content .= '<tr><td>茶位费</td><td></td><td>'.$postData['inputValue'].'</td></tr>';
         $content .= '</table>';
         $content .= str_repeat('-',32)."\n";
         $content .= "<FS>总金额: ".($postData['total']+$postData['inputValue'])."元</FS>\r\n";
-
         $this->printer_content($sid,$content);
-
     }
 
     public function actionJokeList()
@@ -710,18 +707,18 @@ class IndexController extends BaseController
         //把所有打印机
         //$printers = Printer::find()->where(['store_id'=>$store_id,'isuse'=>1])->asArray()->all();
         $printers = Printer::find()->where(['store_id'=>$store_id,'isuse'=>1])->asArray()->all();
-
-
-        foreach($printers as $key=>$value){
-            $actions = json_decode($value['actions'],1);
-            if(in_array("dishes",$actions)){//选为打印的，开始打印
-                $machineCode = $value['machine_code'];                      //授权的终端号
-                $res = \common\vendor\yilianyun\YilianyunHelper::printer($content,$machineCode);
-                return $res;
-                if($res == 'success'){
-                    return true;
-                }else{
-                    return false;
+        if(count($printers)){
+            foreach($printers as $key=>$value){
+                $actions = json_decode($value['actions'],1);
+                if(in_array("dishes",$actions)){//选为打印的，开始打印
+                    $machineCode = $value['machine_code'];                      //授权的终端号
+                    $res = \common\vendor\yilianyun\YilianyunHelper::printer($content,$machineCode);
+                    return $res;
+                    if($res == 'success'){
+                        return true;
+                    }else{
+                        return false;
+                    }
                 }
             }
         }
