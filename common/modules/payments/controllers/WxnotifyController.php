@@ -169,7 +169,7 @@ class WxnotifyController extends controller
     public static function printcode($order,$store)
     {
         $content = '';
-        $content .= '<FS><center>'.$tid.'号</center></FS>';
+        $content .= '<FS><center>单号'.$order->id.'</center></FS>';
         $content .="您有新的收款订单";
         $content .= str_repeat('-',32);
         $content .= '<table>';
