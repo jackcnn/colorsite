@@ -39,13 +39,13 @@
         }
         .chenglan-logo img{
             display: inline-block;
-            width: 80%;
+            width: 90%;
         }
     </style>
 </head>
 <body ontouchstart>
 <header class='demos-header'>
-    <h1 class="demos-title">确认绑定"<?=$store?>"的收款帐号，以接收公众号的模板消息吗？<span style="color: #ff5500;">（*绑定成功后，长按下方二维码关注公众号才可以接收到消息）</span></h1>
+    <h1 class="demos-title">确认绑定"<?=$store?>"的收款帐号，以接收公众号的模板消息吗？<br/><span style="color: #ff5500;">（*绑定成功后，长按下方二维码关注公众号才可以接收到消息）</span></h1>
 </header>
 
 <div class='demos-content-padded'>
