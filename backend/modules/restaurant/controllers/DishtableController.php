@@ -209,6 +209,24 @@ class DishtableController extends BaseController
     }
 
 
+    //重置餐牌
+    public function actionReset($id)
+    {
+        $table = Dishtable::findOne($id);
+
+        $sid = $table->store_id;
+        $tid = $id;
+
+        Dishcart::updateAll(['isdone'=>1],"`isdone`=0 and `store_id`=:sid and `tid`=:tid and `created_at`>=:time",
+            [':sid'=>$sid,':tid'=>$tid,':time'=>time()-3600*4]
+        );
+
+        Dishorder::updateAll(['isdone'=>1],"`isdone`=0 and `store_id`=:sid and `table_num`=:tid and `created_at`>=:time",
+            [':sid'=>$sid,':tid'=>$tid,':time'=>time()-3600*4]
+        );
+        ColorHelper::alert('已重置餐牌');
+        return $this->redirect(['index','storeid'=>$sid]);
+    }
 
     protected function findModel($id)
     {
