@@ -50,7 +50,7 @@ Page({
     bindclerk:function () {
 
         var self = this;
-        wx.showLoading({title: '加载中.'});
+        wx.showLoading();
         app.getUserOpenId(function(){
             wx.request({
             url: bindclerk,
@@ -62,6 +62,7 @@ Page({
                 openid:app.globalData.openid
             },
             success: function(res) {
+                wx.hideLoading();
                 if(res.data.success){
                     wx.setStorage({
                         key:'alert-flash',

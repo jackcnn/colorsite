@@ -21,8 +21,6 @@ Page({
               var speed = res.speed;
               var accuracy = res.accuracy;
 
-              console.log(latitude+'--'+longitude);
-
               self.getmchlist(latitude,longitude,"");
 
           },fail:function (res) {

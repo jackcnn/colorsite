@@ -15,7 +15,7 @@ Page({
     onLoad:function(params)
     {
         var self = this;
-
+        wx.showLoading();
         wx.request({
             url: getdishes,
             data:{
@@ -23,6 +23,7 @@ Page({
                 tid:params.tid
             },
             success: function(res) {
+                wx.hideLoading();
                 var store = res.data.store;
                 var category = res.data.category;
 

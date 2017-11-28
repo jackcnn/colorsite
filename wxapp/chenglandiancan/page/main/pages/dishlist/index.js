@@ -85,7 +85,7 @@ Page({
         wx.showActionSheet({
             itemList: ['确认呼叫服务员下单'],
             success: function(res) {
-                wx.showLoading({title: '加载中.'});
+                wx.showLoading();
 
                 app.getUserOpenId(function () {
                     wx.request({
@@ -97,7 +97,7 @@ Page({
                         method:"post",
 
                         success: function(res) {
-                            console.log(app.globalData)
+                            wx.hideLoading();
                             if(res.data.success){
                                 wx.removeStorageSync("cart-list");
                                 wx.setStorage({

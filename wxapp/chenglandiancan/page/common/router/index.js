@@ -27,7 +27,7 @@ Page({
             return;
         }
 
-        wx.showLoading('请稍后...');
+        wx.showLoading();
 
         if(sid && tid){
             app.getUserOpenId(function(){

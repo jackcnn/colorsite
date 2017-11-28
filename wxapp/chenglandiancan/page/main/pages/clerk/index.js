@@ -18,7 +18,7 @@ Page({
     onLoad:function(params)
     {
         var self = this;
-
+        wx.showLoading();
         wx.request({
             url: show_cart,
             data:{
@@ -26,6 +26,7 @@ Page({
                 tid:params.tid
             },
             success: function(res) {
+                wx.hideLoading();
                 var store = res.data.store;
                 var category = res.data.category;
                 var total_count = res.data.total_count;
@@ -194,9 +195,8 @@ Page({
                 }
             });
         }); //点菜单
-
+        wx.showLoading();
         app.getUserOpenId(function () {
-
             wx.request({//生成后台订单
                 url: clerk_submit_cart+"?sid="+params.sid+"&tid="+params.tid,
                 data: {
@@ -206,6 +206,7 @@ Page({
                 },
                 method:"post",
                 success: function(res) {
+                    wx.hideLoading();
                     if(res.data.success){
                         wx.setStorage({
                             key:'alert-flash',

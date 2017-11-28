@@ -229,6 +229,13 @@ class IndexController extends BaseController
     {
         $store = Stores::find()->where(['id'=>$sid])->asArray()->one();
         $table = Dishtable::findOne($tid);
+        if($table){
+            $tableTitle = $table->title;
+        }else{
+            $tableTitle = "ID".$tid;
+        }
+
+
         $cart = Dishcart::find()->where(["store_id"=>$sid,"tid"=>$tid,"isdone"=>0])->asArray()->orderBy("id desc,type asc")->limit(1)->all();
         $cartlist = [];
         $i=0;
@@ -277,7 +284,7 @@ class IndexController extends BaseController
             }
         }
 
-        return $this->asJson(['category'=>$category,'total'=>$total,'total_count'=>$total_count,'store'=>$store,'table'=>$table->title]);
+        return $this->asJson(['category'=>$category,'total'=>$total,'total_count'=>$total_count,'store'=>$store,'table'=>$tableTitle]);
     }
 
     //店员提交打印菜单
@@ -344,6 +351,11 @@ class IndexController extends BaseController
 
             $store = Stores::findOne($sid);
             $table = Dishtable::findOne($tid);
+            if($table){
+                $tableTitle = $table->title;
+            }else{
+                $tableTitle = "ID".$tid;
+            }
 
             $access_token=ColorHelper::CHENGLAN_DIANCAN_ACCESSTOKEN();
             $url = "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=$access_token";
@@ -353,7 +365,7 @@ class IndexController extends BaseController
             $send_data['page'] = "/page/main/pages/clerk/index?sid=$sid&tid=$tid";
             $send_data['data'] = [
                 'keyword1'=>['value'=>$store->name,'color'=>'#173177'],
-                'keyword2'=>['value'=>'餐号:'.$table->title,'color'=>'#173177'],
+                'keyword2'=>['value'=>'餐号:'.$tableTitle,'color'=>'#173177'],
                 'keyword3'=>['value'=>date("Y-m-d H:i:s",time()),'color'=>'#173177'],
                 'keyword4'=>['value'=>$content,'color'=>'#173177'],
             ];
@@ -437,7 +449,7 @@ class IndexController extends BaseController
             if($table){
                 $model['table_num'] = $table->title;
             }else{
-                $model['table_num'] = '未设置';
+                $model['table_num'] = 'ID'.$tid;
             }
 
 

@@ -13,7 +13,7 @@ Page({
     onLoad:function(params)
     {
         var self = this;
-
+        wx.showLoading();
         wx.request({
             url: orderdetail,
             data:{
@@ -23,7 +23,7 @@ Page({
                 ordersn:params.ordersn
             },
             success: function(res) {
-
+                wx.hideLoading();
                 if(res.data.success){
                     self.setData({
                         list:res.data.order.list,
@@ -56,8 +56,8 @@ Page({
     wxpayfunc:function () {//微信支付
         var self = this;
         var params = self.data.params;
+        wx.showLoading();
         app.getUserOpenId(function(){
-
             wx.getUserInfo({
                 success: function(res) {
                     var userInfo = res.userInfo
@@ -72,9 +72,7 @@ Page({
                             wxname:encodeURI(nickName),
                         },
                         success: function(res) {
-
-                            console.log(res);
-
+                            wx.hideLoading();
                             if(res.data.success){
                                 //调起微信支付JSAPI
                                 self.callwxpay(res.data.jsapiparams,function () {

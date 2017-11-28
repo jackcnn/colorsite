@@ -12,7 +12,7 @@ Page({
     onLoad:function(params)
     {
         var self = this;
-
+        wx.showLoading();
         wx.request({
             url: show_cart,
             data:{
@@ -20,6 +20,7 @@ Page({
                 tid:params.tid
             },
             success: function(res) {
+                wx.hideLoading();
                 var store = res.data.store;
                 var category = res.data.category;
                 var total_count = res.data.total_count;

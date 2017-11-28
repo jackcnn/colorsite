@@ -10,7 +10,7 @@ Page({
         var sid = params.sid;
         var tid = params.tid;
 
-        wx.showLoading('请稍后...');
+        wx.showLoading();
         if(sid && tid){
             app.getUserOpenId(function(){
                 wx.request({

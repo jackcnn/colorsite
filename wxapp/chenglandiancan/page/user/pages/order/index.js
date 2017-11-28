@@ -12,7 +12,7 @@ Page({
     onLoad:function(params)
     {
         var self = this;
-
+        wx.showLoading();
         wx.request({
             url: orderdetail,
             data:{
@@ -22,6 +22,7 @@ Page({
                 ordersn:params.ordersn
             },
             success: function(res) {
+                wx.hideLoading();
                 if(res.data.success){
                     self.setData({
                         order:res.data.order,

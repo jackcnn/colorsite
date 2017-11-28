@@ -14,7 +14,7 @@ Page({
     onLoad:function(params)
     {
         var self = this;
-
+        wx.showLoading();
         app.getUserOpenId(function () {
             wx.request({
                 url: show_cart,
@@ -23,6 +23,7 @@ Page({
                     tid:params.tid
                 },
                 success: function(res) {
+                    wx.hideLoading();
                     var store = res.data.store;
                     var category = res.data.category;
                     var total_count = res.data.total_count;
@@ -91,7 +92,7 @@ Page({
                 }
             });
         });
-
+        wx.showLoading();
         wx.request({
             url: createorder+"?sid="+data.params.sid+"&tid="+data.params.tid,
             method:"post",
@@ -103,12 +104,9 @@ Page({
                 formId:formId
             },
             success: function(res) {
-
+                wx.hideLoading();
                 if(res.data.success){
 
-                    // wx.reLaunch({
-                    //     url: "/page/main/pages/checkpay/index?sid="+data.params.sid+"&tid="+data.params.tid+"&orderid="+res.data.orderid+"&ordersn="+res.data.ordersn
-                    // });
                     wx.redirectTo({
                         url: "/page/main/pages/checkpay/index?sid="+data.params.sid+"&tid="+data.params.tid+"&orderid="+res.data.orderid+"&ordersn="+res.data.ordersn
                     });

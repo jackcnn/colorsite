@@ -16,7 +16,7 @@ Page({
     {
         //预约点菜，只是保留在localstorege
         var self = this;
-
+        wx.showLoading();
         wx.request({
             url: getdishes,
             data:{
@@ -24,6 +24,7 @@ Page({
                 tid:0
             },
             success: function(res) {
+                wx.hideLoading();
                 var store = res.data.store;
                 var category = res.data.category;
 
@@ -33,12 +34,9 @@ Page({
                     });
                     return;
                 }
-
-
                 wx.setNavigationBarTitle({
                     title: store.name
                 });
-
                 try {//购物车
                     var cartlist = wx.getStorageSync('cart-list')
                     var total_count = 0;
