@@ -70,7 +70,7 @@ $js = <<<JS
     jQuery(".clear-table").click(function(e) {
         e.preventDefault();
         var href = jQuery(this).attr('href');
-        layer.confirm('重置餐牌后清楚当前点餐信息，直接开始新一轮点餐，确认重置餐牌吗？', {icon: 3, title:'提示'}, function(index){
+        layer.confirm('重置餐牌后清除当前点餐信息，直接开始新一轮点餐，确认重置餐牌吗？', {icon: 3, title:'提示'}, function(index){
             location.href= href;
             return;
         });
