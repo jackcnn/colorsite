@@ -389,6 +389,13 @@ class IndexController extends BaseController
 
         $model = new Dishorder();
 
+        $table = Dishtable::findOne($tid);
+        if($table){
+            $tableTitle = $table->title;
+        }else{
+            $tableTitle = "ID".$tid;
+        }
+        $model->title = "餐牌：".$tableTitle;
         $model->ownerid = $store->ownerid;
         $model->store_id = $sid;
         $model->ordersn = ColorHelper::orderSN($sid.$tid);
@@ -558,7 +565,15 @@ class IndexController extends BaseController
 
             //生成系统订单
             $store = Stores::findOne($sid);
+            $table = Dishtable::findOne($tid);
+            if($table){
+                $tableTitle = $table->title;
+            }else{
+                $tableTitle = "ID".$tid;
+            }
+
             $model = new Dishorder();
+            $model->title = "餐牌：".$tableTitle;
             $model->ownerid = $store->ownerid;
             $model->store_id = $sid;
             $model->ordersn = ColorHelper::orderSN($sid.$tid);
