@@ -235,7 +235,6 @@ class IndexController extends BaseController
             $tableTitle = "ID".$tid;
         }
 
-
         $cart = Dishcart::find()->where(["store_id"=>$sid,"tid"=>$tid,"isdone"=>0])->asArray()->orderBy("id desc,type asc")->limit(1)->all();
         $cartlist = [];
         $i=0;

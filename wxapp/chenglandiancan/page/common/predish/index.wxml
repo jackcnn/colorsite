@@ -36,7 +36,7 @@
 
     <view class="cart-container">
         <view class="cart-index">
-            <view class="cart-logo">
+            <view class="cart-logo" bindtap="toggleCart">
                 <view class="cart-cirle">
                     <image src="../../../image/cart.png"></image>
                     <view class="badge">{{total_count}}</view>
