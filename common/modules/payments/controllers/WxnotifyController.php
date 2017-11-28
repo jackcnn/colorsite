@@ -97,7 +97,6 @@ class WxnotifyController extends controller
     {
         $access_token=ColorHelper::CHENGLAN_DIANCAN_ACCESSTOKEN();
         $url = "https://api.weixin.qq.com/cgi-bin/message/wxopen/template/send?access_token=$access_token";
-
         //有店员提交订单时的，付款了要发送模板消息
         if(strlen($order->formid)>5){
             $data['touser'] = $order->openid;
