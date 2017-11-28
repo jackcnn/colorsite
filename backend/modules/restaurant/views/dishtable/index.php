@@ -51,7 +51,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                     $html .= Html::a('打印餐牌二维码', ['/restaurant/dishtable/print-qrcode','id'=>$model->id,'store_id'=>\Yii::$app->request->get("storeid")], ['class' => 'layui-btn layui-btn-mini']);
 
-                    $html = Html::a('重置餐牌', ['/restaurant/dishtable/reset','id'=>$model->id], ['class' => 'clear-table layui-btn layui-btn-mini layui-danger']);
+                    $html .= Html::a('重置餐牌', ['/restaurant/dishtable/reset','id'=>$model->id], ['class' => 'clear-table layui-btn layui-btn-mini layui-danger']);
 
                     return $html;
                 },
