@@ -16,6 +16,9 @@
     <link rel="stylesheet" href="https://cdn.bootcss.com/weui/1.1.1/style/weui.min.css">
     <link rel="stylesheet" href="https://cdn.bootcss.com/jquery-weui/1.0.1/css/jquery-weui.min.css">
     <style>
+        *{
+            box-sizing: border-box;
+        }
         body{
             padding:90px 20px;
             box-sizing: border-box;
@@ -33,6 +36,10 @@
             display: block;
             width:100%;
             text-align: center;
+        }
+        .chenglan-logo img{
+            display: inline-block;
+            width: 80%;
         }
     </style>
 </head>
