@@ -102,11 +102,8 @@ Page({
                                 wx.removeStorageSync("cart-list");
                                 wx.setStorage({
                                     key:'alert-flash',
-                                    data:{type:'success',msg:'提交成功！服务员马上过来确认'},
+                                    data:{type:'success',msg:'提交成功！请呼叫服务员确认下单'},
                                     success:function () {
-                                        // wx.reLaunch({
-                                        //     url: "/page/common/msg/index"
-                                        // });
                                         wx.redirectTo({
                                             url: "/page/common/msg/index"
                                         });
