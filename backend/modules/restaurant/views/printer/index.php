@@ -7,7 +7,8 @@ use yii\grid\GridView;
 $this->title = '门店列表';
 //$this->params['breadcrumbs'][] = ['label'=>'门店管理','url'=>['/restaurant/index']];
 $this->params['breadcrumbs'][] = $this->title;
-
+//排号的也先不搞先
+//Html::a('打印排号页面', ['code'], ['class' => 'layui-btn colorsite-iframe-show'])
 ?>
 <div class="printer-index">
 
@@ -16,7 +17,6 @@ $this->params['breadcrumbs'][] = $this->title;
     <p>
         <?= Html::a('新增打印机', ['create'], ['class' => 'layui-btn']) ?>
 
-        <?= Html::a('打印排号页面', ['code'], ['class' => 'layui-btn colorsite-iframe-show']) ?>
     </p>
 
     <?= GridView::widget([
@@ -38,10 +38,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     $data = json_decode($model->actions,1);
                     $html = '';
                     if(in_array('qrcode',$data)){
-                        $html.='排号打印';
+                        $html.='后台二维码打印';
                     }
                     if(in_array('dishes',$data)){
                         $html.=',菜单打印';
+                    }
+                    if(in_array('payres',$data)){
+                        $html.=',付款后打印';
                     }
                     return $html;
                 },

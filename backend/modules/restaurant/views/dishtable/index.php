@@ -47,7 +47,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label'=>'更多操作',
                 'value'=>function($model){
 
-                    return Html::a('生成二维码图片', ['/restaurant/dishtable/createcode','id'=>$model->id], ['class' => 'layui-btn layui-btn-mini']);
+                    $html = Html::a('生成二维码图片', ['/restaurant/dishtable/createcode','id'=>$model->id], ['class' => 'layui-btn layui-btn-mini']);
+
+                    $html .= Html::a('打印绑定二维码', ['/restaurant/dishtable/print-qrcode','id'=>$model->id,'store_id'=>\Yii::$app->request->get("storeid")], ['class' => 'layui-btn layui-btn-mini']);
+
+                    return $html;
                 },
                 'format'=>'raw'
             ],

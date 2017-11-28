@@ -2,6 +2,7 @@
 
 namespace backend\modules\restaurant\controllers;
 
+use common\models\Printer;
 use common\models\Stores;
 use Yii;
 use common\models\Clerk;
@@ -31,7 +32,6 @@ class ClerkController extends BaseController
             'storeName' => $this->findStore($params['ClerkSearch']['store_id'])
         ]);
     }
-
 
     public function actionCreate()
     {
@@ -99,7 +99,7 @@ class ClerkController extends BaseController
         return $this->render('bind-public',['id'=>$id,'store_id'=>$store_id,'token'=>$this->token]);
     }
 
-
+    //显示绑定二维码
     public function actionUnbind($id,$store_id){
         $model = Clerk::findOne($id);
 
@@ -114,6 +114,56 @@ class ClerkController extends BaseController
 
         }
         return $this->redirect(['clerk/index','store_id'=>$store_id]);
+
+    }
+
+    //打印机打印二维码
+    public function actionPrintQrcode($id,$store_id)
+    {
+
+        $printers = Printer::find()->where(['store_id'=>$store_id,'isuse'=>1])->asArray()->all();
+        $count = 0;
+        foreach($printers as $key=>$value){
+            $actions = json_decode($value['actions'],1);
+            if(in_array("qrcode",$actions)){//选为打印的，开始打印
+               $count++;
+            }
+        }
+        if($count<1){
+            ColorHelper::err('没有对应的打印机！');
+            return $this->redirect(['index','store_id'=>$store_id]);
+        }
+
+        $clerk = Clerk::findOne($id);
+        $store = Stores::findOne($store_id);
+        //二维码链接  https://colorsite.com/wxapp/dish?stid=1-2-BIND
+        $str = \yii\helpers\Url::to(['/wxapp/dish','stid'=>$store_id.'-'.$id.'-BIND'],'https');
+        $str = str_replace("/admin","",$str);
+
+        $content = '';                          //打印内容
+        $content .= '<center>'.$store->name.'</center>';
+        $content .= '<center>绑定店员名称：'.$clerk->name.'</center>';
+        $content .= "<center>（使用微信扫一扫二维码进行绑定）</center>\r\n";
+        $content .= '<QR>'.$str.'</QR>';
+        $content .= str_repeat('-',32)."\n";
+        $content .= "<FS>扫码完成后请销毁二维码</FS>";
+
+        $result = true;
+        foreach($printers as $key=>$value){
+            $actions = json_decode($value['actions'],1);
+            if(in_array("qrcode",$actions)){//选为打印的，开始打印
+                $machineCode = $value['machine_code'];                      //授权的终端号
+                $res = \common\vendor\yilianyun\YilianyunHelper::printer($content,$machineCode);
+                if($res == 'success'){
+                    $result = true;
+                }else{
+                    ColorHelper::err('打印出错了！');
+                    return $this->redirect(['index','store_id'=>$store_id]);
+                }
+            }
+        }
+        ColorHelper::alert('已打印');
+        return $this->redirect(['index','store_id'=>$store_id]);
 
     }
 

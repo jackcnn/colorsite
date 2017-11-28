@@ -2,6 +2,7 @@
 
 namespace backend\modules\restaurant\controllers;
 
+use common\models\Printer;
 use common\models\Stores;
 use DoctrineTest\InstantiatorTestAsset\FinalExceptionAsset;
 use Yii;
@@ -85,31 +86,42 @@ class DishtableController extends BaseController
         //$this->findModel($id)->delete();
         $model = $this->findModel($id);
 
+        @unlink(\Yii::getAlias('@site').$model->code);
+
         $model->delete();
 
         return $this->redirect(['index','storeid'=>$model->store_id]);
     }
 
-    //打印餐桌二维码
+    //生成餐桌二维码
     public function actionCreatecode($id)
     {
         $model = Dishtable::findOne($id);
-        //https://326108993.com/wxapp/dish?stid=1-2
-        $url = "https://326108993.com/wxapp/dish?stid=".$model->store_id."-".$model->id;
+        $store = Stores::findOne($model->store_id);
+        //$url = "https://326108993.com/wxapp/dish?stid=".$model->store_id."-".$model->id;
+        $url = \yii\helpers\Url::to(['/wxapp/dish','stid'=>$model->store_id.'-'.$model->id],'https');
+        $url = str_replace("/admin","",$url);
 
         $file = "/uploads/dishtable/".$model->store_id."/".$model->id.".png";
         $outfile = FileHelper::normalizePath(\Yii::getAlias('@site').$file);
         $res = UHelper::qrcode($url,$outfile);
-
         $bg =FileHelper::normalizePath(\Yii::getAlias('@site').'/uploads/dishtable/dish-blank.png');
         Image::watermark($bg,$outfile)->save($outfile);
-        Image::text($outfile,'nihaofsdfsdfd')->save($outfile);
-
-
+        $font = FileHelper::normalizePath(\Yii::getAlias('@site').'/assets/fonts/msyhfull.ttf');
+        $title = "(".$model->title.")\n".$store->name;
+        Image::text($outfile,$title,$font,[10,600],['color'=>'#000000','size'=>'25'])->save($outfile);
+        $model->code = $file;
+        $model->path = $url;
+        if($model->validate()&&$model->save()){
+            ColorHelper::alert('生成二维码成功！');
+        }else{
+            ColorHelper::err(current($model->getFirstErrors()));
+        }
+        return $this->redirect(['index','storeid'=>$store->id]);
     }
 
     //这个是生成小程序码的，暂时放弃先
-    public function actionPrintQrcode($id)
+    public function actionPrintQrcode00($id)
     {
         return;
         $access_token=ColorHelper::CHENGLAN_DIANCAN_ACCESSTOKEN();
@@ -144,6 +156,55 @@ class DishtableController extends BaseController
 //            return $model->code;
         }
         return $this->redirect(['index','storeid'=>$model->store_id]);
+
+    }
+
+    //打印机打印二维码
+    public function actionPrintQrcode($id,$store_id)
+    {
+
+        $printers = Printer::find()->where(['store_id'=>$store_id,'isuse'=>1])->asArray()->all();
+        $count = 0;
+        foreach($printers as $key=>$value){
+            $actions = json_decode($value['actions'],1);
+            if(in_array("qrcode",$actions)){//选为打印的，开始打印
+                $count++;
+            }
+        }
+        if($count<1){
+            ColorHelper::err('没有对应的打印机！');
+            return $this->redirect(['index','store_id'=>$store_id]);
+        }
+
+        $table = Dishtable::findOne($id);
+        $store = Stores::findOne($store_id);
+        //二维码链接  https://colorsite.com/wxapp/dish?stid=1-2
+        $str = \yii\helpers\Url::to(['/wxapp/dish','stid'=>$store_id.'-'.$id],'https');
+        $str = str_replace("/admin","",$str);
+
+        $content = '';                          //打印内容
+        $content .= '<FS><center>'.$table->title.'</center></FS>';
+        $content .= "<center>（".$store->name."）</center>\r\n";
+        $content .= '<QR>'.$str.'</QR>';
+        $content .= str_repeat('-',32)."\n";
+        $content .= "<center>（使用微信扫一扫二维码点餐）</center>\r\n";
+
+        $result = true;
+        foreach($printers as $key=>$value){
+            $actions = json_decode($value['actions'],1);
+            if(in_array("qrcode",$actions)){//选为打印的，开始打印
+                $machineCode = $value['machine_code'];                      //授权的终端号
+                $res = \common\vendor\yilianyun\YilianyunHelper::printer($content,$machineCode);
+                if($res == 'success'){
+                    $result = true;
+                }else{
+                    ColorHelper::err('打印出错了！');
+                    return $this->redirect(['index','store_id'=>$store_id]);
+                }
+            }
+        }
+        ColorHelper::alert('已打印');
+        return $this->redirect(['index','storeid'=>$store_id]);
 
     }
 

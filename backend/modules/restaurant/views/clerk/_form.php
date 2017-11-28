@@ -2,6 +2,9 @@
 
 use yii\helpers\Html;
 use backend\widgets\LayForm;
+
+//权限的，先不搞先
+//$form->field($model, 'rights')->lycheckboxList(backend\models\ShareData::clerkrights())
 ?>
 
 <div class="clerk-form layform-block">
@@ -12,9 +15,10 @@ use backend\widgets\LayForm;
 
     <?= $form->field($model, 'phone')->lytextInput() ?>
 
-    <?= $form->field($model, 'rights')->lycheckboxList(backend\models\ShareData::clerkrights()) ?>
 
     <?= $form->field($model, 'desc')->lytextArea() ?>
+
+    <?= $form->field($model, 'rights')->lyhidden() ?>
 
     <?= $form->field($model, 'openid')->lyhidden() ?>
 

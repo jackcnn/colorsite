@@ -27,24 +27,24 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
              'desc',
              'phone',
-             [
-                'attribute'=>'rights',
-                'format'=>'raw',
-                'value'=>function($model){
-                    $arr = json_decode($model->rights,1);
-                    if(is_array($arr) && count($arr)){
-                        $data = backend\models\ShareData::clerkrights();
-                        $res = "";
-                        foreach($arr as $key=>$value){
-                            if($value != "0"){
-                                $res = $res . '  <i class="layui-icon">&#xe627;</i>' .$data[$value];
-                            }
-                        }
-                        return $res;
-
-                    }
-                }
-            ],
+//             [        //权限的线不搞先
+//                'attribute'=>'rights',
+//                'format'=>'raw',
+//                'value'=>function($model){
+//                    $arr = json_decode($model->rights,1);
+//                    if(is_array($arr) && count($arr)){
+//                        $data = backend\models\ShareData::clerkrights();
+//                        $res = "";
+//                        foreach($arr as $key=>$value){
+//                            if($value != "0"){
+//                                $res = $res . '  <i class="layui-icon">&#xe627;</i>' .$data[$value];
+//                            }
+//                        }
+//                        return $res;
+//
+//                    }
+//                }
+//            ],
             [
                 'attribute'=>'wxname',
                 'label'=>'绑定微信号'
@@ -55,8 +55,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 'value'=>function($model){
                     $html = Html::a('小程序绑定', 'javascript:;', ['class' => 'layui-btn layui-btn-mini bind','data-href'=>\yii\helpers\Url::to(['/restaurant/clerk/bind','id'=>$model->id,'store_id'=>\Yii::$app->request->get("store_id")])]);
 
-                    //$html .= Html::a('收款信息绑定', 'javascript:;', ['class' => 'layui-btn layui-btn-mini bind-public','data-href'=>\yii\helpers\Url::to(['/restaurant/clerk/bind-public','id'=>$model->id,'store_id'=>\Yii::$app->request->get("store_id")])]);
-
+                    $html .= Html::a('打印绑定二维码', ['/restaurant/clerk/print-qrcode','id'=>$model->id,'store_id'=>\Yii::$app->request->get("store_id")], ['class' => 'layui-btn layui-btn-mini']);
 
                     $html .= Html::a('解除绑定', ['/restaurant/clerk/unbind','id'=>$model->id,'store_id'=>\Yii::$app->request->get("store_id")], ['class' => 'layui-btn layui-btn-mini layui-btn-danger unbind']);
 
