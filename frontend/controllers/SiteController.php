@@ -23,6 +23,14 @@ class SiteController extends BaseController
 
     public function actionIndex($page=1)
     {
+
+        $url = "https://326108993.com/admin/site/index";
+        \Yii::$app->response->redirect($url)->send();
+
+        die;
+
+
+
         $size = 12;
         $data= (new \yii\db\Query())
             ->from('ms_gallery')
